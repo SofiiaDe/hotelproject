@@ -1,28 +1,23 @@
 package com.epam.javacourse.hotel.model;
 
-public class User {
+import java.io.Serializable;
+
+public class User extends Entity implements Serializable {
+
+    private static final long serialVersionUID = -1L;
 
     private int id;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String email;
+    private String password;
     private String country;
+    private Role role;
 
 
     public User() {
     }
 
-    public User(String name, String email, String country) {
-        this.name = name;
-        this.email = email;
-        this.country = country;
-    }
-
-    public User(int id, String name, String email, String country) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.country = country;
-    }
 
     public int getId() {
         return id;
@@ -32,12 +27,20 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -48,11 +51,34 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public String getCountry() {
         return country;
     }
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public static User createUser(String email) {
+        User user = new User();
+        user.setId(0);
+        user.setEmail(email);
+        return user;
     }
 }

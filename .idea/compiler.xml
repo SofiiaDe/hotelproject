@@ -12,7 +12,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Hotel" options="--add-modules java.base,java.sql" />
+      <module name="Hotel" options="" />
     </option>
   </component>
 </project>

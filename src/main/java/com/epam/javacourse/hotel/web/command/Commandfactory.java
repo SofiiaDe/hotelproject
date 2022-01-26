@@ -3,7 +3,7 @@ package com.epam.javacourse.hotel.web.command;
 import java.util.HashMap;
 import java.util.Map;
 
-class CommandFactory{
+public class CommandFactory {
 
     private static CommandFactory commandFactory = new CommandFactory();
     private static Map<String, ICommand> commands = new HashMap<>();
@@ -26,10 +26,13 @@ class CommandFactory{
     static {
 
         //client commands
-        commands.put("test", new GetAllUsersCommand());
+        commands.put("user_profile", new UserProfileCommand());
 
         //manager commands
+        commands.put("allUsersList", new GetAllUsersCommand());
 
+        //common commands
+        commands.put("registration", new RegistrationCommand());
     }
 
     public static ICommand getCommand(String commandName) {

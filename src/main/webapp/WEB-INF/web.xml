@@ -38,12 +38,40 @@
     <url-pattern>/controller</url-pattern>
   </servlet-mapping>
 
-  <!-- Servlet Filters ================================================ -->
+  <!-- Servlet Encoding Filter ================================================ -->
 
-  <!--
-    - Declare a filter for multipart MIME handling
-    -->
+  <filter>
+    <filter-name>EncodingFilter</filter-name>
+    <filter-class>com.epam.javacourse.hotel.web.filter.EncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+  </filter>
 
+  <filter-mapping>
+    <filter-name>EncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <jsp-config>
+    <jsp-property-group>
+      <url-pattern>*.jsp</url-pattern>
+      <page-encoding>UTF-8</page-encoding>
+    </jsp-property-group>
+  </jsp-config>
+
+  <!-- Error page =============================================================-->
+
+  <error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/jsp/errorPage.jsp</location>
+  </error-page>
+
+  <error-page>
+    <exception-type>java.lang.Throwable</exception-type>
+    <location>/WEB-INF/jsp/errorPage.jsp</location>
+  </error-page>
 
   <!-- Filter mappings ================================================ -->
 
@@ -60,12 +88,7 @@
   </filter-mapping>
     -->
 
-  <!-- Servlet Context Listener ======================================= -->
 
-  <!--
-    - Declare Spring context listener which sets up the Spring Application Context
-    - containing all Cocoon components (and user defined beans as well).
-    -->
 
 
 </web-app>

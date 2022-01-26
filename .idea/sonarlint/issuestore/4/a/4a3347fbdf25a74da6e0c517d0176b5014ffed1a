@@ -1,0 +1,13 @@
+
+W
+java:S1161":Add the "@Override" annotation above this method signature(‚“¶î8äÑ­›é/
+W
+java:S3457!"AFormat specifiers should be used instead of string concatenation.(‚±À”
+W
+java:S1161+":Add the "@Override" annotation above this method signature(Á¥í¤8çÑ­›é/
+W
+java:S3457."AFormat specifiers should be used instead of string concatenation.(Ï¡Õ
+M
+java:S2629!"7Use the built-in formatting to construct this argument.(‚±À”
+M
+java:S2629."7Use the built-in formatting to construct this argument.(Ï¡Õ

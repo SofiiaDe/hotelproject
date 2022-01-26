@@ -1,0 +1,45 @@
+<!--
+Data source and connection pool configuration.
+Configuration file for Tomcat 9 (the default Tomcat's DBCP 2 is used).
+
+Description of the attributes specified in the above configuration
+
+name-> Name of the resource.
+
+auth-> Specify authentication mechanism for the application code, can be Application or Container.
+
+type-> The fully qualified Java class name expected by the web application when it performs a lookup for this resource.
+
+maxActive-> Maximum number of database connections in pool. Set to -1 for no limit.
+
+maxIdle-> Maximum number of idle database connections to retain in pool. Set to -1 for no limit.
+
+maxWait-> Maximum time to wait for a database connection to become available in ms, in this example 10 seconds.
+An Exception is thrown if this timeout is exceeded. Set to -1 to wait indefinitely.
+
+driverClassName-> The fully qualified Java class name of the database driver.
+
+url-> The JDBC connection URL.
+
+username-> MySQL database user name.
+
+password-> MySQL database user password.
+
+defaultAutoCommit-> the default auto-commit state of connections created by this pool (default true).
+
+defaultTransactionIsolation-> the default TransactionIsolation state of connections created by this pool.
+-->
+
+<Context>
+
+    <Resource name="jdbc/hoteldb"
+              auth="Container"
+              type="javax.sql.DataSource"
+              maxActive="100" maxIdle="30" maxWait="10000"
+              username="root" password="root"
+              driverClassName="com.mysql.cj.jdbc.Driver"
+              defaultAutoCommit="false"
+              defaultTransactionIsolation="READ_COMMITTED"
+              url="jdbc:mysql://localhost:3306/hoteldb"/>
+
+</Context>
