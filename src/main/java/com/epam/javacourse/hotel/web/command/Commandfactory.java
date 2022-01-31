@@ -26,13 +26,17 @@ public class CommandFactory {
     static {
 
         //client commands
-        commands.put("user_profile", new UserProfileCommand());
+        commands.put("clientAccount", new ClientAccountPageCommand());
 
         //manager commands
         commands.put("allUsersList", new GetAllUsersCommand());
 
         //common commands
+        commands.put("registerPage", new RegisterPageCommand());
         commands.put("registration", new RegistrationCommand());
+        commands.put("login", new LoginCommand());
+        commands.put("loginPage", new LoginPageCommand());
+
     }
 
     public static ICommand getCommand(String commandName) {

@@ -102,10 +102,12 @@ public class UserDAO {
             while (rs.next()) {
                 user = new User();
                 user.setId(rs.getInt("id"));
-//                user.setName(rs.getString("name"));
+                user.setFirstName(rs.getString("firstName"));
+                user.setLastName(rs.getString("lastName"));
                 user.setEmail(email);
+                user.setPassword(rs.getString("password"));
                 user.setCountry(rs.getString("country"));
-
+                user.setRole(Role.getRoleByType(rs.getString("role")));
             }
 
         } catch (SQLException e) {

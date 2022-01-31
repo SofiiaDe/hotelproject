@@ -1,6 +1,13 @@
 package com.epam.javacourse.hotel.model;
 
-public class Room extends Entity{
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Room extends Entity implements Serializable {
+
+    private static final long serialVersionUID = -1L;
 
     private int id;
     private double price;
@@ -91,6 +98,15 @@ enum RoomClass {
     public void setRoomClass(String roomClass) {
         this.roomClass = RoomClass.valueOf(roomClass);
     }
+
+    public List<String> getRoomClassList() {
+        return Arrays.stream(RoomClass.values())
+                .map(RoomClass::name)
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
+
+    }
+
 }
 
 enum RoomStatus {
@@ -98,4 +114,5 @@ enum RoomStatus {
     BOOKED,
     OCCUPIED,
     UNAVAILABLE
+
 }

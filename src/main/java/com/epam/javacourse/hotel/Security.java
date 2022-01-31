@@ -13,7 +13,7 @@ public class Security {
 
     public static boolean validatePasswordByHash(String originalPassword,
                                             String storedPassword)
-            throws NoSuchAlgorithmException, InvalidKeySpecException {
+            throws InvalidKeySpecException, NoSuchAlgorithmException {
 
         String[] parts = storedPassword.split(":");
         int iterations = Integer.parseInt(parts[0]);
@@ -58,7 +58,7 @@ public class Security {
         return Arrays.toString(salt);
     }
 
-    private static String toHex(byte[] array) throws NoSuchAlgorithmException {
+    private static String toHex(byte[] array) {
         BigInteger bigInteger = new BigInteger(1, array);
         String hex = bigInteger.toString(16);
         int paddingLength = (array.length * 2) - hex.length();
@@ -69,7 +69,7 @@ public class Security {
         }
     }
 
-    private static byte[] fromHex(String hex) throws NoSuchAlgorithmException {
+    private static byte[] fromHex(String hex) {
         byte[] bytes = new byte[hex.length() / 2];
         for (int i = 0; i < bytes.length; i++) {
             bytes[i] = (byte) Integer.parseInt(hex.substring(2 * i, 2 * i + 2),

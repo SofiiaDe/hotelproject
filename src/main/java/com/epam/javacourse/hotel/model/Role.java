@@ -23,6 +23,10 @@ public enum Role {
         throw new IllegalArgumentException("No role found with such input data: [" + type + "]");
     }
 
+    public static Role getRoleByUser(User user) {
+        return user.getRole();
+    }
+
 //    private Role type;
 //
 //    public String getRole() {

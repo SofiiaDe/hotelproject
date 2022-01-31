@@ -41,11 +41,6 @@
         </c:forEach>
     </table>
     <br>
-    <form action="controller" method="post">
-        <div align="center">
-            <input type="hidden" name="command" value="allUsersList"><br>  <input>
-        </div>
-    </form>
 </div>
 
 </body>

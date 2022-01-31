@@ -33,6 +33,9 @@ public class UserServiceImpl implements IUserService {
         return this.userDao.getUserByEmail(email);
     }
 
+//    findAllRoomsByUserID room!/user
+//    + AccountPageCommand (get)
+
 //    @Override
 //    public List<User> findAllAuthorisedInfo() throws DBException {
 //        List<User> users = findAllUsers();

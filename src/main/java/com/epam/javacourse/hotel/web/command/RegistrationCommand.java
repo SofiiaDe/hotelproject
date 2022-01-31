@@ -17,10 +17,13 @@ import java.util.List;
 
 public class RegistrationCommand implements ICommand {
 
-    IUserService userService = AppContext.getInstance().getUserService();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
+
+        IUserService userService = AppContext.getInstance().getUserService();
+        HttpSession session = request.getSession();
+
 
         List<User> registeredUsers = userService.findAllUsers();
         List<String> emails = new ArrayList<>(registeredUsers.size());
@@ -29,10 +32,18 @@ public class RegistrationCommand implements ICommand {
             emails.add(user.getEmail());
         }
 
-        String firstName = request.getParameter("name").trim();
-        String lastName = request.getParameter("name").trim();
+        String address = Path.PAGE_ERROR;
 
-        String email = request.getParameter("email").trim();
+//        String firstName = request.getParameter("firstName").trim();
+//        String lastName = request.getParameter("lastName").trim();
+//
+//        String email = request.getParameter("email").trim();
+
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+
+        String email = request.getParameter("email");
+
         if(emails.contains(email)) {
             throw new DBException("Email already exists.");
         }
@@ -40,7 +51,9 @@ public class RegistrationCommand implements ICommand {
             throw new DBException(Validator.validateEmail(email, 50));
         }
 
-        String password = request.getParameter("password").trim();
+//        String password = request.getParameter("password").trim();
+        String password = request.getParameter("password");
+
         if (Validator.validatePassword(password, 8, 20) != null) {
             throw new DBException(Validator.validatePassword(password, 8, 20));
         }
@@ -56,8 +69,11 @@ public class RegistrationCommand implements ICommand {
             throw new DBException("Password does not match");
         }
 
-        String country = request.getParameter("country").trim();
-        String role = request.getParameter("role").trim();
+        String country = request.getParameter("country");
+
+//        String country = request.getParameter("country").trim();
+//        String role = request.getParameter("role").trim();
+        String role = request.getParameter("role");
 
         User newUser = new User();
         newUser.setFirstName(firstName);
@@ -68,17 +84,27 @@ public class RegistrationCommand implements ICommand {
         newUser.setRole(Role.valueOf(role));
         userService.create(newUser);
 
-        HttpSession session = request.getSession();
+        address = Path.PAGE_CLIENT_ACCOUNT;
+
         session.setAttribute("newUser", newUser);
 
-        String address = Path.COMMAND_PROFILE;
-        try {
-            response.sendRedirect(address);
-            address = Path.COMMAND_REDIRECT;
-        } catch (IOException e) {
-            address = Path.PAGE_ERROR;
-        }
-        return address;
+
+        // later add if(role=client) address = Path.PAGE_CLIENT_ACCOUNT else if (role=manager) address=Path.Page_Man_Page
+
+//        session.setAttribute("register", true);
+
+//        address = Path.PAGE_ACTIONS;
+
+//        request.setAttribute("register", true);
+
+//        address = Path.COMMAND_PROFILE;
+//        try {
+//            response.sendRedirect(address);
+//            address = Path.COMMAND_REDIRECT;
+//        } catch (IOException e) {
+//            address = Path.PAGE_ERROR;
+//        }
+        return address; //succesfull registration ==>
 
     }
 

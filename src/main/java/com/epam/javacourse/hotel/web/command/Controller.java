@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 public class Controller extends HttpServlet {
 
@@ -29,10 +31,11 @@ public class Controller extends HttpServlet {
     private void process(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        String address = Path.PAGE_ERROR;
+
         String commandName = request.getParameter("command");
 
         ICommand command = CommandFactory.getCommand(commandName);
-        String address = Path.PAGE_ERROR;
 
         try {
             address = command.execute(request, response);
@@ -44,6 +47,7 @@ public class Controller extends HttpServlet {
                 request.setAttribute("errorMessage", e.getMessage());
             }
         }
+
         request.getRequestDispatcher(address).forward(request, response);
     }
 
