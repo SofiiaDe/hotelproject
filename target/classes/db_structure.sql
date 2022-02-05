@@ -49,6 +49,22 @@ CREATE TABLE confirmation_requests
 
 );
 
+-- CREATE TABLE bookings
+-- (
+--     id          INT PRIMARY KEY auto_increment,
+--     user_id        INT,
+--     checkin_date  DATE,
+--     checkout_date DATE,
+--     room_id INT,
+--     application_id INT,
+--     CONSTRAINT FK_5 FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+--     CONSTRAINT FK_6 FOREIGN KEY (checkin_date) REFERENCES applications (checkin_date) ON DELETE CASCADE,
+--     CONSTRAINT FK_7 FOREIGN KEY (checkout_date) REFERENCES applications (checkout_date) ON DELETE CASCADE,
+--     CONSTRAINT FK_8 FOREIGN KEY (room_id) REFERENCES rooms (id) ON DELETE CASCADE,
+--     CONSTRAINT FK_9 FOREIGN KEY (application_id) REFERENCES applications (id) ON DELETE CASCADE
+--
+-- );
+
 CREATE TABLE bookings
 (
     id          INT PRIMARY KEY auto_increment,
@@ -58,12 +74,12 @@ CREATE TABLE bookings
     room_id INT,
     application_id INT,
     CONSTRAINT FK_5 FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
-    CONSTRAINT FK_6 FOREIGN KEY (checkin_date) REFERENCES applications (checkin_date) ON DELETE CASCADE,
-    CONSTRAINT FK_7 FOREIGN KEY (checkout_date) REFERENCES applications (checkout_date) ON DELETE CASCADE,
-    CONSTRAINT FK_8 FOREIGN KEY (room_id) REFERENCES rooms (id) ON DELETE CASCADE,
-    CONSTRAINT FK_9 FOREIGN KEY (application_id) REFERENCES applications (id) ON DELETE CASCADE
+    CONSTRAINT FK_8 FOREIGN KEY (room_id) REFERENCES rooms (id) ON DELETE CASCADE
 
 );
+
+
+
 
 CREATE TABLE invoices
 (

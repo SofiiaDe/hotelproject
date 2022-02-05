@@ -4,12 +4,10 @@ import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.Exception.HashPasswordException;
 import com.epam.javacourse.hotel.Security;
-import com.epam.javacourse.hotel.model.Role;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.service.IUserService;
 import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.ICommand;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

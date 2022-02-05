@@ -45,8 +45,6 @@ public class CommandFactory {
         //common commands
         commands.put("registerPage", new RegisterPageCommand());
         commands.put("registration", new RegistrationCommand());
-        commands.put("clientRegistration", new ClientRegistrationCommand());
-
         commands.put("login", new LoginCommand());
         commands.put("loginPage", new LoginPageCommand());
         commands.put("logout", new LogoutCommand());

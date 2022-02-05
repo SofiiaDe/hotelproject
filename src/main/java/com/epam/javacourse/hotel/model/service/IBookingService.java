@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IBookingService {
 
-    void create(Booking booking) throws DBException;
+    boolean create(Booking booking) throws DBException;
 
     List<Booking> getBookingsByUserId(int userId) throws DBException;
 

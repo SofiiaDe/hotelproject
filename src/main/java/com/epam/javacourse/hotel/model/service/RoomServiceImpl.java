@@ -24,5 +24,10 @@ public class RoomServiceImpl implements IRoomService{
         return this.roomDAO.updateRoom(room);
     }
 
+    @Override
+    public Room getRoomById(int roomId) throws DBException {
+        return this.roomDAO.getRoomById(roomId);
+    }
+
 
 }

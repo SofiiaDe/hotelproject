@@ -1,11 +1,13 @@
 package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.Room;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,6 +72,38 @@ public class RoomDAO {
             close(pstmt);
         }
         return roomUpdated;
+    }
+
+    public Room getRoomById(int roomId) throws DBException {
+
+        Room room = new Room();
+        Connection con = null;
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pStmt = con.prepareStatement(DBConstatns.SQL_GET_ROOM_BY_ID);
+            pStmt.setInt(1, roomId);
+
+            rs = pStmt.executeQuery();
+            while (rs.next()) {
+                room.setId(roomId);
+                room.setPrice(rs.getDouble("price"));
+                room.setRoomNumber(rs.getInt("room_number"));
+                room.setRoomTypeBySeats(rs.getString("room_seats"));
+                room.setRoomClass(rs.getString("room_class"));
+            }
+
+        } catch (SQLException e) {
+            logger.error("Cannot get room by id", e);
+            throw new DBException("Cannot get room by id", e);
+        } finally {
+            close(con);
+            close(pStmt);
+            close(rs);
+        }
+        return room;
     }
 
     private static void close(AutoCloseable itemToBeClosed) {

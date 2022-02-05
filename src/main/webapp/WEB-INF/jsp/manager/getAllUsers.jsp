@@ -24,15 +24,15 @@
             <td>country</td>
             <td>role</td>
         </tr>
-        <c:forEach var="bean" items="${sessionScope.usersList}">
+        <c:forEach var="freeRoom" items="${sessionScope.usersList}">
             <tr>
-                <td>${bean.id}</td>
-                <td>${bean.firstName}</td>
-                <td>${bean.lastName}</td>
-                <td>${bean.email}</td>
-                <td>${bean.password}</td>
-                <td>${bean.country}</td>
-                <td>${bean.role}</td>
+                <td>${freeRoom.id}</td>
+                <td>${freeRoom.firstName}</td>
+                <td>${freeRoom.lastName}</td>
+                <td>${freeRoom.email}</td>
+                <td>${freeRoom.password}</td>
+                <td>${freeRoom.country}</td>
+                <td>${freeRoom.role}</td>
 
 
 

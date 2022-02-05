@@ -24,53 +24,68 @@ public class BookRoomCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(BookRoomCommand.class);
 
+    IRoomService roomService = AppContext.getInstance().getRoomService();
+    IBookingService bookingService = AppContext.getInstance().getBookingService();
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
-
-        IRoomService roomService = AppContext.getInstance().getRoomService();
-        IBookingService bookingService = AppContext.getInstance().getBookingService();
 
         HttpSession session = request.getSession();
         User authorisedUser = (User) session.getAttribute("authorisedUser");
 
-        // updating room's status to "booked"
-        int id = Integer.parseInt(request.getParameter("id"));
-        double price = Double.parseDouble(request.getParameter("price"));
-        int roomNumber = Integer.parseInt(request.getParameter("room_number"));
-        String roomSeats = request.getParameter("room_seats");
-        String roomClass = request.getParameter("room_class");
+        // get and validate check-in and check-out dates
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        Room bookedRoom = new Room();
-        bookedRoom.setId(id);
-        bookedRoom.setPrice(price);
-        bookedRoom.setRoomNumber(roomNumber);
-        bookedRoom.setRoomTypeBySeats(roomSeats);
-        bookedRoom.setRoomClass(roomClass);
+        String checkinDate = request.getParameter("checkin_date");
+        String checkoutDate = request.getParameter("checkout_date");
+
+        LocalDate ldCheckin = null;
+        LocalDate ldCheckout = null;
+        try {
+            ldCheckin = LocalDate.parse(checkinDate, formatter);
+            ldCheckout = LocalDate.parse(checkoutDate, formatter);
+        } catch (DateTimeParseException e) {
+            logger.error("Cannot get date type");
+        }
+
+        String address = Path.PAGE_ERROR;
+        String errorMessage;
+
+        if (checkinDate == null || checkoutDate == null || checkinDate.isEmpty() || checkoutDate.isEmpty()
+        || ldCheckin == null || ldCheckout == null) {
+            errorMessage = "Please choose check-in and check-out dates.";
+            request.setAttribute("errorMessage", errorMessage);
+            return address;
+        }
+
+        LocalDateTime checkinDateLocal = LocalDateTime.of(ldCheckin, LocalDateTime.now().toLocalTime());
+        LocalDateTime checkoutDateLocal = LocalDateTime.of(ldCheckout, LocalDateTime.now().toLocalTime());
+
+        if(checkinDateLocal.isAfter(checkoutDateLocal)) {
+            errorMessage = "Check-out date cannot be later than check-in date.\n " +
+                    "Please enter correct dates.";
+            request.setAttribute("errorMessage", errorMessage);
+            return address;
+        }
+
+        // update room's status to "booked"
+        int roomId = Integer.parseInt(request.getParameter("room_id"));
+
+        Room bookedRoom = roomService.getRoomById(roomId);
         bookedRoom.setRoomStatus("booked");
+
         roomService.updateRoom(bookedRoom);
 
-        // adding new booking to DB
+        // add new booking to DB
         Booking newBooking = new Booking();
 
         newBooking.setUserId(authorisedUser.getId());
 
-        LocalDateTime checkInDate = null;
-        LocalDateTime checkOutDate = null;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        try {
-            LocalDate ldCheckin = LocalDate.parse(request.getParameter("checkin_date"), formatter);
-            checkInDate = LocalDateTime.of(ldCheckin, LocalDateTime.now().toLocalTime());
 
-            LocalDate ldCheckout = LocalDate.parse(request.getParameter("checkout_date"), formatter);
-            checkOutDate = LocalDateTime.of(ldCheckout, LocalDateTime.now().toLocalTime());
+        newBooking.setCheckinDate(checkinDateLocal);
+        newBooking.setCheckoutDate(checkoutDateLocal);
 
-        } catch (DateTimeParseException e) {
-            logger.error("Cannot get date type");
-        }
-        newBooking.setCheckinDate(checkInDate);
-        newBooking.setCheckoutDate(checkOutDate);
-
-        newBooking.setRoomId(bookedRoom.getId());
+        newBooking.setRoomId(roomId);
         newBooking.setApplicationId(0);
         bookingService.create(newBooking);
 

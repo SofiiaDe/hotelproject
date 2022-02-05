@@ -15,8 +15,8 @@ public class BookingServiceImpl implements IBookingService{
     }
 
     @Override
-    public void create(Booking booking) throws DBException {
-
+    public boolean create(Booking booking) throws DBException {
+        return this.bookingDAO.createBooking(booking);
     }
 
     @Override

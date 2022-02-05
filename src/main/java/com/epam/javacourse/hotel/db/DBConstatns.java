@@ -36,6 +36,7 @@ public class DBConstatns {
     public static final String SQL_GET_ALL_ROOMS = "SELECT * FROM rooms";
     public static final String SQL_UPDATE_ROOM = "UPDATE rooms SET price = ?, room_number = ?, room_seats = ?," +
             "room_class = ?, room_status =? WHERE id = ?";
+    public static final String SQL_GET_ROOM_BY_ID = "SELECT * FROM rooms WHERE id = ?";
 
     // BookingDAO
     public static final String SQL_CREATE_BOOKING = "INSERT INTO bookings " +

@@ -11,4 +11,7 @@ public interface IRoomService {
     List<Room> allRoomsList() throws DBException;
 
     boolean updateRoom(Room room) throws DBException;
+
+    Room getRoomById(int roomId) throws  DBException;
+
 }

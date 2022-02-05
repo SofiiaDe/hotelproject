@@ -4,7 +4,6 @@
 <!doctype html>
 <html>
 <c:set var="title" value="Registration page" scope="page"/>
-<%--<c:set var="title" value="Registration page" scope="session"/>--%>
 <jsp:include page="/WEB-INF/templates/head.jsp"/>
 <head>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -14,112 +13,133 @@
 </head>
 
 <body>
-<form class="form-signup" method="post" action="controller?command=registration">
 
-    <div class="container register">
-        <div class="row">
-            <div class="col-md-3 register-left">
-                <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
-                <h3>Welcome</h3>
-                <p>Premium comfort with attention to details</p>
+<div class="container register">
+    <div class="row">
+        <div class="col-md-3 register-left">
+            <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
+            <h3>Welcome</h3>
+            <p>Premium comfort with attention to details</p>
+            <form class="form-signin" method="post" action="controller?command=loginPage">
+                <input type="submit" name="login" value="Sign In"/><br/>
+                <%--                <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message key="login.button.login"/></button><br/>--%>
 
-                <input type="submit" name="login" value="Login"/><br/>
-            </div>
-            <div class="col-md-9 register-right">
-                <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="client-tab" data-toggle="tab" href="#client" role="tab"
-                           aria-controls="client" aria-selected="true">Client</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                           aria-controls="profile" aria-selected="false">Manager</a>
-                    </li>
-                </ul>
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="client" role="tabpanel" aria-labelledby="client-tab">
-                        <h3 class="register-heading">Register as a Client</h3>
+            </form>
+        </div>
+        <div class="col-md-9 register-right">
+            <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="client-tab" data-toggle="tab" href="#client" role="tab"
+                       aria-controls="client" aria-selected="true">Client</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="manager-tab" data-toggle="tab" href="#manager" role="tab"
+                       aria-controls="manager" aria-selected="false">Manager</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="client" role="tabpanel" aria-labelledby="client-tab">
+                    <h3 class="register-heading">Register as a Client</h3>
+                    <form class="form-signup" method="post" action="controller?command=registration">
+
                         <div class="row register-form">
+
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" name="firstName" class="form-control" placeholder="First Name *" value=""/>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="lastName" class="form-control" placeholder="Last Name *" value=""/>
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" name="password" class="form-control" placeholder="Password *" value=""/>
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" name="confirmPassword" class="form-control" placeholder="Confirm Password *"
+                                    <input type="text" name="firstName" class="form-control" placeholder="First Name *"
                                            value=""/>
                                 </div>
+                                <div class="form-group">
+                                    <input type="text" name="lastName" class="form-control" placeholder="Last Name *"
+                                           value=""/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="country" class="form-control" placeholder="Your Country *"
+                                           value=""/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="role" class="form-control" placeholder="Role *"
+                                           value="Client"/>
+                                </div>
+
+
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="email" class="form-control" placeholder="Your Email *" value=""/>
+                                    <input type="email" name="email" class="form-control" placeholder="Your Email *"
+                                           value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Your Country *" value=""/>
+                                    <input type="password" name="password" class="form-control" placeholder="Password *"
+                                           value=""/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" name="confirmPassword" class="form-control"
+                                           placeholder="Confirm Password *"
+                                           value=""/>
                                 </div>
 
-                                <input type="submit" class="btnRegister" value="Register"/>
+                                <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message
+                                        key="register.button.register"/></button>
                             </div>
                         </div>
-                    </div>
-                    <div class="tab-pane fade show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <h3 class="register-heading">Register as a Manager</h3>
+                    </form>
+
+                </div>
+
+
+                <div class="tab-pane fade show" id="manager" role="tabpanel" aria-labelledby="manager-tab">
+                    <h3 class="register-heading">Register as a Manager</h3>
+                    <form class="form-signup" method="post" action="controller?command=registration">
+
                         <div class="row register-form">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="First Name *"
-                                           value="firstName"/>
+                                    <input type="text" name="firstName" class="form-control" placeholder="First Name *"
+                                           value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Last Name *" value="lastName"/>
+                                    <input type="text" name="lastName" class="form-control" placeholder="Last Name *"
+                                           value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control" placeholder="Email *" value="email"/>
+                                    <input type="text" name="country" class="form-control" placeholder="Your Country *"
+                                           value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Country *" value="country"/>
+                                    <input type="text" name="role" class="form-control" placeholder="Role *"
+                                           value="Manager"/>
                                 </div>
-
 
                             </div>
                             <div class="col-md-6">
+
                                 <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="Password *"
-                                           value="password"/>
+                                    <input type="email" name="email" class="form-control" placeholder="Your Email *"
+                                           value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="Confirm Password *"
-                                           value="password"/>
+                                    <input type="password" name="password" class="form-control" placeholder="Password *"
+                                           value=""/>
                                 </div>
-                                <%--                            <div class="form-group">--%>
-                                <%--                                <select class="form-control">--%>
-                                <%--                                    <option class="hidden"  selected disabled>Please select your Security Question</option>--%>
-                                <%--                                    <option>What is your Birthdate?</option>--%>
-                                <%--                                    <option>What is Your old Phone Number</option>--%>
-                                <%--                                    <option>What is your Pet Name?</option>--%>
-                                <%--                                </select>--%>
-                                <%--                            </div>--%>
-                                <%--                            <div class="form-group">--%>
-                                <%--                                <input type="text" class="form-control" placeholder="`Answer *" value="" />--%>
-                                <%--                            </div>--%>
-                                <%--                            <input type="submit" class="btnRegister"  value="registration"/>--%>
-<%--                                <input type="submit" class="btnRegister" value="Register"/>--%>
-                                <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message key="register.button.register"/></button>
+                                <div class="form-group">
+                                    <input type="password" name="confirmPassword" class="form-control"
+                                           placeholder="Confirm Password *"
+                                           value=""/>
+                                </div>
+
+                                <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message
+                                        key="register.button.register"/></button>
 
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
-
     </div>
-</form>
+
+</div>
 
 <jsp:include page="/WEB-INF/templates/scripts.jsp"/>
 

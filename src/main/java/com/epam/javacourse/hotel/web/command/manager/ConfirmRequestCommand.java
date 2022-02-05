@@ -45,47 +45,50 @@ public class ConfirmRequestCommand implements ICommand {
             return Path.PAGE_LOGIN;
         }
 
+        String notification;
+
+        if (freeRooms.isEmpty()) {
+            notification = "There are no free rooms.";
+            request.setAttribute("notification", notification);
+            return Path.PAGE_MANAGER_ACCOUNT;
+        }
+
         int id = Integer.parseInt((String) session.getAttribute("applicationId"));
         Application applicationToBeRequested = applicationService.getApplicationById(id);
 
-        if (!freeRooms.isEmpty()) {
-            ConfirmationRequest newConfirmationRequest = new ConfirmationRequest();
-            newConfirmationRequest.setUserId(applicationToBeRequested.getUserId());
-            newConfirmationRequest.setApplicationId(id);
-            newConfirmationRequest.setRoomId(chooseSuitableRoom(applicationToBeRequested, freeRooms).getId());
-            newConfirmationRequest.setConfirmRequestStatus("new");
+        ConfirmationRequest newConfirmationRequest = new ConfirmationRequest();
+        newConfirmationRequest.setUserId(applicationToBeRequested.getUserId());
+        newConfirmationRequest.setApplicationId(id);
+        newConfirmationRequest.setRoomId(chooseSuitableRoom(applicationToBeRequested, freeRooms).getId());
+        newConfirmationRequest.setConfirmRequestStatus("new");
 
-            confirmRequestService.create(newConfirmationRequest);
-        }
+        confirmRequestService.create(newConfirmationRequest);
 
-        return null;
+        return Path.PAGE_MANAGER_ACCOUNT;
     }
 
     /**
      * returns a Room which is the most suitable according to the Client's criteria specified in the application
+     *
      * @param application
      * @param freeRooms
      * @return
      */
-    private Room chooseSuitableRoom(Application application, List<Room> freeRooms) throws DBException {
+    private Room chooseSuitableRoom(Application application, List<Room> freeRooms) {
 
-//        if (freeRooms.isEmpty()) {
-//
-//        }
         Room suitableRoom = null;
 
-        for (int i = 0; i < freeRooms.size(); i++) {
-            if ((application.getRoomTypeBySeats().equals(freeRooms.get(i).getRoomTypeBySeats()))
-            && (application.getRoomClass().equals(freeRooms.get(i).getRoomClass()))) {
-                return freeRooms.get(i);
-            } else if (application.getRoomTypeBySeats().equals(freeRooms.get(i).getRoomTypeBySeats())) {
-                return freeRooms.get(i);
-            } else if (application.getRoomClass().equals(freeRooms.get(i).getRoomClass())) {
-                return freeRooms.get(i);
+        for (Room freeRoom : freeRooms) {
+            if ((application.getRoomTypeBySeats().equals(freeRoom.getRoomTypeBySeats()))
+                    && (application.getRoomClass().equals(freeRoom.getRoomClass()))) {
+                return freeRoom;
+            } else if (application.getRoomTypeBySeats().equals(freeRoom.getRoomTypeBySeats())) {
+                return freeRoom;
+            } else if (application.getRoomClass().equals(freeRoom.getRoomClass())) {
+                return freeRoom;
             } else {
-                suitableRoom = freeRooms.get(i);
+                suitableRoom = freeRoom;
             }
-
 
         }
 
