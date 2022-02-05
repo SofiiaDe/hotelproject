@@ -1,9 +1,6 @@
 package com.epam.javacourse.hotel;
 
-import com.epam.javacourse.hotel.db.ApplicationDAO;
-import com.epam.javacourse.hotel.db.BookingDAO;
-import com.epam.javacourse.hotel.db.RoomDAO;
-import com.epam.javacourse.hotel.db.UserDAO;
+import com.epam.javacourse.hotel.db.*;
 import com.epam.javacourse.hotel.model.service.*;
 
 /**
@@ -13,21 +10,23 @@ public class AppContext {
 
     private static final AppContext appContext = new AppContext();
 
+    public static AppContext getInstance() {
+        return appContext;
+    }
+
     //DAOs
     private final UserDAO userDao = new UserDAO();
     private final ApplicationDAO applicationDAO = new ApplicationDAO();
     private final RoomDAO roomDAO = new RoomDAO();
     private final BookingDAO bookingDAO = new BookingDAO();
+    private final ConfirmRequestDAO confirmRequestDAO = new ConfirmRequestDAO();
 
     // services
     private final IUserService userService = new UserServiceImpl(userDao);
     private final IApplicationService applicationService = new ApplicationServiceImpl(applicationDAO);
     private final IRoomService roomService = new RoomServiceImpl(roomDAO);
     private final IBookingService bookingService = new BookingServiceImpl(bookingDAO);
-
-    public static AppContext getInstance() {
-        return appContext;
-    }
+    private final IConfirmRequestService confirmRequestService = new ConfirmRequestServiceImpl(confirmRequestDAO);
 
     public IUserService getUserService() {
         return userService;
@@ -43,5 +42,9 @@ public class AppContext {
 
     public IBookingService getBookingService() {
         return bookingService;
+    }
+
+    public IConfirmRequestService getConfirmRequestService() {
+        return confirmRequestService;
     }
 }

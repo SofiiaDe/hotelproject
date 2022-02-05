@@ -52,7 +52,7 @@ public class BookRoomCommand implements ICommand {
         // adding new booking to DB
         Booking newBooking = new Booking();
 
-        newBooking.setUser(authorisedUser);
+        newBooking.setUserId(authorisedUser.getId());
 
         LocalDateTime checkInDate = null;
         LocalDateTime checkOutDate = null;
@@ -67,11 +67,11 @@ public class BookRoomCommand implements ICommand {
         } catch (DateTimeParseException e) {
             logger.error("Cannot get date type");
         }
-        newBooking.setCheckInDate(checkInDate);
-        newBooking.setCheckOutDate(checkOutDate);
+        newBooking.setCheckinDate(checkInDate);
+        newBooking.setCheckoutDate(checkOutDate);
 
-        newBooking.setRoom(bookedRoom);
-        newBooking.setApplication(null);
+        newBooking.setRoomId(bookedRoom.getId());
+        newBooking.setApplicationId(0);
         bookingService.create(newBooking);
 
         // "Thank you! The room was successfully booked.

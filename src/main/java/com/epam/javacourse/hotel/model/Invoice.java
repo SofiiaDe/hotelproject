@@ -1,5 +1,6 @@
 package com.epam.javacourse.hotel.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Invoice extends Entity{
@@ -7,9 +8,12 @@ public class Invoice extends Entity{
     private static final long serialVersionUID = 1L;
 
     private int id;
-    private User user;
+    private int userId;
     private double amount;
-    private Date invoiceDate;
+    private int bookingId;
+    private LocalDateTime invoiceDate;
+    private String invoiceStatus;
+
     private InvoiceStatus status;
 
     @Override
@@ -22,12 +26,32 @@ public class Invoice extends Entity{
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(int bookingId) {
+        this.bookingId = bookingId;
+    }
+
+    public void setInvoiceDate(LocalDateTime invoiceDate) {
+        this.invoiceDate = invoiceDate;
+    }
+
+    public String getInvoiceStatus() {
+        return invoiceStatus;
+    }
+
+    public void setInvoiceStatus(String invoiceStatus) {
+        this.invoiceStatus = invoiceStatus;
     }
 
     public double getAmount() {
@@ -36,14 +60,6 @@ public class Invoice extends Entity{
 
     public void setAmount(double amount) {
         this.amount = amount;
-    }
-
-    public Date getInvoiceDate() {
-        return invoiceDate;
-    }
-
-    public void setInvoiceDate(Date invoiceDate) {
-        this.invoiceDate = invoiceDate;
     }
 
     public InvoiceStatus getStatus() {

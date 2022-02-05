@@ -26,8 +26,14 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public User findByEmail(String email) throws DBException {
+    public User findUserByEmail(String email) throws DBException {
         return this.userDao.getUserByEmail(email);
+    }
+
+    @Override
+    public User findUserById(int id) throws DBException {
+        return this.userDao.getUserById(id);
+
     }
 
 //    findAllRoomsByUserID room!/user
@@ -48,11 +54,7 @@ public class UserServiceImpl implements IUserService {
 //        return userToAuthorisedUser(findByLogin(login));
 //    }
 //
-//    @Override
-//    public User find(int id) throws DBException {
-//        return this.userDao.getUserById(id);
-//    }
-//
+
 
 //
 //    @Override

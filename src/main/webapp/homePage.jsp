@@ -1,13 +1,17 @@
+<%@ include file="/WEB-INF/jspf/taglib.jspf" %>
+<%@ include file="/WEB-INF/jspf/page.jspf" %>
 
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
+<!doctype html>
+<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
+<%--<!DOCTYPE html>--%>
 
 <html>
 
 <head>
     <title>Home page</title>
 </head>
-
+<c:set var="title" value="Home" scope="page"/>
+<jsp:include page="/WEB-INF/templates/head.jsp"/>
 <body>
 <nav class="navbar background">
     <ul class="nav-list">
@@ -79,6 +83,9 @@
 
 
 </footer>
+
+<jsp:include page="/WEB-INF/templates/scripts.jsp"/>
+
 </body>
 
 </html>

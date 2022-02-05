@@ -34,7 +34,9 @@ public class UserDAO {
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
                 user.setCountry(rs.getString("country"));
-                user.setRole(Role.getRoleByType(rs.getString("role")));
+//                user.setRole(Role.getRoleByType(rs.getString("role")));
+                user.setRole(rs.getString("role"));
+
                 allUsersList.add(user);
             }
         } catch (SQLException e) {
@@ -51,7 +53,7 @@ public class UserDAO {
 
     public void createUser(User user) throws DBException {
 
-        User.createUser(user.getEmail());
+//        User.createUser(user.getEmail());
         Connection con = null;
         PreparedStatement pstmt = null;
 
@@ -59,23 +61,28 @@ public class UserDAO {
             con = DBManager.getInstance().getConnection();
             con.setAutoCommit(false);
 
-            pstmt = con.prepareStatement(DBConstatns.SQL_INSERT_USER,
-                    Statement.RETURN_GENERATED_KEYS);
+//            pstmt = con.prepareStatement(DBConstatns.SQL_INSERT_USER,
+//                    Statement.RETURN_GENERATED_KEYS);
+            pstmt = con.prepareStatement(DBConstatns.SQL_INSERT_USER);
             pstmt.setString(1, user.getFirstName());
             pstmt.setString(2, user.getLastName());
             pstmt.setString(3, user.getEmail());
-            pstmt.setString(4, user.getEmail());
+            pstmt.setString(4, user.getPassword());
             pstmt.setString(5, user.getCountry());
-            pstmt.setString(6, user.getRole().toString().toLowerCase());
+            pstmt.setString(6, user.getRole());
 
-            int count = pstmt.executeUpdate();
-            if (count > 0) {
-                try (ResultSet rs = pstmt.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        user.setId(rs.getInt("id"));
-                    }
-                }
-            }
+//            pstmt.setString(6, user.getRole().toString().toLowerCase());
+
+//            int count = pstmt.executeUpdate();
+//            if (count > 0) {
+//                try (ResultSet rs = pstmt.getGeneratedKeys()) {
+//                    if (rs.next()) {
+//                        user.setId(rs.getInt("id"));
+//                    }
+//                }
+//            }
+            pstmt.executeUpdate();
+
             con.commit();
 
         } catch (SQLException e) {
@@ -107,7 +114,9 @@ public class UserDAO {
                 user.setEmail(email);
                 user.setPassword(rs.getString("password"));
                 user.setCountry(rs.getString("country"));
-                user.setRole(Role.getRoleByType(rs.getString("role")));
+//                user.setRole(Role.getRoleByType(rs.getString("role")));
+                user.setRole(rs.getString("role"));
+
             }
 
         } catch (SQLException e) {
@@ -122,12 +131,48 @@ public class UserDAO {
         return user;
     }
 
+    public User getUserById(int id) throws DBException {
+
+        User user = new User();
+        Connection con = null;
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pStmt = con.prepareStatement(DBConstatns.SQL_GET_USER_BY_ID);
+            pStmt.setInt(1, id);
+
+            rs = pStmt.executeQuery();
+            while (rs.next()) {
+                user.setId(id);
+                user.setFirstName(rs.getString("firstName"));
+                user.setLastName(rs.getString("lastName"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setCountry(rs.getString("country"));
+                user.setRole(rs.getString("role"));
+
+//                user.setRole(Role.getRoleByType(rs.getString("role")));
+            }
+
+        } catch (SQLException e) {
+            logger.error("Cannot get user by id", e);
+            throw new DBException("Cannot get user by id", e);
+        } finally {
+            close(con);
+            close(pStmt);
+            close(rs);
+        }
+        return user;
+    }
+
     private static void close(AutoCloseable itemToBeClosed) {
         if (itemToBeClosed != null) {
             try {
                 itemToBeClosed.close();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("DB close failed in UserDAO", e);
             }
         }
     }
@@ -138,7 +183,7 @@ public class UserDAO {
                 con.rollback();
                 con.setAutoCommit(true);
             } catch (SQLException e) {
-                logger.error("Cannot rollback transaction", e);
+                logger.error("Cannot rollback transaction in UserDAO", e);
             }
         }
     }

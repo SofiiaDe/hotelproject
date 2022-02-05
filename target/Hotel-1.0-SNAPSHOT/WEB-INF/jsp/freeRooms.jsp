@@ -3,6 +3,8 @@
 
 <!doctype html>
 <html>
+<c:set var="title" value="Form for client to book room" scope="page"/>
+<jsp:include page="/WEB-INF/templates/head.jsp"/>
 <head>
     <title>Free rooms list</title>
 </head>
@@ -27,14 +29,17 @@
     <c:forEach var="bean" items="${sessionScope.freeRooms}">
 
         <div class="list-group">
-                <%--        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">--%>
+<%--                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">--%>
 
             <a class="list-group-item list-group-item-action flex-column align-items-start active">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">Type: ${bean.roomTypeBySeats}</h5>
                     <small>No. ${bean.roomNumber}</small>
                 </div>
-                <p class="mb-1">Class: ${bean.roomClass}</p>
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Type: ${bean.roomClass}</h5>
+                </div>
+<%--                <p class="mb-1">Class: ${bean.roomClass}</p>--%>
                 <small>$${bean.price}</small>
 <%--                <a href="/Hotel/controller?command=bookRoom" class="button">Book</a>--%>
 <%--                <input type="submit" class="ui-button" value="Book"/>--%>
@@ -49,5 +54,6 @@
 
     </c:forEach>
 </form>
+<jsp:include page="/WEB-INF/templates/scripts.jsp"/>
 </body>
 </html>

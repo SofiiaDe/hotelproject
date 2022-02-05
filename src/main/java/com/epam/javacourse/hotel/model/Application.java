@@ -7,11 +7,11 @@ public class Application extends Entity {
     private static final long serialVersionUID = 1L;
 
     private int id;
-    private User user;
+    private Integer userId;
     private String roomTypeBySeats;
     private String roomClass;
-    private LocalDateTime checkInDate;
-    private LocalDateTime checkOutDate;
+    private LocalDateTime checkinDate;
+    private LocalDateTime checkoutDate;
 
     @Override
     public int getId() {
@@ -23,12 +23,12 @@ public class Application extends Entity {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getRoomTypeBySeats() {
@@ -48,19 +48,19 @@ public class Application extends Entity {
     }
 
 
-    public LocalDateTime getCheckInDate() {
-        return checkInDate;
+    public LocalDateTime getCheckinDate() {
+        return checkinDate;
     }
 
-    public void setCheckInDate(LocalDateTime checkInDate) {
-        this.checkInDate = checkInDate;
+    public void setCheckinDate(LocalDateTime checkinDate) {
+        this.checkinDate = checkinDate;
     }
 
-    public LocalDateTime getCheckOutDate() {
-        return checkOutDate;
+    public LocalDateTime getCheckoutDate() {
+        return checkoutDate;
     }
 
-    public void setCheckOutDate(LocalDateTime checkOutDate) {
-        this.checkOutDate = checkOutDate;
+    public void setCheckoutDate(LocalDateTime checkoutDate) {
+        this.checkoutDate = checkoutDate;
     }
 }

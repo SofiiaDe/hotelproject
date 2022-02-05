@@ -7,11 +7,11 @@ public class Booking extends Entity{
     private static final long serialVersionUID = 1L;
 
     private int id;
-    private User user;
-    private LocalDateTime checkInDate;
-    private LocalDateTime checkOutDate;
-    private Room room;
-    private Application application;
+    private int userId;
+    private LocalDateTime checkinDate;
+    private LocalDateTime checkoutDate;
+    private int roomId;
+    private int applicationId;
 
     public Booking() {
     }
@@ -26,43 +26,44 @@ public class Booking extends Entity{
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public LocalDateTime getCheckInDate() {
-        return checkInDate;
+    public int getRoomId() {
+        return roomId;
     }
 
-    public void setCheckInDate(LocalDateTime checkInDate) {
-        this.checkInDate = checkInDate;
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
     }
 
-    public LocalDateTime getCheckOutDate() {
-        return checkOutDate;
+    public int getApplicationId() {
+        return applicationId;
     }
 
-    public void setCheckOutDate(LocalDateTime checkOutDate) {
-        this.checkOutDate = checkOutDate;
+    public void setApplicationId(int applicationId) {
+        this.applicationId = applicationId;
     }
 
-    public Room getRoom() {
-        return room;
+    public LocalDateTime getCheckinDate() {
+        return checkinDate;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setCheckinDate(LocalDateTime checkinDate) {
+        this.checkinDate = checkinDate;
     }
 
-    public Application getApplication() {
-        return application;
+    public LocalDateTime getCheckoutDate() {
+        return checkoutDate;
     }
 
-    public void setApplication(Application application) {
-        this.application = application;
+    public void setCheckoutDate(LocalDateTime checkoutDate) {
+        this.checkoutDate = checkoutDate;
     }
+
 }

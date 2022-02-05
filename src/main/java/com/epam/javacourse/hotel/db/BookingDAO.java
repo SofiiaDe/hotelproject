@@ -1,15 +1,14 @@
 package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
-import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.Booking;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookingDAO {
 
@@ -24,11 +23,11 @@ public class BookingDAO {
             con = DBManager.getInstance().getConnection();
             con.setAutoCommit(false);
             pstmt = con.prepareStatement(DBConstatns.SQL_CREATE_BOOKING);
-            pstmt.setInt(1, booking.getUser().getId());
-            pstmt.setTimestamp(2, Timestamp.valueOf(booking.getCheckInDate()));
-            pstmt.setTimestamp(3, Timestamp.valueOf(booking.getCheckOutDate()));
-            pstmt.setInt(4, booking.getRoom().getId());
-            pstmt.setInt(5, booking.getApplication().getId());
+            pstmt.setInt(1, booking.getUserId());
+            pstmt.setTimestamp(2, Timestamp.valueOf(booking.getCheckinDate()));
+            pstmt.setTimestamp(3, Timestamp.valueOf(booking.getCheckoutDate()));
+            pstmt.setInt(4, booking.getRoomId());
+            pstmt.setInt(5, booking.getApplicationId());
 
             pstmt.executeUpdate();
             con.commit();
@@ -41,6 +40,39 @@ public class BookingDAO {
             close(con);
             close(pstmt);
         }
+    }
+
+    public List<Booking> findBookingsByUserId(int userId) throws DBException{
+        List<Booking> userBookings = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pStmt = con.prepareStatement(DBConstatns.SQL_GET_BOOKINGS_BY_USER_ID);
+            pStmt.setInt(1, userId);
+            rs = pStmt.executeQuery();
+            while (rs.next()) {
+                Booking booking = new Booking();
+                booking.setId(rs.getInt("id"));
+                booking.setUserId(userId);
+                booking.setCheckinDate(LocalDateTime.parse(rs.getString("checkin_date")));
+                booking.setCheckoutDate(LocalDateTime.parse(rs.getString("checkout_date")));
+                booking.setRoomId(rs.getInt("room_id"));
+                booking.setApplicationId(rs.getInt("application_id"));
+                userBookings.add(booking);
+            }
+
+        } catch (SQLException e) {
+            logger.error("Cannot get bookings by user_id", e);
+            throw new DBException("Cannot get bookings by user_id", e);
+        } finally {
+            close(con);
+            close(pStmt);
+            close(rs);
+        }
+        return userBookings;
     }
 
     private static void close(AutoCloseable itemToBeClosed) {

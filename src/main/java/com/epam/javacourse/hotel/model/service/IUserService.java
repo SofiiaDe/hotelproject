@@ -14,11 +14,9 @@ public interface IUserService {
 
     void create(User user) throws DBException;
 
-    User findByEmail(String email) throws DBException;
+    User findUserByEmail(String email) throws DBException;
 
-
-//
-//    User find(int id) throws DBException;
+    User findUserById(int id) throws DBException;
 //
 //
 //    void update(User user) throws DBException;

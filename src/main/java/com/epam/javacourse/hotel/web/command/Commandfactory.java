@@ -1,10 +1,8 @@
 package com.epam.javacourse.hotel.web.command;
 
 import com.epam.javacourse.hotel.web.command.client.*;
-import com.epam.javacourse.hotel.web.command.common.LoginCommand;
-import com.epam.javacourse.hotel.web.command.common.LoginPageCommand;
-import com.epam.javacourse.hotel.web.command.common.RegisterPageCommand;
-import com.epam.javacourse.hotel.web.command.common.RegistrationCommand;
+import com.epam.javacourse.hotel.web.command.common.*;
+import com.epam.javacourse.hotel.web.command.manager.EditRoomsCommand;
 import com.epam.javacourse.hotel.web.command.manager.GetAllUsersCommand;
 
 import java.util.HashMap;
@@ -38,15 +36,20 @@ public class CommandFactory {
         commands.put("submitApplication", new SubmitApplicationCommand());
         commands.put("freeRoomsPage", new FreeRoomsPageCommand());
         commands.put("bookRoom", new BookRoomCommand());
+        commands.put("editApplication", new EditApplicationCommand());
 
         //manager commands
         commands.put("allUsersList", new GetAllUsersCommand());
+        commands.put("editRooms", new EditRoomsCommand());
 
         //common commands
         commands.put("registerPage", new RegisterPageCommand());
         commands.put("registration", new RegistrationCommand());
+        commands.put("clientRegistration", new ClientRegistrationCommand());
+
         commands.put("login", new LoginCommand());
         commands.put("loginPage", new LoginPageCommand());
+        commands.put("logout", new LogoutCommand());
 
     }
 

@@ -15,11 +15,12 @@ import java.util.List;
 
 public class GetAllUsersCommand implements ICommand {
 
+    IUserService userService = AppContext.getInstance().getUserService();
+
     @Override
     public String execute(HttpServletRequest request,
                           HttpServletResponse response) throws DBException {
 
-        IUserService userService = AppContext.getInstance().getUserService();
         List<User> list = userService.findAllUsers();
         HttpSession session = request.getSession();
         session.setAttribute("usersList", list);

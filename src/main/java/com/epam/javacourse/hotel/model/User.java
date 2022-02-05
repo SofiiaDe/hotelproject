@@ -12,7 +12,8 @@ public class User extends Entity implements Serializable {
     private String email;
     private String password;
     private String country;
-    private Role role;
+//    private Role role;
+    private String role;
 
 
     public User() {
@@ -59,11 +60,20 @@ public class User extends Entity implements Serializable {
         this.password = password;
     }
 
-    public Role getRole() {
+//    public Role getRole() {
+//        return role;
+//    }
+//
+//    public void setRole(Role role) {
+//        this.role = role;
+//    }
+
+
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -75,10 +85,10 @@ public class User extends Entity implements Serializable {
         this.country = country;
     }
 
-    public static User createUser(String email) {
-        User user = new User();
-        user.setId(0);
-        user.setEmail(email);
-        return user;
-    }
+//    public static User createUser(String email) {
+//        User user = new User();
+//        user.setId(0);
+//        user.setEmail(email);
+//        return user;
+//    }
 }

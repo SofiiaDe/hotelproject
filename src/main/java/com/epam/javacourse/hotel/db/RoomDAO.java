@@ -77,7 +77,7 @@ public class RoomDAO {
             try {
                 itemToBeClosed.close();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("DB close failed in RoomDAO", e);
             }
         }
     }
@@ -88,7 +88,7 @@ public class RoomDAO {
                 con.rollback();
                 con.setAutoCommit(true);
             } catch (SQLException e) {
-                logger.error("Cannot rollback transaction", e);
+                logger.error("Cannot rollback transaction in RoomDAO", e);
             }
         }
     }

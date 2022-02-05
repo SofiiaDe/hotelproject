@@ -6,9 +6,46 @@ public class ConfirmationRequest extends Entity{
 
     private int id;
     private User user;
+    private int userId;
+    private int applicationId;
+    private int roomId;
+    private String confirmRequestStatus;
+
     private Application application;
     private Room room;
     private ConfirmRequestStatus status;
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getApplicationId() {
+        return applicationId;
+    }
+
+    public void setApplicationId(int applicationId) {
+        this.applicationId = applicationId;
+    }
+
+    public int getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
+
+    public String getConfirmRequestStatus() {
+        return confirmRequestStatus;
+    }
+
+    public void setConfirmRequestStatus(String confirmRequestStatus) {
+        this.confirmRequestStatus = confirmRequestStatus;
+    }
 
     @Override
     public int getId() {

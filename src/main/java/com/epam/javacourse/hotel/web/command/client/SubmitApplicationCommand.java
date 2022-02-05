@@ -2,7 +2,6 @@ package com.epam.javacourse.hotel.web.command.client;
 
 import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.DBException;
-import com.epam.javacourse.hotel.db.UserDAO;
 import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.service.IApplicationService;
@@ -50,11 +49,11 @@ public class SubmitApplicationCommand implements ICommand {
         }
 
         Application newApplication = new Application();
-        newApplication.setUser(authorisedUser);
+        newApplication.setUserId(authorisedUser.getId());
         newApplication.setRoomTypeBySeats(roomTypeBySeats);
         newApplication.setRoomClass(roomClass);
-        newApplication.setCheckInDate(checkInDate);
-        newApplication.setCheckOutDate(checkOutDate);
+        newApplication.setCheckinDate(checkInDate);
+        newApplication.setCheckoutDate(checkOutDate);
 
         applicationService.create(newApplication);
 
