@@ -3,14 +3,10 @@ V
 &src/main/webapp/WEB-INF/jspf/page.jspf,1\8\183723e0a3175350ac79039b001630c2d0d0a62f
 X
 (src/main/webapp/WEB-INF/jspf/taglib.jspf,6\d\6d2167347b6edb0e1a42c8783f3ec82dc543286c
-^
-.src/main/webapp/WEB-INF/applicationContext.xml,0\9\098550351661f776bec95040b2d50042c4599987
 S
 #src/main/webapp/META-INF/contex.xml,e\0\e011cee888bfe0c0bb5164488abc61f748b28867
 r
 Bsrc/main/java/com/epam/javacourse/hotel/Exception/DBException.java,2\c\2cc1c7d355e8f6556f4f316ab8485c3880d95c2f
-7
-pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 ]
 -src/main/webapp/WEB-INF/jsp/registration2.jsp,b\6\b6dfacdb46595a38f81918672582c15f2aa6cb77
 ]

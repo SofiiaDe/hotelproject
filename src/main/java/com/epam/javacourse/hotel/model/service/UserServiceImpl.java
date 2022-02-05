@@ -36,25 +36,6 @@ public class UserServiceImpl implements IUserService {
 
     }
 
-//    findAllRoomsByUserID room!/user
-//    + AccountPageCommand (get)
-
-//    @Override
-//    public List<User> findAllAuthorisedInfo() throws DBException {
-//        List<User> users = findAllUsers();
-//        List<User> authorisedUsers = new ArrayList<>();
-//        for (User user : users) {
-//            authorisedUsers.add(userToAuthorisedUser(user));
-//        }
-//        return authorisedUsers;
-//    }
-//
-//    @Override
-//    public User findByLoginAuthorisedInfo(String login) throws DBException {
-//        return userToAuthorisedUser(findByLogin(login));
-//    }
-//
-
 
 //
 //    @Override
@@ -73,13 +54,7 @@ public class UserServiceImpl implements IUserService {
 //    public List<Application> findUserApplications(User user) throws DBException {
 //        return this.userDao.getApplications(user);
 //    }
-//
-//    @Override
-//    public void updateAuthorisedUserToSession(HttpServletRequest request, HttpSession session, User user) throws DBException {
-//        User authorisedUser = userToAuthorisedUser(user);
-//        session.setAttribute("authorisedUser", authorisedUser);
-//        request.setAttribute("authorisedUser", authorisedUser);
-//    }
+
 
 
 }

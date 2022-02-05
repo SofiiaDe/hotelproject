@@ -52,7 +52,6 @@ public class UserDAO {
 
     public void createUser(User user) throws DBException {
 
-//        User.createUser(user.getEmail());
         Connection con = null;
         PreparedStatement pstmt = null;
 
@@ -60,8 +59,6 @@ public class UserDAO {
             con = DBManager.getInstance().getConnection();
             con.setAutoCommit(false);
 
-//            pstmt = con.prepareStatement(DBConstatns.SQL_INSERT_USER,
-//                    Statement.RETURN_GENERATED_KEYS);
             pstmt = con.prepareStatement(DBConstatns.SQL_INSERT_USER);
             pstmt.setString(1, user.getFirstName());
             pstmt.setString(2, user.getLastName());
