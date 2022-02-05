@@ -1,61 +1,75 @@
 package com.epam.javacourse.hotel;
 
+import com.epam.javacourse.hotel.Exception.HashPasswordException;
+import com.epam.javacourse.hotel.Exception.ReadPropertyException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.math.BigInteger;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+/**
+ * PBKDF2 salted String (password) hashing.
+ */
 public class Security {
 
-    public static boolean validatePasswordByHash(String originalPassword,
-                                            String storedPassword)
-            throws InvalidKeySpecException, NoSuchAlgorithmException {
+    private static final Logger logger = LogManager.getLogger(Security.class);
 
-        String[] parts = storedPassword.split(":");
-        int iterations = Integer.parseInt(parts[0]);
-        byte[] salt = fromHex(parts[1]);
-        byte[] hash = fromHex(parts[2]);
+    private static final String SECRET_FACTORY_ALGORITHM = "PBKDF2WithHmacSHA512";
+    private static final int HASH_BYTES = 64;
+    private static final int PBKDF2_ITERATIONS = 10000;
 
-        PBEKeySpec spec = new PBEKeySpec(originalPassword.toCharArray(), salt,
-                iterations, hash.length * 8);
 
-        SecretKeyFactory skf =
-                SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-
-        byte[] testHash = skf.generateSecret(spec).getEncoded();
-
-        int diff = hash.length ^ testHash.length;
-
-        for (int i = 0; i < hash.length && i < testHash.length; i++) {
-            diff |= hash[i] ^ testHash[i];
+    public static String validatePasswordByHash(String pass) throws HashPasswordException {
+        String salt;
+        try {
+            String passSaltProps = "password.salt";
+            String propsFile = "app.properties";
+            salt = PropertiesReader.readProps(propsFile, passSaltProps);
+        } catch (ReadPropertyException e) {
+            throw new HashPasswordException("Property Salt was not found", e);
         }
-
-        return diff == 0;
+        String resultHash;
+        try {
+            resultHash = Security.createHashFromPassString(pass, salt);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+            throw new HashPasswordException("Hash generation error", ex);
+        }
+        return resultHash;
     }
 
-    public static String generatePasswordHash(String password)
+    /**
+     *
+     * @param password Password string to be converted
+     * @param salt String salt which is added to pass hash
+     * @return String Hash of password with hash
+     */
+    public static String createHashFromPassString(String password, String salt)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
-        int iterations = 1000;
-        char[] chars = password.toCharArray();
-        byte[] salt = getSalt().getBytes();
-
-        PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 64 * 8);
-        SecretKeyFactory skf =
-                SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        byte[] hash = skf.generateSecret(spec).getEncoded();
-        return iterations + ":" + toHex(salt) + ":" + toHex(hash);
+        return createHashFromCharArray(password.toCharArray(), salt.toCharArray());
 
     }
 
-    private static String getSalt() throws NoSuchAlgorithmException {
-        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-        byte[] salt = new byte[16];
-        sr.nextBytes(salt);
-        return Arrays.toString(salt);
+    private static String createHashFromCharArray(char[] password, char[] saltArray) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        byte[] salt = Security.toByteArray(saltArray);
+        byte[] hash = pbkdf2(password, salt);
+        return toHex(hash);
+    }
+
+    private static byte[] pbkdf2(char[] chars, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        PBEKeySpec spec = new PBEKeySpec(chars, salt, Security.PBKDF2_ITERATIONS, Security.HASH_BYTES * 8);
+        SecretKeyFactory skf =
+                SecretKeyFactory.getInstance(SECRET_FACTORY_ALGORITHM);
+        return skf.generateSecret(spec).getEncoded();
+
     }
 
     private static String toHex(byte[] array) {
@@ -69,12 +83,12 @@ public class Security {
         }
     }
 
-    private static byte[] fromHex(String hex) {
-        byte[] bytes = new byte[hex.length() / 2];
-        for (int i = 0; i < bytes.length; i++) {
-            bytes[i] = (byte) Integer.parseInt(hex.substring(2 * i, 2 * i + 2),
-                    16);
-        }
+    private static byte[] toByteArray(char[] chars) {
+        CharBuffer charBuffer = CharBuffer.wrap(chars);
+        ByteBuffer byteBuffer = Charset.forName("UTF-8").encode(charBuffer);
+        byte[] bytes = Arrays.copyOfRange(byteBuffer.array(), byteBuffer.position(), byteBuffer.limit());
+        Arrays.fill(byteBuffer.array(), (byte) 0); // clear sensitive data
+
         return bytes;
     }
 }

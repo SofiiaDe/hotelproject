@@ -12,12 +12,14 @@ public class EncodingFilter implements Filter {
     private String encoding;
 
     /**
-     * Destroy method.
+     * Init method.
      */
-    public void destroy() {
-        logger.debug("Filter destruction starts");
-        // do nothing
-        logger.debug("Filter destruction finished");
+    @Override
+    public void init(FilterConfig config) {
+        logger.debug("Filter initialization starts");
+        encoding = config.getInitParameter("encoding");
+        logger.trace("Encoding from web.xml --> " + encoding);
+        logger.debug("Filter initialization finished");
     }
 
     /**
@@ -38,13 +40,13 @@ public class EncodingFilter implements Filter {
     }
 
     /**
-     * Init method.
+     * Destroy method.
      */
-    public void init(FilterConfig config) {
-        logger.debug("Filter initialization starts");
-        encoding = config.getInitParameter("encoding");
-        logger.trace("Encoding from web.xml --> " + encoding);
-        logger.debug("Filter initialization finished");
+    @Override
+    public void destroy() {
+        logger.debug("Filter destruction starts");
+        // do nothing
+        logger.debug("Filter destruction finished");
     }
 }
 

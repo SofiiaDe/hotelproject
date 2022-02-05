@@ -10,12 +10,9 @@ import java.util.List;
 public class UserServiceImpl implements IUserService {
 
     private final UserDAO userDao;
-//    private final IAccountService accountService;
 
-    //    public UserServiceImpl(UserDAO userDao, IAccountService accountService) {
     public UserServiceImpl(UserDAO userDao) {
         this.userDao = userDao;
-//        this.accountService = accountService;
     }
 
     @Override
@@ -81,10 +78,6 @@ public class UserServiceImpl implements IUserService {
 //        session.setAttribute("authorisedUser", authorisedUser);
 //        request.setAttribute("authorisedUser", authorisedUser);
 //    }
-//
-//    private User userToAuthorisedUser(User user) throws DBException {
-//        user.setAccount(accountService.find(user.getAccount().getId()));
-//        user.setApplications(new HashSet<>(findUserApplications(user)));
-//        return user;
-//    }
+
+
 }

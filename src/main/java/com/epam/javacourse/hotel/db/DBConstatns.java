@@ -22,7 +22,23 @@ public class DBConstatns {
                     + "user_has_booked_rooms AS uhbr ON t.id = uhbr.rooms_id AND uhbr.users_id = "
                     + "(SELECT id FROM users WHERE id = ?)";
 
-    // AccountDAO
+    // ApplicationDAO
+    public static final String SQL_CREATE_APPLICATION = "INSERT INTO applications " +
+            "(id, user_id, room_seats, room_class, checkin_date, checkout_date)\n" +
+            "VALUES (DEFAULT, ?, ?, ?, ?, ?)";
+
+    // RoomDAO
+    public static final String SQL_GET_ALL_ROOMS = "SELECT * FROM rooms";
+    public static final String SQL_UPDATE_ROOM = "UPDATE rooms SET price = ?, room_number = ?, room_seats = ?," +
+            "room_class = ?, room_status =? WHERE id = ?";
+
+    // BookingDAO
+    public static final String SQL_CREATE_BOOKING = "INSERT INTO bookings " +
+            "(id, user_id, checkin_date, checkout_date, room_id, application_id)\n" +
+            "VALUES (DEFAULT, ?, ?, ?, ?, ?)";
+
+
+
 
     //FIELDS
     public static final String F_USER_NAME = "name";

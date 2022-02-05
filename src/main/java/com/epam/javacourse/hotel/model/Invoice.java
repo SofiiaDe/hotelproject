@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class Invoice extends Entity{
 
+    private static final long serialVersionUID = 1L;
+
     private int id;
     private User user;
     private double amount;

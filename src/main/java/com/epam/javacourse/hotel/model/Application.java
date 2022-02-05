@@ -1,15 +1,17 @@
 package com.epam.javacourse.hotel.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-public class Application extends Entity{
+public class Application extends Entity {
+
+    private static final long serialVersionUID = 1L;
 
     private int id;
     private User user;
-    private RoomTypeBySeats roomTypeBySeats;
-    private RoomClass roomClass;
-    private Date checkInDate;
-    private Date checkOutDate;
+    private String roomTypeBySeats;
+    private String roomClass;
+    private LocalDateTime checkInDate;
+    private LocalDateTime checkOutDate;
 
     @Override
     public int getId() {
@@ -29,35 +31,36 @@ public class Application extends Entity{
         this.user = user;
     }
 
-    public RoomTypeBySeats getRoomTypeBySeats() {
+    public String getRoomTypeBySeats() {
         return roomTypeBySeats;
     }
 
-    public void setRoomTypeBySeats(RoomTypeBySeats roomTypeBySeats) {
+    public void setRoomTypeBySeats(String roomTypeBySeats) {
         this.roomTypeBySeats = roomTypeBySeats;
     }
 
-    public RoomClass getRoomClass() {
+    public String getRoomClass() {
         return roomClass;
     }
 
-    public void setRoomClass(RoomClass roomClass) {
+    public void setRoomClass(String roomClass) {
         this.roomClass = roomClass;
     }
 
-    public Date getCheckInDate() {
+
+    public LocalDateTime getCheckInDate() {
         return checkInDate;
     }
 
-    public void setCheckInDate(Date checkInDate) {
+    public void setCheckInDate(LocalDateTime checkInDate) {
         this.checkInDate = checkInDate;
     }
 
-    public Date getCheckOutDate() {
+    public LocalDateTime getCheckOutDate() {
         return checkOutDate;
     }
 
-    public void setCheckOutDate(Date checkOutDate) {
+    public void setCheckOutDate(LocalDateTime checkOutDate) {
         this.checkOutDate = checkOutDate;
     }
 }

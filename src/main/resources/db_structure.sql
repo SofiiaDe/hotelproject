@@ -86,10 +86,9 @@ VALUES ('Ivanov Ivan', 'ivanov.i@gmail.com', 'Ukraine'),
        ('Garcia Hugo', 'garcia.h@gmail.com', 'Spain'),
        ('Meyer Klaus', 'meyer.k@gmail.com', 'Germany');
 
-INSERT INTO applications (room_seats, room_class, checkin_date, checkout_date)
-VALUES ('double', 'business', '2022-03-01', '2022-03-04'),
-       ('single', 'standard', '2022-03-11', '2022-03-12'),
-       ('double', 'business', '2022-03-05', '2022-03-06'),
-       ('single', 'lux', '2022-03-16', '2022-03-17'),
-       ('twin', 'standard', '2022-03-23', '2022-03-29'),
-       ('triple', 'business', '2022-03-20', '2022-03-21');
+INSERT INTO applications (id, user_id, room_seats, room_class, checkin_date, checkout_date)
+VALUES (DEFAULT, 2, 'single', 'business', '2022-03-01', '2022-03-04'),
+       (DEFAULT, 1, 'double', 'standard', '2022-03-11', '2022-03-12'),
+       (DEFAULT, 3, 'triple', 'standard', '2022-03-05', '2022-03-06'),
+       (DEFAULT, 5, 'twin', 'business', '2022-03-23', '2022-03-29'),
+       (DEFAULT, 6, 'double', 'lux', '2022-03-20', '2022-03-21');

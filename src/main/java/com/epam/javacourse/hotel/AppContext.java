@@ -1,8 +1,10 @@
 package com.epam.javacourse.hotel;
 
+import com.epam.javacourse.hotel.db.ApplicationDAO;
+import com.epam.javacourse.hotel.db.BookingDAO;
+import com.epam.javacourse.hotel.db.RoomDAO;
 import com.epam.javacourse.hotel.db.UserDAO;
-import com.epam.javacourse.hotel.model.service.IUserService;
-import com.epam.javacourse.hotel.model.service.UserServiceImpl;
+import com.epam.javacourse.hotel.model.service.*;
 
 /**
  * Class creates all necessary DAOs and services at the app start.
@@ -13,12 +15,15 @@ public class AppContext {
 
     //DAOs
     private final UserDAO userDao = new UserDAO();
-//    private final AccountDAO accountDAO = new AccountDAO();
+    private final ApplicationDAO applicationDAO = new ApplicationDAO();
+    private final RoomDAO roomDAO = new RoomDAO();
+    private final BookingDAO bookingDAO = new BookingDAO();
 
     // services
-//    private final IAccountService accountService = new AccountServiceImpl(accountDAO);
-//    private final IUserService userService = new UserServiceImpl(userDao, accountService);
     private final IUserService userService = new UserServiceImpl(userDao);
+    private final IApplicationService applicationService = new ApplicationServiceImpl(applicationDAO);
+    private final IRoomService roomService = new RoomServiceImpl(roomDAO);
+    private final IBookingService bookingService = new BookingServiceImpl(bookingDAO);
 
     public static AppContext getInstance() {
         return appContext;
@@ -28,7 +33,15 @@ public class AppContext {
         return userService;
     }
 
-//    public IAccountService getAccountService() {
-//        return accountService;
-//    }
+    public IApplicationService getApplicationService() {
+        return applicationService;
+    }
+
+    public IRoomService getRoomService() {
+        return roomService;
+    }
+
+    public IBookingService getBookingService() {
+        return bookingService;
+    }
 }

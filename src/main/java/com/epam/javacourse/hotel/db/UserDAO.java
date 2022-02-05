@@ -122,9 +122,7 @@ public class UserDAO {
         return user;
     }
 
-
-
-    private void close(AutoCloseable itemToBeClosed) {
+    private static void close(AutoCloseable itemToBeClosed) {
         if (itemToBeClosed != null) {
             try {
                 itemToBeClosed.close();
@@ -134,10 +132,11 @@ public class UserDAO {
         }
     }
 
-    private void rollBack(Connection con) {
+    private static void rollBack(Connection con) {
         if (con != null) {
             try {
                 con.rollback();
+                con.setAutoCommit(true);
             } catch (SQLException e) {
                 logger.error("Cannot rollback transaction", e);
             }

@@ -2,6 +2,8 @@ package com.epam.javacourse.hotel.model;
 
 public class ConfirmationRequest extends Entity{
 
+    private static final long serialVersionUID = 1L;
+
     private int id;
     private User user;
     private Application application;

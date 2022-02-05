@@ -16,9 +16,7 @@ public interface IUserService {
 
     User findByEmail(String email) throws DBException;
 
-//    List<User> findAllAuthorisedInfo() throws DBException;
-//
-//    User findByLoginAuthorisedInfo(String login) throws DBException;
+
 //
 //    User find(int id) throws DBException;
 //

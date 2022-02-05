@@ -10,21 +10,18 @@ import static com.epam.javacourse.hotel.Security.validatePasswordByHash;
 
 class SecurityTest {
 
-    @Test
-    void hashPasswordValidCaseTest() throws NoSuchAlgorithmException, InvalidKeySpecException {
-        String originalPassword = "password";
-        assertTrue(validatePasswordByHash("password",  Security.generatePasswordHash(originalPassword)));
-    }
-
-    @Test
-    void hashPasswordInvalidCaseTest() throws NoSuchAlgorithmException, InvalidKeySpecException {
-        String originalPassword = "password";
-        assertFalse(validatePasswordByHash("password1",  Security.generatePasswordHash(originalPassword)));
-    }
+    // These test were for first variant of hashing ==> to be altered
 
 //    @Test
-//    void hashPasswordInvalidCaseTest(String originalPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
-//
-//        assertFalse(validatePasswordByHash("password1",  Security.generatePasswordHash("password")));
+//    void hashPasswordValidCaseTest() throws NoSuchAlgorithmException, InvalidKeySpecException {
+//        String originalPassword = "password";
+//        assertTrue(validatePasswordByHash("password",  Security.generatePasswordHash(originalPassword)));
 //    }
+//
+//    @Test
+//    void hashPasswordInvalidCaseTest() throws NoSuchAlgorithmException, InvalidKeySpecException {
+//        String originalPassword = "password";
+//        assertFalse(validatePasswordByHash("password1",  Security.generatePasswordHash(originalPassword)));
+//    }
+
 }

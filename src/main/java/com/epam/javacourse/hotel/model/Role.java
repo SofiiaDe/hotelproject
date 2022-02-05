@@ -1,8 +1,12 @@
 package com.epam.javacourse.hotel.model;
 
 public enum Role {
+
     MANAGER("manager"),
     CLIENT("client");
+
+    private static final long serialVersionUID = 1L;
+
 
     private final String role;
 

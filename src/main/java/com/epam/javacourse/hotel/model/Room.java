@@ -1,6 +1,7 @@
 package com.epam.javacourse.hotel.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,9 +13,9 @@ public class Room extends Entity implements Serializable {
     private int id;
     private double price;
     private int roomNumber;
-    private RoomTypeBySeats roomTypeBySeats;
-    private RoomClass roomClass;
-    private RoomStatus roomStatus;
+    private String roomTypeBySeats;
+    private String roomClass;
+    private String roomStatus;
 
     @Override
     public int getId() {
@@ -42,29 +43,30 @@ public class Room extends Entity implements Serializable {
         this.roomNumber = roomNumber;
     }
 
-    public RoomTypeBySeats getRoomTypeBySeats() {
+    public String getRoomTypeBySeats() {
         return roomTypeBySeats;
     }
 
-    public void setRoomTypeBySeats(RoomTypeBySeats roomTypeBySeats) {
+    public void setRoomTypeBySeats(String roomTypeBySeats) {
         this.roomTypeBySeats = roomTypeBySeats;
     }
 
-    public RoomClass getRoomClass() {
+    public String getRoomClass() {
         return roomClass;
     }
 
-    public void setRoomClass(RoomClass roomClass) {
+    public void setRoomClass(String roomClass) {
         this.roomClass = roomClass;
     }
 
-    public RoomStatus getRoomStatus() {
+    public String getRoomStatus() {
         return roomStatus;
     }
 
-    public void setRoomStatus(RoomStatus roomStatus) {
+    public void setRoomStatus(String roomStatus) {
         this.roomStatus = roomStatus;
     }
+
 }
 
 enum RoomTypeBySeats {
@@ -78,6 +80,8 @@ enum RoomTypeBySeats {
     public String getRoomType() {
         return this.type.name();
     }
+
+//    public String getRoomByType()
 
     public void setRoomType(String type) {
         this.type = RoomTypeBySeats.valueOf(type);
