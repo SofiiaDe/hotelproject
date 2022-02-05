@@ -2,8 +2,10 @@ package com.epam.javacourse.hotel.web.command;
 
 import com.epam.javacourse.hotel.web.command.client.*;
 import com.epam.javacourse.hotel.web.command.common.*;
+import com.epam.javacourse.hotel.web.command.manager.ConfirmRequestCommand;
 import com.epam.javacourse.hotel.web.command.manager.EditRoomsCommand;
 import com.epam.javacourse.hotel.web.command.manager.GetAllUsersCommand;
+import com.epam.javacourse.hotel.web.command.manager.ShowAllApplicationsPageCommand;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +42,9 @@ public class CommandFactory {
 
         //manager commands
         commands.put("allUsersList", new GetAllUsersCommand());
+        commands.put("showAllApplications", new ShowAllApplicationsPageCommand());
         commands.put("editRooms", new EditRoomsCommand());
+        commands.put("makeConfirmationRequest", new ConfirmRequestCommand());
 
         //common commands
         commands.put("registerPage", new RegisterPageCommand());
@@ -48,6 +52,7 @@ public class CommandFactory {
         commands.put("login", new LoginCommand());
         commands.put("loginPage", new LoginPageCommand());
         commands.put("logout", new LogoutCommand());
+        commands.put("removeApplication", new RemoveApplicationCommand());
 
     }
 

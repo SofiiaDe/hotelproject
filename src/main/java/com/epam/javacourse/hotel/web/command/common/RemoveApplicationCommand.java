@@ -1,27 +1,22 @@
-package com.epam.javacourse.hotel.web.command.manager;
+package com.epam.javacourse.hotel.web.command.common;
 
 import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.DBException;
-import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.service.IApplicationService;
 import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.ICommand;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
-public class ShowAllApplicationsPageCommand implements ICommand {
+public class RemoveApplicationCommand implements ICommand {
 
-    IApplicationService applicationService = AppContext.getInstance().getApplicationService();
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
 
-        HttpSession session = request.getSession();
-        List<Application> allApplications = applicationService.getAllApplications();
-        session.setAttribute("allApplications", allApplications);
-
+        IApplicationService applicationService = AppContext.getInstance().getApplicationService();
+        int applicationId = Integer.parseInt(request.getParameter("application_id"));
+        applicationService.removeApplication(applicationId);
         return Path.COMMAND_SHOW_APPLICATIONS;
     }
 }

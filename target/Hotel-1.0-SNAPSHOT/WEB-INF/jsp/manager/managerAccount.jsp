@@ -6,287 +6,101 @@
 <c:set var="title" value="Manager's desk" scope="page"/>
 <jsp:include page="/WEB-INF/templates/head.jsp"/>
 <body>
-<%--<jsp:include page="/WEB-INF/templates/managerMenu.jsp"></jsp:include>--%>
 <jsp:include page="/WEB-INF/templates/managerMenu.jsp"/>
 <div class="container">
     <div class="tab-pane fade show active" id="v-pills-services" role="tabpanel"
          aria-labelledby="v-pills-services-tab">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="internet-tab" data-toggle="tab" href="#internet"
+                <a class="nav-link active" id="booking-tab" data-toggle="tab" href="#booking"
                    role="tab"
-                   aria-controls="internet" aria-selected="true">
-                    <fmt:message key="main.tab.room"/>
+                   aria-controls="booking" aria-selected="true">
+                    <fmt:message key="main.tab.bookings"/>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="iptv-tab" data-toggle="tab" href="#iptv" role="tab"
-                   aria-controls="iptv"
+                <a class="nav-link" id="application-tab" data-toggle="tab" href="#application" role="tab"
+                   aria-controls="application"
                    aria-selected="false">
                     <fmt:message key="main.tab.applications"/>
                 </a>
             </li>
-
             <li class="nav-item">
-                <a class="nav-link" id="new-tariff-tab" data-toggle="tab" href="#new-tariff"
+                <a class="nav-link" id="confirmrequest-tab" data-toggle="tab" href="#confirmrequest" role="tab"
+                   aria-controls="confirmrequest"
+                   aria-selected="false">
+                    <fmt:message key="main.tab.confirmation_requests"/>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="invoice-tab" data-toggle="tab" href="#invoice" role="tab"
+                   aria-controls="invoice"
+                   aria-selected="false">
+                    <fmt:message key="main.tab.invoices"/>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="new-room-tab" data-toggle="tab" href="#new-room"
                    role="tab"
-                   aria-controls="new-tariff" aria-selected="false">
+                   aria-controls="new-room" aria-selected="false">
                     <fmt:message key="main.tab.new_room"/>
                 </a>
             </li>
         </ul>
+
         <div class="tab-content" id="myTabContent">
-            <%-- Интернет --%>
-            <div class="tab-pane fade show active" id="internet" role="tabpanel"
-                 aria-labelledby="internet-tab">
-                <table class="table table-hover mt-2">
-                    <thead>
-                    <tr>
-                        <th scope="col">
-                            <fmt:message key="table.th.checkin_date"/>
-                        </th>
-                        <th scope="col">
-                            <fmt:message key="table.th.checkout_date"/>
-                        </th>
-                        <th scope="col">
-                            <fmt:message key="table.th.room_number"/>
-                        </th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="intTariff" items="${internetTariffs}">
+
+            <%-- Application --%>
+<%--            <form method="post" action="controller?command=showAllApplications">--%>
+                <div class="tab-pane fade" id="application" role="tabpanel" aria-labelledby="application-tab">
+                    <table class="table table-hover mt-2">
+                        <thead>
                         <tr>
-                            <td>${intTariff.name}</td>
-                            <td>${intTariff.price}</td>
-                            <td>${intTariff.description}</td>
-                            <td>
-                                <div class="d-flex justify-content-end">
-                                    <div>
-                                        <button type="submit"
-                                                class="btn btn-outline-secondary btn-sm"
-                                                data-toggle="modal"
-                                                data-target="#editInetModalCenter${intTariff.id}">
-                                            <i class="material-icons">create</i>
-                                        </button>
-                                        <!-- Modal -->
-                                        <div class="modal fade bd-example-modal-lg"
-                                             id="editInetModalCenter${intTariff.id}"
-                                             tabindex="-1"
-                                             role="dialog"
-                                             aria-labelledby="editInetModalCenterTitle"
-                                             aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered modal-lg"
-                                                 role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title"
-                                                            id="editInetModalCenterTitle">
-                                                                ${intTariff.name}
-                                                        </h5>
-                                                        <button type="button" class="close"
-                                                                data-dismiss="modal"
-                                                                aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form method="post"
-                                                              action="controller?action=edit_tariff">
-                                                            <div class="form-group">
-                                                                <div class="row">
-                                                                    <div class="col">
-                                                                        <input type="text"
-                                                                               name="name"
-                                                                               class="form-control"
-                                                                               placeholder="Название"
-                                                                               value="${intTariff.name}"
-                                                                               minlength="1"
-                                                                               maxlength="40"
-                                                                               required>
-                                                                    </div>
-                                                                    <div class="col">
-                                                                        <input type="number"
-                                                                               step="0.01"
-                                                                               name="price"
-                                                                               class="form-control"
-                                                                               placeholder="Стоимость грн./мес."
-                                                                               value="${intTariff.price}"
-                                                                               min="0" minlength="1"
-                                                                               required>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="description">
-                                                                    <fmt:message
-                                                                            key="main.modal.description"/>
-                                                                </label>
-                                                                <textarea class="form-control"
-                                                                          name="description"
-                                                                          rows="3" minlength="10"
-                                                                          maxlength="250"
-                                                                          required>${intTariff.description}
-                                                                </textarea>
-                                                            </div>
-                                                            <input type="hidden" name="tariff_id"
-                                                                   value="${intTariff.id}">
-                                                            <div class="d-flex justify-content-end">
-                                                                <button type="submit"
-                                                                        class="btn btn-outline-primary">
-                                                                    <fmt:message
-                                                                            key="main.modal.button.save"/>
-                                                                </button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="ml-1">
-                                        <form action="controller?action=remove_tariff"
-                                              method="post">
-                                            <input type="hidden" name="tariff_id"
-                                                   value="${intTariff.id}">
-                                            <button type="submit"
-                                                    class="btn btn-outline-secondary btn-sm">
-                                                <i class="material-icons">delete_outline</i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </td>
+                            <th scope="col">
+                                <fmt:message key="table.th.application_id"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.user_id"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.room_seats"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.room_class"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.checkin_date"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.checkout_date"/>
+                            </th>
+                            <th scope="col"></th>
                         </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </div>
-            <%-- IPTV --%>
-            <div class="tab-pane fade" id="iptv" role="tabpanel" aria-labelledby="iptv-tab">
-                <table class="table table-hover mt-2">
-                    <thead>
-                    <tr>
-                        <th scope="col">
-                            <fmt:message key="table.th.checkin_date"/>
-                        </th>
-                        <th scope="col">
-                            <fmt:message key="table.th.checkout_date"/>
-                        </th>
-                        <th scope="col">
-                            <fmt:message key="table.th.room_number"/>
-                        </th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="iptvTariff" items="${iptvTariffs}">
-                    <tr>
-                        <td>${iptvTariff.name}</td>
-                        <td>${iptvTariff.price}</td>
-                        <td>${iptvTariff.description}</td>
-                        <td>
-                            <div class="d-flex justify-content-end">
-                                <div>
-                                    <button type="submit" class="btn btn-outline-secondary btn-sm"
-                                            data-toggle="modal"
-                                            data-target="#editIPTVModalCenter${iptvTariff.id}">
-                                        <i class="material-icons">create</i>
-                                    </button>
-                                    <!-- Modal -->
-                                    <div class="modal fade bd-example-modal-lg"
-                                         id="editIPTVModalCenter${iptvTariff.id}"
-                                         tabindex="-1"
-                                         role="dialog"
-                                         aria-labelledby="editIPTVModalCenterTitle"
-                                         aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered modal-lg"
-                                             role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title"
-                                                        id="editIPTVModalCenterTitle">
-                                                            ${iptvTariff.name}
-                                                    </h5>
-                                                    <button type="button" class="close"
-                                                            data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form method="post"
-                                                          action="controller?action=edit_tariff">
-                                                        <div class="form-group">
-                                                            <div class="row">
-                                                                <div class="col">
-                                                                    <input type="text" name="name"
-                                                                           class="form-control"
-                                                                           placeholder="Название"
-                                                                           value="${iptvTariff.name}"
-                                                                           minlength="1"
-                                                                           maxlength="40"
-                                                                           required>
-                                                                </div>
-                                                                <div class="col">
-                                                                    <input type="number"
-                                                                           name="price"
-                                                                           step="0.01"
-                                                                           class="form-control"
-                                                                           placeholder="Стоимость"
-                                                                           value="${iptvTariff.price}"
-                                                                           min="0" minlength="1"
-                                                                           required>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="description">
-                                                                <fmt:message
-                                                                        key="main.modal.description"/>
-                                                            </label>
-                                                            <textarea class="form-control"
-                                                                      name="description"
-                                                                      rows="3" minlength="10"
-                                                                      maxlength="250"
-                                                                      required>${iptvTariff.description}</textarea>
-                                                        </div>
-                                                        <input type="hidden" name="tariff_id"
-                                                               value="${iptvTariff.id}">
-                                                        <div class="d-flex justify-content-end">
-                                                            <button type="submit"
-                                                                    class="btn btn-outline-primary">
-                                                                <fmt:message
-                                                                        key="main.modal.button.save"/>
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ml-1">
-                                    <form action="controller?action=remove_tariff" method="post">
-                                        <input type="hidden" name="tariff_id"
-                                               value="${iptvTariff.id}">
-                                        <button type="submit"
-                                                class="btn btn-outline-secondary btn-sm">
-                                            <i class="material-icons">delete_outline</i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    </c:forEach>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+<%--                        <form action="controller?command=showAllApplications">--%>
+
+                        <c:forEach var="application" items="${sessionScope.allApplications}">
+                            <tr>
+                                <td>${application.id}</td>
+                                <td>${application.userId}</td>
+                                <td>${application.roomTypeBySeats}</td>
+                                <td>${application.roomClass}</td>
+<%--                                <td>${application.checkinDate}</td>--%>
+<%--                                <td>${application.checkoutDate}</td>--%>
+
+                            </tr>
+                        </c:forEach>
+<%--                        </form>--%>
+                        </tbody>
+                    </table>
+                </div>
+<%--            </form>--%>
 
             <%--Add a room --%>
-            <div class="tab-pane fade" id="new-tariff" role="tabpanel"
-                 aria-labelledby="new-tariff-tab">
-                <form class="mt-2" method="post" action="controller?action=add_tariff">
+            <div class="tab-pane fade" id="new-room" role="tabpanel"
+                 aria-labelledby="new-room-tab">
+                <form class="mt-2" method="post" action="controller?command=addRoom">
                     <div class="form-group">
                         <div class="row">
                             <div class="col">
@@ -328,8 +142,8 @@
             </div>
         </div>
     </div>
-
 </div>
+
 
 <jsp:include page="/WEB-INF/templates/scripts.jsp"/>
 

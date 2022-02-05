@@ -25,6 +25,20 @@
                     <fmt:message key="main.tab.user_applications"/>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" id="confirmrequests-tab" data-toggle="tab" href="#confirmrequests" role="tab"
+                   aria-controls="confirmrequests"
+                   aria-selected="false">
+                    <fmt:message key="main.tab.user_confirmation_requests"/>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="invoices-tab" data-toggle="tab" href="#invoices" role="tab"
+                   aria-controls="invoices"
+                   aria-selected="false">
+                    <fmt:message key="main.tab.user_invoices"/>
+                </a>
+            </li>
 
         </ul>
         <div class="tab-content" id="myTabContent">
@@ -47,7 +61,7 @@
                     </tr>
                     </thead>
 
-<%--                   !!! Paste code for bookings table here--%>
+                    <%--                   !!! Paste code for bookings table here--%>
 
 
                 </table>
@@ -138,10 +152,10 @@
                                                         </div>
                                                         <div class="form-group">
                                                                 <%--                                                            <label for="roomTypeBySeats">--%>
-                                                            <label for="description">
-                                                                <fmt:message
-                                                                        key="main.modal.description"/>
-                                                            </label>
+                                                                <%--                                                            <label for="description">--%>
+                                                                <%--                                                                <fmt:message--%>
+                                                                <%--                                                                        key="main.modal.description"/>--%>
+                                                                <%--                                                            </label>--%>
                                                             <textarea class="form-control"
                                                                       name="description"
                                                                       rows="3" minlength="10"
@@ -180,55 +194,70 @@
                 </table>
             </div>
 
-            <%--Добавить тариф --%>
-            <div class="tab-pane fade" id="new-tariff" role="tabpanel"
-                 aria-labelledby="new-tariff-tab">
-                <form class="mt-2" method="post" action="controller?action=add_tariff">
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col">
-                                <input type="text" name="name" class="form-control"
-                                       placeholder="<fmt:message key="main.modal.placeholder.name"/>"
-                                       minlength="1"
-                                       maxlength="40"
-                                       required>
-                            </div>
-                            <div class="col">
-                                <input type="number" name="price" class="form-control"
-                                       step="0.01"
-                                       placeholder="<fmt:message key="main.modal.placeholder.price"/>"
-                                       min="0" minlength="1"
-                                       required>
-                            </div>
-                            <div class="col">
-                                <select class="custom-select" name="serviceId">
-                                    <c:forEach var="service" items="${services}">
-                                        <option value="${service.id}">${service.name}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="description">
-                            <fmt:message key="main.modal.description"/>
-                        </label>
-                        <textarea class="form-control" id="description" name="description"
-                                  rows="3" minlength="10"
-                                  maxlength="250"
-                                  required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-dark">
-                        <fmt:message key="main.modal.button.save"/>
-                    </button>
-                </form>
+
+            <%-- Confirmation requests --%>
+            <div class="tab-pane fade" id="confirmrequests" role="tabpanel" aria-labelledby="confirmrequests-tab">
+                <table class="table table-hover mt-2">
+                    <thead>
+                    <tr>
+                        <th scope="col">
+                            <fmt:message key="table.th.application_id"/>
+                        </th>
+                        <th scope="col">
+                            <fmt:message key="table.th.checkin_date"/>
+                        </th>
+                        <th scope="col">
+                            <fmt:message key="table.th.checkout_date"/>
+                        </th>
+                        <th scope="col">
+                            <fmt:message key="table.th.room_seats"/>
+                        </th>
+                        <th scope="col">
+                            <fmt:message key="table.th.room_class"/>
+                        </th>
+                        <th scope="col">
+                            <fmt:message key="table.th.confirmrequest_status"/>
+                        </th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+
+                </table>
             </div>
+
+
+                <%-- Invoices --%>
+                <div class="tab-pane fade" id="invoices" role="tabpanel" aria-labelledby="invoices-tab">
+                    <table class="table table-hover mt-2">
+                        <thead>
+                        <tr>
+                            <th scope="col">
+                                <fmt:message key="table.th.invoice_date"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.invoice_amount"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.booking_id"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.room_number"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.invoice_status"/>
+                            </th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+
+                    </table>
+
+
         </div>
+
     </div>
 
-</div>
-
-<jsp:include page="/WEB-INF/templates/scripts.jsp"/>
+    <jsp:include page="/WEB-INF/templates/scripts.jsp"/>
 
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.Booking;
+import com.epam.javacourse.hotel.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -73,6 +74,40 @@ public class BookingDAO {
             close(rs);
         }
         return userBookings;
+    }
+
+    public List<Booking> findAllBookings() throws DBException {
+
+        List<Booking> allBookingsList = new ArrayList<>();
+        Connection con = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(DBConstatns.SQL_GET_ALL_BOOKINGS);
+            while (rs.next()) {
+                Booking booking = new Booking();
+                booking.setId(rs.getInt("id"));
+                booking.setUserId(rs.getInt("user_id"));
+                booking.setCheckinDate(LocalDateTime.parse(rs.getString("checkin_date")));
+                booking.setCheckoutDate(LocalDateTime.parse(rs.getString("checkout_date")));
+                booking.setRoomId(rs.getInt("room_id"));
+                booking.setApplicationId(rs.getInt("application_id"));
+                allBookingsList.add(booking);
+
+            }
+        } catch (SQLException e) {
+            logger.error("Cannot get all bookings", e);
+            throw new DBException("Cannot get all bookings", e);
+        } finally {
+            close(con);
+            close(stmt);
+            close(rs);
+        }
+
+        return allBookingsList;
     }
 
     private static void close(AutoCloseable itemToBeClosed) {

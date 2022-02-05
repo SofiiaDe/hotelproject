@@ -29,5 +29,3 @@ z
 Jsrc/main/java/com/epam/javacourse/hotel/model/service/IInvoiceService.java,4\9\499f6328e7ef755646bcfd01997685459f55e94c
 i
 9src/main/java/com/epam/javacourse/hotel/db/DBManager.java,1\a\1aaf2febc82cce855fd6e3cb47261e1934474967
-}
-Msrc/main/java/com/epam/javacourse/hotel/model/service/InvoiceServiceImpl.java,9\8\983a4f656e78c6bf478299c5b104873da6c93f2d

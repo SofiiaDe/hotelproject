@@ -62,6 +62,10 @@ public class Invoice extends Entity{
         this.amount = amount;
     }
 
+    public LocalDateTime getInvoiceDate() {
+        return invoiceDate;
+    }
+
     public InvoiceStatus getStatus() {
         return status;
     }
@@ -75,4 +79,5 @@ enum InvoiceStatus{
     NEW,
     PAID,
     CANCELLED,
+
 }

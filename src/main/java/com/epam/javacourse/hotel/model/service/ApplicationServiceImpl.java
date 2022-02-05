@@ -20,6 +20,11 @@ public class ApplicationServiceImpl implements IApplicationService{
     }
 
     @Override
+    public List<Application> getAllApplications() throws DBException {
+        return this.applicationDAO.findAllApplications();
+    }
+
+    @Override
     public List<Application> getApplicationsByUserId(int userId) throws DBException {
         return this.applicationDAO.findApplicationsByUserId(userId);
     }
@@ -27,6 +32,11 @@ public class ApplicationServiceImpl implements IApplicationService{
     @Override
     public boolean updateApplication(Application application) throws DBException {
         return this.applicationDAO.updateApplication(application);
+    }
+
+    @Override
+    public void removeApplication(int applicationId) throws DBException {
+        this.applicationDAO.deleteApplication(applicationId);
     }
 
     @Override

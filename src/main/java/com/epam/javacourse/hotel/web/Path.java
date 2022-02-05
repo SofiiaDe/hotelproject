@@ -15,6 +15,7 @@ public class Path {
 
     public static final String PAGE_ALL_APPLICATIONS = "";
 
+
     public static final String COMMAND_ALL_USERS = "controller?command=getAllUsers";
 
     public static final String COMMAND_REDIRECT = "redirect";
@@ -22,6 +23,6 @@ public class Path {
     public static final String COMMAND_EDIT_APPLICATION = "controller?command=editApplication";
 
     public static final String COMMAND_LOGIN_PAGE = "controller?command=loginPage";
-    public static final String COMMAND_SHOW_APPLICATIONS = "controller?command=services";
+    public static final String COMMAND_SHOW_APPLICATIONS = "controller?command=showAllApplications";
     public static final String COMMAND_FREE_ROOMS_PAGE = "controller?command=freeRoomsPage";
 }

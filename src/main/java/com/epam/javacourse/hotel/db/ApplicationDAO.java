@@ -2,8 +2,6 @@ package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.Application;
-import com.epam.javacourse.hotel.model.Role;
-import com.epam.javacourse.hotel.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -169,6 +167,27 @@ public class ApplicationDAO {
             close(pstmt);
         }
         return applicationUpdated;
+    }
+
+    public void deleteApplication(int applicationId) throws DBException {
+
+        boolean applicationDeleted;
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+
+            pstmt = con.prepareStatement(DBConstatns.SQL_DELETE_APPLICATION_BY_ID);
+            pstmt.setInt(1, applicationId);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            logger.error("Cannot remove application", e);
+            throw new DBException("Cannot remove application", e);
+        } finally {
+            close(con);
+            close(pstmt);
+        }
     }
 
     private static void close(AutoCloseable itemToBeClosed) {

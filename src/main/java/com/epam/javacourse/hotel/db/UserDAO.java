@@ -34,7 +34,6 @@ public class UserDAO {
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
                 user.setCountry(rs.getString("country"));
-//                user.setRole(Role.getRoleByType(rs.getString("role")));
                 user.setRole(rs.getString("role"));
 
                 allUsersList.add(user);

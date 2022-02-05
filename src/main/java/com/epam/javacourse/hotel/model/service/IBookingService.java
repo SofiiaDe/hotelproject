@@ -13,6 +13,6 @@ public interface IBookingService {
 
     List<Booking> getBookingsByUserId(int userId) throws DBException;
 
-
+    List<Booking> getAllBookings() throws DBException;
 
 }
