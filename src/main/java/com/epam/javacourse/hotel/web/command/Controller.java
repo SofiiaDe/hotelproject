@@ -31,20 +31,38 @@ public class Controller extends HttpServlet {
     private void process(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String address = Path.PAGE_ERROR;
+        String address;
 
         String commandName = request.getParameter("command");
 
         ICommand command = CommandFactory.getCommand(commandName);
+        ICommandResult commandResult = null;
 
         try {
-            address = command.execute(request, response);
+            commandResult = command.execute(request, response);
         } catch (AppException e) {
             if (e.getCause() != null) {
                 request.setAttribute("errorMessage", e.getMessage() + ": "
                         + e.getCause().getMessage());
             } else {
                 request.setAttribute("errorMessage", e.getMessage());
+            }
+        }
+
+        if (commandResult == null){
+            address = Path.PAGE_ERROR;
+            request.setAttribute("errorMessage", "Null command result.");
+        }else{
+            switch (commandResult.getType()){
+                case Address:
+                    address = ((AddressCommandResult)commandResult).getAddress();
+                    break;
+                case Redirect:
+                    response.sendRedirect(((RedirectCommandResult)commandResult).getAddress());
+                    return;
+                default:
+                    address = Path.PAGE_ERROR;
+                    request.setAttribute("errorMessage", "Unknown command result type");
             }
         }
 

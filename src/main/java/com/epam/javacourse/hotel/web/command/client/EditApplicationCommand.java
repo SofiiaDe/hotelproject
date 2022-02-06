@@ -5,7 +5,9 @@ import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.service.IApplicationService;
 import com.epam.javacourse.hotel.web.Path;
+import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
+import com.epam.javacourse.hotel.web.command.ICommandResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +15,7 @@ import java.io.IOException;
 
 public class EditApplicationCommand implements ICommand {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
+    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
         int id = Integer.parseInt(request.getParameter("id"));
         String room_seats = request.getParameter("room_seats").trim();
         String room_class = request.getParameter("room_class").trim();
@@ -32,6 +34,6 @@ public class EditApplicationCommand implements ICommand {
         } catch (IOException e) {
             address = Path.PAGE_ERROR;
         }
-        return address;
+        return new AddressCommandResult(address);
     }
 }

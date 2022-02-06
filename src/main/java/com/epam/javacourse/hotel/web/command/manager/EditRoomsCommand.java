@@ -5,7 +5,9 @@ import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.Room;
 import com.epam.javacourse.hotel.model.service.IRoomService;
 import com.epam.javacourse.hotel.web.Path;
+import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
+import com.epam.javacourse.hotel.web.command.ICommandResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +15,7 @@ import java.util.List;
 
 public class EditRoomsCommand implements ICommand {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
+    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
 
 
         IRoomService roomService = AppContext.getInstance().getRoomService();
@@ -23,6 +25,6 @@ public class EditRoomsCommand implements ICommand {
         request.setAttribute("rooms", rooms);
 
 
-        return Path.PAGE_MANAGER_ACCOUNT;
+        return new AddressCommandResult(Path.PAGE_MANAGER_ACCOUNT);
     }
 }

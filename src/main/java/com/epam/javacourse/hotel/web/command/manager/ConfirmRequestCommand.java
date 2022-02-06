@@ -7,7 +7,9 @@ import com.epam.javacourse.hotel.model.service.IApplicationService;
 import com.epam.javacourse.hotel.model.service.IConfirmRequestService;
 import com.epam.javacourse.hotel.model.service.IRoomService;
 import com.epam.javacourse.hotel.web.Path;
+import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
+import com.epam.javacourse.hotel.web.command.ICommandResult;
 import com.epam.javacourse.hotel.web.command.common.LoginCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +29,7 @@ public class ConfirmRequestCommand implements ICommand {
     IConfirmRequestService confirmRequestService = AppContext.getInstance().getConfirmRequestService();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
+    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
 
         HttpSession session = request.getSession();
         User authorisedUser = (User) session.getAttribute("authorisedUser");
@@ -42,7 +44,7 @@ public class ConfirmRequestCommand implements ICommand {
         if (session.getAttribute("userRole") != Role.MANAGER) {
             logger.error("You do not have permission to create a confirmation request. " +
                     "Please login as Manager.");
-            return Path.PAGE_LOGIN;
+            return new AddressCommandResult(Path.PAGE_LOGIN);
         }
 
         String notification;
@@ -50,7 +52,7 @@ public class ConfirmRequestCommand implements ICommand {
         if (freeRooms.isEmpty()) {
             notification = "There are no free rooms.";
             request.setAttribute("notification", notification);
-            return Path.PAGE_MANAGER_ACCOUNT;
+            return new AddressCommandResult(Path.PAGE_MANAGER_ACCOUNT);
         }
 
         int id = Integer.parseInt((String) session.getAttribute("applicationId"));
@@ -64,7 +66,7 @@ public class ConfirmRequestCommand implements ICommand {
 
         confirmRequestService.create(newConfirmationRequest);
 
-        return Path.PAGE_MANAGER_ACCOUNT;
+        return new AddressCommandResult(Path.PAGE_MANAGER_ACCOUNT);
     }
 
     /**

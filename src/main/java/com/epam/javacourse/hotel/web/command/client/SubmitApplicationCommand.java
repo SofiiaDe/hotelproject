@@ -6,7 +6,9 @@ import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.service.IApplicationService;
 import com.epam.javacourse.hotel.web.Path;
+import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
+import com.epam.javacourse.hotel.web.command.ICommandResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,7 +26,7 @@ public class SubmitApplicationCommand implements ICommand {
     private static final Logger logger = LogManager.getLogger(SubmitApplicationCommand.class);
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
+    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
 
         IApplicationService applicationService = AppContext.getInstance().getApplicationService();
 
@@ -57,6 +59,6 @@ public class SubmitApplicationCommand implements ICommand {
 
         applicationService.create(newApplication);
 
-        return Path.PAGE_CLIENT_ACCOUNT;
+        return new AddressCommandResult(Path.PAGE_CLIENT_ACCOUNT);
     }
 }

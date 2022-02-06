@@ -9,7 +9,9 @@ import com.epam.javacourse.hotel.model.service.IApplicationService;
 import com.epam.javacourse.hotel.model.service.IBookingService;
 import com.epam.javacourse.hotel.model.service.IUserService;
 import com.epam.javacourse.hotel.web.Path;
+import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
+import com.epam.javacourse.hotel.web.command.ICommandResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +29,7 @@ public class ClientAccountPageCommand implements ICommand {
     private final IBookingService bookingService = AppContext.getInstance().getBookingService();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
+    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
 
         HttpSession session = request.getSession();
         String address = Path.PAGE_CLIENT_ACCOUNT;
@@ -42,6 +44,6 @@ public class ClientAccountPageCommand implements ICommand {
         session.setAttribute("myApplications", userApplications);
         session.setAttribute("myBookings", userBookings);
 
-        return address;
+        return new AddressCommandResult(address);
     }
 }

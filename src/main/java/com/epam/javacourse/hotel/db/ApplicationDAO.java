@@ -58,10 +58,7 @@ public class ApplicationDAO {
             while (rs.next()) {
                 application.setId(id);
                 application.setUserId(rs.getInt("user_id"));
-                application.setRoomTypeBySeats(rs.getString("room_seats"));
-                application.setRoomClass(rs.getString("room_class"));
-                application.setCheckinDate(LocalDateTime.parse(rs.getString("checkin_date")));
-                application.setCheckoutDate(LocalDateTime.parse(rs.getString("checkout_date")));
+                setApplicationCommonProperties(rs, application);
             }
 
         } catch (SQLException e) {
@@ -90,10 +87,7 @@ public class ApplicationDAO {
                 Application application = new Application();
                 application.setId(rs.getInt("id"));
                 application.setUserId(rs.getInt("user_id"));
-                application.setRoomTypeBySeats(rs.getString("room_seats"));
-                application.setRoomClass(rs.getString("room_class"));
-                application.setCheckinDate(LocalDateTime.parse(rs.getString("checkin_date")));
-                application.setCheckoutDate(LocalDateTime.parse(rs.getString("checkout_date")));
+                setApplicationCommonProperties(rs, application);
                 allApplicationsList.add(application);
             }
         } catch (SQLException e) {
@@ -124,10 +118,7 @@ public class ApplicationDAO {
                 Application application = new Application();
                 application.setId(rs.getInt("id"));
                 application.setUserId(userId);
-                application.setRoomTypeBySeats(rs.getString("room_seats"));
-                application.setRoomClass(rs.getString("room_class"));
-                application.setCheckinDate(LocalDateTime.parse(rs.getString("checkin_date")));
-                application.setCheckoutDate(LocalDateTime.parse(rs.getString("checkout_date")));
+                setApplicationCommonProperties(rs, application);
                 userApplications.add(application);
             }
 
@@ -141,8 +132,7 @@ public class ApplicationDAO {
         }
         return userApplications;
     }
-
-
+    
     public boolean updateApplication(Application application) throws DBException {
 
         boolean applicationUpdated;
@@ -209,5 +199,12 @@ public class ApplicationDAO {
                 logger.error("Cannot rollback transaction in ApplicationDAO", e);
             }
         }
+    }
+
+    private static void setApplicationCommonProperties(ResultSet rs, Application application) throws SQLException {
+        application.setRoomTypeBySeats(rs.getString("room_seats"));
+        application.setRoomClass(rs.getString("room_class"));
+        application.setCheckinDate(rs.getDate("checkin_date").toLocalDate().atStartOfDay());
+        application.setCheckoutDate(rs.getDate("checkout_date").toLocalDate().atStartOfDay());
     }
 }

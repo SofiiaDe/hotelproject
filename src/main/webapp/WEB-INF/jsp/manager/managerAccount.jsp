@@ -86,8 +86,8 @@
                                 <td>${application.userId}</td>
                                 <td>${application.roomTypeBySeats}</td>
                                 <td>${application.roomClass}</td>
-<%--                                <td>${application.checkinDate}</td>--%>
-<%--                                <td>${application.checkoutDate}</td>--%>
+                                <td>${application.checkinDate}</td>
+                                <td>${application.checkoutDate}</td>
 
                             </tr>
                         </c:forEach>

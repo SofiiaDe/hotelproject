@@ -8,7 +8,9 @@ import com.epam.javacourse.hotel.Validator;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.service.IUserService;
 import com.epam.javacourse.hotel.web.Path;
+import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
+import com.epam.javacourse.hotel.web.command.ICommandResult;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,7 +28,7 @@ public class RegistrationCommand implements ICommand {
     IUserService userService = AppContext.getInstance().getUserService();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
+    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
 
         HttpSession session = request.getSession();
 
@@ -90,7 +92,7 @@ public class RegistrationCommand implements ICommand {
 
         session.setAttribute("newUser", newUser);
 
-        return Path.COMMAND_LOGIN_PAGE; //succesfull registration ==>
+        return new AddressCommandResult(Path.COMMAND_LOGIN_PAGE); //succesfull registration ==>
 
     }
 

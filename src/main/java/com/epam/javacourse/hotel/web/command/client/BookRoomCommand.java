@@ -8,7 +8,9 @@ import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.service.IBookingService;
 import com.epam.javacourse.hotel.model.service.IRoomService;
 import com.epam.javacourse.hotel.web.Path;
+import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
+import com.epam.javacourse.hotel.web.command.ICommandResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,7 +30,7 @@ public class BookRoomCommand implements ICommand {
     IBookingService bookingService = AppContext.getInstance().getBookingService();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
+    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
 
         HttpSession session = request.getSession();
         User authorisedUser = (User) session.getAttribute("authorisedUser");
@@ -55,7 +57,7 @@ public class BookRoomCommand implements ICommand {
         || ldCheckin == null || ldCheckout == null) {
             errorMessage = "Please choose check-in and check-out dates.";
             request.setAttribute("errorMessage", errorMessage);
-            return address;
+            return new AddressCommandResult(address);
         }
 
         LocalDateTime checkinDateLocal = LocalDateTime.of(ldCheckin, LocalDateTime.now().toLocalTime());
@@ -65,7 +67,7 @@ public class BookRoomCommand implements ICommand {
             errorMessage = "Check-out date cannot be later than check-in date.\n " +
                     "Please enter correct dates.";
             request.setAttribute("errorMessage", errorMessage);
-            return address;
+            return new AddressCommandResult(address);
         }
 
         // update room's status to "booked"
@@ -92,6 +94,6 @@ public class BookRoomCommand implements ICommand {
         // "Thank you! The room was successfully booked.
         // Please check the invoice in your personal account."
 
-        return Path.PAGE_CLIENT_ACCOUNT;
+        return new AddressCommandResult(Path.PAGE_CLIENT_ACCOUNT);
     }
 }
