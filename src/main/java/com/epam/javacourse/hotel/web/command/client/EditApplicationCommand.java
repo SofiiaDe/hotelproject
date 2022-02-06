@@ -19,7 +19,7 @@ public class EditApplicationCommand implements ICommand {
         int id = Integer.parseInt(request.getParameter("id"));
         String room_seats = request.getParameter("room_seats").trim();
         String room_class = request.getParameter("room_class").trim();
-        String address = Path.COMMAND_SHOW_APPLICATIONS;
+        String address = Path.MANAGER_ACCOUNT_PAGE;
 
         Application application = new Application();
         application.setId(id);

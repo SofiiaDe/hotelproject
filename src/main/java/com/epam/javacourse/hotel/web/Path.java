@@ -23,6 +23,6 @@ public class Path {
     public static final String COMMAND_EDIT_APPLICATION = "controller?command=editApplication";
 
     public static final String COMMAND_LOGIN_PAGE = "controller?command=loginPage";
-    public static final String COMMAND_SHOW_APPLICATIONS = "controller?command=showAllApplications";
+    public static final String MANAGER_ACCOUNT_PAGE = "controller?command=managerAccount";
     public static final String COMMAND_FREE_ROOMS_PAGE = "controller?command=freeRoomsPage";
 }

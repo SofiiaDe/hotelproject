@@ -19,6 +19,6 @@ public class RemoveApplicationCommand implements ICommand {
         IApplicationService applicationService = AppContext.getInstance().getApplicationService();
         int applicationId = Integer.parseInt(request.getParameter("application_id"));
         applicationService.removeApplication(applicationId);
-        return new AddressCommandResult(Path.COMMAND_SHOW_APPLICATIONS);
+        return new AddressCommandResult(Path.MANAGER_ACCOUNT_PAGE);
     }
 }

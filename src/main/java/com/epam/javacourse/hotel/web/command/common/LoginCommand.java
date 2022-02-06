@@ -64,7 +64,7 @@ public class LoginCommand implements ICommand {
         session.setAttribute("userEmail", email);
 
         if ("manager".equalsIgnoreCase(role)) {
-            return new RedirectCommandResult(Path.COMMAND_SHOW_APPLICATIONS);
+            return new RedirectCommandResult(Path.MANAGER_ACCOUNT_PAGE);
         }else if ("client".equalsIgnoreCase(role)) {
             return new AddressCommandResult(Path.PAGE_CLIENT_ACCOUNT);
         }
