@@ -2,16 +2,25 @@ package com.epam.javacourse.hotel.model.service;
 
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.db.ApplicationDAO;
+import com.epam.javacourse.hotel.db.UserDAO;
 import com.epam.javacourse.hotel.model.Application;
+import com.epam.javacourse.hotel.model.Booking;
+import com.epam.javacourse.hotel.model.User;
+import com.epam.javacourse.hotel.model.serviceModels.ApplicationDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ApplicationServiceImpl implements IApplicationService{
 
     private final ApplicationDAO applicationDAO;
+    private final UserDAO userDao;
 
-    public ApplicationServiceImpl(ApplicationDAO applicationDAO) {
+    public ApplicationServiceImpl(ApplicationDAO applicationDAO, UserDAO userDao) {
         this.applicationDAO = applicationDAO;
+        this.userDao = userDao;
     }
 
     @Override
@@ -22,6 +31,30 @@ public class ApplicationServiceImpl implements IApplicationService{
     @Override
     public List<Application> getAllApplications() throws DBException {
         return this.applicationDAO.findAllApplications();
+    }
+
+    @Override
+    public List<ApplicationDetailed> getAllDetailedApplications() throws DBException {
+        List<Application> allApplications =  this.applicationDAO.findAllApplications();
+        List<Integer> userIds = allApplications.stream().map(Application::getUserId).distinct().collect(Collectors.toList());
+        List<User> data = this.userDao.getUsersByIds(userIds);
+
+        ArrayList<ApplicationDetailed> result = new ArrayList<>();
+
+        for (Application application: allApplications) {
+            var user = data.stream().filter(u -> u.getId() == application.getUserId()).findFirst().get();
+            result.add(
+                    new ApplicationDetailed(application.getId(),
+                            user.getFirstName() + ' '+ user.getLastName(),
+                            user.getEmail(),
+                            application.getCheckinDate(),
+                            application.getCheckoutDate(),
+                            application.getRoomTypeBySeats(),
+                            application.getRoomClass()
+                    ));
+        }
+
+        return result;
     }
 
     @Override

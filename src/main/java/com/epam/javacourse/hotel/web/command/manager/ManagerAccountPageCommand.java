@@ -5,6 +5,7 @@ import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.service.IApplicationService;
 import com.epam.javacourse.hotel.model.service.IBookingService;
+import com.epam.javacourse.hotel.model.serviceModels.ApplicationDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
 import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
@@ -25,7 +26,7 @@ public class ManagerAccountPageCommand implements ICommand {
     public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
 
         HttpSession session = request.getSession();
-        List<Application> allApplications = applicationService.getAllApplications();
+        List<ApplicationDetailed> allApplications = applicationService.getAllDetailedApplications();
         session.setAttribute("allApplications", allApplications);
 
         List<BookingDetailed> allBookings = bookingService.getAllDetailedBookings();

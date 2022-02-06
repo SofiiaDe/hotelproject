@@ -92,10 +92,10 @@
                         <thead>
                         <tr>
                             <th scope="col">
-                                <fmt:message key="table.th.application_id"/>
+                                <fmt:message key="table.th.booked_by"/>
                             </th>
                             <th scope="col">
-                                <fmt:message key="table.th.user_id"/>
+                                <fmt:message key="table.th.user_email"/>
                             </th>
                             <th scope="col">
                                 <fmt:message key="table.th.room_seats"/>
@@ -109,19 +109,18 @@
                             <th scope="col">
                                 <fmt:message key="table.th.checkout_date"/>
                             </th>
-                            <th scope="col"></th>
+
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach var="application" items="${sessionScope.allApplications}">
                             <tr>
-                                <td>${application.id}</td>
-                                <td>${application.userId}</td>
+                                <td>${application.bookedByUser}</td>
+                                <td>${application.bookedByUserEmail}</td>
                                 <td>${application.roomTypeBySeats}</td>
                                 <td>${application.roomClass}</td>
                                 <td>${application.checkinDate}</td>
                                 <td>${application.checkoutDate}</td>
-
                             </tr>
                         </c:forEach>
                         </tbody>

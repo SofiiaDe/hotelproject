@@ -2,6 +2,8 @@ package com.epam.javacourse.hotel.model.service;
 
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.Application;
+import com.epam.javacourse.hotel.model.serviceModels.ApplicationDetailed;
+
 import java.util.List;
 
 
@@ -10,6 +12,8 @@ public interface IApplicationService {
     void create(Application application) throws DBException;
 
     List<Application> getAllApplications() throws DBException;
+
+    List<ApplicationDetailed> getAllDetailedApplications() throws DBException;
 
     List<Application> getApplicationsByUserId(int userId) throws DBException;
 
