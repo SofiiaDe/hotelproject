@@ -51,6 +51,40 @@
     </jsp-property-group>
   </jsp-config>
 
+  <!--============================================================
+	UserRole filter:
+	1. client - client commands
+	2. manager - manager commands
+	3. common - commands for all roles
+	4. no-role: commands without access control
+	Delimiter - space/tab
+    =========================================================-->
+<!--  <filter>-->
+<!--    <filter-name>UserRoleFilter</filter-name>-->
+<!--    <filter-class>com.epam.javacourse.hotel.web.filter.UserRoleFilter</filter-class>-->
+<!--    <init-param>-->
+<!--      <param-name>manager</param-name>-->
+<!--      <param-value>allUsersList managerAccount editRooms makeConfirmationRequest</param-value>-->
+<!--    </init-param>-->
+<!--    <init-param>-->
+<!--      <param-name>client</param-name>-->
+<!--      <param-value>clientAccount applicationPage submitApplication freeRoomsPage bookRoom editApplication</param-value>-->
+<!--    </init-param>-->
+<!--    <init-param>-->
+<!--      <param-name>common</param-name>-->
+<!--      <param-value>logout removeApplication</param-value>-->
+<!--    </init-param>-->
+<!--    <init-param>-->
+<!--      <param-name>no-role</param-name>-->
+<!--      <param-value>registerPage registration login loginPage</param-value>-->
+<!--    </init-param>-->
+<!--  </filter>-->
+
+<!--  <filter-mapping>-->
+<!--    <filter-name>UserRoleFilter</filter-name>-->
+<!--    <servlet-name>Controller</servlet-name>-->
+<!--  </filter-mapping>-->
+
   <!-- Error page =============================================================-->
 
   <error-page>
@@ -63,7 +97,6 @@
     <location>/WEB-INF/jsp/errorPage.jsp</location>
   </error-page>
 
-  <!-- Filter mappings ================================================ -->
 
 
 

@@ -1,4 +1,4 @@
-package com.epam.javacourse.hotel.web.command.common;
+package com.epam.javacourse.hotel.web.command.norole;
 
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.web.Path;

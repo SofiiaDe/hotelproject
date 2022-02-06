@@ -10,7 +10,7 @@ import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
 import com.epam.javacourse.hotel.web.command.ICommandResult;
-import com.epam.javacourse.hotel.web.command.common.LoginCommand;
+import com.epam.javacourse.hotel.web.command.norole.LoginCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
