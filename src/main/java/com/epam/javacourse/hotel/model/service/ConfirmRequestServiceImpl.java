@@ -23,4 +23,11 @@ public class ConfirmRequestServiceImpl implements IConfirmRequestService {
     public List<ConfirmationRequest> getConfirmRequestsByUserId(int userId) throws DBException {
         return this.confirmRequestDAO.findConfirmRequestsByUserId(userId);
     }
+
+    @Override
+    public List<ConfirmationRequest> getAllConfirmRequests() throws DBException {
+        return this.confirmRequestDAO.findAllConfirmRequests();
+    }
+
+
 }

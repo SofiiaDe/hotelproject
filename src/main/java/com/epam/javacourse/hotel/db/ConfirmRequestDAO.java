@@ -73,6 +73,39 @@ public class ConfirmRequestDAO {
         return userConfirmRequests;
     }
 
+    public List<ConfirmationRequest> findAllConfirmRequests() throws DBException {
+
+        List<ConfirmationRequest> allConfirmRequestsList = new ArrayList<>();
+        Connection con = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(DBConstatns.SQL_GET_ALL_CONFIRM_REQUESTS);
+            while (rs.next()) {
+                ConfirmationRequest confirmRequest = new ConfirmationRequest();
+                confirmRequest.setId(rs.getInt("id"));
+                confirmRequest.setUserId(rs.getInt("user_id"));
+                confirmRequest.setApplicationId(rs.getInt("application_id"));
+                confirmRequest.setRoomId(rs.getInt("room_id"));
+                confirmRequest.setConfirmRequestStatus(rs.getString("status"));
+                allConfirmRequestsList.add(confirmRequest);
+            }
+        } catch (SQLException e) {
+            logger.error("Cannot get all confirmation requests", e);
+            throw new DBException("Cannot get all confirmation requests", e);
+        } finally {
+            close(con);
+            close(stmt);
+            close(rs);
+        }
+
+        return allConfirmRequestsList;
+    }
+
+
     private static void close(AutoCloseable itemToBeClosed) {
         if (itemToBeClosed != null) {
             try {

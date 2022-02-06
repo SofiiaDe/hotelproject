@@ -46,18 +46,22 @@ public class DBConstatns {
             "VALUES (DEFAULT, ?, ?, ?, ?, ?)";
     public static final String SQL_GET_BOOKINGS_BY_USER_ID = "SELECT * FROM bookings WHERE user_id = ?";
     public static final String SQL_GET_ALL_BOOKINGS = "SELECT * FROM bookings";
+    public static final String SQL_GET_BOOKING_BY_ID = "SELECT * FROM bookings WHERE id = ?";
+
 
     // ConfirmRequestDAO
     public static final String SQL_CREATE_CONFIRM_REQUEST = "INSERT INTO confirmation_requests " +
             "(id, user_id, application_id, room_id, status) VALUES\n" +
             "(DEFAULT, ?, ?, ?, 'new')";
     public static final String SQL_GET_CONFIRM_REQUESTS_BY_USER_ID = "SELECT * FROM confirmation_requests WHERE user_id = ?";
+    public static final String SQL_GET_ALL_CONFIRM_REQUESTS = "SELECT * FROM confirmation_requests";
+
 
     // InvoiceDAO
     public static final String SQL_CREATE_INVOICE = "INSERT INTO invoices " +
             "(id, user_id, amount, booking_id, invoice_date, status)\n" +
             "VALUES (DEFAULT, ?, ?, ?, ?, ?)";
-
+    public static final String SQL_GET_ALL_INVOICES = "SELECT * FROM invoices";
 
 
     //FIELDS

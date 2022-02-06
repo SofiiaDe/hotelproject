@@ -15,4 +15,6 @@ public interface IBookingService {
 
     List<Booking> getAllBookings() throws DBException;
 
+    Booking getBookingById(int id) throws DBException;
+
 }

@@ -110,6 +110,39 @@ public class BookingDAO {
         return allBookingsList;
     }
 
+    public Booking getBookingById(int id) throws DBException {
+
+        Booking booking = new Booking();
+        Connection con = null;
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pStmt = con.prepareStatement(DBConstatns.SQL_GET_BOOKING_BY_ID);
+            pStmt.setInt(1, id);
+
+            rs = pStmt.executeQuery();
+            while (rs.next()) {
+                booking.setId(id);
+                booking.setUserId(rs.getInt("user_id"));
+                booking.setCheckinDate(rs.getDate("checkin_date").toLocalDate().atStartOfDay());
+                booking.setCheckoutDate(rs.getDate("checkout_date").toLocalDate().atStartOfDay());
+                booking.setRoomId(rs.getInt("room_id"));
+                booking.setApplicationId(rs.getInt("application_id"));
+            }
+
+        } catch (SQLException e) {
+            logger.error("Cannot get booking by id", e);
+            throw new DBException("Cannot get booking by id", e);
+        } finally {
+            close(con);
+            close(pStmt);
+            close(rs);
+        }
+        return booking;
+    }
+
     private static void close(AutoCloseable itemToBeClosed) {
         if (itemToBeClosed != null) {
             try {

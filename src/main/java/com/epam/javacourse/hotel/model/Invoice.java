@@ -14,8 +14,6 @@ public class Invoice extends Entity{
     private LocalDateTime invoiceDate;
     private String invoiceStatus;
 
-    private InvoiceStatus status;
-
     @Override
     public int getId() {
         return id;
@@ -66,13 +64,8 @@ public class Invoice extends Entity{
         return invoiceDate;
     }
 
-    public InvoiceStatus getStatus() {
-        return status;
-    }
 
-    public void setStatus(InvoiceStatus status) {
-        this.status = status;
-    }
+
 }
 
 enum InvoiceStatus{

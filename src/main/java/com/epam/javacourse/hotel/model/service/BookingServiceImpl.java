@@ -29,5 +29,10 @@ public class BookingServiceImpl implements IBookingService{
         return this.bookingDAO.findAllBookings();
     }
 
+    @Override
+    public Booking getBookingById(int id) throws DBException {
+        return this.bookingDAO.getBookingById(id);
+    }
+
 
 }
