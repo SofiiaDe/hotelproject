@@ -1,9 +1,8 @@
 package com.epam.javacourse.hotel.model.service;
 
 import com.epam.javacourse.hotel.Exception.DBException;
-import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.Booking;
-import com.epam.javacourse.hotel.model.User;
+import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
 
 import java.util.List;
 
@@ -17,4 +16,5 @@ public interface IBookingService {
 
     Booking getBookingById(int id) throws DBException;
 
+    List<BookingDetailed> getAllDetailedBookings() throws DBException;
 }

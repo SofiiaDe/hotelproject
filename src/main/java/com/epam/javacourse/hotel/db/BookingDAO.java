@@ -91,8 +91,8 @@ public class BookingDAO {
                 Booking booking = new Booking();
                 booking.setId(rs.getInt("id"));
                 booking.setUserId(rs.getInt("user_id"));
-                booking.setCheckinDate(LocalDateTime.parse(rs.getString("checkin_date")));
-                booking.setCheckoutDate(LocalDateTime.parse(rs.getString("checkout_date")));
+                booking.setCheckinDate(rs.getDate("checkin_date").toLocalDate().atStartOfDay());
+                booking.setCheckoutDate(rs.getDate("checkout_date").toLocalDate().atStartOfDay());
                 booking.setRoomId(rs.getInt("room_id"));
                 booking.setApplicationId(rs.getInt("application_id"));
                 allBookingsList.add(booking);

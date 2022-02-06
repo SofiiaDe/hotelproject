@@ -8,6 +8,7 @@ public class DBConstatns {
     public static final String SQL_INSERT_USER = "INSERT INTO users (id, firstName, lastName, email, password, country, role) " +
             "VALUES (DEFAULT, ?, ?, ?, ?, ?, ?)";
     public static final String SQL_GET_USER_BY_ID = "SELECT * FROM users u WHERE u.id = ?";
+    public static final String SQL_GET_USERS_BY_IDS = "SELECT * FROM users u WHERE u.id IN (%s)";
     public static final String SQL_GET_USER_BY_EMAIL = "SELECT id, firstName, lastName, email, password, country, " +
             "role FROM users WHERE email=?";
     public static final String SQL_GET_ALL_USERS = "SELECT * FROM users";

@@ -49,9 +49,44 @@
         </ul>
 
         <div class="tab-content" id="myTabContent">
+            <%-- Booking --%>
+            <div class="tab-pane fade active show" id="booking" role="tabpanel" aria-labelledby="booking-tab">
+                <table class="table table-hover mt-2">
+                    <thead>
+                    <tr>
+                        <th scope="col">
+                            <fmt:message key="table.th.booked_by"/>
+                        </th>
+                        <th scope="col">
+                            <fmt:message key="table.th.user_email"/>
+                        </th>
+                        <th scope="col">
+                            <fmt:message key="table.th.checkin_date"/>
+                        </th>
+                        <th scope="col">
+                            <fmt:message key="table.th.checkout_date"/>
+                        </th>
+                        <th scope="col">
+                            <fmt:message key="table.th.room_id"/>
+                        </th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="booking" items="${sessionScope.allBookings}">
+                        <tr>
+                            <td>${booking.bookedByUser}</td>
+                            <td>${booking.bookedByUserEmail}</td>
+                            <td>${booking.checkinDate}</td>
+                            <td>${booking.checkoutDate}</td>
+                            <td>${booking.roomId}</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
 
-            <%-- Application --%>
-<%--            <form method="post" action="controller?command=showAllApplications">--%>
+        <%-- Application --%>
                 <div class="tab-pane fade" id="application" role="tabpanel" aria-labelledby="application-tab">
                     <table class="table table-hover mt-2">
                         <thead>
@@ -78,8 +113,6 @@
                         </tr>
                         </thead>
                         <tbody>
-<%--                        <form action="controller?command=showAllApplications">--%>
-
                         <c:forEach var="application" items="${sessionScope.allApplications}">
                             <tr>
                                 <td>${application.id}</td>
@@ -91,11 +124,10 @@
 
                             </tr>
                         </c:forEach>
-<%--                        </form>--%>
                         </tbody>
                     </table>
                 </div>
-<%--            </form>--%>
+
 
             <%--Add a room --%>
             <div class="tab-pane fade" id="new-room" role="tabpanel"

@@ -1,11 +1,11 @@
 package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
-import com.epam.javacourse.hotel.model.Role;
 import com.epam.javacourse.hotel.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -27,14 +27,7 @@ public class UserDAO {
             stmt = con.createStatement();
             rs = stmt.executeQuery(DBConstatns.SQL_GET_ALL_USERS);
             while (rs.next()) {
-                User user = new User();
-                user.setId(rs.getInt("id"));
-                user.setFirstName(rs.getString("firstName"));
-                user.setLastName(rs.getString("lastName"));
-                user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                user.setCountry(rs.getString("country"));
-                user.setRole(rs.getString("role"));
+                User user = mapResultSetToUser(rs);
 
                 allUsersList.add(user);
             }
@@ -103,16 +96,7 @@ public class UserDAO {
             pstmt.setString(1, email);
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                user = new User();
-                user.setId(rs.getInt("id"));
-                user.setFirstName(rs.getString("firstName"));
-                user.setLastName(rs.getString("lastName"));
-                user.setEmail(email);
-                user.setPassword(rs.getString("password"));
-                user.setCountry(rs.getString("country"));
-//                user.setRole(Role.getRoleByType(rs.getString("role")));
-                user.setRole(rs.getString("role"));
-
+                user = mapResultSetToUser(rs);
             }
 
         } catch (SQLException e) {
@@ -125,6 +109,36 @@ public class UserDAO {
         }
 
         return user;
+    }
+
+    public List<User> getUsersByIds(List<Integer> ids) throws DBException {
+        List<User> users = new ArrayList<>();
+        String sql = String.format(DBConstatns.SQL_GET_USERS_BY_IDS, preparePlaceHolders(ids.size()));
+        Connection con = null;
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pStmt = con.prepareStatement(sql);
+
+            setValuesInPreparedStatement(pStmt, ids.toArray());
+
+            try (ResultSet resultSet = pStmt.executeQuery()) {
+                while (resultSet.next()) {
+                    users.add(mapResultSetToUser(resultSet));
+                }
+            }
+        } catch (SQLException e) {
+            logger.error("Cannot get users by ids", e);
+            throw new DBException("Cannot get users by ids", e);
+        } finally {
+            close(con);
+            close(pStmt);
+            close(rs);
+        }
+
+        return users;
     }
 
     public User getUserById(int id) throws DBException {
@@ -142,12 +156,7 @@ public class UserDAO {
             rs = pStmt.executeQuery();
             while (rs.next()) {
                 user.setId(id);
-                user.setFirstName(rs.getString("firstName"));
-                user.setLastName(rs.getString("lastName"));
-                user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                user.setCountry(rs.getString("country"));
-                user.setRole(rs.getString("role"));
+                mapCommonProperties(user, rs);
 
 //                user.setRole(Role.getRoleByType(rs.getString("role")));
             }
@@ -161,6 +170,33 @@ public class UserDAO {
             close(rs);
         }
         return user;
+    }
+
+    private static User mapResultSetToUser(ResultSet rs) throws SQLException{
+        User user = new User();
+        user.setId(rs.getInt("id"));
+        mapCommonProperties(user, rs);
+
+        return user;
+    }
+
+    private static void mapCommonProperties(User user, ResultSet rs) throws SQLException {
+        user.setFirstName(rs.getString("firstName"));
+        user.setLastName(rs.getString("lastName"));
+        user.setEmail(rs.getString("email"));
+        user.setPassword(rs.getString("password"));
+        user.setCountry(rs.getString("country"));
+        user.setRole(rs.getString("role"));
+    }
+
+    private static String preparePlaceHolders(int length) {
+        return String.join(",", Collections.nCopies(length, "?"));
+    }
+
+    private static void setValuesInPreparedStatement(PreparedStatement preparedStatement, Object... values) throws SQLException {
+        for (int i = 0; i < values.length; i++) {
+            preparedStatement.setObject(i + 1, values[i]);
+        }
     }
 
     private static void close(AutoCloseable itemToBeClosed) {
