@@ -143,6 +143,26 @@ public class BookingDAO {
         return booking;
     }
 
+    public void deleteBookingById(int id) throws DBException {
+
+        Connection con = null;
+        PreparedStatement pStmt = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pStmt = con.prepareStatement(DBConstatns.SQL_DELETE_BOOKING_BY_ID);
+            pStmt.setInt(1, id);
+            pStmt.executeUpdate();
+
+        } catch (SQLException e) {
+            logger.error("Cannot delete booking by id", e);
+            throw new DBException("Cannot delete booking by id", e);
+        } finally {
+            close(con);
+            close(pStmt);
+        }
+    }
+
     private static void close(AutoCloseable itemToBeClosed) {
         if (itemToBeClosed != null) {
             try {

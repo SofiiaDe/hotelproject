@@ -76,6 +76,51 @@ public class InvoiceDAO {
         return allInvoicesList;
     }
 
+    public List<Invoice> findInvoicesByUserId(int userId) throws DBException {
+
+        List<Invoice> userInvoices = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pStmt = con.prepareStatement(DBConstatns.SQL_GET_INVOICES_BY_USER_ID);
+            pStmt.setInt(1, userId);
+            rs = pStmt.executeQuery();
+            while (rs.next()) {
+                Invoice invoice = new Invoice();
+                invoice.setUserId(userId);
+                mapInvoiceCommonProperties(invoice, rs);
+                userInvoices.add(invoice);
+            }
+
+        } catch (SQLException e) {
+            logger.error("Cannot get invoices by user_id", e);
+            throw new DBException("Cannot get invoices by user_id", e);
+        } finally {
+            close(con);
+            close(pStmt);
+            close(rs);
+        }
+        return userInvoices;
+    }
+
+    private static Invoice mapResultSetToInvoice(ResultSet rs) throws SQLException{
+        Invoice invoice = new Invoice();
+        invoice.setId(rs.getInt("id"));
+        mapInvoiceCommonProperties(invoice, rs);
+
+        return invoice;
+    }
+
+    private static void mapInvoiceCommonProperties(Invoice invoice, ResultSet rs) throws SQLException {
+        invoice.setAmount(rs.getDouble("amount"));
+        invoice.setBookingId(rs.getInt("booking_id"));
+        invoice.setInvoiceDate(LocalDateTime.parse(rs.getString("invoice_date")));
+        invoice.setInvoiceStatus(rs.getString("status"));
+    }
+
     private static void close(AutoCloseable itemToBeClosed) {
         if (itemToBeClosed != null) {
             try {

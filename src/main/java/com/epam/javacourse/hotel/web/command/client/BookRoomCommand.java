@@ -47,7 +47,7 @@ public class BookRoomCommand implements ICommand {
             ldCheckin = LocalDate.parse(checkinDate, formatter);
             ldCheckout = LocalDate.parse(checkoutDate, formatter);
         } catch (DateTimeParseException e) {
-            logger.error("Cannot get date type");
+            logger.error("Cannot get date type", e);
         }
 
         String address = Path.PAGE_ERROR;

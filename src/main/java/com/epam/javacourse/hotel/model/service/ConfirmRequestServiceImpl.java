@@ -29,5 +29,10 @@ public class ConfirmRequestServiceImpl implements IConfirmRequestService {
         return this.confirmRequestDAO.findAllConfirmRequests();
     }
 
+    @Override
+    public void deleteConfirmRequestById(int id) throws DBException {
+        this.deleteConfirmRequestById(id);
+    }
+
 
 }

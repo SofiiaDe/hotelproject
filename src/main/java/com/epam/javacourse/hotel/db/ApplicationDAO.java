@@ -161,12 +161,10 @@ public class ApplicationDAO {
 
     public void deleteApplication(int applicationId) throws DBException {
 
-        boolean applicationDeleted;
         Connection con = null;
         PreparedStatement pstmt = null;
         try {
             con = DBManager.getInstance().getConnection();
-
             pstmt = con.prepareStatement(DBConstatns.SQL_DELETE_APPLICATION_BY_ID);
             pstmt.setInt(1, applicationId);
             pstmt.executeUpdate();

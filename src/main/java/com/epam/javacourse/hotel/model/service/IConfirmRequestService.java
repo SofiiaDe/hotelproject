@@ -14,4 +14,6 @@ public interface IConfirmRequestService {
 
     List<ConfirmationRequest> getAllConfirmRequests() throws DBException;
 
+    void deleteConfirmRequestById(int id) throws DBException;
+
 }

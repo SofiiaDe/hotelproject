@@ -14,4 +14,6 @@ public interface IRoomService {
 
     Room getRoomById(int roomId) throws  DBException;
 
+    List<Room> getRoomsByIds(List<Integer> ids) throws DBException;
+
 }

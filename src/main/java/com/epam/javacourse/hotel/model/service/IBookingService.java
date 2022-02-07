@@ -17,4 +17,6 @@ public interface IBookingService {
     Booking getBookingById(int id) throws DBException;
 
     List<BookingDetailed> getAllDetailedBookings() throws DBException;
+
+    void deleteBookingById(int id) throws DBException;
 }

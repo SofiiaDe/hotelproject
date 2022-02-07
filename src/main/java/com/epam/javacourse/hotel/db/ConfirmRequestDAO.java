@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ConfirmRequestDAO {
 
-    private static final Logger logger = LogManager.getLogger(ApplicationDAO.class);
+    private static final Logger logger = LogManager.getLogger(ConfirmRequestDAO.class);
 
     public boolean createConfirmRequest(ConfirmationRequest confirmRequest) throws DBException {
 
@@ -50,7 +50,8 @@ public class ConfirmRequestDAO {
 
         try {
             con = DBManager.getInstance().getConnection();
-            pStmt = con.prepareStatement(DBConstatns.SQL_GET_CONFIRM_REQUESTS_BY_USER_ID);           pStmt.setInt(1, userId);
+            pStmt = con.prepareStatement(DBConstatns.SQL_GET_CONFIRM_REQUESTS_BY_USER_ID);
+            pStmt.setInt(1, userId);
             rs = pStmt.executeQuery();
             while (rs.next()) {
                 ConfirmationRequest confirmRequest = new ConfirmationRequest();
@@ -103,6 +104,25 @@ public class ConfirmRequestDAO {
         }
 
         return allConfirmRequestsList;
+    }
+
+    public void deleteConfirmRequestById(int id) throws DBException {
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(DBConstatns.SQL_DELETE_CONFIRM_REQUEST_BY_ID);
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            logger.error("Cannot delete confirmation request", e);
+            throw new DBException("Cannot delete confirmation request", e);
+        } finally {
+            close(con);
+            close(pstmt);
+        }
     }
 
 

@@ -41,6 +41,11 @@ public class BookingServiceImpl implements IBookingService{
         return this.bookingDAO.getBookingById(id);
     }
 
+    @Override
+    public void deleteBookingById(int id) throws DBException {
+        this.bookingDAO.deleteBookingById(id);
+    }
+
     public List<BookingDetailed> getAllDetailedBookings() throws DBException {
         List<Booking> allBookings = this.bookingDAO.findAllBookings();
         List<Integer> userIds = allBookings.stream().map(Booking::getUserId).distinct().collect(Collectors.toList());

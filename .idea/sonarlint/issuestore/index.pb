@@ -23,5 +23,3 @@ Y
 )src/main/webapp/WEB-INF/jsp/errorPage.jsp,4\5\4509ab50e4340f078d4600a2f7c48a83be093ca6
 z
 Jsrc/main/java/com/epam/javacourse/hotel/model/service/IInvoiceService.java,4\9\499f6328e7ef755646bcfd01997685459f55e94c
-i
-9src/main/java/com/epam/javacourse/hotel/db/DBManager.java,1\a\1aaf2febc82cce855fd6e3cb47261e1934474967

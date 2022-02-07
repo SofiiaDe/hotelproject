@@ -3,12 +3,14 @@ package com.epam.javacourse.hotel.db;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.Room;
+import com.epam.javacourse.hotel.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RoomDAO {
@@ -33,7 +35,6 @@ public class RoomDAO {
                 room.setRoomNumber(rs.getInt("room_number"));
                 room.setRoomTypeBySeats(rs.getString("room_seats"));
                 room.setRoomClass(rs.getString("room_class"));
-                room.setRoomStatus(rs.getString("room_status"));
                 allRoomsList.add(room);
             }
         } catch (SQLException e) {
@@ -60,13 +61,12 @@ public class RoomDAO {
             pstmt.setInt(2, room.getRoomNumber());
             pstmt.setString(3, room.getRoomTypeBySeats());
             pstmt.setString(4, room.getRoomClass());
-            pstmt.setString(5, room.getRoomStatus());
             pstmt.setInt(6, room.getId());
             roomUpdated = pstmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            logger.error("Cannot update status of room with id=" + room.getId(), e);
-            throw new DBException("Cannot update status of room with id=" + room.getId(), e);
+            logger.error("Cannot update room with id={}", room.getId(), e);
+            throw new DBException("Cannot update room.", e);
         } finally {
             close(con);
             close(pstmt);
@@ -89,10 +89,11 @@ public class RoomDAO {
             rs = pStmt.executeQuery();
             while (rs.next()) {
                 room.setId(roomId);
-                room.setPrice(rs.getDouble("price"));
-                room.setRoomNumber(rs.getInt("room_number"));
-                room.setRoomTypeBySeats(rs.getString("room_seats"));
-                room.setRoomClass(rs.getString("room_class"));
+                mapCommonProperties(room, rs);
+//                room.setPrice(rs.getDouble("price"));
+//                room.setRoomNumber(rs.getInt("room_number"));
+//                room.setRoomTypeBySeats(rs.getString("room_seats"));
+//                room.setRoomClass(rs.getString("room_class"));
             }
 
         } catch (SQLException e) {
@@ -104,6 +105,59 @@ public class RoomDAO {
             close(rs);
         }
         return room;
+    }
+
+    public List<Room> getRoomsByIds(List<Integer> ids) throws DBException {
+        List<Room> rooms = new ArrayList<>();
+        String sql = String.format(DBConstatns.SQL_GET_ROOMS_BY_IDS, preparePlaceHolders(ids.size()));
+        Connection con = null;
+        PreparedStatement pStmt = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pStmt = con.prepareStatement(sql);
+
+            setValuesInPreparedStatement(pStmt, ids.toArray());
+
+            try (ResultSet resultSet = pStmt.executeQuery()) {
+                while (resultSet.next()) {
+                    rooms.add(mapResultSetToRoom(resultSet));
+                }
+            }
+        } catch (SQLException e) {
+            logger.error("Cannot get rooms by ids", e);
+            throw new DBException("Cannot get rooms by ids", e);
+        } finally {
+            close(con);
+            close(pStmt);
+        }
+
+        return rooms;
+    }
+
+    private static Room mapResultSetToRoom(ResultSet rs) throws SQLException{
+        Room room = new Room();
+        room.setId(rs.getInt("id"));
+        mapCommonProperties(room, rs);
+
+        return room;
+    }
+
+    private static void mapCommonProperties(Room room, ResultSet rs) throws SQLException {
+        room.setPrice(rs.getBigDecimal("price").doubleValue());
+        room.setRoomNumber(rs.getInt("room_number"));
+        room.setRoomTypeBySeats(rs.getString("room_seats"));
+        room.setRoomClass(rs.getString("room_class"));
+    }
+
+    private static String preparePlaceHolders(int length) {
+        return String.join(",", Collections.nCopies(length, "?"));
+    }
+
+    private static void setValuesInPreparedStatement(PreparedStatement preparedStatement, Object... values) throws SQLException {
+        for (int i = 0; i < values.length; i++) {
+            preparedStatement.setObject(i + 1, values[i]);
+        }
     }
 
     private static void close(AutoCloseable itemToBeClosed) {

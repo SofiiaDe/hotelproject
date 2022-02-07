@@ -60,16 +60,6 @@ public class UserDAO {
             pstmt.setString(5, user.getCountry());
             pstmt.setString(6, user.getRole());
 
-//            pstmt.setString(6, user.getRole().toString().toLowerCase());
-
-//            int count = pstmt.executeUpdate();
-//            if (count > 0) {
-//                try (ResultSet rs = pstmt.getGeneratedKeys()) {
-//                    if (rs.next()) {
-//                        user.setId(rs.getInt("id"));
-//                    }
-//                }
-//            }
             pstmt.executeUpdate();
 
             con.commit();
@@ -157,8 +147,6 @@ public class UserDAO {
             while (rs.next()) {
                 user.setId(id);
                 mapCommonProperties(user, rs);
-
-//                user.setRole(Role.getRoleByType(rs.getString("role")));
             }
 
         } catch (SQLException e) {
