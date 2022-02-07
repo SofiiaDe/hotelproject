@@ -15,7 +15,7 @@ public class AppContext {
     }
 
     //DAOs
-    private final UserDAO userDao = new UserDAO();
+    private final UserDAO userDAO = new UserDAO();
     private final ApplicationDAO applicationDAO = new ApplicationDAO();
     private final RoomDAO roomDAO = new RoomDAO();
     private final BookingDAO bookingDAO = new BookingDAO();
@@ -23,12 +23,12 @@ public class AppContext {
     private final InvoiceDAO invoiceDAO = new InvoiceDAO();
 
     // services
-    private final IUserService userService = new UserServiceImpl(userDao);
-    private final IApplicationService applicationService = new ApplicationServiceImpl(applicationDAO, userDao);
+    private final IUserService userService = new UserServiceImpl(userDAO);
+    private final IApplicationService applicationService = new ApplicationServiceImpl(applicationDAO, userDAO);
     private final IRoomService roomService = new RoomServiceImpl(roomDAO);
-    private final IBookingService bookingService = new BookingServiceImpl(bookingDAO, userDao);
+    private final IBookingService bookingService = new BookingServiceImpl(bookingDAO, userDAO);
     private final IConfirmRequestService confirmRequestService = new ConfirmRequestServiceImpl(confirmRequestDAO);
-    private final IInvoiceService invoiceService =new InvoiceServiceImpl(invoiceDAO);
+    private final IInvoiceService invoiceService =new InvoiceServiceImpl(invoiceDAO, userDAO);
 
     public IUserService getUserService() {
         return userService;

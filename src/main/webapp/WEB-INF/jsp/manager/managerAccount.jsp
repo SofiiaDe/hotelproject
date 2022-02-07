@@ -127,6 +127,46 @@
                     </table>
                 </div>
 
+                <%-- Invoice --%>
+                <div class="tab-pane fade active show" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
+                    <table class="table table-hover mt-2">
+                        <thead>
+                        <tr>
+                            <th scope="col">
+                                <fmt:message key="table.th.booked_by"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.user_email"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.invoice_amount"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.booking_id"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.invoice_date"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.invoice_status"/>
+                            </th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="invoice" items="${sessionScope.allInvoices}">
+                            <tr>
+                                <td>${invoice.bookedByUser}</td>
+                                <td>${invoice.bookedByUserEmail}</td>
+                                <td>${invoice.amount}</td>
+                                <td>${invoice.bookingId}</td>
+                                <td>${invoice.invoiceDate}</td>
+                                <td>${invoice.status}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
 
             <%--Add a room --%>
             <div class="tab-pane fade" id="new-room" role="tabpanel"

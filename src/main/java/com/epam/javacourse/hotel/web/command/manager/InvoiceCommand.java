@@ -70,15 +70,7 @@ public class InvoiceCommand implements ICommand {
             newInvoice.setBookingId(bookingId);
             newInvoice.setInvoiceDate(LocalDateTime.now());
             newInvoice.setInvoiceStatus("new");
-
-            LocalDate checkin_date = booking.getCheckinDate().toLocalDate();
-            LocalDate checkout_date = booking.getCheckoutDate().toLocalDate();
-            Period period = Period.between(checkin_date, checkout_date);
-            int days = Math.abs(period.getDays());
-
-            Room room = roomService.getRoomById(booking.getRoomId());
-            double amount = room.getPrice() * days;
-            newInvoice.setAmount(amount);
+            newInvoice.setAmount(invoiceService.getInvoiceAmount(booking));
 
             invoiceService.createInvoice(newInvoice);
         }
