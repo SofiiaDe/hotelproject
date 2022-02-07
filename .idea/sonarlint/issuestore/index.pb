@@ -7,10 +7,6 @@ S
 #src/main/webapp/META-INF/contex.xml,e\0\e011cee888bfe0c0bb5164488abc61f748b28867
 r
 Bsrc/main/java/com/epam/javacourse/hotel/Exception/DBException.java,2\c\2cc1c7d355e8f6556f4f316ab8485c3880d95c2f
-]
--src/main/webapp/WEB-INF/jsp/registration2.jsp,b\6\b6dfacdb46595a38f81918672582c15f2aa6cb77
-]
--src/main/webapp/WEB-INF/jsp/registration3.jsp,3\5\35eb41c70d8ba1d5528b9ffd47c68c385f99af85
 s
 Csrc/main/java/com/epam/javacourse/hotel/Exception/AppException.java,4\2\42be2a0f34c19a192ccfa9a123b48ef187c8642f
 |
@@ -21,5 +17,3 @@ O
 src/test/java/SecurityTest.java,b\c\bc017369280258e89d28c2f80b6551eec8c79fe9
 Y
 )src/main/webapp/WEB-INF/jsp/errorPage.jsp,4\5\4509ab50e4340f078d4600a2f7c48a83be093ca6
-z
-Jsrc/main/java/com/epam/javacourse/hotel/model/service/IInvoiceService.java,4\9\499f6328e7ef755646bcfd01997685459f55e94c

@@ -55,8 +55,8 @@ public class DBConstatns {
 
     // ConfirmRequestDAO
     public static final String SQL_CREATE_CONFIRM_REQUEST = "INSERT INTO confirmation_requests " +
-            "(id, user_id, application_id, room_id, status) VALUES\n" +
-            "(DEFAULT, ?, ?, ?, 'new')";
+            "(id, user_id, application_id, room_id, confirm_request_date, status) VALUES\n" +
+            "(DEFAULT, ?, ?, ?, ?, 'new')";
     public static final String SQL_GET_CONFIRM_REQUESTS_BY_USER_ID = "SELECT * FROM confirmation_requests WHERE user_id = ?";
     public static final String SQL_GET_ALL_CONFIRM_REQUESTS = "SELECT * FROM confirmation_requests";
     public  static final String SQL_DELETE_CONFIRM_REQUEST_BY_ID = "DELETE FROM confirmation_requests WHERE ID = ?";

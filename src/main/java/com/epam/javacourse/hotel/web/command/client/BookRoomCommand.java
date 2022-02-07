@@ -82,8 +82,6 @@ public class BookRoomCommand implements ICommand {
         Booking newBooking = new Booking();
 
         newBooking.setUserId(authorisedUser.getId());
-
-
         newBooking.setCheckinDate(checkinDateLocal);
         newBooking.setCheckoutDate(checkoutDateLocal);
 

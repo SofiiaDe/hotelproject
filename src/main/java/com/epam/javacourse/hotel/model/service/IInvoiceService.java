@@ -15,7 +15,7 @@ public interface IInvoiceService {
 
     List<InvoiceDetailed> getAllDetailedInvoices() throws DBException;
 
-    List<Invoice> findInvoicesByUserId(int userId) throws DBException;
+    List<Invoice> getInvoicesByUserId(int userId) throws DBException;
 
     double getInvoiceAmount(Booking booking) throws DBException;
 }

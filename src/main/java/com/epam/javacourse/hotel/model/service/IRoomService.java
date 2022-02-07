@@ -16,4 +16,6 @@ public interface IRoomService {
 
     List<Room> getRoomsByIds(List<Integer> ids) throws DBException;
 
+    List<Room> getFreeRooms() throws DBException;
+
 }

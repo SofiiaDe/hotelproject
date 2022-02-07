@@ -28,6 +28,7 @@ public class ConfirmRequestDAO {
             pstmt.setInt(1, confirmRequest.getUserId());
             pstmt.setInt(2, confirmRequest.getApplicationId());
             pstmt.setInt(3, confirmRequest.getRoomId());
+            pstmt.setTimestamp(4, Timestamp.valueOf(confirmRequest.getConfirmRequestDate()));
 
             pstmt.executeUpdate();
             con.commit();
@@ -59,6 +60,7 @@ public class ConfirmRequestDAO {
                 confirmRequest.setUserId(userId);
                 confirmRequest.setApplicationId(rs.getInt("application_id"));
                 confirmRequest.setRoomId(rs.getInt("room_id"));
+                confirmRequest.setConfirmRequestDate(rs.getDate("confirm_request_date").toLocalDate().atStartOfDay());
                 confirmRequest.setConfirmRequestStatus(rs.getString("status"));
                 userConfirmRequests.add(confirmRequest);
             }
@@ -91,6 +93,7 @@ public class ConfirmRequestDAO {
                 confirmRequest.setUserId(rs.getInt("user_id"));
                 confirmRequest.setApplicationId(rs.getInt("application_id"));
                 confirmRequest.setRoomId(rs.getInt("room_id"));
+                confirmRequest.setConfirmRequestDate(rs.getDate("confirm_request_date").toLocalDate().atStartOfDay());
                 confirmRequest.setConfirmRequestStatus(rs.getString("status"));
                 allConfirmRequestsList.add(confirmRequest);
             }

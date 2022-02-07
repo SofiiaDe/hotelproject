@@ -40,7 +40,7 @@ public class InvoiceServiceImpl implements IInvoiceService {
     }
 
     @Override
-    public List<Invoice> findInvoicesByUserId(int userId) throws DBException {
+    public List<Invoice> getInvoicesByUserId(int userId) throws DBException {
         return this.invoiceDAO.findInvoicesByUserId(userId);
     }
 

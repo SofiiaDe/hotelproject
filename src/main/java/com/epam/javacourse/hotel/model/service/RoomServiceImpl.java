@@ -1,10 +1,13 @@
 package com.epam.javacourse.hotel.model.service;
 
+import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.db.RoomDAO;
+import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.model.Room;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RoomServiceImpl implements IRoomService{
 
@@ -32,6 +35,34 @@ public class RoomServiceImpl implements IRoomService{
     @Override
     public List<Room> getRoomsByIds(List<Integer> ids) throws DBException {
         return this.roomDAO.getRoomsByIds(ids);
+    }
+
+    @Override
+    public List<Room> getFreeRooms() throws DBException {
+
+        IBookingService bookingService = AppContext.getInstance().getBookingService();
+        IRoomService roomService = AppContext.getInstance().getRoomService();
+
+        List<Room> allRoomsList = roomService.allRoomsList();
+
+        // get list of booked rooms
+        List<Booking> allBookings = bookingService.getAllBookings();
+
+        List<Integer> bookedRoomsId = allBookings.stream()
+                .map(Booking::getRoomId)
+                .collect(Collectors.toList());
+
+        List<Room> bookedRooms = roomService.getRoomsByIds(bookedRoomsId);
+
+        // + occupied + unavailable
+
+        // get list of free rooms
+        List<Room> freeRooms = allRoomsList.stream()
+                .filter(room -> !bookedRooms.contains(room))
+                .collect(Collectors.toList());
+
+
+        return freeRooms;
     }
 
 
