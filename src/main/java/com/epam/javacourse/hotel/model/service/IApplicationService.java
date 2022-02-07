@@ -3,6 +3,8 @@ package com.epam.javacourse.hotel.model.service;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.serviceModels.ApplicationDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.UserApplicationDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
 
 import java.util.List;
 
@@ -22,4 +24,7 @@ public interface IApplicationService {
     void removeApplication(int id) throws DBException;
 
     Application getApplicationById(int applicationId) throws DBException;
+
+    List<UserApplicationDetailed> getUserDetailedApplications(int userID) throws DBException;
+
 }

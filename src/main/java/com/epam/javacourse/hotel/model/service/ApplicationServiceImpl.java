@@ -1,19 +1,23 @@
 package com.epam.javacourse.hotel.model.service;
 
+import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.db.ApplicationDAO;
 import com.epam.javacourse.hotel.db.UserDAO;
 import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.Booking;
+import com.epam.javacourse.hotel.model.Invoice;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.serviceModels.ApplicationDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.UserApplicationDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ApplicationServiceImpl implements IApplicationService{
+public class ApplicationServiceImpl implements IApplicationService {
 
     private final ApplicationDAO applicationDAO;
     private final UserDAO userDao;
@@ -35,17 +39,17 @@ public class ApplicationServiceImpl implements IApplicationService{
 
     @Override
     public List<ApplicationDetailed> getAllDetailedApplications() throws DBException {
-        List<Application> allApplications =  this.applicationDAO.findAllApplications();
+        List<Application> allApplications = this.applicationDAO.findAllApplications();
         List<Integer> userIds = allApplications.stream().map(Application::getUserId).distinct().collect(Collectors.toList());
         List<User> data = this.userDao.getUsersByIds(userIds);
 
         ArrayList<ApplicationDetailed> result = new ArrayList<>();
 
-        for (Application application: allApplications) {
+        for (Application application : allApplications) {
             var user = data.stream().filter(u -> u.getId() == application.getUserId()).findFirst().get();
             result.add(
                     new ApplicationDetailed(application.getId(),
-                            user.getFirstName() + ' '+ user.getLastName(),
+                            user.getFirstName() + ' ' + user.getLastName(),
                             user.getEmail(),
                             application.getCheckinDate(),
                             application.getCheckoutDate(),
@@ -56,6 +60,25 @@ public class ApplicationServiceImpl implements IApplicationService{
 
         return result;
     }
+
+    @Override
+    public List<UserApplicationDetailed> getUserDetailedApplications(int userID) throws DBException {
+        List<Application> allUserApplications = this.applicationDAO.findApplicationsByUserId(userID);
+
+        ArrayList<UserApplicationDetailed> result = new ArrayList<>();
+
+        for (Application application : allUserApplications) {
+            result.add(
+                    new UserApplicationDetailed(application.getId(),
+                            application.getCheckinDate(),
+                            application.getCheckoutDate(),
+                            application.getRoomTypeBySeats(),
+                            application.getRoomClass()
+                    ));
+        }
+        return result;
+    }
+
 
     @Override
     public List<Application> getApplicationsByUserId(int userId) throws DBException {
@@ -76,4 +99,6 @@ public class ApplicationServiceImpl implements IApplicationService{
     public Application getApplicationById(int id) throws DBException {
         return this.applicationDAO.getApplicationById(id);
     }
+
+
 }

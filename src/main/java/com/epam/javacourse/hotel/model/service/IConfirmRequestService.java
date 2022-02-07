@@ -3,9 +3,12 @@ package com.epam.javacourse.hotel.model.service;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.model.ConfirmationRequest;
+import com.epam.javacourse.hotel.model.Invoice;
 import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.ConfirmationRequestDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.UserConfirmationRequestDetailed;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IConfirmRequestService {
@@ -19,5 +22,9 @@ public interface IConfirmRequestService {
     List<ConfirmationRequestDetailed> getAllDetailedConfirmRequests() throws DBException;
 
     void deleteConfirmRequestById(int id) throws DBException;
+
+    List<UserConfirmationRequestDetailed> getUserDetailedConfirmRequests(int userID) throws DBException;
+
+    LocalDateTime getConfirmRequestDueDate(ConfirmationRequest confirmRequest);
 
 }

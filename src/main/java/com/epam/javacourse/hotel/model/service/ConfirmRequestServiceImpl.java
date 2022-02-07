@@ -1,14 +1,17 @@
 package com.epam.javacourse.hotel.model.service;
 
+import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.db.ConfirmRequestDAO;
 import com.epam.javacourse.hotel.db.UserDAO;
-import com.epam.javacourse.hotel.model.Booking;
-import com.epam.javacourse.hotel.model.ConfirmationRequest;
-import com.epam.javacourse.hotel.model.User;
+import com.epam.javacourse.hotel.model.*;
 import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.ConfirmationRequestDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.UserConfirmationRequestDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,6 +47,13 @@ public class ConfirmRequestServiceImpl implements IConfirmRequestService {
     }
 
     @Override
+    public LocalDateTime getConfirmRequestDueDate(ConfirmationRequest confirmRequest) {
+        LocalDate confirmRequestDate = confirmRequest.getConfirmRequestDate().toLocalDate();
+        return confirmRequestDate.plusDays(5).atStartOfDay();
+
+    }
+
+    @Override
     public List<ConfirmationRequestDetailed> getAllDetailedConfirmRequests() throws DBException {
         List<ConfirmationRequest> allConfirmRequests = this.confirmRequestDAO.findAllConfirmRequests();
         List<Integer> userIds = allConfirmRequests.stream()
@@ -60,6 +70,36 @@ public class ConfirmRequestServiceImpl implements IConfirmRequestService {
                             confirmRequest.getApplicationId(),
                             confirmRequest.getRoomId(),
                             confirmRequest.getConfirmRequestDate(),
+                            confirmRequest.getStatus()
+                    ));
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<UserConfirmationRequestDetailed> getUserDetailedConfirmRequests(int userID) throws DBException {
+
+        List<ConfirmationRequest> allUserConfirmRequests = this.confirmRequestDAO.findConfirmRequestsByUserId(userID);
+        IApplicationService applicationService = AppContext.getInstance().getApplicationService();
+        List<Application> userApplications = applicationService.getApplicationsByUserId(userID);
+
+        ArrayList<UserConfirmationRequestDetailed> result = new ArrayList<>();
+
+        for (ConfirmationRequest confirmRequest : allUserConfirmRequests) {
+            var application = userApplications.stream()
+                    .filter(a -> a.getId() == confirmRequest.getApplicationId())
+                    .findFirst()
+                    .get();
+            result.add(
+                    new UserConfirmationRequestDetailed(confirmRequest.getId(),
+                            confirmRequest.getConfirmRequestDate(),
+                            getConfirmRequestDueDate(confirmRequest),
+                            application.getRoomTypeBySeats(),
+                            application.getRoomClass(),
+                            application.getCheckinDate(),
+                            application.getCheckoutDate(),
+                            confirmRequest.getApplicationId(),
                             confirmRequest.getStatus()
                     ));
         }

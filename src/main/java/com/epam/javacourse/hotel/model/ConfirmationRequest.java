@@ -12,6 +12,7 @@ public class ConfirmationRequest extends Entity{
     private int applicationId;
     private int roomId;
     private LocalDateTime confirmRequestDate;
+    private LocalDateTime confirmRequestDueDate;
     private String confirmRequestStatus;
 
     private Application application;
@@ -24,6 +25,14 @@ public class ConfirmationRequest extends Entity{
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public LocalDateTime getConfirmRequestDueDate() {
+        return confirmRequestDueDate;
+    }
+
+    public void setConfirmRequestDueDate(LocalDateTime confirmRequestDueDate) {
+        this.confirmRequestDueDate = confirmRequestDueDate;
     }
 
     public int getApplicationId() {

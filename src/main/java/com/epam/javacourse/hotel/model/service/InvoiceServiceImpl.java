@@ -9,8 +9,10 @@ import com.epam.javacourse.hotel.model.Invoice;
 import com.epam.javacourse.hotel.model.Room;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.serviceModels.InvoiceDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,13 @@ public class InvoiceServiceImpl implements IInvoiceService {
     }
 
     @Override
+    public LocalDateTime getInvoiceDueDate(Invoice invoice) {
+        LocalDate invoiceDate = invoice.getInvoiceDate().toLocalDate();
+        return invoiceDate.plusDays(2).atStartOfDay();
+
+    }
+
+    @Override
     public List<InvoiceDetailed> getAllDetailedInvoices() throws DBException {
         List<Invoice> allInvoices = this.invoiceDAO.findAllInvoices();
         List<Integer> userIds = allInvoices.stream()
@@ -80,39 +89,34 @@ public class InvoiceServiceImpl implements IInvoiceService {
     }
 
     @Override
-    public List<InvoiceDetailed> getInvoicesForUserAccount(int userID) throws DBException {
+    public List<UserInvoiceDetailed> getUserDetailedInvoices(int userID) throws DBException {
 
-//        IBookingService bookingService = AppContext.getInstance().getBookingService();
         List<Invoice> allUserInvoices = this.invoiceDAO.findInvoicesByUserId(userID);
 
-//        List<Booking> bookings = bookingService.getBookingsByUserId(userID);
-        ArrayList<InvoiceDetailed> result = new ArrayList<>();
+        IBookingService bookingService = AppContext.getInstance().getBookingService();
+        List<Booking> userBookings = bookingService.getBookingsByUserId(userID);
+
+        IRoomService roomService = AppContext.getInstance().getRoomService();
+
+        ArrayList<UserInvoiceDetailed> result = new ArrayList<>();
 
         for (Invoice invoice : allUserInvoices) {
-//            var roomId = bookings.stream()
-//                    .filter(b -> b.getId() == invoice.getBookingId())
-//                    .map(Booking::getRoomId)
-//                    .findFirst()
-//                    .get();
-//            var checkinDate = bookings.stream()
-//                    .filter(b -> b.getId() == invoice.getBookingId())
-//                    .map(Booking::getCheckinDate)
-//                    .findFirst()
-//                    .get();
-//            var checkoutDate = bookings.stream()
-//                    .filter(b -> b.getId() == invoice.getBookingId())
-//                    .map(Booking::getCheckoutDate)
-//                    .findFirst()
-//                    .get();
+            var booking = userBookings.stream()
+                    .filter(b -> b.getId() == invoice.getBookingId())
+                    .findFirst()
+                    .get();
+            var room = roomService.getRoomById(booking.getRoomId());
             result.add(
-                    new InvoiceDetailed(invoice.getId(),
-                            invoice.getAmount(),
+                    new UserInvoiceDetailed(invoice.getId(),
                             invoice.getInvoiceDate(),
-                            invoice.getDueDate(),
+                            getInvoiceDueDate(invoice),
+                            invoice.getAmount(),
                             invoice.getBookingId(),
-//                            roomId, checkinDate, checkoutDate,
+                            room.getPrice(),
+                            booking.getCheckinDate(),
+                            booking.getCheckoutDate(),
                             invoice.getInvoiceStatus()
-                    ));
+                            ));
         }
         return result;
     }

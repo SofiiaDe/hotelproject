@@ -4,7 +4,10 @@ import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.*;
 import com.epam.javacourse.hotel.model.service.*;
-import com.epam.javacourse.hotel.model.serviceModels.InvoiceDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.UserApplicationDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.UserBookingDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.UserConfirmationRequestDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
 import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
@@ -33,25 +36,22 @@ public class ClientAccountPageCommand implements ICommand {
         HttpSession session = request.getSession();
         User authorisedUser = (User) session.getAttribute("authorisedUser");
 
-//        List<Application> userApplications = applicationService.getApplicationsByUserId(authorisedUser.getId());
-//        userApplications.sort(Comparator.comparing(Application::getCheckinDate).reversed());
-//
-//        List<Booking> userBookings = bookingService.getBookingsByUserId(authorisedUser.getId());
-//        userBookings.sort(Comparator.comparing(Booking::getCheckinDate).reversed());
-//
-//        List<ConfirmationRequest> userConfirmRequests = confirmRequestService
-//                .getConfirmRequestsByUserId(authorisedUser.getId());
-//        userConfirmRequests.sort(Comparator.comparing(ConfirmationRequest::getConfirmRequestDate).reversed());
+        List<UserApplicationDetailed> userApplications = applicationService.getUserDetailedApplications(authorisedUser.getId());
+        userApplications.sort(Comparator.comparing(UserApplicationDetailed::getCheckinDate).reversed());
 
-//        List<Invoice> userInvoices = invoiceService.getInvoicesByUserId(authorisedUser.getId());
-//        userInvoices.sort(Comparator.comparing(Invoice::getInvoiceDate));
+        List<UserBookingDetailed> userBookings = bookingService.getUserDetailedBookings(authorisedUser.getId());
+        userBookings.sort(Comparator.comparing(UserBookingDetailed::getCheckinDate).reversed());
 
-        List<InvoiceDetailed> userInvoices = invoiceService.getInvoicesForUserAccount(authorisedUser.getId());
-        userInvoices.sort(Comparator.comparing(InvoiceDetailed::getInvoiceDate));
+        List<UserConfirmationRequestDetailed> userConfirmRequests = confirmRequestService
+                .getUserDetailedConfirmRequests(authorisedUser.getId());
+        userConfirmRequests.sort(Comparator.comparing(UserConfirmationRequestDetailed::getConfirmRequestDate).reversed());
 
-//        session.setAttribute("myApplications", userApplications);
-//        session.setAttribute("myBookings", userBookings);
-//        session.setAttribute("myConfirmRequests", userConfirmRequests);
+        List<UserInvoiceDetailed> userInvoices = invoiceService.getUserDetailedInvoices(authorisedUser.getId());
+        userInvoices.sort(Comparator.comparing(UserInvoiceDetailed::getInvoiceDate));
+
+        session.setAttribute("myApplications", userApplications);
+        session.setAttribute("myBookings", userBookings);
+        session.setAttribute("myConfirmRequests", userConfirmRequests);
         session.setAttribute("myInvoices", userInvoices);
 
         return new AddressCommandResult(Path.PAGE_CLIENT_ACCOUNT);

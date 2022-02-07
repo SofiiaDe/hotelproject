@@ -1,12 +1,17 @@
 package com.epam.javacourse.hotel.model.service;
 
+import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.db.BookingDAO;
 import com.epam.javacourse.hotel.db.UserDAO;
 import com.epam.javacourse.hotel.model.Booking;
+import com.epam.javacourse.hotel.model.Invoice;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.UserBookingDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
 
+import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,4 +73,28 @@ public class BookingServiceImpl implements IBookingService{
 
         return result;
     }
+
+    @Override
+    public List<UserBookingDetailed> getUserDetailedBookings(int userID) throws DBException {
+        List<Booking> allUserBookings = this.bookingDAO.findBookingsByUserId(userID);
+
+        IRoomService roomService = AppContext.getInstance().getRoomService();
+
+        ArrayList<UserBookingDetailed> result = new ArrayList<>();
+
+        for (Booking booking : allUserBookings) {
+            var room = roomService.getRoomById(booking.getRoomId());
+            result.add(
+                    new UserBookingDetailed(booking.getId(),
+                            booking.getCheckinDate(),
+                            booking.getCheckoutDate(),
+                            room.getRoomTypeBySeats(),
+                            room.getRoomClass(),
+                            false
+                    ));
+        }
+        return result;
+    }
+
+
 }
