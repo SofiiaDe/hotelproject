@@ -33,8 +33,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="invoices-tab" data-toggle="tab" href="#invoices" role="tab"
-                   aria-controls="invoices"
+                <a class="nav-link" id="invoice-tab" data-toggle="tab" href="#invoice" role="tab"
+                   aria-controls="invoice"
                    aria-selected="false">
                     <fmt:message key="main.tab.user_invoices"/>
                 </a>
@@ -226,38 +226,52 @@
             </div>
 
 
-                <%-- Invoices --%>
-                <div class="tab-pane fade" id="invoices" role="tabpanel" aria-labelledby="invoices-tab">
-                    <table class="table table-hover mt-2">
-                        <thead>
+            <%-- Invoices --%>
+            <div class="tab-pane fade" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
+                <table class="table table-hover mt-2">
+                    <thead>
+                    <tr>
+                        <th scope="col">
+                            <fmt:message key="table.th.invoice_date"/>
+                        </th>
+                        <th scope="col">
+                            <fmt:message key="table.th.invoice_due_date"/>
+                        </th>
+                        <th scope="col">
+                            <fmt:message key="table.th.invoice_amount"/>
+                        </th>
+                        <th scope="col">
+                            <fmt:message key="table.th.booking_id"/>
+                        </th>
+<%--                        <th scope="col">--%>
+<%--                            <fmt:message key="table.th.room_number"/>--%>
+<%--                        </th>--%>
+                        <th scope="col">
+                            <fmt:message key="table.th.invoice_status"/>
+                        </th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="invoice" items="${sessionScope.myInvoices}">
                         <tr>
-                            <th scope="col">
-                                <fmt:message key="table.th.invoice_date"/>
-                            </th>
-                            <th scope="col">
-                                <fmt:message key="table.th.invoice_amount"/>
-                            </th>
-                            <th scope="col">
-                                <fmt:message key="table.th.booking_id"/>
-                            </th>
-                            <th scope="col">
-                                <fmt:message key="table.th.room_number"/>
-                            </th>
-                            <th scope="col">
-                                <fmt:message key="table.th.invoice_status"/>
-                            </th>
-                            <th scope="col"></th>
+                            <td>${invoice.invoiceDate}</td>
+                            <td>${invoice.invoiceDate}</td>
+                            <td>${invoice.amount}</td>
+                            <td>${invoice.bookingId}</td>
+<%--                            <td>${invoice.}</td>--%>
+                            <td>${invoice.status}</td>
                         </tr>
-                        </thead>
-
-                    </table>
-
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
 
         </div>
-
     </div>
+</div>
 
-    <jsp:include page="/WEB-INF/templates/scripts.jsp"/>
+<jsp:include page="/WEB-INF/templates/scripts.jsp"/>
 
 </body>
 </html>

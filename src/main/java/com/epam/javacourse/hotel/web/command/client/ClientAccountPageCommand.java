@@ -4,6 +4,7 @@ import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.*;
 import com.epam.javacourse.hotel.model.service.*;
+import com.epam.javacourse.hotel.model.serviceModels.InvoiceDetailed;
 import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
@@ -30,27 +31,29 @@ public class ClientAccountPageCommand implements ICommand {
     public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
 
         HttpSession session = request.getSession();
-        String address = Path.PAGE_CLIENT_ACCOUNT;
         User authorisedUser = (User) session.getAttribute("authorisedUser");
 
-        List<Application> userApplications = applicationService.getApplicationsByUserId(authorisedUser.getId());
-        userApplications.sort(Comparator.comparing(Application::getCheckinDate).reversed());
+//        List<Application> userApplications = applicationService.getApplicationsByUserId(authorisedUser.getId());
+//        userApplications.sort(Comparator.comparing(Application::getCheckinDate).reversed());
+//
+//        List<Booking> userBookings = bookingService.getBookingsByUserId(authorisedUser.getId());
+//        userBookings.sort(Comparator.comparing(Booking::getCheckinDate).reversed());
+//
+//        List<ConfirmationRequest> userConfirmRequests = confirmRequestService
+//                .getConfirmRequestsByUserId(authorisedUser.getId());
+//        userConfirmRequests.sort(Comparator.comparing(ConfirmationRequest::getConfirmRequestDate).reversed());
 
-        List<Booking> userBookings = bookingService.getBookingsByUserId(authorisedUser.getId());
-        userBookings.sort(Comparator.comparing(Booking::getCheckinDate).reversed());
+//        List<Invoice> userInvoices = invoiceService.getInvoicesByUserId(authorisedUser.getId());
+//        userInvoices.sort(Comparator.comparing(Invoice::getInvoiceDate));
 
-        List<ConfirmationRequest> userConfirmRequests = confirmRequestService
-                .getConfirmRequestsByUserId(authorisedUser.getId());
-        userConfirmRequests.sort(Comparator.comparing(ConfirmationRequest::getConfirmRequestDate).reversed());
+        List<InvoiceDetailed> userInvoices = invoiceService.getInvoicesForUserAccount(authorisedUser.getId());
+        userInvoices.sort(Comparator.comparing(InvoiceDetailed::getInvoiceDate));
 
-        List<Invoice> userInvoices = invoiceService.getInvoicesByUserId(authorisedUser.getId());
-        userInvoices.sort(Comparator.comparing(Invoice::getInvoiceDate));
-
-        session.setAttribute("myApplications", userApplications);
-        session.setAttribute("myBookings", userBookings);
-        session.setAttribute("myConfirmRequests", userConfirmRequests);
+//        session.setAttribute("myApplications", userApplications);
+//        session.setAttribute("myBookings", userBookings);
+//        session.setAttribute("myConfirmRequests", userConfirmRequests);
         session.setAttribute("myInvoices", userInvoices);
 
-        return new AddressCommandResult(address);
+        return new AddressCommandResult(Path.PAGE_CLIENT_ACCOUNT);
     }
 }

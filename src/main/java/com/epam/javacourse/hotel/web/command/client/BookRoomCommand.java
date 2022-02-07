@@ -72,11 +72,10 @@ public class BookRoomCommand implements ICommand {
 
         // update room's status to "booked"
         int roomId = Integer.parseInt(request.getParameter("room_id"));
-
         Room bookedRoom = roomService.getRoomById(roomId);
-        bookedRoom.setRoomStatus("booked");
 
-        roomService.updateRoom(bookedRoom);
+//        bookedRoom.setRoomStatus("booked");
+//        roomService.updateRoom(bookedRoom);
 
         // add new booking to DB
         Booking newBooking = new Booking();
@@ -84,13 +83,16 @@ public class BookRoomCommand implements ICommand {
         newBooking.setUserId(authorisedUser.getId());
         newBooking.setCheckinDate(checkinDateLocal);
         newBooking.setCheckoutDate(checkoutDateLocal);
-
         newBooking.setRoomId(roomId);
         newBooking.setApplicationId(0);
         bookingService.create(newBooking);
 
         // "Thank you! The room was successfully booked.
         // Please check the invoice in your personal account."
+
+
+
+
 
         return new AddressCommandResult(Path.PAGE_CLIENT_ACCOUNT);
     }

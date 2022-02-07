@@ -17,8 +17,8 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ConfirmRequestCommand implements ICommand {
 
@@ -36,10 +36,7 @@ public class ConfirmRequestCommand implements ICommand {
 
         List<Room> allRoomsList = roomService.allRoomsList();
 
-        List<Room> freeRooms = allRoomsList
-                .stream()
-                .filter(status -> status.getRoomStatus().equals("free"))
-                .collect(Collectors.toList());
+        List<Room> freeRooms = roomService.getCurrentlyFreeRooms();
 
         if (session.getAttribute("userRole") != Role.MANAGER) {
             logger.error("You do not have permission to create a confirmation request. " +
@@ -62,6 +59,7 @@ public class ConfirmRequestCommand implements ICommand {
         newConfirmationRequest.setUserId(applicationToBeRequested.getUserId());
         newConfirmationRequest.setApplicationId(id);
         newConfirmationRequest.setRoomId(chooseSuitableRoom(applicationToBeRequested, freeRooms).getId());
+        newConfirmationRequest.setConfirmRequestDate(LocalDateTime.now());
         newConfirmationRequest.setConfirmRequestStatus("new");
 
         confirmRequestService.create(newConfirmationRequest);

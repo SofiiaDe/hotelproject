@@ -21,8 +21,6 @@ public class InvoiceServiceImpl implements IInvoiceService {
     private final InvoiceDAO invoiceDAO;
     private UserDAO userDAO;
 
-    IRoomService roomService = AppContext.getInstance().getRoomService();
-
     public InvoiceServiceImpl(InvoiceDAO invoiceDAO, UserDAO userDAO) {
         this.invoiceDAO = invoiceDAO;
         this.userDAO = userDAO;
@@ -46,6 +44,8 @@ public class InvoiceServiceImpl implements IInvoiceService {
 
     @Override
     public double getInvoiceAmount(Booking booking) throws DBException {
+        IRoomService roomService = AppContext.getInstance().getRoomService();
+
         LocalDate checkinDate = booking.getCheckinDate().toLocalDate();
         LocalDate checkoutDate = booking.getCheckoutDate().toLocalDate();
         Period period = Period.between(checkinDate, checkoutDate);
@@ -76,8 +76,44 @@ public class InvoiceServiceImpl implements IInvoiceService {
                             invoice.getInvoiceStatus()
                     ));
         }
+        return result;
+    }
 
+    @Override
+    public List<InvoiceDetailed> getInvoicesForUserAccount(int userID) throws DBException {
 
+//        IBookingService bookingService = AppContext.getInstance().getBookingService();
+        List<Invoice> allUserInvoices = this.invoiceDAO.findInvoicesByUserId(userID);
+
+//        List<Booking> bookings = bookingService.getBookingsByUserId(userID);
+        ArrayList<InvoiceDetailed> result = new ArrayList<>();
+
+        for (Invoice invoice : allUserInvoices) {
+//            var roomId = bookings.stream()
+//                    .filter(b -> b.getId() == invoice.getBookingId())
+//                    .map(Booking::getRoomId)
+//                    .findFirst()
+//                    .get();
+//            var checkinDate = bookings.stream()
+//                    .filter(b -> b.getId() == invoice.getBookingId())
+//                    .map(Booking::getCheckinDate)
+//                    .findFirst()
+//                    .get();
+//            var checkoutDate = bookings.stream()
+//                    .filter(b -> b.getId() == invoice.getBookingId())
+//                    .map(Booking::getCheckoutDate)
+//                    .findFirst()
+//                    .get();
+            result.add(
+                    new InvoiceDetailed(invoice.getId(),
+                            invoice.getAmount(),
+                            invoice.getInvoiceDate(),
+                            invoice.getDueDate(),
+                            invoice.getBookingId(),
+//                            roomId, checkinDate, checkoutDate,
+                            invoice.getInvoiceStatus()
+                    ));
+        }
         return result;
     }
 }

@@ -6,6 +6,8 @@ import com.epam.javacourse.hotel.db.RoomDAO;
 import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.model.Room;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,8 +40,7 @@ public class RoomServiceImpl implements IRoomService{
     }
 
     @Override
-    public List<Room> getFreeRooms() throws DBException {
-
+    public List<Room> getCurrentlyFreeRooms() throws DBException {
         IBookingService bookingService = AppContext.getInstance().getBookingService();
         IRoomService roomService = AppContext.getInstance().getRoomService();
 
@@ -59,6 +60,48 @@ public class RoomServiceImpl implements IRoomService{
         // get list of free rooms
         List<Room> freeRooms = allRoomsList.stream()
                 .filter(room -> !bookedRooms.contains(room))
+//                .filter(room -> !occupiedRooms.contains(room))
+                .collect(Collectors.toList());
+
+
+        return freeRooms;
+    }
+
+
+    /**
+     *
+     * @param checkinDate
+     * @param checkoutDate
+     * @return list of rooms which are available for the period from checkinDate to checkoutDate
+     * @throws DBException
+     */
+    @Override
+    public List<Room> getFreeRoomsForPeriod(LocalDateTime checkinDate, LocalDateTime checkoutDate) throws DBException {
+
+        IBookingService bookingService = AppContext.getInstance().getBookingService();
+        IRoomService roomService = AppContext.getInstance().getRoomService();
+
+        List<Room> allRoomsList = roomService.allRoomsList();
+
+        // get list of booked rooms
+        List<Booking> allBookings = bookingService.getAllBookings();
+
+        List<Integer> availableRoomsId = new ArrayList<>();
+        for (Booking booking: allBookings) {
+            if((checkinDate.isAfter(booking.getCheckoutDate()) ||
+                    checkoutDate.isAfter(booking.getCheckinDate()))) {
+                availableRoomsId.add(booking.getId());
+            }
+        }
+
+        List<Room> availableRooms = roomService.getRoomsByIds(availableRoomsId);
+
+        // unavailable
+
+        // get list of free rooms
+        List<Room> freeRooms = allRoomsList.stream()
+                .filter(room -> !availableRooms.contains(room))
+//                .filter(room -> !occupiedRooms.contains(room))
                 .collect(Collectors.toList());
 
 

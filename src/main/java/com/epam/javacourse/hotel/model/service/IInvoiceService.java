@@ -18,4 +18,6 @@ public interface IInvoiceService {
     List<Invoice> getInvoicesByUserId(int userId) throws DBException;
 
     double getInvoiceAmount(Booking booking) throws DBException;
+
+    List<InvoiceDetailed> getInvoicesForUserAccount(int userID) throws DBException;
 }

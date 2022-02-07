@@ -59,7 +59,7 @@ public class InvoiceDAO {
                 invoice.setUserId(rs.getInt("user_id"));
                 invoice.setAmount(rs.getDouble("amount"));
                 invoice.setBookingId(rs.getInt("booking_id"));
-                invoice.setInvoiceDate(LocalDateTime.parse(rs.getString("invoice_date")));
+                invoice.setInvoiceDate(rs.getDate("invoice_date").toLocalDate().atStartOfDay());
                 invoice.setInvoiceStatus(rs.getString("status"));
                 allInvoicesList.add(invoice);
 
@@ -117,7 +117,7 @@ public class InvoiceDAO {
     private static void mapInvoiceCommonProperties(Invoice invoice, ResultSet rs) throws SQLException {
         invoice.setAmount(rs.getDouble("amount"));
         invoice.setBookingId(rs.getInt("booking_id"));
-        invoice.setInvoiceDate(LocalDateTime.parse(rs.getString("invoice_date")));
+        invoice.setInvoiceDate(rs.getDate("invoice_date").toLocalDate().atStartOfDay());
         invoice.setInvoiceStatus(rs.getString("status"));
     }
 

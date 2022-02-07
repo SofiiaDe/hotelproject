@@ -20,7 +20,7 @@ public class FreeRoomsPageCommand implements ICommand {
 
         IRoomService roomService = AppContext.getInstance().getRoomService();
 
-        List<Room> freeRooms = roomService.getFreeRooms();
+        List<Room> freeRooms = roomService.getCurrentlyFreeRooms();
 
         HttpSession session = request.getSession();
         session.setAttribute("freeRooms", freeRooms);

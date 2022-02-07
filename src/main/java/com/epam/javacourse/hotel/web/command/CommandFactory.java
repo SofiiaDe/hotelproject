@@ -52,12 +52,13 @@ public class CommandFactory {
 
         //common commands
         commands.put("registerPage", new RegisterPageCommand());
+        commands.put("removeApplication", new RemoveApplicationCommand());
+
+        //no-role commands
         commands.put("registration", new RegistrationCommand());
         commands.put("login", new LoginCommand());
         commands.put("loginPage", new LoginPageCommand());
         commands.put("logout", new LogoutCommand());
-        commands.put("removeApplication", new RemoveApplicationCommand());
-
     }
 
     public static ICommand getCommand(String commandName) {

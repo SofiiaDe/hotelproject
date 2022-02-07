@@ -24,5 +24,7 @@ public class Path {
 
     public static final String COMMAND_LOGIN_PAGE = "controller?command=loginPage";
     public static final String MANAGER_ACCOUNT_PAGE = "controller?command=managerAccount";
+    public static final String COMMAND_CLIENT_ACCOUNT_PAGE = "controller?command=clientAccount";
+
     public static final String COMMAND_FREE_ROOMS_PAGE = "controller?command=freeRoomsPage";
 }

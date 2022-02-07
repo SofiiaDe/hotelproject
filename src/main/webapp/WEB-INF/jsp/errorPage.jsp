@@ -1,20 +1,16 @@
 <%@ page isErrorPage="true" %>
-<%@ page import="java.io.PrintWriter" %>
 <%@ include file="/WEB-INF/jspf/page.jspf" %>
 <%@ include file="/WEB-INF/jspf/taglib.jspf" %>
 
 <html>
 
 <c:set var="title" value="Error" scope="page" />
-<%--<%@ include file="/WEB-INF/jspf/head.jspf" %>--%>
+<jsp:include page="/WEB-INF/templates/head.jsp"/>
 
 <body>
 
 <table id="main-container">
 
-    <%-- HEADER --%>
-<%--    <%@ include file="/WEB-INF/jspf/header.jspf"%>--%>
-    <%-- HEADER --%>
 
     <tr >
         <td class="content">
@@ -36,10 +32,6 @@
             <c:if test="${not empty message}">
                 <h3>${message}</h3>
             </c:if>
-
-<%--            <c:if test="${not empty exception}">--%>
-<%--                <% exception.printStackTrace(new PrintWriter(out)); %>--%>
-<%--            </c:if>--%>
 
             <%-- if we get this page using forward --%>
             <c:if test="${not empty requestScope.errorMessage}">
