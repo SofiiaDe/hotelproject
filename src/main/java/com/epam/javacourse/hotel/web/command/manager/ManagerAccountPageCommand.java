@@ -5,9 +5,11 @@ import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.service.IApplicationService;
 import com.epam.javacourse.hotel.model.service.IBookingService;
+import com.epam.javacourse.hotel.model.service.IConfirmRequestService;
 import com.epam.javacourse.hotel.model.service.IInvoiceService;
 import com.epam.javacourse.hotel.model.serviceModels.ApplicationDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.ConfirmationRequestDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.InvoiceDetailed;
 import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
@@ -24,6 +26,7 @@ public class ManagerAccountPageCommand implements ICommand {
     IApplicationService applicationService = AppContext.getInstance().getApplicationService();
     IBookingService bookingService = AppContext.getInstance().getBookingService();
     IInvoiceService invoiceService = AppContext.getInstance().getInvoiceService();
+    IConfirmRequestService confirmRequestService = AppContext.getInstance().getConfirmRequestService();
 
     @Override
     public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
@@ -38,6 +41,9 @@ public class ManagerAccountPageCommand implements ICommand {
 
         List<InvoiceDetailed> allInvoices = invoiceService.getAllDetailedInvoices();
         session.setAttribute("allInvoices", allInvoices);
+
+        List<ConfirmationRequestDetailed> allConfirmRequests = confirmRequestService.getAllDetailedConfirmRequests();
+        session.setAttribute("allConfirmRequests", allConfirmRequests);
 
         return new AddressCommandResult(Path.PAGE_MANAGER_ACCOUNT);
     }

@@ -127,6 +127,47 @@
                     </table>
                 </div>
 
+                <%-- Confirmation Request --%>
+                <div class="tab-pane fade" id="confirmrequest" role="tabpanel" aria-labelledby="confirmrequest-tab">
+                    <table class="table table-hover mt-2">
+                        <thead>
+                        <tr>
+                            <th scope="col">
+                                <fmt:message key="table.th.booked_by"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.user_email"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.application_id"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.room_id"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.confirmrequest_date"/>
+                            </th>
+                            <th scope="col">
+                                <fmt:message key="table.th.confirmrequest_status"/>
+                            </th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="confirmrequest" items="${sessionScope.allConfirmRequests}">
+                            <tr>
+                                <td>${confirmrequest.bookedByUser}</td>
+                                <td>${confirmrequest.bookedByUserEmail}</td>
+                                <td>${confirmrequest.applicationId}</td>
+                                <td>${confirmrequest.roomId}</td>
+                                <td>${confirmrequest.confirmRequestDate}</td>
+                                <td>${confirmrequest.status}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+
                 <%-- Invoice --%>
                 <div class="tab-pane fade active show" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
                     <table class="table table-hover mt-2">

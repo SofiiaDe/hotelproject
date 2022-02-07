@@ -1,5 +1,7 @@
 package com.epam.javacourse.hotel.model;
 
+import java.time.LocalDateTime;
+
 public class ConfirmationRequest extends Entity{
 
     private static final long serialVersionUID = 1L;
@@ -9,11 +11,12 @@ public class ConfirmationRequest extends Entity{
     private int userId;
     private int applicationId;
     private int roomId;
+    private LocalDateTime confirmRequestDate;
     private String confirmRequestStatus;
 
     private Application application;
     private Room room;
-    private ConfirmRequestStatus status;
+    private String status;
 
     public int getUserId() {
         return userId;
@@ -37,6 +40,14 @@ public class ConfirmationRequest extends Entity{
 
     public void setRoomId(int roomId) {
         this.roomId = roomId;
+    }
+
+    public LocalDateTime getConfirmRequestDate() {
+        return confirmRequestDate;
+    }
+
+    public void setConfirmRequestDate(LocalDateTime confirmRequestDate) {
+        this.confirmRequestDate = confirmRequestDate;
     }
 
     public String getConfirmRequestStatus() {
@@ -81,11 +92,11 @@ public class ConfirmationRequest extends Entity{
         this.room = room;
     }
 
-    public ConfirmRequestStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(ConfirmRequestStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 }
@@ -93,4 +104,5 @@ public class ConfirmationRequest extends Entity{
 enum ConfirmRequestStatus{
     NEW,
     CONFIRMED,
+    CANCELLED,
 }
