@@ -2,12 +2,14 @@ package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.Invoice;
+import com.epam.javacourse.hotel.model.Room;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class InvoiceDAO {
@@ -139,6 +141,50 @@ public class InvoiceDAO {
             } catch (SQLException e) {
                 logger.error("Cannot rollback transaction in InvoiceDAO", e);
             }
+        }
+    }
+
+    public List<Integer> findCancelledInvoicedBookingIds(List<Integer> bookingIds) throws DBException {
+        List<Integer> bookingIdsResult = new ArrayList<>();
+
+        String query = DBConstatns.SQL_GET_CANCELLED_INVOICE_BOOKING_IDS_BY_BOOKING_ID;
+
+        String sql = String.format(query, preparePlaceHolders(bookingIds.size()));
+        Connection con = null;
+        PreparedStatement pStmt = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pStmt = con.prepareStatement(sql);
+
+            setValuesInPreparedStatement(pStmt, bookingIds.toArray());
+
+            try (ResultSet resultSet = pStmt.executeQuery()) {
+                while (resultSet.next()) {
+                    bookingIdsResult.add(resultSet.getInt("booking_id"));
+                }
+            }
+        } catch (SQLException e) {
+            String error = "Cannot find cancelled invoice's booking ids";
+            logger.error(error, e);
+            throw new DBException(error, e);
+        } finally {
+            close(con);
+            close(pStmt);
+        }
+
+        return bookingIdsResult;
+    }
+
+    // todo code duplication
+    private static String preparePlaceHolders(int length) {
+        return String.join(",", Collections.nCopies(length, "?"));
+    }
+
+    // todo code duplication
+    private static void setValuesInPreparedStatement(PreparedStatement preparedStatement, Object... values) throws SQLException {
+        for (int i = 0; i < values.length; i++) {
+            preparedStatement.setObject(i + 1, values[i]);
         }
     }
 }

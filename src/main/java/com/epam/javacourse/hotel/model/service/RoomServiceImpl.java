@@ -2,26 +2,32 @@ package com.epam.javacourse.hotel.model.service;
 
 import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.db.BookingDAO;
+import com.epam.javacourse.hotel.db.InvoiceDAO;
 import com.epam.javacourse.hotel.db.RoomDAO;
+import com.epam.javacourse.hotel.db.models.BookingRoomIdModel;
 import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.model.Room;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class RoomServiceImpl implements IRoomService{
 
     private final RoomDAO roomDAO;
+    private BookingDAO bookingDAO;
+    private InvoiceDAO invoiceDAO;
 
-    public RoomServiceImpl(RoomDAO roomDAO) {
+    public RoomServiceImpl(RoomDAO roomDAO, BookingDAO bookingDAO, InvoiceDAO invoiceDAO) {
         this.roomDAO = roomDAO;
+        this.bookingDAO = bookingDAO;
+        this.invoiceDAO = invoiceDAO;
     }
 
     @Override
     public List<Room> allRoomsList() throws DBException {
-        return this.roomDAO.findAllRooms();
+        return this.roomDAO.getAllRooms();
     }
 
     @Override
@@ -39,6 +45,7 @@ public class RoomServiceImpl implements IRoomService{
         return this.roomDAO.getRoomsByIds(ids);
     }
 
+    // todo old method, refactor or delete
     @Override
     public List<Room> getCurrentlyFreeRooms() throws DBException {
         IBookingService bookingService = AppContext.getInstance().getBookingService();
@@ -67,46 +74,27 @@ public class RoomServiceImpl implements IRoomService{
         return freeRooms;
     }
 
-
-    /**
-     *
-     * @param checkinDate
-     * @param checkoutDate
-     * @return list of rooms which are available for the period from checkinDate to checkoutDate
-     * @throws DBException
-     */
     @Override
-    public List<Room> getFreeRoomsForPeriod(LocalDateTime checkinDate, LocalDateTime checkoutDate) throws DBException {
-
-        IBookingService bookingService = AppContext.getInstance().getBookingService();
-        IRoomService roomService = AppContext.getInstance().getRoomService();
-
-        List<Room> allRoomsList = roomService.allRoomsList();
-
-        // get list of booked rooms
-        List<Booking> allBookings = bookingService.getAllBookings();
-
-        List<Integer> availableRoomsId = new ArrayList<>();
-        for (Booking booking: allBookings) {
-            if((checkinDate.isAfter(booking.getCheckoutDate()) ||
-                    checkoutDate.isAfter(booking.getCheckinDate()))) {
-                availableRoomsId.add(booking.getId());
-            }
+    public List<Room> getFreeRoomsForPeriod(LocalDate checkinDate, LocalDate checkoutDate) throws DBException, IllegalArgumentException {
+        if (checkinDate.isAfter(checkoutDate) || checkoutDate.isEqual(checkinDate)){
+            throw new IllegalArgumentException("Check-in and check-out dates are overlapping or equal");
         }
 
-        List<Room> availableRooms = roomService.getRoomsByIds(availableRoomsId);
+        List<BookingRoomIdModel> bookedRooms
+                = bookingDAO.getBookedRoomIdsByDates(checkinDate, checkoutDate);
 
-        // unavailable
+        List<Integer> cancelledBookings = invoiceDAO.findCancelledInvoicedBookingIds(mapBookingRoomIdModelToRoomIds(bookedRooms));
 
-        // get list of free rooms
-        List<Room> freeRooms = allRoomsList.stream()
-                .filter(room -> !availableRooms.contains(room))
-//                .filter(room -> !occupiedRooms.contains(room))
-                .collect(Collectors.toList());
+        for (int bookingId: cancelledBookings ) {
+            bookedRooms.removeIf(i -> i.getBookingId() == bookingId);
+        }
 
+        var availableRooms = roomDAO.getAvailableRoomsExcept(mapBookingRoomIdModelToRoomIds(bookedRooms));
 
-        return freeRooms;
+        return availableRooms;
     }
 
-
+    private static List<Integer> mapBookingRoomIdModelToRoomIds(List<BookingRoomIdModel> bookedRooms){
+        return bookedRooms.stream().map(BookingRoomIdModel::getRoomId).collect(Collectors.toList());
+    }
 }

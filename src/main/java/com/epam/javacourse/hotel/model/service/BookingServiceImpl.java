@@ -12,6 +12,7 @@ import com.epam.javacourse.hotel.model.serviceModels.UserBookingDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
 
 import java.awt.print.Book;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

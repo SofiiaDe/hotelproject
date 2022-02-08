@@ -41,6 +41,7 @@ public class DBConstatns {
             "room_class = ?, WHERE id = ?";
     public static final String SQL_GET_ROOM_BY_ID = "SELECT * FROM rooms WHERE id = ?";
     public static final String SQL_GET_ROOMS_BY_IDS = "SELECT * FROM rooms r WHERE r.id IN (%s)";
+    public static final String SQL_GET_ROOMS_EXCEPT = "SELECT * FROM rooms r WHERE not(r.id IN (%s))";
 
 
     // BookingDAO
@@ -50,8 +51,8 @@ public class DBConstatns {
     public static final String SQL_GET_BOOKINGS_BY_USER_ID = "SELECT * FROM bookings WHERE user_id = ?";
     public static final String SQL_GET_ALL_BOOKINGS = "SELECT * FROM bookings";
     public static final String SQL_GET_BOOKING_BY_ID = "SELECT * FROM bookings WHERE id = ?";
-    public  static final String SQL_DELETE_BOOKING_BY_ID = "DELETE FROM bookings WHERE ID = ?";
-
+    public static final String SQL_DELETE_BOOKING_BY_ID = "DELETE FROM bookings WHERE ID = ?";
+    public static final String SQL_GET_BOOKING_ROOMS_BY_DATE = "SELECT id, room_id FROM bookings WHERE checkin_date <= ? and checkout_date >= ?";
 
     // ConfirmRequestDAO
     public static final String SQL_CREATE_CONFIRM_REQUEST = "INSERT INTO confirmation_requests " +
@@ -68,6 +69,8 @@ public class DBConstatns {
             "VALUES (DEFAULT, ?, ?, ?, ?, ?)";
     public static final String SQL_GET_ALL_INVOICES = "SELECT * FROM invoices";
     public static final String SQL_GET_INVOICES_BY_USER_ID = "SELECT * FROM invoices WHERE user_id = ?";
+    public static final String SQL_GET_CANCELLED_INVOICE_BOOKING_IDS_BY_BOOKING_ID =
+            "SELECT booking_id FROM invoices i WHERE booking_id IN (%s) and i.status = 'cancelled'";
 
 
     //FIELDS

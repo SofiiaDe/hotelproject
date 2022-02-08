@@ -1,14 +1,11 @@
 package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
-import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.Room;
-import com.epam.javacourse.hotel.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +14,7 @@ public class RoomDAO {
 
     private static final Logger logger = LogManager.getLogger(RoomDAO.class);
 
-    public List<Room> findAllRooms() throws DBException {
+    public List<Room> getAllRooms() throws DBException {
 
         List<Room> allRoomsList = new ArrayList<>();
         Connection con = null;
@@ -107,9 +104,28 @@ public class RoomDAO {
         return room;
     }
 
-    public List<Room> getRoomsByIds(List<Integer> ids) throws DBException {
+    public List<Room> getAvailableRoomsExcept(List<Integer> roomsToExclude) throws DBException {
+        if (roomsToExclude == null || roomsToExclude.size() == 0){
+            return getAllRooms();
+        }
+        return getRoomsByIdsToIncludeOrExclude(roomsToExclude, false, true);
+    }
+
+    private List<Room> getRoomsByIdsToIncludeOrExclude(List<Integer> ids, boolean include, boolean onlyAvailable) throws DBException{
         List<Room> rooms = new ArrayList<>();
-        String sql = String.format(DBConstatns.SQL_GET_ROOMS_BY_IDS, preparePlaceHolders(ids.size()));
+
+        String query;
+        if (include){
+            query = DBConstatns.SQL_GET_ROOMS_BY_IDS;
+        }else{
+            query = DBConstatns.SQL_GET_ROOMS_EXCEPT;
+        }
+
+        if (onlyAvailable) {
+            query += " and (room_status is unknown or room_status = 'available')";
+        }
+
+        String sql = String.format(query, preparePlaceHolders(ids.size()));
         Connection con = null;
         PreparedStatement pStmt = null;
 
@@ -135,6 +151,10 @@ public class RoomDAO {
         return rooms;
     }
 
+    public List<Room> getRoomsByIds(List<Integer> ids) throws DBException {
+        return getRoomsByIdsToIncludeOrExclude(ids, true, true);
+    }
+
     private static Room mapResultSetToRoom(ResultSet rs) throws SQLException{
         Room room = new Room();
         room.setId(rs.getInt("id"));
@@ -150,10 +170,12 @@ public class RoomDAO {
         room.setRoomClass(rs.getString("room_class"));
     }
 
+    // todo code duplication
     private static String preparePlaceHolders(int length) {
         return String.join(",", Collections.nCopies(length, "?"));
     }
 
+    // todo code duplication
     private static void setValuesInPreparedStatement(PreparedStatement preparedStatement, Object... values) throws SQLException {
         for (int i = 0; i < values.length; i++) {
             preparedStatement.setObject(i + 1, values[i]);

@@ -24,10 +24,10 @@
 <%--    </p>--%>
 <%--    <br>--%>
 <%--</form>--%>
-
-<form action="controller?command=bookRoom" method="post">
+<form method="get" action="controller">
     <jsp:useBean id="now" class="java.util.Date"/>
     <fmt:formatDate var="currentDate" value="${now}" pattern="yyyy-MM-dd"/>
+    <input type="hidden" name="command" value="freeRoomsPage" />
     <div class="booking-wrap d-flex justify-content-between align-items-center">
         <div class="single-select-box mb-30">
             <!-- select check-in date -->
@@ -41,6 +41,7 @@
                        min="${currentDate}" required/>
             </div>
         </div>
+        <input type="submit" value="Submit">
         <div class="single-select-box mb-30">
             <!-- select check-out date -->
             <div class="booking-tittle">
@@ -54,9 +55,13 @@
             </div>
         </div>
     </div>
-    <h1>Choose a room</h1>
-    <br>
+</form>
 
+<form action="controller?command=bookRoom" method="post">
+    <c:if test="${sessionScope.freeRooms != null}">
+        <h1>Choose a room</h1>
+        <br>
+    </c:if>
     <c:forEach var="freeRoom" items="${sessionScope.freeRooms}">
 
         <div class="list-group">
