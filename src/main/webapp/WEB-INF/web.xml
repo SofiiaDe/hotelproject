@@ -28,6 +28,11 @@
     <url-pattern>/controller</url-pattern>
   </servlet-mapping>
 
+  <!-- Context listener =============================================================-->
+  <listener>
+    <listener-class>com.epam.javacourse.hotel.web.ContextListener</listener-class>
+  </listener>
+
   <!-- Servlet Encoding Filter ================================================ -->
 
   <filter>
