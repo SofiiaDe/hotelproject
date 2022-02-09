@@ -145,6 +145,11 @@ public class InvoiceDAO {
     }
 
     public List<Integer> findCancelledInvoicedBookingIds(List<Integer> bookingIds) throws DBException {
+
+        if (bookingIds.isEmpty()){
+            return Collections.emptyList();
+        }
+
         List<Integer> bookingIdsResult = new ArrayList<>();
 
         String query = DBConstatns.SQL_GET_CANCELLED_INVOICE_BOOKING_IDS_BY_BOOKING_ID;
