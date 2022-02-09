@@ -23,18 +23,21 @@ public class FreeRoomsPageCommand implements ICommand {
         IRoomService roomService = AppContext.getInstance().getRoomService();
 
         HttpSession session = request.getSession();
+        String freeRoomAttrName = "freeRooms";
 
         var checkin = request.getParameter("checkin_date");
         var checkout = request.getParameter("checkout_date");
 
+        if (checkin == null || checkout == null){
+            session.removeAttribute(freeRoomAttrName);
+            return new AddressCommandResult(Path.PAGE_FREE_ROOMS);
+        }
+
         LocalDate checkinDate = LocalDate.parse(checkin);
         LocalDate checkoutDate = LocalDate.parse(checkout);
 
-        if (checkinDate != null && checkoutDate != null)
-        {
-            List<Room> freeRooms = roomService.getFreeRoomsForPeriod(checkinDate, checkoutDate);
-            session.setAttribute("freeRooms", freeRooms);
-        }
+        List<Room> freeRooms = roomService.getFreeRoomsForPeriod(checkinDate, checkoutDate);
+        session.setAttribute(freeRoomAttrName, freeRooms);
 
         return new AddressCommandResult(Path.PAGE_FREE_ROOMS);
     }

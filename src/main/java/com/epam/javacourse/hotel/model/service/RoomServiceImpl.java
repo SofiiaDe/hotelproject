@@ -89,9 +89,7 @@ public class RoomServiceImpl implements IRoomService{
             bookedRooms.removeIf(i -> i.getBookingId() == bookingId);
         }
 
-        var availableRooms = roomDAO.getAvailableRoomsExcept(mapBookingRoomIdModelToRoomIds(bookedRooms));
-
-        return availableRooms;
+        return roomDAO.getAvailableRoomsExcept(mapBookingRoomIdModelToRoomIds(bookedRooms));
     }
 
     private static List<Integer> mapBookingRoomIdModelToRoomIds(List<BookingRoomIdModel> bookedRooms){
