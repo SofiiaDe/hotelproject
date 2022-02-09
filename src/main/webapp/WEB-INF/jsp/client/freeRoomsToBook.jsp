@@ -33,7 +33,7 @@
             <!-- select check-in date -->
             <div class="booking-tittle">
                                             <span>
-                                                <fmt:message key="check.in.date"/>:
+                                                <fmt:message key="checkin.date"/>:
                                             </span>
             </div>
             <div class="booking-datepicker">
@@ -46,7 +46,7 @@
             <!-- select check-out date -->
             <div class="booking-tittle">
                                             <span>
-                                                <fmt:message key="check.out.date"/>:
+                                                <fmt:message key="checkout.date"/>:
                                             </span>
             </div>
             <div class="booking-datepicker">
@@ -80,8 +80,7 @@
                 <div class="ml-1">
                     <input type="hidden" name="room_id"
                            value="${freeRoom.id}">
-                    <button class="ui-button" type="submit"><fmt:message
-                            key="book.button.book"/></button>
+                    <button class="ui-button" type="submit"><fmt:message key="book.button"/></button>
 
                 </div>
                 <br>

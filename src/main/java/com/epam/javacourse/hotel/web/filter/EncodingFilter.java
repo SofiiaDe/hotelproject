@@ -22,6 +22,7 @@ public class EncodingFilter implements Filter {
         logger.debug("Filter initialization finished");
     }
 
+    @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws ServletException, IOException {
         logger.debug("Filter started");

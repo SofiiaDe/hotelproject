@@ -19,7 +19,7 @@
         <div class="col-md-3 register-left">
             <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
             <h3>Welcome</h3>
-            <p>Premium comfort with attention to details</p>
+            <p><fmt:message key="register.welcome.text"/></p>
             <form class="form-signin" method="post" action="controller?command=loginPage">
                 <input type="submit" name="login" value="Sign In"/><br/>
                 <%--                <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message key="login.button.login"/></button><br/>--%>
@@ -30,57 +30,62 @@
             <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="client-tab" data-toggle="tab" href="#client" role="tab"
-                       aria-controls="client" aria-selected="true">Client</a>
+                       aria-controls="client" aria-selected="true"><fmt:message key="register.header.client"/></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="manager-tab" data-toggle="tab" href="#manager" role="tab"
-                       aria-controls="manager" aria-selected="false">Manager</a>
+                       aria-controls="manager" aria-selected="false"><fmt:message key="register.header.manager"/></a>
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="client" role="tabpanel" aria-labelledby="client-tab">
-                    <h3 class="register-heading">Register as a Client</h3>
+                    <h3 class="register-heading"><fmt:message key="register.header.as.client"/></h3>
                     <form class="form-signup" method="post" action="controller?command=registration">
 
                         <div class="row register-form">
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" name="firstName" class="form-control" placeholder="First Name *"
+                                    <input type="text" name="firstName" class="form-control"
+                                           placeholder="<fmt:message key="register.placeholder.first_name"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="lastName" class="form-control" placeholder="Last Name *"
+                                    <input type="text" name="lastName" class="form-control"
+                                           placeholder="<fmt:message key="register.placeholder.last_name"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="country" class="form-control" placeholder="Your Country *"
+                                    <input type="text" name="country" class="form-control"
+                                           placeholder="<fmt:message key="register.placeholder.country"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" name="role" class="form-control" placeholder="Role *"
-                                           value="Client"/>
+                                           value="<fmt:message key="register.placeholder.client"/>"/>
                                 </div>
 
 
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="email" name="email" class="form-control" placeholder="Your Email *"
+                                    <input type="email" name="email" class="form-control"
+                                           placeholder="<fmt:message key="register.placeholder.email"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="password" class="form-control" placeholder="Password *"
+                                    <input type="password" name="password" class="form-control" placeholder="<fmt:message
+                                    key="register.placeholder.password"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
                                     <input type="password" name="confirmPassword" class="form-control"
-                                           placeholder="Confirm Password *"
+                                           placeholder="<fmt:message key="register.placeholder.confirm.password"/> *"
                                            value=""/>
                                 </div>
 
                                 <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message
-                                        key="register.button.register"/></button>
+                                        key="register.button"/></button>
                             </div>
                         </div>
                     </form>
@@ -89,47 +94,50 @@
 
 
                 <div class="tab-pane fade show" id="manager" role="tabpanel" aria-labelledby="manager-tab">
-                    <h3 class="register-heading">Register as a Manager</h3>
+                    <h3 class="register-heading"><fmt:message key="register.header.as.manager"/></h3>
                     <form class="form-signup" method="post" action="controller?command=registration">
 
                         <div class="row register-form">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" name="firstName" class="form-control" placeholder="First Name *"
+                                    <input type="text" name="firstName" class="form-control" placeholder="<fmt:message
+                                    key="register.placeholder.first_name"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="lastName" class="form-control" placeholder="Last Name *"
+                                    <input type="text" name="lastName" class="form-control" placeholder="<fmt:message
+                                    key="register.placeholder.last_name"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="country" class="form-control" placeholder="Your Country *"
+                                    <input type="text" name="country" class="form-control" placeholder="<fmt:message
+                                    key="register.placeholder.country"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" name="role" class="form-control" placeholder="Role *"
-                                           value="Manager"/>
+                                           value="<fmt:message key="register.placeholder.manager"/>"/>
                                 </div>
 
                             </div>
                             <div class="col-md-6">
 
                                 <div class="form-group">
-                                    <input type="email" name="email" class="form-control" placeholder="Your Email *"
+                                    <input type="email" name="email" class="form-control" placeholder="<fmt:message key="register.placeholder.email"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="password" class="form-control" placeholder="Password *"
+                                    <input type="password" name="password" class="form-control" placeholder="<fmt:message key="register.placeholder.password"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
                                     <input type="password" name="confirmPassword" class="form-control"
-                                           placeholder="Confirm Password *"
+                                           placeholder="<fmt:message key="register.placeholder.confirm.password"/> *"
                                            value=""/>
                                 </div>
 
                                 <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message
-                                        key="register.button.register"/></button>
+                                        key="register.button"/></button>
 
                             </div>
                         </div>

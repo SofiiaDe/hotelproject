@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/jspf/taglib.jspf" %>
 <%@ include file="/WEB-INF/jspf/page.jspf" %>
 
+
 <!doctype html>
 <html>
 <c:set var="title" value="Client's desk" scope="page"/>
@@ -15,28 +16,28 @@
                 <a class="nav-link active" id="booking-tab" data-toggle="tab" href="#booking"
                    role="tab"
                    aria-controls="booking" aria-selected="true">
-                    <fmt:message key="main.tab.user_bookings"/>
+                    <fmt:message key="client.table.user_bookings"/>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="application-tab" data-toggle="tab" href="#application" role="tab"
                    aria-controls="application"
                    aria-selected="false">
-                    <fmt:message key="main.tab.user_applications"/>
+                    <fmt:message key="client.table.user_applications"/>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="confirmrequest-tab" data-toggle="tab" href="#confirmrequest" role="tab"
                    aria-controls="confirmrequest"
                    aria-selected="false">
-                    <fmt:message key="main.tab.user_confirmation_requests"/>
+                    <fmt:message key="client.table.user_confirmation_requests"/>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="invoice-tab" data-toggle="tab" href="#invoice" role="tab"
                    aria-controls="invoice"
                    aria-selected="false">
-                    <fmt:message key="main.tab.user_invoices"/>
+                    <fmt:message key="client.table.user_invoices"/>
                 </a>
             </li>
 
@@ -48,10 +49,10 @@
                     <thead>
                     <tr>
                         <th scope="col">
-                            <fmt:message key="table.th.checkin_date"/>
+                            <fmt:message key="checkin.date"/>
                         </th>
                         <th scope="col">
-                            <fmt:message key="table.th.checkout_date"/>
+                            <fmt:message key="checkout.date"/>
                         </th>
                         <th scope="col">
                             <fmt:message key="table.th.room_seats"/>
@@ -88,10 +89,10 @@
                             <fmt:message key="table.th.room_class"/>
                         </th>
                         <th scope="col">
-                            <fmt:message key="table.th.checkin_date"/>
+                            <fmt:message key="checkin.date"/>
                         </th>
                         <th scope="col">
-                            <fmt:message key="table.th.checkout_date"/>
+                            <fmt:message key="checkout.date"/>
                         </th>
 
                     </tr>
@@ -127,16 +128,16 @@
                             <fmt:message key="table.th.room_class"/>
                         </th>
                         <th scope="col">
-                            <fmt:message key="table.th.checkin_date"/>
+                            <fmt:message key="checkin.date"/>
                         </th>
                         <th scope="col">
-                            <fmt:message key="table.th.checkout_date"/>
+                            <fmt:message key="checkout.date"/>
                         </th>
                         <th scope="col">
                             <fmt:message key="table.th.application_id"/>
                         </th>
                         <th scope="col">
-                            <fmt:message key="table.th.confirmrequest_status"/>
+                            <fmt:message key="table.th.status"/>
                         </th>
 
                     </tr>
@@ -180,13 +181,13 @@
                             <fmt:message key="table.th.room_price"/>
                         </th>
                         <th scope="col">
-                            <fmt:message key="table.th.checkin_date"/>
+                            <fmt:message key="checkin.date"/>
                         </th>
                         <th scope="col">
-                            <fmt:message key="table.th.checkout_date"/>
+                            <fmt:message key="checkout.date"/>
                         </th>
                         <th scope="col">
-                            <fmt:message key="table.th.invoice_status"/>
+                            <fmt:message key="table.th.status"/>
                         </th>
                         <th scope="col"></th>
                     </tr>

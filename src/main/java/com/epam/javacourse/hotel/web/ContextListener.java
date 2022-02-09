@@ -3,9 +3,12 @@ package com.epam.javacourse.hotel.web;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 
 /**
@@ -19,7 +22,9 @@ public class ContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         log("Servlet Context initialization started");
 
+        ServletContext servletContext = sce.getServletContext();
         initCommandFactory();
+        initI18n(servletContext);
 
         log("Servlet Context initialization finished");
     }
@@ -44,6 +49,31 @@ public class ContextListener implements ServletContextListener {
         }
 
         logger.debug("ICommand container initialization finished");
+    }
+
+    /**
+     * Initializes i18n subsystem.
+     */
+    private void initI18n(ServletContext servletContext) {
+        logger.debug("i18n subsystem initialization started");
+
+        String localesName = servletContext.getInitParameter("locales");
+        if (localesName == null || localesName.isEmpty()) {
+            logger.warn("'locales' init parameter is empty, the default encoding will be used");
+        } else {
+            List<String> locales = new ArrayList<>();
+            StringTokenizer st = new StringTokenizer(localesName);
+            while (st.hasMoreTokens()) {
+                String localeName = st.nextToken();
+                locales.add(localeName);
+            }
+
+            logger.debug("Application attribute set: locales --> {}", locales);
+
+            servletContext.setAttribute("locales", locales);
+        }
+
+        logger.debug("I18n subsystem initialization finished");
     }
 
     private void log(String message) {

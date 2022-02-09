@@ -27,4 +27,8 @@ public class Path {
     public static final String COMMAND_CLIENT_ACCOUNT_PAGE = "controller?command=clientAccount";
 
     public static final String COMMAND_FREE_ROOMS_PAGE = "controller?command=freeRoomsPage";
+
+    // i18n
+    public static final String LOCALE_NAME_UK = "uk";
+    public static final String LOCALE_NAME_EN = "en";
 }

@@ -1,9 +1,9 @@
 <%@ include file="/WEB-INF/jspf/taglib.jspf" %>
 <%@ include file="/WEB-INF/jspf/page.jspf" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!doctype html>
-<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
-<%--<!DOCTYPE html>--%>
+
 
 <html>
 
@@ -18,14 +18,14 @@
         <div class="logo">
             <img src="logo.png">
         </div>
-        <li><a href="#rooms">Rooms</a></li>
-        <li><a href="/Hotel/controller?command=loginPage">Login</a></li>
-        <li><a href="/Hotel/controller?command=registerPage">Register</a></li>
+        <li><a href="#rooms"><fmt:message key="home.menu.button.rooms"/></a></li>
+        <li><a href="/Hotel/controller?command=loginPage"><fmt:message key="home.menu.button.login"/></a></li>
+        <li><a href="/Hotel/controller?command=registerPage"><fmt:message key="home.menu.button.register"/></a></li>
     </ul>
 
     <div class="rightNav">
         <input type="text" name="search" id="search">
-        <button class="btn btn-sm">Search</button>
+        <button class="btn btn-sm"><fmt:message key="home.menu.button.search"/></button>
     </div>
 </nav>
 

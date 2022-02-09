@@ -14,8 +14,8 @@
 <body class="text-center">
 <form class="form-signin" method="post" action="controller?command=login">
     <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-    <h1 class="h3 mb-3 font-weight-normal">Hotel Sign In</h1>
-    <label for="login" class="sr-only"><fmt:message key="login.label.email"/> </label>
+    <h1 class="h3 mb-3 font-weight-normal"><fmt:message key="login.title.signin"/></h1>
+    <label for="login" class="sr-only"><fmt:message key="login.label.email"/></label>
     <input type="text" id="login" name="email" class="form-control" placeholder=<fmt:message key="login.placeholder.email"/> required autofocus>
     <label for="password" class="sr-only"><fmt:message key="login.label.password"/></label>
     <input type="password" id="password" name="password" class="form-control" placeholder="<fmt:message key="login.placeholder.password"/>" required>

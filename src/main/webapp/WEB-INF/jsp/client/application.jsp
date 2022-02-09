@@ -13,46 +13,46 @@
 <jsp:include page="/WEB-INF/templates/clientMenu.jsp"/>
 <form method="post" action="controller?command=submitApplication">
 
-    <h2>Choose type of room by its beds</h2>
+    <h2><fmt:message key="application.header.choose_type"/></h2>
     <p>
-        <input type="radio" value="single" checked name="room_seats"/>single
+        <input type="radio" value="single" checked name="room_seats"/><fmt:message key="room.type.single"/>
     </p>
     <p>
-        <input type="radio" value="double" name="room_seats"/>double
+        <input type="radio" value="double" name="room_seats"/><fmt:message key="room.type.double"/>
     </p>
     <p>
-        <input type="radio" value="triple" name="room_seats"/>triple
+        <input type="radio" value="triple" name="room_seats"/><fmt:message key="room.type.triple"/>
     </p>
     <p>
-        <input type="radio" value="twin" name="room_seats"/>twin
-    </p>
-    <br>
-    <h2>Choose room class</h2>
-    <p>
-        <input type="radio" value="standard" checked name="room_class"/>standard
-    </p>
-    <p>
-        <input type="radio" value="business" name="room_class"/>business
-    </p>
-    <p>
-        <input type="radio" value="lux" name="room_class"/>lux
+        <input type="radio" value="twin" name="room_seats"/><fmt:message key="room.type.twin"/>
     </p>
     <br>
-    <h2>Choose time of staying at the hotel</h2>
+    <h2><fmt:message key="application.header.choose_class"/></h2>
+    <p>
+        <input type="radio" value="standard" checked name="room_class"/><fmt:message key="room.class.standard"/>
+    </p>
+    <p>
+        <input type="radio" value="business" name="room_class"/><fmt:message key="room.class.business"/>
+    </p>
+    <p>
+        <input type="radio" value="lux" name="room_class"/><fmt:message key="room.class.lux"/>
+    </p>
+    <br>
+    <h2><fmt:message key="application.header.choose_time"/></h2>
 
     <form>
 
         <p>
-            <label for="date">Check-in date: </label>
+            <label for="date"><fmt:message key="checkin.date"/>: </label>
             <input type="date" id="date" name="checkin_date"/>
         </p>
         <p>
-            <label for="date">Check-out date: </label>
+            <label for="date"><fmt:message key="checkout.date"/>: </label>
             <input type="date" id="dateout" name="checkout_date"/>
         </p>
         <br>
         <p>
-            <button type="submit">Submit</button>
+            <button type="submit"><fmt:message key="submit.button"/></button>
         </p>
     </form>
 </form>
