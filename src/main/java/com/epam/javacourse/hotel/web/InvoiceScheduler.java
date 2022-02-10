@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Scheduler for issuing invoices and checking payment within 2 days.
- * The booking is cancelled automatically in case of invoice no being paid by the due date.
+ * The booking is cancelled automatically in case of invoice not being paid by the due date.
  */
 @WebListener
 public class InvoiceScheduler implements ServletContextListener {
@@ -40,7 +40,7 @@ public class InvoiceScheduler implements ServletContextListener {
     }
 
     /**
-     * Runnable class for task.
+     * Runnable class for task of updating invoices' status and cancelling bookings.
      */
     public class DailyInvoiceBookingUpdater implements Runnable {
 

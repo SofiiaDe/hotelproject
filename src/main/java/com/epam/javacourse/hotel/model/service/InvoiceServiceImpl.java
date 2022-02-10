@@ -130,12 +130,14 @@ public class InvoiceServiceImpl implements IInvoiceService {
         return result;
     }
 
+    /**
+     * Creates new invoice once the new booking appeared.
+     * @throws DBException
+     */
     @Override
     public void generateInvoiceForBooking() throws DBException {
 
         IBookingService bookingService = AppContext.getInstance().getBookingService();
-//        IInvoiceService invoiceService = AppContext.getInstance().getInvoiceService();
-        IRoomService roomService = AppContext.getInstance().getRoomService();
 
         List<Booking> allBookings = bookingService.getAllBookings();
         List<Invoice> allInvoices = this.invoiceDAO.findAllInvoices();
@@ -180,6 +182,11 @@ public class InvoiceServiceImpl implements IInvoiceService {
 
     }
 
+    /**
+     * Updates invoice's status to 'cancelled' in case of not paying the invoice by the due date.
+     * @throws DBException
+     */
+    @Override
     public void updateInvoiceStatusToCancelled() throws DBException {
         List<Invoice> allInvoices = this.invoiceDAO.findAllInvoices();
         for(Invoice invoice : allInvoices) {

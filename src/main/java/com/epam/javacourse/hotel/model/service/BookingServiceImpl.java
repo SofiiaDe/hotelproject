@@ -98,19 +98,19 @@ public class BookingServiceImpl implements IBookingService{
         return result;
     }
 
-
+    /**
+     * Finds invoices which were not paid by the due date and thus their status was changed to 'cancelled'.
+     * Then removes bookings related to cancelled invoices.
+     * @throws DBException
+     */
+    @Override
     public void cancelUnpaidBookings() throws DBException {
 
         IInvoiceService invoiceService = AppContext.getInstance().getInvoiceService();
-        List<Booking> allBookings = this.bookingDAO.findAllBookings();
 
-//        List<BookingInvoiceIdModel> unpaidBookings = new ArrayList<>();
-        List<Booking> unpaidBookings = new ArrayList<>();
         List<Invoice> unpaidInvoices = invoiceService.getInvoicesByStatus("cancelled");
         for(Invoice invoice : unpaidInvoices) {
-            unpaidBookings.add(this.bookingDAO.getBookingById(invoice.getBookingId()));
-//            unpaidBookings.add(new BookingInvoiceIdModel(invoice.getBookingId(), invoice.getId()));
+            this.bookingDAO.deleteBookingById(invoice.getBookingId());
         }
-        allBookings.removeAll(unpaidBookings);
     }
 }
