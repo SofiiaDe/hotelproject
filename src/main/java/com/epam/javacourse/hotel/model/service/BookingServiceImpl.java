@@ -4,6 +4,7 @@ import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.db.BookingDAO;
 import com.epam.javacourse.hotel.db.UserDAO;
+import com.epam.javacourse.hotel.db.models.BookingInvoiceIdModel;
 import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.model.Invoice;
 import com.epam.javacourse.hotel.model.User;
@@ -98,4 +99,18 @@ public class BookingServiceImpl implements IBookingService{
     }
 
 
+    public void cancelUnpaidBookings() throws DBException {
+
+        IInvoiceService invoiceService = AppContext.getInstance().getInvoiceService();
+        List<Booking> allBookings = this.bookingDAO.findAllBookings();
+
+//        List<BookingInvoiceIdModel> unpaidBookings = new ArrayList<>();
+        List<Booking> unpaidBookings = new ArrayList<>();
+        List<Invoice> unpaidInvoices = invoiceService.getInvoicesByStatus("cancelled");
+        for(Invoice invoice : unpaidInvoices) {
+            unpaidBookings.add(this.bookingDAO.getBookingById(invoice.getBookingId()));
+//            unpaidBookings.add(new BookingInvoiceIdModel(invoice.getBookingId(), invoice.getId()));
+        }
+        allBookings.removeAll(unpaidBookings);
+    }
 }

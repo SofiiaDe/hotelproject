@@ -24,4 +24,11 @@ public interface IInvoiceService {
     List<UserInvoiceDetailed> getUserDetailedInvoices(int userID) throws DBException;
 
     LocalDateTime getInvoiceDueDate(Invoice invoice);
+
+    void generateInvoiceForBooking() throws DBException;
+
+    void updateInvoiceStatusToCancelled() throws DBException;
+
+    List<Invoice> getInvoicesByStatus(String status) throws DBException;
+
 }

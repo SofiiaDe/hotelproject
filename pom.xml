@@ -103,6 +103,14 @@
       <version>${junit5.version}</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz</artifactId>
+      <version>2.3.2</version>
+    </dependency>
+
     <!--dependency>
       <groupId>com.epam.javacourse.hotel</groupId>
       <artifactId>[the artifact id of the block to be mounted]</artifactId>

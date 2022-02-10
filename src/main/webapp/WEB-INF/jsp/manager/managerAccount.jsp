@@ -121,6 +121,100 @@
                             <td>${application.roomClass}</td>
                             <td>${application.checkinDate}</td>
                             <td>${application.checkoutDate}</td>
+                            <td>
+                                <div class="d-flex justify-content-end">
+                                    <div>
+                                        <button type="submit" class="btn btn-outline-secondary btn-sm"
+                                                data-toggle="modal"
+                                                data-target="#makeRequestModalCenter${application.id}">
+                                            <i class="material-icons">Make request</i>
+                                        </button>
+                                        <!-- Modal -->
+                                        <div class="modal fade bd-example-modal-lg"
+                                             id="makeRequestModalCenter${application.id}"
+                                             tabindex="-1"
+                                             role="dialog"
+                                             aria-labelledby="#makeRequestModalCenterTitle"
+                                             aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-lg"
+                                                 role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title"
+                                                            id="makeRequestModalCenterTitle">
+                                                            Make request
+                                                        </h5>
+                                                        <button type="button" class="close"
+                                                                data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form method="post"
+                                                              action="controller?command=makeConfirmRequest">
+                                                            <div class="form-group">
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <input type="text" name="checkin_date"
+                                                                               class="form-control"
+                                                                               placeholder="<fmt:message key="checkin.date"/>"
+                                                                               value="${application.checkinDate}"
+                                                                               minlength="1"
+                                                                               maxlength="40"
+                                                                               required>
+                                                                    </div>
+                                                                    <div class="col">
+                                                                        <input type="text" name="checkout_date"
+                                                                               class="form-control"
+                                                                               placeholder="<fmt:message key="checkin.date"/>"
+                                                                               value="${application.checkoutDate}"
+                                                                               minlength="1"
+                                                                               maxlength="40"
+                                                                               required>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                    <fmt:message
+                                                                            key="manager.request.specify_room"/>
+
+                                                                <textarea class="form-control"
+                                                                          name="description"
+                                                                          rows="3" minlength="10"
+                                                                          maxlength="250"
+                                                                          required>${application.roomClass} ${application.roomTypeBySeats}
+                                                                </textarea>
+                                                            </div>
+
+                                                            <input type="hidden" name="application_id"
+                                                                   value="${application.id}">
+                                                            <div class="d-flex justify-content-end">
+                                                                <button type="submit"
+                                                                        class="btn btn-outline-primary">
+                                                                    <fmt:message
+                                                                            key="save.button"/>
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ml-1">
+                                        <form action="controller?command=removeApplication" method="post">
+                                            <input type="hidden" name="application_id"
+                                                   value="${application.id}">
+                                            <button type="submit"
+                                                    class="btn btn-outline-secondary btn-sm">
+                                                <i class="material-icons">delete_outline</i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>

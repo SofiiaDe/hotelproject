@@ -3,7 +3,7 @@ package com.epam.javacourse.hotel.web.command;
 import com.epam.javacourse.hotel.web.command.client.*;
 import com.epam.javacourse.hotel.web.command.common.*;
 import com.epam.javacourse.hotel.web.command.norole.*;
-import com.epam.javacourse.hotel.web.command.manager.ConfirmRequestCommand;
+import com.epam.javacourse.hotel.web.command.manager.MakeConfirmRequestCommand;
 import com.epam.javacourse.hotel.web.command.manager.EditRoomsCommand;
 import com.epam.javacourse.hotel.web.command.manager.GetAllUsersCommand;
 import com.epam.javacourse.hotel.web.command.manager.ManagerAccountPageCommand;
@@ -45,7 +45,7 @@ public class CommandFactory {
         commands.put("allUsersList", new GetAllUsersCommand());
         commands.put("managerAccount", new ManagerAccountPageCommand());
         commands.put("editRooms", new EditRoomsCommand());
-        commands.put("makeConfirmationRequest", new ConfirmRequestCommand());
+        commands.put("makeConfirmRequest", new MakeConfirmRequestCommand());
 
         //common commands
         commands.put("registerPage", new RegisterPageCommand());

@@ -2,6 +2,7 @@ package com.epam.javacourse.hotel.model.service;
 
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.db.DBConstatns;
+import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.Room;
 
 import java.time.LocalDate;
@@ -20,5 +21,5 @@ public interface IRoomService {
 
     List<Room> getFreeRoomsForPeriod(LocalDate checkinDate, LocalDate checkoutDate) throws DBException;
 
-    List<Room> getCurrentlyFreeRooms() throws DBException;
+    Room chooseSuitableRoomForRequest(Application application, List<Room> freeRooms) throws DBException;
 }

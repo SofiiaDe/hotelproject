@@ -10,6 +10,9 @@ import com.epam.javacourse.hotel.model.Room;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.serviceModels.InvoiceDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
+import com.epam.javacourse.hotel.web.Path;
+import com.epam.javacourse.hotel.web.command.AddressCommandResult;
+import com.epam.javacourse.hotel.web.command.RedirectCommandResult;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -43,6 +46,12 @@ public class InvoiceServiceImpl implements IInvoiceService {
     public List<Invoice> getInvoicesByUserId(int userId) throws DBException {
         return this.invoiceDAO.findInvoicesByUserId(userId);
     }
+
+    @Override
+    public List<Invoice> getInvoicesByStatus(String status) throws DBException {
+        return this.invoiceDAO.findInvoicesByStatus(status);
+    }
+
 
     @Override
     public double getInvoiceAmount(Booking booking) throws DBException {
@@ -116,8 +125,72 @@ public class InvoiceServiceImpl implements IInvoiceService {
                             booking.getCheckinDate(),
                             booking.getCheckoutDate(),
                             invoice.getInvoiceStatus()
-                            ));
+                    ));
         }
         return result;
     }
+
+    @Override
+    public void generateInvoiceForBooking() throws DBException {
+
+        IBookingService bookingService = AppContext.getInstance().getBookingService();
+//        IInvoiceService invoiceService = AppContext.getInstance().getInvoiceService();
+        IRoomService roomService = AppContext.getInstance().getRoomService();
+
+        List<Booking> allBookings = bookingService.getAllBookings();
+        List<Invoice> allInvoices = this.invoiceDAO.findAllInvoices();
+        int allBookingsSize = allBookings.size();
+
+        if (allBookings.isEmpty()) {
+            return; // ???? - do nothing
+        }
+
+        List<Integer> allBookingIds = allBookings.stream()
+                .map(Booking::getId)
+                .collect(Collectors.toList());
+
+        List<Integer> invoicedBookingIds = allInvoices.stream()
+                .map(Invoice::getBookingId)
+                .collect(Collectors.toList());
+
+        int invoicedBookingsSize = invoicedBookingIds.size();
+
+        if (invoicedBookingsSize == allBookingsSize) {
+            return; // ???? - do nothing
+        }
+
+        List<Integer> bookingIdsToBeInvoiced = new ArrayList<>();
+        if (invoicedBookingsSize < allBookingsSize) {
+            bookingIdsToBeInvoiced = allBookingIds.stream()
+                    .filter(id -> !invoicedBookingIds.contains(id))
+                    .collect(Collectors.toList());
+        }
+
+        for (Integer bookingId : bookingIdsToBeInvoiced) {
+            Booking booking = bookingService.getBookingById(bookingId);
+            Invoice newInvoice = new Invoice();
+            newInvoice.setUserId(booking.getUserId());
+            newInvoice.setAmount(getInvoiceAmount(booking));
+            newInvoice.setBookingId(bookingId);
+            newInvoice.setInvoiceDate(LocalDateTime.now());
+            newInvoice.setInvoiceStatus("new");
+
+            createInvoice(newInvoice);
+        }
+
+    }
+
+    public void updateInvoiceStatusToCancelled() throws DBException {
+        List<Invoice> allInvoices = this.invoiceDAO.findAllInvoices();
+        for(Invoice invoice : allInvoices) {
+            if(invoice.getInvoiceStatus().equals("new") &&
+                    getInvoiceDueDate(invoice).isBefore(LocalDateTime.now())) {
+                invoice.setInvoiceStatus("cancelled");
+                this.invoiceDAO.updateInvoiceStatus(invoice);
+            }
+        }
+    }
+
 }
+
+

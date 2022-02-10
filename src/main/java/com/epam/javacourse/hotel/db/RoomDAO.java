@@ -122,7 +122,7 @@ public class RoomDAO {
         }
 
         if (onlyAvailable) {
-            query += " and (room_status is unknown or room_status = 'available')";
+            query += " AND (room_status is unknown OR room_status = 'available')";
         }
 
         String sql = String.format(query, preparePlaceHolders(ids.size()));

@@ -74,9 +74,6 @@ public class BookRoomCommand implements ICommand {
         int roomId = Integer.parseInt(request.getParameter("room_id"));
         Room bookedRoom = roomService.getRoomById(roomId);
 
-//        bookedRoom.setRoomStatus("booked");
-//        roomService.updateRoom(bookedRoom);
-
         // add new booking to DB
         Booking newBooking = new Booking();
 

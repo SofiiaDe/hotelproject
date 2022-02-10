@@ -3,7 +3,6 @@ package com.epam.javacourse.hotel.web.command.norole;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.web.Path;
-import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
 import com.epam.javacourse.hotel.web.command.ICommandResult;
 import com.epam.javacourse.hotel.web.command.RedirectCommandResult;

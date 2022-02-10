@@ -6,6 +6,7 @@ import com.epam.javacourse.hotel.db.BookingDAO;
 import com.epam.javacourse.hotel.db.InvoiceDAO;
 import com.epam.javacourse.hotel.db.RoomDAO;
 import com.epam.javacourse.hotel.db.models.BookingRoomIdModel;
+import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.model.Room;
 
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RoomServiceImpl implements IRoomService{
+public class RoomServiceImpl implements IRoomService {
 
     private final RoomDAO roomDAO;
     private BookingDAO bookingDAO;
@@ -45,35 +46,10 @@ public class RoomServiceImpl implements IRoomService{
         return this.roomDAO.getRoomsByIds(ids);
     }
 
-    // todo old method, refactor or delete
-    @Override
-    public List<Room> getCurrentlyFreeRooms() throws DBException {
-        IBookingService bookingService = AppContext.getInstance().getBookingService();
-        IRoomService roomService = AppContext.getInstance().getRoomService();
 
-        List<Room> allRoomsList = roomService.allRoomsList();
-
-        // get list of booked rooms
-        List<Booking> allBookings = bookingService.getAllBookings();
-
-        List<Integer> bookedRoomsId = allBookings.stream()
-                .map(Booking::getRoomId)
-                .collect(Collectors.toList());
-
-        List<Room> bookedRooms = roomService.getRoomsByIds(bookedRoomsId);
-
-        // + occupied + unavailable
-
-        // get list of free rooms
-        List<Room> freeRooms = allRoomsList.stream()
-                .filter(room -> !bookedRooms.contains(room))
-//                .filter(room -> !occupiedRooms.contains(room))
-                .collect(Collectors.toList());
-
-
-        return freeRooms;
-    }
-
+    /**
+     * @return list of rooms available for booking
+     */
     @Override
     public List<Room> getFreeRoomsForPeriod(LocalDate checkinDate, LocalDate checkoutDate) throws DBException, IllegalArgumentException {
         if (checkinDate.isAfter(checkoutDate) || checkoutDate.isEqual(checkinDate)){
@@ -94,5 +70,35 @@ public class RoomServiceImpl implements IRoomService{
 
     private static List<Integer> mapBookingRoomIdModelToRoomIds(List<BookingRoomIdModel> bookedRooms){
         return bookedRooms.stream().map(BookingRoomIdModel::getRoomId).collect(Collectors.toList());
+    }
+
+    /**
+     * returns a Room which is the most suitable according to the Client's criteria specified in the application
+     *
+     * @param application
+     * @param freeRooms
+     * @return
+     */
+    @Override
+    public Room chooseSuitableRoomForRequest(Application application, List<Room> freeRooms) throws DBException {
+
+        Room suitableRoom = null;
+
+        for (Room freeRoom : freeRooms) {
+            if ((application.getRoomTypeBySeats().equals(freeRoom.getRoomTypeBySeats()))
+                    && (application.getRoomClass().equals(freeRoom.getRoomClass()))) {
+                return freeRoom;
+            } else if (application.getRoomTypeBySeats().equals(freeRoom.getRoomTypeBySeats())) {
+                return freeRoom;
+            } else if (application.getRoomClass().equals(freeRoom.getRoomClass())) {
+                return freeRoom;
+            } else {
+                suitableRoom = freeRoom;
+            }
+
+        }
+
+        return suitableRoom;
+
     }
 }

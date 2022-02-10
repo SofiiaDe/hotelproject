@@ -20,7 +20,7 @@
         <a class="nav-link" href="controller?command=applicationPage"><fmt:message key="client.menu.button.submit.application"/> <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="controller?command=freeRoomsPage"><fmt:message key="client.menu.button.book"/></a>
+              <a class="nav-link" href="controller?command=freeRoomsPage"><fmt:message key="client.menu.button.book"/></a>
       </li>
     </ul>
     <div class="dropdown">

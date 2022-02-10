@@ -1,6 +1,7 @@
 package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.Invoice;
 import com.epam.javacourse.hotel.model.Room;
 import org.apache.logging.log4j.LogManager;
@@ -192,4 +193,88 @@ public class InvoiceDAO {
             preparedStatement.setObject(i + 1, values[i]);
         }
     }
+
+    public boolean updateInvoiceStatus(Invoice invoice) throws DBException {
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(DBConstatns.SQL_UPDATE_INVOICE_STATUS);
+            pstmt.setString(1, invoice.getInvoiceStatus());
+            pstmt.setInt(2, invoice.getId());
+            pstmt.executeUpdate();
+            con.commit();
+            return true;
+        } catch (SQLException e) {
+            logger.error("Cannot update invoice status", e);
+            rollBack(con);
+            throw new DBException("Cannot update invoice status", e);
+        } finally {
+            close(con);
+            close(pstmt);
+        }
+    }
+
+    public boolean updateInvoice(Invoice invoice) throws DBException {
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(DBConstatns.SQL_UPDATE_INVOICE);
+            pstmt.setInt(1, invoice.getUserId());
+            pstmt.setDouble(2, invoice.getAmount());
+            pstmt.setInt(3, invoice.getBookingId());
+            pstmt.setTimestamp(4, Timestamp.valueOf(invoice.getInvoiceDate()));
+            pstmt.setString(5, invoice.getInvoiceStatus());
+            pstmt.setInt(6, invoice.getId());
+
+            pstmt.executeUpdate();
+            con.commit();
+            return true;
+        } catch (SQLException e) {
+            logger.error("Cannot update invoice", e);
+            rollBack(con);
+            throw new DBException("Cannot update invoice", e);
+        } finally {
+            close(con);
+            close(pstmt);
+        }
+    }
+
+    public List<Invoice> findInvoicesByStatus(String status) throws DBException {
+
+        List<Invoice> invoicesByStatus = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pStmt = con.prepareStatement(DBConstatns.SQL_GET_INVOICES_BY_STATUS);
+            pStmt.setString(1, status);
+            rs = pStmt.executeQuery();
+            while (rs.next()) {
+                Invoice invoice = new Invoice();
+                invoice.setUserId(rs.getInt("user_id"));
+                invoice.setAmount(rs.getDouble("amount"));
+                invoice.setBookingId(rs.getInt("booking_id"));
+                invoice.setInvoiceDate(rs.getDate("invoice_date").toLocalDate().atStartOfDay());
+                invoice.setInvoiceStatus(status);
+
+                invoicesByStatus.add(invoice);
+            }
+
+        } catch (SQLException e) {
+            logger.error("Cannot get invoices by status", e);
+            throw new DBException("Cannot get invoices by status", e);
+        } finally {
+            close(con);
+            close(pStmt);
+            close(rs);
+        }
+        return invoicesByStatus;
+    }
+
 }

@@ -24,4 +24,5 @@ public interface IBookingService {
 
     List<UserBookingDetailed> getUserDetailedBookings(int userID) throws DBException;
 
+    void cancelUnpaidBookings() throws DBException;
 }
