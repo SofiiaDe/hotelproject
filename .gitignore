@@ -28,8 +28,9 @@ nb-configuration.xml
 .project
 .settings/
 
-# ---- Sonar
-.sonar
+# Sonarlint plugin
+.idea/sonarlint
+
 
 # Intellij
 .idea/

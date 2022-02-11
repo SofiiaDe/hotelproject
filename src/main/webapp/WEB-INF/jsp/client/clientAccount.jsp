@@ -1,7 +1,6 @@
 <%@ include file="/WEB-INF/jspf/taglib.jspf" %>
 <%@ include file="/WEB-INF/jspf/page.jspf" %>
 
-<%--<%@ taglib uri="/WEB-INF/customTag.tld" prefix="htl"%>--%>
 <%@ taglib prefix="htl" tagdir="/WEB-INF/tags" %>
 
 <!doctype html>
@@ -156,7 +155,9 @@
                             <td>${confirmrequest.checkinDate}</td>
                             <td>${confirmrequest.checkoutDate}</td>
                             <td>${confirmrequest.applicationId}</td>
-                            <td>${confirmrequest.status}</td>
+<%--                            <td>${confirmrequest.status}</td>--%>
+                            <td><htl:requestStatus request="${confirmrequest.status}"/></td>
+
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -197,8 +198,7 @@
                     </tr>
                     </thead>
                     <tbody>
-<%--                    <htl:colorTag color="RED" >--%>
-<%--                    </htl:colorTag>--%>
+
                     <c:forEach var="invoice" items="${sessionScope.myInvoices}">
                         <tr>
                             <td>${invoice.invoiceDate}</td>
@@ -208,10 +208,7 @@
                             <td>${invoice.pricePerNight}</td>
                             <td>${invoice.checkInDate}</td>
                             <td>${invoice.checkOutDate}</td>
-<%--                            <td>${invoice.status}</td>--%>
-                            <td><htl:tags status="${invoice.status}"/></td>
-<%--                            <td><htl:tags value="${invoice.status()}"/></td>--%>
-
+                            <td><htl:invoiceStatus invoiceStatus="${invoice.status}"/></td>
 
                             <td>
                                 <div class="ml-1">

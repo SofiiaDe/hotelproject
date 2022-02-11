@@ -5,20 +5,12 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
 
-
-    <!--<web-app         version="2.4"-->
-    <!--                 xmlns="http://java.sun.com/xml/ns/j2ee"-->
-    <!--        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
-    <!--         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">-->
-
-
     <welcome-file-list>
         <welcome-file>homePage.jsp</welcome-file>
     </welcome-file-list>
 
 
-    <!--============================================================
-      Controller
+    <!-- Controller
   =============================================================-->
     <servlet>
         <servlet-name>Controller</servlet-name>
@@ -41,7 +33,7 @@
         <param-value>locale_resources</param-value>
     </context-param>
 
-    <!-- set the default locale (optional) -->
+    <!-- set the default locale  -->
     <!-- the (preferable) browser's locale will be used if we don't set the default locale -->
     <context-param>
         <param-name>javax.servlet.jsp.jstl.fmt.locale</param-name>
@@ -78,8 +70,7 @@
         </jsp-property-group>
     </jsp-config>
 
-    <!--============================================================
-      UserRole filter:
+    <!-- UserRole filter:
       1. client - client commands
       2. manager - manager commands
       3. common - commands for all roles
@@ -126,10 +117,6 @@
         <location>/WEB-INF/jsp/errorPage.jsp</location>
     </error-page>
 
-<!--    <taglib>-->
-<!--        <taglib-uri>customTag</taglib-uri>-->
-<!--        <taglib-location>/WEB-INF/customTag.tld</taglib-location>-->
-<!--    </taglib>-->
 
 
 </web-app>

@@ -10,6 +10,6 @@
 ===========================================================================--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<%-- Сustom tag for working with a type of Boolean
+<%-- Сustom tag for working with a String Type (e.g. invoice and confirmation request statuses)
 ===========================================================================--%>
 <%@ taglib prefix="htl" tagdir="/WEB-INF/tags" %>
