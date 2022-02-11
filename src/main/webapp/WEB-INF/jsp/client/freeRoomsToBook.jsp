@@ -4,7 +4,7 @@
 <!doctype html>
 <html>
 <c:set var="title" value="Form for client to book room" scope="page"/>
-<jsp:include page="/WEB-INF/templates/head.jsp"/>
+<jsp:include page="/WEB-INF/components/head.jsp"/>
 <head>
     <title>Free rooms list</title>
 </head>
@@ -92,6 +92,6 @@
     </c:forEach>
 </form>
 
-<jsp:include page="/WEB-INF/templates/scripts.jsp"/>
+<jsp:include page="/WEB-INF/components/scripts.jsp"/>
 </body>
 </html>

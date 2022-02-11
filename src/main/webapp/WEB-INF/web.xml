@@ -1,126 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<web-app version="2.4"
-         xmlns="http://java.sun.com/xml/ns/j2ee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
 
 
-  <welcome-file-list>
-    <welcome-file>homePage.jsp</welcome-file>
-  </welcome-file-list>
-
-  <!--============================================================
-    Controller
-=============================================================-->
-  <servlet>
-    <servlet-name>Controller</servlet-name>
-    <servlet-class>com.epam.javacourse.hotel.web.command.Controller</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Controller</servlet-name>
-    <url-pattern>/controller</url-pattern>
-  </servlet-mapping>
-
-  <!-- Context listener =============================================================-->
-  <listener>
-    <listener-class>com.epam.javacourse.hotel.web.ContextListener</listener-class>
-  </listener>
-
-  <!--i18n Internationalization =============================================================-->
-  <!-- set the resource bundle name -->
-  <context-param>
-    <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
-    <param-value>locale_resources</param-value>
-  </context-param>
-
-  <!-- set the default locale (optional) -->
-  <!-- the (preferable) browser's locale will be used if we don't set the default locale -->
-  <context-param>
-    <param-name>javax.servlet.jsp.jstl.fmt.locale</param-name>
-    <param-value>en</param-value>
-  </context-param>
-
-  <!-- supported locales -->
-  <context-param>
-    <param-name>locales</param-name>
-    <param-value>en uk</param-value>
-  </context-param>
+    <!--<web-app         version="2.4"-->
+    <!--                 xmlns="http://java.sun.com/xml/ns/j2ee"-->
+    <!--        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+    <!--         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">-->
 
 
-<!--   Servlet Encoding Filter ================================================-->
-
-  <filter>
-    <filter-name>EncodingFilter</filter-name>
-    <filter-class>com.epam.javacourse.hotel.web.filter.EncodingFilter</filter-class>
-    <init-param>
-      <param-name>encoding</param-name>
-      <param-value>utf-8</param-value>
-    </init-param>
-  </filter>
-
-  <filter-mapping>
-    <filter-name>EncodingFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
-
-  <jsp-config>
-    <jsp-property-group>
-      <url-pattern>*.jsp</url-pattern>
-      <page-encoding>UTF-8</page-encoding>
-    </jsp-property-group>
-  </jsp-config>
-
-  <!--============================================================
-	UserRole filter:
-	1. client - client commands
-	2. manager - manager commands
-	3. common - commands for all roles
-	4. no-role: commands without access control
-	Delimiter - space/tab
-    =========================================================-->
-<!--  <filter>-->
-<!--    <filter-name>UserRoleFilter</filter-name>-->
-<!--    <filter-class>com.epam.javacourse.hotel.web.filter.UserRoleFilter</filter-class>-->
-<!--    <init-param>-->
-<!--      <param-name>manager</param-name>-->
-<!--      <param-value>allUsersList managerAccount editRooms makeConfirmationRequest</param-value>-->
-<!--    </init-param>-->
-<!--    <init-param>-->
-<!--      <param-name>client</param-name>-->
-<!--      <param-value>clientAccount applicationPage submitApplication freeRoomsPage bookRoom editApplication</param-value>-->
-<!--    </init-param>-->
-<!--    <init-param>-->
-<!--      <param-name>common</param-name>-->
-<!--      <param-value>logout removeApplication</param-value>-->
-<!--    </init-param>-->
-<!--    <init-param>-->
-<!--      <param-name>no-role</param-name>-->
-<!--      <param-value>registerPage registration login loginPage i18n</param-value>-->
-<!--    </init-param>-->
-<!--  </filter>-->
-
-<!--  <filter-mapping>-->
-<!--    <filter-name>UserRoleFilter</filter-name>-->
-<!--    <servlet-name>Controller</servlet-name>-->
-<!--  </filter-mapping>-->
-
-  <!-- Error page =============================================================-->
-
-  <error-page>
-    <error-code>404</error-code>
-    <location>/WEB-INF/jsp/errorPage.jsp</location>
-  </error-page>
-
-  <error-page>
-    <exception-type>java.lang.Throwable</exception-type>
-    <location>/WEB-INF/jsp/errorPage.jsp</location>
-  </error-page>
+    <welcome-file-list>
+        <welcome-file>homePage.jsp</welcome-file>
+    </welcome-file-list>
 
 
+    <!--============================================================
+      Controller
+  =============================================================-->
+    <servlet>
+        <servlet-name>Controller</servlet-name>
+        <servlet-class>com.epam.javacourse.hotel.web.command.Controller</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/controller</url-pattern>
+    </servlet-mapping>
+
+    <!-- Context listener =============================================================-->
+    <listener>
+        <listener-class>com.epam.javacourse.hotel.web.ContextListener</listener-class>
+    </listener>
+
+    <!--i18n Internationalization =============================================================-->
+    <!-- set the resource bundle name -->
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+        <param-value>locale_resources</param-value>
+    </context-param>
+
+    <!-- set the default locale (optional) -->
+    <!-- the (preferable) browser's locale will be used if we don't set the default locale -->
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.locale</param-name>
+        <param-value>en</param-value>
+    </context-param>
+
+    <!-- supported locales -->
+    <context-param>
+        <param-name>locales</param-name>
+        <param-value>en uk</param-value>
+    </context-param>
 
 
+    <!--   Servlet Encoding Filter ================================================-->
 
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>com.epam.javacourse.hotel.web.filter.EncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>utf-8</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+        </jsp-property-group>
+    </jsp-config>
+
+    <!--============================================================
+      UserRole filter:
+      1. client - client commands
+      2. manager - manager commands
+      3. common - commands for all roles
+      4. no-role - commands without access control
+      Delimiter - space (" ")
+      =========================================================-->
+    <filter>
+        <filter-name>UserRoleFilter</filter-name>
+        <filter-class>com.epam.javacourse.hotel.web.filter.UserRoleFilter</filter-class>
+        <init-param>
+            <param-name>manager</param-name>
+            <param-value>allUsersList managerAccount editRooms makeConfirmationRequest</param-value>
+        </init-param>
+        <init-param>
+            <param-name>client</param-name>
+            <param-value>clientAccount applicationPage submitApplication freeRoomsPage bookRoom editApplication
+                paymentPage payInvoice
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>common</param-name>
+            <param-value>logout removeApplication</param-value>
+        </init-param>
+        <init-param>
+            <param-name>no-role</param-name>
+            <param-value>registerPage registration login loginPage i18n</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>UserRoleFilter</filter-name>
+        <servlet-name>Controller</servlet-name>
+    </filter-mapping>
+
+    <!-- Error page =============================================================-->
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/jsp/errorPage.jsp</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/WEB-INF/jsp/errorPage.jsp</location>
+    </error-page>
+
+<!--    <taglib>-->
+<!--        <taglib-uri>customTag</taglib-uri>-->
+<!--        <taglib-location>/WEB-INF/customTag.tld</taglib-location>-->
+<!--    </taglib>-->
 
 
 </web-app>

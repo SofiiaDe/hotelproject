@@ -5,7 +5,7 @@
 <html>
 
 <c:set var="title" value="Error" scope="page" />
-<jsp:include page="/WEB-INF/templates/head.jsp"/>
+<jsp:include page="/WEB-INF/components/head.jsp"/>
 
 <body>
 
@@ -14,13 +14,12 @@
 
     <tr >
         <td class="content">
-            <%-- CONTENT --%>
 
             <h2 class="error">
                 The following error occurred
             </h2>
 
-            <%-- this way we obtain an information about an exception (if it has been occurred) --%>
+            <%-- obtain an information about an exception in case it has been occurred --%>
             <c:set var="code" value="${requestScope['javax.servlet.error.status_code']}"/>
             <c:set var="message" value="${requestScope['javax.servlet.error.message']}"/>
             <c:set var="exception" value="${requestScope['javax.servlet.error.exception']}"/>
@@ -38,7 +37,6 @@
                 <h3>${requestScope.errorMessage}</h3>
             </c:if>
 
-            <%-- CONTENT --%>
         </td>
     </tr>
 

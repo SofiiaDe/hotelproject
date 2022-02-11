@@ -4,7 +4,7 @@
 <!doctype html>
 <html>
 <c:set var="title" value="Login Page" scope="page"/>
-<jsp:include page="/WEB-INF/templates/head.jsp"/>
+<jsp:include page="/WEB-INF/components/head.jsp"/>
 <head>
     <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -30,6 +30,6 @@
 
 
 
-<jsp:include page="/WEB-INF/templates/scripts.jsp"/>
+<jsp:include page="/WEB-INF/components/scripts.jsp"/>
 </body>
 </html>

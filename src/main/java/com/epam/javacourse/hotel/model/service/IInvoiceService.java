@@ -31,4 +31,8 @@ public interface IInvoiceService {
 
     List<Invoice> getInvoicesByStatus(String status) throws DBException;
 
+    void payInvoice(int invoiceId) throws DBException;
+
+    Invoice getInvoiceById(int invoiceId) throws DBException;
+
 }

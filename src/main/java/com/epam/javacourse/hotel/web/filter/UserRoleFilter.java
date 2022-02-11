@@ -9,9 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
- * Security filter for access restriction.
+ * Security filter for access restriction accordingly to User's role.
  */
 public class UserRoleFilter implements Filter {
 
@@ -59,6 +60,11 @@ public class UserRoleFilter implements Filter {
         }
     }
 
+    /**
+     * Checks if the user has permission to access the requested resource.
+     * Such permission rights are defined in web.xml for each command.
+     * @return true if access is allowed for User otherwise return false
+     */
     private boolean accessAllowed(ServletRequest servletRequest) {
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
@@ -68,9 +74,9 @@ public class UserRoleFilter implements Filter {
             return false;
         }
 
-//        if (noRole.contains(commandName)) {
-//            return true;
-//        }
+        if (noRole.contains(commandName)) {
+            return true;
+        }
 
         HttpSession session = httpServletRequest.getSession(false);
         if (session == null) {
@@ -82,7 +88,7 @@ public class UserRoleFilter implements Filter {
             return false;
         }
 
-        return controlAccessMap.get(userRole).contains(commandName) || common.contains(commandName) || noRole.contains(commandName);
+        return controlAccessMap.get(userRole).contains(commandName) || common.contains(commandName) ;
     }
 
     @Override
@@ -92,11 +98,6 @@ public class UserRoleFilter implements Filter {
     }
 
     private List<String> toList(String param) {
-        List<String> list = new ArrayList<>();
-        StringTokenizer tokenizer = new StringTokenizer(param);
-        while (tokenizer.hasMoreTokens()) {
-            list.add(tokenizer.nextToken());
-        }
-        return list;
+        return Arrays.stream(param.split(" ")).collect(Collectors.toList());
     }
 }

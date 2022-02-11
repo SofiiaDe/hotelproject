@@ -4,7 +4,7 @@
 <html>
 
 <c:set var="title" value="Notificaton" scope="page" />
-<jsp:include page="/WEB-INF/templates/head.jsp"/>
+<jsp:include page="/WEB-INF/components/head.jsp"/>
 
 <body>
 

@@ -4,7 +4,7 @@
 <!doctype html>
 <html>
 <c:set var="title" value="Registration page" scope="page"/>
-<jsp:include page="/WEB-INF/templates/head.jsp"/>
+<jsp:include page="/WEB-INF/components/head.jsp"/>
 <head>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -149,7 +149,7 @@
 
 </div>
 
-<jsp:include page="/WEB-INF/templates/scripts.jsp"/>
+<jsp:include page="/WEB-INF/components/scripts.jsp"/>
 
 </body>
 </html>

@@ -11,7 +11,7 @@
     <title>Home page</title>
 </head>
 <c:set var="title" value="Home" scope="page"/>
-<jsp:include page="/WEB-INF/templates/head.jsp"/>
+<jsp:include page="/WEB-INF/components/head.jsp"/>
 <body>
 <nav class="navbar background">
     <ul class="nav-list">
@@ -84,7 +84,7 @@
 
 </footer>
 
-<jsp:include page="/WEB-INF/templates/scripts.jsp"/>
+<jsp:include page="/WEB-INF/components/scripts.jsp"/>
 
 </body>
 

@@ -15,10 +15,3 @@
           rel="stylesheet">
     <title> ${title}</title>
 </head>
-
-<fmt:setLocale value="${requestScope.lang}"/>
-<fmt:setBundle basename="messages"/>
-
-<!DOCTYPE html>
-
-<html lang="${requestScope.lang}" class="h-100">

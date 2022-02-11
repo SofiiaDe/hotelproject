@@ -52,6 +52,11 @@ public class InvoiceServiceImpl implements IInvoiceService {
         return this.invoiceDAO.findInvoicesByStatus(status);
     }
 
+    @Override
+    public Invoice getInvoiceById(int invoiceId) throws DBException {
+        return this.invoiceDAO.findInvoiceById(invoiceId);
+    }
+
 
     @Override
     public double getInvoiceAmount(Booking booking) throws DBException {
@@ -197,6 +202,15 @@ public class InvoiceServiceImpl implements IInvoiceService {
             }
         }
     }
+
+    @Override
+    public void payInvoice(int invoiceId) throws DBException {
+        Invoice invoiceToBePaid = this.invoiceDAO.findInvoiceById(invoiceId);
+        invoiceToBePaid.setInvoiceStatus("paid");
+        this.invoiceDAO.updateInvoiceStatus(invoiceToBePaid);
+
+    }
+
 
 }
 

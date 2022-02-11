@@ -75,6 +75,7 @@ public class DBConstatns {
             "invoice_date = ?, status = ? WHERE id = ?";
     public static final String SQL_UPDATE_INVOICE_STATUS = "UPDATE invoices i SET i.status = ? WHERE i.id = ?";
     public static final String SQL_GET_INVOICES_BY_STATUS = "SELECT * FROM invoices i WHERE i.status = ?";
+    public static final String SQL_GET_INVOICE_BY_ID = "SELECT * FROM invoices WHERE ID = ?";
 
     //FIELDS
     public static final String F_USER_NAME = "name";

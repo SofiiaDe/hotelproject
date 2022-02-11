@@ -1,13 +1,17 @@
 <%@ include file="/WEB-INF/jspf/taglib.jspf" %>
 <%@ include file="/WEB-INF/jspf/page.jspf" %>
 
+<%--<%@ taglib uri="/WEB-INF/customTag.tld" prefix="htl"%>--%>
+<%@ taglib prefix="htl" tagdir="/WEB-INF/tags" %>
 
 <!doctype html>
 <html>
 <c:set var="title" value="Client's desk" scope="page"/>
-<jsp:include page="/WEB-INF/templates/head.jsp"/>
+<jsp:include page="/WEB-INF/components/head.jsp"/>
+
+
 <body>
-<jsp:include page="/WEB-INF/templates/clientMenu.jsp"/>
+<jsp:include page="/WEB-INF/components/clientMenu.jsp"/>
 <div class="container">
     <div class="tab-pane fade show active" id="v-pills-services" role="tabpanel"
          aria-labelledby="v-pills-services-tab">
@@ -193,6 +197,8 @@
                     </tr>
                     </thead>
                     <tbody>
+<%--                    <htl:colorTag color="RED" >--%>
+<%--                    </htl:colorTag>--%>
                     <c:forEach var="invoice" items="${sessionScope.myInvoices}">
                         <tr>
                             <td>${invoice.invoiceDate}</td>
@@ -202,7 +208,32 @@
                             <td>${invoice.pricePerNight}</td>
                             <td>${invoice.checkInDate}</td>
                             <td>${invoice.checkOutDate}</td>
-                            <td>${invoice.status}</td>
+<%--                            <td>${invoice.status}</td>--%>
+                            <td><htl:tags status="${invoice.status}"/></td>
+<%--                            <td><htl:tags value="${invoice.status()}"/></td>--%>
+
+
+                            <td>
+                                <div class="ml-1">
+                                        <a class="nav-link" href="controller?command=paymentPage">
+<%--                                            <% session.setAttribute("attributeName", invoice);%>--%>
+
+                                        <input type="hidden" name="invoice_id"
+                                               value="${invoice.id}" >
+<%--                                            <param="${invoice.id}">--%>
+
+                                            <button class="ui-button" type="submit"><fmt:message key="pay.button"/></button>
+                                        </a>
+                                </div>
+
+
+                                    <%--                                <div class="d-flex justify-content-end">--%>
+                                    <%--                                    <div class="ml-1">--%>
+                                    <%--                                        <a class="nav-link" href="controller?command=paymentPage">--%>
+                                    <%--                                            <fmt:message key="pay.button"/> <span class="sr-only">(current)</span></a>--%>
+                                    <%--                                    </div>--%>
+                                    <%--                                </div>--%>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -213,7 +244,7 @@
     </div>
 </div>
 
-<jsp:include page="/WEB-INF/templates/scripts.jsp"/>
+<jsp:include page="/WEB-INF/components/scripts.jsp"/>
 
 </body>
 </html>

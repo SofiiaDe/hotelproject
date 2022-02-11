@@ -4,13 +4,13 @@
 <!DOCTYPE html>
 <html>
 <c:set var="title" value="Application form for client to book room" scope="page"/>
-<jsp:include page="/WEB-INF/templates/head.jsp"/>
+<jsp:include page="/WEB-INF/components/head.jsp"/>
 <head>
 
     <title>Application form for client to book room</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/templates/clientMenu.jsp"/>
+<jsp:include page="/WEB-INF/components/clientMenu.jsp"/>
 <form method="post" action="controller?command=submitApplication">
 
     <h2><fmt:message key="application.header.choose_type"/></h2>
@@ -56,6 +56,6 @@
         </p>
     </form>
 </form>
-<jsp:include page="/WEB-INF/templates/scripts.jsp"/>
+<jsp:include page="/WEB-INF/components/scripts.jsp"/>
 </body>
 </html>

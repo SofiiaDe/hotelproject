@@ -109,45 +109,9 @@ public class InvoiceDAO {
         return userInvoices;
     }
 
-    private static Invoice mapResultSetToInvoice(ResultSet rs) throws SQLException{
-        Invoice invoice = new Invoice();
-        invoice.setId(rs.getInt("id"));
-        mapInvoiceCommonProperties(invoice, rs);
-
-        return invoice;
-    }
-
-    private static void mapInvoiceCommonProperties(Invoice invoice, ResultSet rs) throws SQLException {
-        invoice.setAmount(rs.getDouble("amount"));
-        invoice.setBookingId(rs.getInt("booking_id"));
-        invoice.setInvoiceDate(rs.getDate("invoice_date").toLocalDate().atStartOfDay());
-        invoice.setInvoiceStatus(rs.getString("status"));
-    }
-
-    private static void close(AutoCloseable itemToBeClosed) {
-        if (itemToBeClosed != null) {
-            try {
-                itemToBeClosed.close();
-            } catch (Exception e) {
-                logger.error("DB close failed in InvoiceDAO", e);
-            }
-        }
-    }
-
-    private static void rollBack(Connection con) {
-        if (con != null) {
-            try {
-                con.rollback();
-                con.setAutoCommit(true);
-            } catch (SQLException e) {
-                logger.error("Cannot rollback transaction in InvoiceDAO", e);
-            }
-        }
-    }
-
     public List<Integer> findCancelledInvoicedBookingIds(List<Integer> bookingIds) throws DBException {
 
-        if (bookingIds.isEmpty()){
+        if (bookingIds.isEmpty()) {
             return Collections.emptyList();
         }
 
@@ -275,6 +239,71 @@ public class InvoiceDAO {
             close(rs);
         }
         return invoicesByStatus;
+    }
+
+    public Invoice findInvoiceById(int invoiceId) throws DBException {
+
+        Invoice invoice = new Invoice();
+        Connection con = null;
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pStmt = con.prepareStatement(DBConstatns.SQL_GET_INVOICE_BY_ID);
+            pStmt.setInt(1, invoiceId);
+
+            rs = pStmt.executeQuery();
+            while (rs.next()) {
+                invoice.setId(invoiceId);
+                mapInvoiceCommonProperties(invoice, rs);
+            }
+
+        } catch (SQLException e) {
+            logger.error("Cannot get invoice by id", e);
+            throw new DBException("Cannot get invoice by id", e);
+        } finally {
+            close(con);
+            close(pStmt);
+            close(rs);
+        }
+        return invoice;
+    }
+
+    private static Invoice mapResultSetToInvoice(ResultSet rs) throws SQLException {
+        Invoice invoice = new Invoice();
+        invoice.setId(rs.getInt("id"));
+        mapInvoiceCommonProperties(invoice, rs);
+
+        return invoice;
+    }
+
+    private static void mapInvoiceCommonProperties(Invoice invoice, ResultSet rs) throws SQLException {
+        invoice.setAmount(rs.getBigDecimal("amount").doubleValue());
+        invoice.setBookingId(rs.getInt("booking_id"));
+        invoice.setInvoiceDate(rs.getDate("invoice_date").toLocalDate().atStartOfDay());
+        invoice.setInvoiceStatus(rs.getString("status"));
+    }
+
+    private static void close(AutoCloseable itemToBeClosed) {
+        if (itemToBeClosed != null) {
+            try {
+                itemToBeClosed.close();
+            } catch (Exception e) {
+                logger.error("DB close failed in InvoiceDAO", e);
+            }
+        }
+    }
+
+    private static void rollBack(Connection con) {
+        if (con != null) {
+            try {
+                con.rollback();
+                con.setAutoCommit(true);
+            } catch (SQLException e) {
+                logger.error("Cannot rollback transaction in InvoiceDAO", e);
+            }
+        }
     }
 
 }

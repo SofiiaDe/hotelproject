@@ -7,8 +7,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 
 /**
@@ -61,12 +63,7 @@ public class ContextListener implements ServletContextListener {
         if (localesName == null || localesName.isEmpty()) {
             logger.warn("'locales' init parameter is empty, the default encoding will be used");
         } else {
-            List<String> locales = new ArrayList<>();
-            StringTokenizer st = new StringTokenizer(localesName);
-            while (st.hasMoreTokens()) {
-                String localeName = st.nextToken();
-                locales.add(localeName);
-            }
+            List<String> locales = Arrays.stream(localesName.split(" ")).collect(Collectors.toList());
 
             logger.debug("Application attribute set: locales --> {}", locales);
 

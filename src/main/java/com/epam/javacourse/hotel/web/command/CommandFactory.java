@@ -40,6 +40,8 @@ public class CommandFactory {
         commands.put("freeRoomsPage", new FreeRoomsPageCommand());
         commands.put("bookRoom", new BookRoomCommand());
         commands.put("editApplication", new EditApplicationCommand());
+        commands.put("paymentPage", new PaymentPageCommand());
+        commands.put("payInvoice", new PayInvoiceCommand());
 
         //manager commands
         commands.put("allUsersList", new GetAllUsersCommand());
