@@ -12,12 +12,21 @@ import com.epam.javacourse.hotel.model.serviceModels.ApplicationDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserApplicationDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
+import com.epam.javacourse.hotel.web.command.manager.MakeConfirmRequestCommand;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ApplicationServiceImpl implements IApplicationService {
+
+    private static final Logger logger = LogManager.getLogger(ApplicationServiceImpl.class);
 
     private final ApplicationDAO applicationDAO;
     private final UserDAO userDao;
@@ -100,5 +109,16 @@ public class ApplicationServiceImpl implements IApplicationService {
         return this.applicationDAO.getApplicationById(id);
     }
 
-
+    @Override
+    public LocalDateTime parseToLocalDateTime(String date) {
+        LocalDateTime parsedDate = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        try {
+            LocalDate localDate = LocalDate.parse(date, formatter);
+            parsedDate = LocalDateTime.of(localDate, LocalDateTime.now().toLocalTime());
+        } catch (DateTimeParseException e) {
+            logger.error("Cannot get date type");
+        }
+        return parsedDate;
+    }
 }

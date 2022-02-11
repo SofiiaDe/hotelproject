@@ -6,6 +6,7 @@ import com.epam.javacourse.hotel.model.serviceModels.ApplicationDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserApplicationDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -26,5 +27,7 @@ public interface IApplicationService {
     Application getApplicationById(int applicationId) throws DBException;
 
     List<UserApplicationDetailed> getUserDetailedApplications(int userID) throws DBException;
+
+    LocalDateTime parseToLocalDateTime(String date);
 
 }

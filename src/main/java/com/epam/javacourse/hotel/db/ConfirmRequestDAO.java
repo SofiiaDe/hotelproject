@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +94,8 @@ public class ConfirmRequestDAO {
                 confirmRequest.setUserId(rs.getInt("user_id"));
                 confirmRequest.setApplicationId(rs.getInt("application_id"));
                 confirmRequest.setRoomId(rs.getInt("room_id"));
-                confirmRequest.setConfirmRequestDate(rs.getDate("confirm_request_date").toLocalDate().atStartOfDay());
+//                confirmRequest.setConfirmRequestDate(rs.getDate("confirm_request_date").toLocalDate().atStartOfDay());
+                confirmRequest.setConfirmRequestDate(rs.getObject("confirm_request_date", LocalDateTime.class));
                 confirmRequest.setConfirmRequestStatus(rs.getString("status"));
                 allConfirmRequestsList.add(confirmRequest);
             }

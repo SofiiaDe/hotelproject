@@ -2,6 +2,7 @@ package com.epam.javacourse.hotel.web.command.manager;
 
 import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.Validator;
 import com.epam.javacourse.hotel.model.*;
 import com.epam.javacourse.hotel.model.service.IApplicationService;
 import com.epam.javacourse.hotel.model.service.IConfirmRequestService;
@@ -20,11 +21,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public class MakeConfirmRequestCommand implements ICommand {
 
-    private static final Logger logger = LogManager.getLogger(LoginCommand.class);
+    private static final Logger logger = LogManager.getLogger(MakeConfirmRequestCommand.class);
 
     IRoomService roomService = AppContext.getInstance().getRoomService();
     IApplicationService applicationService = AppContext.getInstance().getApplicationService();
@@ -42,39 +45,30 @@ public class MakeConfirmRequestCommand implements ICommand {
             return new AddressCommandResult(Path.PAGE_LOGIN);
         }
 
-//        var checkin = request.getParameter("checkin_date");
-//        var checkout = request.getParameter("checkout_date");
-//
-//        LocalDate checkinDate = null;
-//        LocalDate checkoutDate = null;
-//        try {checkinDate = LocalDate.parse(checkin);
-//            checkoutDate = LocalDate.parse(checkout);
-//        } catch (Exception e) {
-//            logger.error("Cannot get check-in date or checkout-date", e);
-//        }
-//        List<Room> freeRoomsRequest = null;
-
-//        if (checkinDate != null && checkoutDate != null) {
-//            freeRoomsRequest = roomService.getFreeRoomsForPeriod(checkinDate, checkoutDate);
-//            session.setAttribute("freeRoomsRequest", freeRoomsRequest);
-//        }
 
         String freeRoomAttrName = "freeRooms";
 
         var checkin = request.getParameter("checkin_date");
+        if(!Validator.validateDate(checkin)) {
+            return new RedirectCommandResult(Path.MANAGER_ACCOUNT_PAGE);
+        }
+
         var checkout = request.getParameter("checkout_date");
+        if(!Validator.validateDate(checkout)) {
+            return new RedirectCommandResult(Path.MANAGER_ACCOUNT_PAGE);
+        }
+
 
         if (checkin == null || checkout == null){
             session.removeAttribute(freeRoomAttrName);
             return new AddressCommandResult(Path.PAGE_FREE_ROOMS);
         }
 
-        LocalDate checkinDate = LocalDate.parse(checkin);
-        LocalDate checkoutDate = LocalDate.parse(checkout);
+        LocalDate checkinDate = LocalDate.parse(request.getParameter("checkin_date"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate checkoutDate = LocalDate.parse(request.getParameter("checkout_date"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 
         List<Room> freeRoomsRequest = roomService.getFreeRoomsForPeriod(checkinDate, checkoutDate);
-
 
         String notification;
 
@@ -82,6 +76,7 @@ public class MakeConfirmRequestCommand implements ICommand {
             notification = "There are no free rooms.";
             request.setAttribute("notification", notification);
             return new AddressCommandResult(Path.PAGE_MANAGER_ACCOUNT);
+
         }
 
         int id = Integer.parseInt((String) session.getAttribute("applicationId"));

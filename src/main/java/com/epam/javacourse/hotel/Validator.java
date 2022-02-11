@@ -1,10 +1,18 @@
 package com.epam.javacourse.hotel;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Validator {
+
+    private static final Logger logger = LogManager.getLogger(Validator.class);
+
 
     private static final String FIELD = "field \"";
     private static final String NOT_EMPTY = "\" cannot be empty";
@@ -21,6 +29,7 @@ public class Validator {
      * @return message to a user explaining incorrect input or null if validation was successful
      */
     public static String validateEmail(String email, int length) {
+
 
         String emailRegex =
                 "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
@@ -65,4 +74,17 @@ public class Validator {
         return null;
     }
 
+    public static boolean validateDate(String date) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate.parse(date, formatter).atStartOfDay();
+            return true;
+        } catch (Exception e) {
+            logger.error("Cannot get date type", e);
+            return false;
+        }
+    }
+
+
 }
+
