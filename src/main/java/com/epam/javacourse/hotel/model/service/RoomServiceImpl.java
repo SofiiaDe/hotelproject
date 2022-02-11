@@ -17,10 +17,8 @@ public class RoomServiceImpl implements IRoomService {
     private final int pageSize;
 
     public RoomServiceImpl(RoomDAO roomDAO) {
-        IAppConfigurationManager appConfigurationManager = AppContext.getInstance().getAppConfigurationManager();
-
         this.roomDAO = roomDAO;
-        this.pageSize = appConfigurationManager.getDefaultPageSize();
+        this.pageSize = 3; // can put this in config;
     }
 
     @Override

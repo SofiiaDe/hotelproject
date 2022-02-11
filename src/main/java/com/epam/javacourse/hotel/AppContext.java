@@ -30,9 +30,6 @@ public class AppContext {
     private final IConfirmRequestService confirmRequestService = new ConfirmRequestServiceImpl(confirmRequestDAO, userDAO);
     private final IInvoiceService invoiceService =new InvoiceServiceImpl(invoiceDAO, userDAO);
 
-    // infrastructure
-    private final IAppConfigurationManager appConfigurationManager = new AppConfigurationManager();
-
     public IUserService getUserService() {
         return userService;
     }
@@ -43,10 +40,6 @@ public class AppContext {
 
     public IRoomService getRoomService() {
         return roomService;
-    }
-
-    public IAppConfigurationManager getAppConfigurationManager(){
-        return appConfigurationManager;
     }
 
     public IBookingService getBookingService() {

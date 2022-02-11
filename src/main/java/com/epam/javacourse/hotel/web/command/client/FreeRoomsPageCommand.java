@@ -55,9 +55,8 @@ public class FreeRoomsPageCommand implements ICommand {
 
         try{
             totalFreeRooms = roomService.getFreeRoomsNumberForPeriod(checkinDate, checkoutDate);
-            IAppConfigurationManager appConfigurationManager = AppContext.getInstance().getAppConfigurationManager();
 
-            int pageSize = appConfigurationManager.getDefaultPageSize();
+            int pageSize = 3; // can put this in config
             pageCount = (int) Math.ceil((float)totalFreeRooms / pageSize);
 
             boolean toGetRooms = totalFreeRooms > 0 && page <= pageCount;
