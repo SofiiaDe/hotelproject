@@ -25,10 +25,13 @@ public class AppContext {
     // services
     private final IUserService userService = new UserServiceImpl(userDAO);
     private final IApplicationService applicationService = new ApplicationServiceImpl(applicationDAO, userDAO);
-    private final IRoomService roomService = new RoomServiceImpl(roomDAO, bookingDAO, invoiceDAO);
+    private final IRoomService roomService = new RoomServiceImpl(roomDAO);
     private final IBookingService bookingService = new BookingServiceImpl(bookingDAO, userDAO);
     private final IConfirmRequestService confirmRequestService = new ConfirmRequestServiceImpl(confirmRequestDAO, userDAO);
     private final IInvoiceService invoiceService =new InvoiceServiceImpl(invoiceDAO, userDAO);
+
+    // infrastructure
+    private final IAppConfigurationManager appConfigurationManager = new AppConfigurationManager();
 
     public IUserService getUserService() {
         return userService;
@@ -40,6 +43,10 @@ public class AppContext {
 
     public IRoomService getRoomService() {
         return roomService;
+    }
+
+    public IAppConfigurationManager getAppConfigurationManager(){
+        return appConfigurationManager;
     }
 
     public IBookingService getBookingService() {

@@ -1,6 +1,7 @@
 package com.epam.javacourse.hotel.web.command.manager;
 
 import com.epam.javacourse.hotel.AppContext;
+import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.Validator;
 import com.epam.javacourse.hotel.model.*;
@@ -68,7 +69,16 @@ public class MakeConfirmRequestCommand implements ICommand {
         LocalDate checkoutDate = LocalDate.parse(request.getParameter("checkout_date"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 
-        List<Room> freeRoomsRequest = roomService.getFreeRoomsForPeriod(checkinDate, checkoutDate);
+        List<Room> freeRoomsRequest;
+
+        try{
+            freeRoomsRequest = roomService.getFreeRoomsForPeriod(checkinDate, checkoutDate);
+        }catch(AppException exception){
+            String errorMessage = "Can't retrieve free rooms for period";
+            logger.error(errorMessage, exception);
+            request.setAttribute("errorMessage", "Can't retrieve rooms data");
+            return new AddressCommandResult(Path.PAGE_ERROR);
+        }
 
         String notification;
 

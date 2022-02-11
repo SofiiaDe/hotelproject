@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,15 +26,7 @@ public class RoomDAO {
             con = DBManager.getInstance().getConnection();
             stmt = con.createStatement();
             rs = stmt.executeQuery(DBConstatns.SQL_GET_ALL_ROOMS);
-            while (rs.next()) {
-                Room room = new Room();
-                room.setId(rs.getInt("id"));
-                room.setPrice(rs.getBigDecimal("price").doubleValue());
-                room.setRoomNumber(rs.getInt("room_number"));
-                room.setRoomTypeBySeats(rs.getString("room_seats"));
-                room.setRoomClass(rs.getString("room_class"));
-                allRoomsList.add(room);
-            }
+            fillRoomsFromDb(allRoomsList, rs);
         } catch (SQLException e) {
             logger.error("Cannot get all rooms", e);
             throw new DBException("Cannot get all rooms", e);
@@ -104,13 +97,6 @@ public class RoomDAO {
         return room;
     }
 
-    public List<Room> getAvailableRoomsExcept(List<Integer> roomsToExclude) throws DBException {
-        if (roomsToExclude == null || roomsToExclude.size() == 0){
-            return getAllRooms();
-        }
-        return getRoomsByIdsToIncludeOrExclude(roomsToExclude, false, true);
-    }
-
     private List<Room> getRoomsByIdsToIncludeOrExclude(List<Integer> ids, boolean include, boolean onlyAvailable) throws DBException{
         List<Room> rooms = new ArrayList<>();
 
@@ -153,6 +139,83 @@ public class RoomDAO {
 
     public List<Room> getRoomsByIds(List<Integer> ids) throws DBException {
         return getRoomsByIdsToIncludeOrExclude(ids, true, true);
+    }
+
+    public List<Room> getAvailableRooms(LocalDate checkin, LocalDate checkout, int page, int pageSize) throws DBException {
+
+        List<Room> allRoomsList = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+
+        String sql = DBConstatns.SQL_GET_AVAILABLE_ROOMS;
+        if (page > 0){
+            sql += " LIMIT " + pageSize;
+            sql += page > 1 ? " OFFSET " + (page - 1) * pageSize : "";
+        }
+        
+        try {
+            con = DBManager.getInstance().getConnection();
+            pStmt = con.prepareStatement(sql);
+            pStmt.setDate(1, Date.valueOf(checkout));
+            pStmt.setDate(2, Date.valueOf(checkin));
+
+            rs = pStmt.executeQuery();
+            fillRoomsFromDb(allRoomsList, rs);
+
+        } catch (SQLException e) {
+            logger.error("Cannot get all rooms", e);
+            throw new DBException("Cannot get all rooms", e);
+        } finally {
+            close(con);
+            close(pStmt);
+            close(rs);
+        }
+
+        return allRoomsList;
+    }
+
+    private void fillRoomsFromDb(List<Room> allRoomsList, ResultSet rs) throws SQLException {
+        while (rs.next()) {
+            Room room = new Room();
+            room.setId(rs.getInt("id"));
+            room.setPrice(rs.getBigDecimal("price").doubleValue());
+            room.setRoomNumber(rs.getInt("room_number"));
+            room.setRoomTypeBySeats(rs.getString("room_seats"));
+            room.setRoomClass(rs.getString("room_class"));
+            allRoomsList.add(room);
+        }
+    }
+
+    public int getAvailableRoomNumber(LocalDate checkin, LocalDate checkout) throws DBException {
+
+        int result;
+        Connection con = null;
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+   
+        String sql = DBConstatns.SQL_GET_AVAILABLE_ROOMS_NUMBER;
+        
+        try {
+            con = DBManager.getInstance().getConnection();
+            pStmt = con.prepareStatement(sql);
+            pStmt.setDate(1, Date.valueOf(checkout));
+            pStmt.setDate(2, Date.valueOf(checkin));
+
+            rs = pStmt.executeQuery();
+            rs.next();
+            result = rs.getInt("cnt");
+            
+        } catch (SQLException e) {
+            logger.error("Cannot get all rooms number", e);
+            throw new DBException("Cannot get all rooms number", e);
+        } finally {
+            close(con);
+            close(pStmt);
+            close(rs);
+        }
+
+        return result;
     }
 
     private static Room mapResultSetToRoom(ResultSet rs) throws SQLException{

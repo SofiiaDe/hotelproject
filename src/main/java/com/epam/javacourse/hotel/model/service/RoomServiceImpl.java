@@ -1,29 +1,26 @@
 package com.epam.javacourse.hotel.model.service;
 
 import com.epam.javacourse.hotel.AppContext;
+import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.Exception.DBException;
-import com.epam.javacourse.hotel.db.BookingDAO;
-import com.epam.javacourse.hotel.db.InvoiceDAO;
+import com.epam.javacourse.hotel.IAppConfigurationManager;
 import com.epam.javacourse.hotel.db.RoomDAO;
-import com.epam.javacourse.hotel.db.models.BookingRoomIdModel;
 import com.epam.javacourse.hotel.model.Application;
-import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.model.Room;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RoomServiceImpl implements IRoomService {
 
     private final RoomDAO roomDAO;
-    private BookingDAO bookingDAO;
-    private InvoiceDAO invoiceDAO;
+    private final int pageSize;
 
-    public RoomServiceImpl(RoomDAO roomDAO, BookingDAO bookingDAO, InvoiceDAO invoiceDAO) {
+    public RoomServiceImpl(RoomDAO roomDAO) {
+        IAppConfigurationManager appConfigurationManager = AppContext.getInstance().getAppConfigurationManager();
+
         this.roomDAO = roomDAO;
-        this.bookingDAO = bookingDAO;
-        this.invoiceDAO = invoiceDAO;
+        this.pageSize = appConfigurationManager.getDefaultPageSize();
     }
 
     @Override
@@ -46,30 +43,42 @@ public class RoomServiceImpl implements IRoomService {
         return this.roomDAO.getRoomsByIds(ids);
     }
 
+    @Override
+    public List<Room> getFreeRoomsForPeriod(LocalDate checkinDate, LocalDate checkoutDate) throws AppException {
+        return getFreeRoomsForPeriod(checkinDate, checkoutDate, -1, pageSize);
+    }
 
     /**
+     * @param page result's page. When page = -1 it means get all
      * @return list of rooms available for booking
      */
     @Override
-    public List<Room> getFreeRoomsForPeriod(LocalDate checkinDate, LocalDate checkoutDate) throws DBException, IllegalArgumentException {
-        if (checkinDate.isAfter(checkoutDate) || checkoutDate.isEqual(checkinDate)){
-            throw new IllegalArgumentException("Check-in and check-out dates are overlapping or equal");
+    public List<Room> getFreeRoomsForPeriod(LocalDate checkinDate, LocalDate checkoutDate, int page, int pageSize) throws IllegalArgumentException, AppException {
+        ensureDatesAreValid(checkinDate, checkoutDate);
+
+        if (page < -1){
+            throw new IllegalArgumentException("Incorrect page");
         }
 
-        List<BookingRoomIdModel> bookedRooms
-                = bookingDAO.getBookedRoomIdsByDates(checkinDate, checkoutDate);
-
-        List<Integer> cancelledBookings = invoiceDAO.findCancelledInvoicedBookingIds(mapBookingRoomIdModelToRoomIds(bookedRooms));
-
-        for (int bookingId: cancelledBookings ) {
-            bookedRooms.removeIf(i -> i.getBookingId() == bookingId);
+        try{
+            return roomDAO.getAvailableRooms(checkinDate, checkoutDate, page, pageSize);
+        }catch(DBException exception){
+            throw new AppException(exception);
         }
-
-        return roomDAO.getAvailableRoomsExcept(mapBookingRoomIdModelToRoomIds(bookedRooms));
     }
 
-    private static List<Integer> mapBookingRoomIdModelToRoomIds(List<BookingRoomIdModel> bookedRooms){
-        return bookedRooms.stream().map(BookingRoomIdModel::getRoomId).collect(Collectors.toList());
+    @Override
+    public int getFreeRoomsNumberForPeriod(LocalDate checkinDate, LocalDate checkoutDate) throws DBException{
+
+        ensureDatesAreValid(checkinDate, checkoutDate);
+
+        return roomDAO.getAvailableRoomNumber(checkinDate, checkoutDate);
+    }
+
+    private void ensureDatesAreValid(LocalDate checkinDate, LocalDate checkoutDate) {
+        if (checkinDate.isAfter(checkoutDate) || checkoutDate.isEqual(checkinDate)) {
+            throw new IllegalArgumentException("Check-in and check-out dates are overlapping or equal");
+        }
     }
 
     /**

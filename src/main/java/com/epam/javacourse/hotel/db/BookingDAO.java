@@ -1,15 +1,11 @@
 package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
-import com.epam.javacourse.hotel.db.models.BookingRoomIdModel;
 import com.epam.javacourse.hotel.model.Booking;
-import com.epam.javacourse.hotel.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -163,37 +159,6 @@ public class BookingDAO {
             close(con);
             close(pStmt);
         }
-    }
-
-    public List<BookingRoomIdModel> getBookedRoomIdsByDates(LocalDate checkin, LocalDate checkout) throws DBException {
-        Connection con = null;
-        PreparedStatement pStmt = null;
-        ResultSet rs = null;
-        List<BookingRoomIdModel> result = new ArrayList<>();
-
-        try {
-            con = DBManager.getInstance().getConnection();
-            pStmt = con.prepareStatement(DBConstatns.SQL_GET_BOOKING_ROOMS_BY_DATE);
-            pStmt.setDate(1, Date.valueOf(checkout));
-            pStmt.setDate(2, Date.valueOf(checkin));
-
-            rs = pStmt.executeQuery();
-            while (rs.next()) {
-                var bookingId = rs.getInt("id");
-                var roomId = rs.getInt("room_id");
-                result.add(new BookingRoomIdModel(bookingId, roomId));
-            }
-
-        } catch (SQLException e) {
-            logger.error("Cannot get booking by id", e);
-            throw new DBException("Cannot get booking by id", e);
-        } finally {
-            close(con);
-            close(pStmt);
-            close(rs);
-        }
-
-        return result;
     }
 
     private static void close(AutoCloseable itemToBeClosed) {

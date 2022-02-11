@@ -1,5 +1,6 @@
 package com.epam.javacourse.hotel.model.service;
 
+import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.db.DBConstatns;
 import com.epam.javacourse.hotel.model.Application;
@@ -19,7 +20,9 @@ public interface IRoomService {
 
     List<Room> getRoomsByIds(List<Integer> ids) throws DBException;
 
-    List<Room> getFreeRoomsForPeriod(LocalDate checkinDate, LocalDate checkoutDate) throws DBException;
+    List<Room> getFreeRoomsForPeriod(LocalDate checkinDate, LocalDate checkoutDate) throws AppException;
+    List<Room> getFreeRoomsForPeriod(LocalDate checkinDate, LocalDate checkoutDate, int page, int pageSize) throws AppException;
+    int getFreeRoomsNumberForPeriod(LocalDate checkinDate, LocalDate checkoutDate) throws AppException;
 
     Room chooseSuitableRoomForRequest(Application application, List<Room> freeRooms) throws DBException;
 }
