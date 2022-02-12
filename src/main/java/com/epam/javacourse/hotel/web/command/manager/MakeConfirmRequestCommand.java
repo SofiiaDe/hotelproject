@@ -59,7 +59,6 @@ public class MakeConfirmRequestCommand implements ICommand {
             return new RedirectCommandResult(Path.MANAGER_ACCOUNT_PAGE);
         }
 
-
         if (checkin == null || checkout == null){
             session.removeAttribute(freeRoomAttrName);
             return new AddressCommandResult(Path.PAGE_FREE_ROOMS);

@@ -3,7 +3,6 @@ package com.epam.javacourse.hotel.web.command.client;
 import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.Exception.DBException;
-import com.epam.javacourse.hotel.IAppConfigurationManager;
 import com.epam.javacourse.hotel.model.Room;
 import com.epam.javacourse.hotel.model.service.IRoomService;
 import com.epam.javacourse.hotel.web.Path;

@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 public class PaymentPageCommand implements ICommand {
     @Override
     public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
-//        request.getParameter("invoice_id");
+
+        request.setAttribute("invoiceId", request.getParameter("invoiceId"));
         return new AddressCommandResult(Path.PAGE_PAY_INVOICE);
 
     }

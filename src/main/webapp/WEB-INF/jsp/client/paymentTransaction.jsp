@@ -12,10 +12,9 @@
 
 <div class="ml-1">
     <form action="controller?command=payInvoice" method="post">
-<%--        var news=<%= request.getParameter("invoice_id") %>--%>
-<%--${param.invoice_id}--%>
+
         <input type="hidden" name="pay_invoice"
-               value="pay_invoice">
+               value="${requestScope.invoiceId}">
 
         <button class="ui-button" type="submit"><fmt:message key="button.confirm.payment.button"/></button>
 

@@ -2,12 +2,10 @@ package com.epam.javacourse.hotel.model.service;
 
 import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.Exception.DBException;
-import com.epam.javacourse.hotel.db.DBConstatns;
 import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.Room;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IRoomService {

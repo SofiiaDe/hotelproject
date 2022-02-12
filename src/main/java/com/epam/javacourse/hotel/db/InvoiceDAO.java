@@ -93,6 +93,7 @@ public class InvoiceDAO {
             rs = pStmt.executeQuery();
             while (rs.next()) {
                 Invoice invoice = new Invoice();
+                invoice.setId(rs.getInt("id"));
                 invoice.setUserId(userId);
                 mapInvoiceCommonProperties(invoice, rs);
                 userInvoices.add(invoice);

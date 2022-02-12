@@ -41,7 +41,8 @@
     <h2><fmt:message key="application.header.choose_time"/></h2>
 
     <form>
-
+        <jsp:useBean id="now" class="java.util.Date" />
+        <fmt:formatDate var="currentDate" value="${now}" pattern="yyyy-MM-dd" />
         <p>
             <label for="date"><fmt:message key="checkin.date"/>: </label>
             <input type="date" id="date" name="checkin_date"/>

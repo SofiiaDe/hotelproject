@@ -16,12 +16,10 @@ import javax.servlet.http.HttpSession;
 public class PayInvoiceCommand implements ICommand {
     @Override
     public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
-
-        HttpSession session = request.getSession();
-        User authorisedUser = (User) session.getAttribute("authorisedUser");
+        
 
         IInvoiceService invoiceService = AppContext.getInstance().getInvoiceService();
-        int invoiceId = Integer.parseInt(request.getParameter("invoice_id"));
+        int invoiceId = Integer.parseInt(request.getParameter("pay_invoice"));
         invoiceService.payInvoice(invoiceId);
         return new AddressCommandResult(Path.PAGE_CLIENT_ACCOUNT);
     }

@@ -42,8 +42,13 @@ public class DBConstatns {
     public static final String SQL_GET_ROOM_BY_ID = "SELECT * FROM rooms WHERE id = ?";
     public static final String SQL_GET_ROOMS_BY_IDS = "SELECT * FROM rooms r WHERE r.id IN (%s)";
     public static final String SQL_GET_ROOMS_EXCEPT = "SELECT * FROM rooms r WHERE NOT(r.id IN (%s))";
-    public static final String SQL_GET_AVAILABLE_ROOMS = "select * from rooms r left outer join (select distinct(room_id) from bookings b left join invoices i on i.booking_id = b.id where (b.checkin_date <= ? and b.checkout_date >= ?) and i.status != 'cancelled') q on q.room_id = r.id where q.room_id is null and room_status = 'available' ";
-    public static final String SQL_GET_AVAILABLE_ROOMS_NUMBER = "select count(*) as cnt from rooms r left outer join (select distinct(room_id) from bookings b left join invoices i on i.booking_id = b.id where (b.checkin_date <= ? and b.checkout_date >= ?) and i.status != 'cancelled') q on q.room_id = r.id where q.room_id is null and room_status = 'available' ";
+    public static final String SQL_GET_AVAILABLE_ROOMS = "select * from rooms r left outer join (select distinct(room_id) " +
+            "from bookings b left join invoices i on i.booking_id = b.id where (b.checkin_date <= ? and b.checkout_date >= ?) " +
+            "and i.status != 'cancelled') q on q.room_id = r.id where q.room_id is null and room_status = 'available' ";
+    public static final String SQL_GET_AVAILABLE_ROOMS_NUMBER = "select count(*) as cnt from rooms r left outer join " +
+            "(select distinct(room_id) from bookings b left join invoices i on i.booking_id = b.id where " +
+            "(b.checkin_date <= ? and b.checkout_date >= ?) and i.status != 'cancelled') q on q.room_id = r.id " +
+            "where q.room_id is null and room_status = 'available' ";
 
 
     // BookingDAO

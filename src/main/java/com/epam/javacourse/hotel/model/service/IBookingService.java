@@ -3,7 +3,6 @@ package com.epam.javacourse.hotel.model.service;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
-import com.epam.javacourse.hotel.model.serviceModels.UserApplicationDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserBookingDetailed;
 
 import java.util.List;

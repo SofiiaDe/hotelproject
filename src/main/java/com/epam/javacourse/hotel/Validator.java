@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -79,7 +80,7 @@ public class Validator {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate.parse(date, formatter).atStartOfDay();
             return true;
-        } catch (Exception e) {
+        } catch (DateTimeParseException e) {
             logger.error("Cannot get date type", e);
             return false;
         }

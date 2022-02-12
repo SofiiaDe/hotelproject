@@ -212,12 +212,7 @@
 
                             <td>
                                 <div class="ml-1">
-                                        <a class="nav-link" href="controller?command=paymentPage">
-<%--                                            <% session.setAttribute("attributeName", invoice);%>--%>
-
-                                        <input type="hidden" name="invoice_id"
-                                               value="${invoice.id}" >
-<%--                                            <param="${invoice.id}">--%>
+                                        <a class="nav-link" href="controller?command=paymentPage&invoiceId=${invoice.id}">
 
                                             <button class="ui-button" type="submit"><fmt:message key="pay.button"/></button>
                                         </a>

@@ -5,14 +5,13 @@ import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.db.ConfirmRequestDAO;
 import com.epam.javacourse.hotel.db.UserDAO;
 import com.epam.javacourse.hotel.model.*;
-import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.ConfirmationRequestDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserConfirmationRequestDetailed;
-import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,6 +55,11 @@ public class ConfirmRequestServiceImpl implements IConfirmRequestService {
     @Override
     public List<ConfirmationRequestDetailed> getAllDetailedConfirmRequests() throws DBException {
         List<ConfirmationRequest> allConfirmRequests = this.confirmRequestDAO.findAllConfirmRequests();
+
+        if(allConfirmRequests.isEmpty()) {
+            return Collections.emptyList();
+        }
+
         List<Integer> userIds = allConfirmRequests.stream()
                 .map(ConfirmationRequest::getUserId).distinct().collect(Collectors.toList());
         List<User> data = this.userDAO.getUsersByIds(userIds);

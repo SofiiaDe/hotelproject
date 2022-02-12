@@ -125,7 +125,6 @@ public class UserDAO {
         } finally {
             close(con);
             close(pStmt);
-            close(rs);
         }
 
         return users;

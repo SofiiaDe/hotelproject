@@ -10,9 +10,6 @@ import com.epam.javacourse.hotel.model.Room;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.serviceModels.InvoiceDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
-import com.epam.javacourse.hotel.web.Path;
-import com.epam.javacourse.hotel.web.command.AddressCommandResult;
-import com.epam.javacourse.hotel.web.command.RedirectCommandResult;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

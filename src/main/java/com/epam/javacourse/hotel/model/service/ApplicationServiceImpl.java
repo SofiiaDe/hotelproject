@@ -1,18 +1,13 @@
 package com.epam.javacourse.hotel.model.service;
 
-import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.db.ApplicationDAO;
 import com.epam.javacourse.hotel.db.UserDAO;
 import com.epam.javacourse.hotel.model.Application;
-import com.epam.javacourse.hotel.model.Booking;
-import com.epam.javacourse.hotel.model.Invoice;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.serviceModels.ApplicationDetailed;
-import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserApplicationDetailed;
-import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
-import com.epam.javacourse.hotel.web.command.manager.MakeConfirmRequestCommand;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

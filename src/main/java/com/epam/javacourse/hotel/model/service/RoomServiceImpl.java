@@ -1,9 +1,7 @@
 package com.epam.javacourse.hotel.model.service;
 
-import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.Exception.DBException;
-import com.epam.javacourse.hotel.IAppConfigurationManager;
 import com.epam.javacourse.hotel.db.RoomDAO;
 import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.Room;

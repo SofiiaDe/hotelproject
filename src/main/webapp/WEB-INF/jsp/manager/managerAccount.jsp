@@ -153,6 +153,8 @@
                                                     <div class="modal-body">
                                                         <form method="post"
                                                               action="controller?command=makeConfirmRequest">
+                                                            <jsp:useBean id="now" class="java.util.Date" />
+                                                            <fmt:formatDate var="currentDate" value="${now}" pattern="yyyy-MM-dd" />
                                                             <div class="form-group">
                                                                 <div class="row">
                                                                     <div class="col">

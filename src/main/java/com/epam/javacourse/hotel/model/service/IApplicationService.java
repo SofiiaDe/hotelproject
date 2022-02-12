@@ -4,7 +4,6 @@ import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.serviceModels.ApplicationDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserApplicationDetailed;
-import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
 
 import java.time.LocalDateTime;
 import java.util.List;
