@@ -1,5 +1,6 @@
 package com.epam.javacourse.hotel.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Application extends Entity {
@@ -10,8 +11,8 @@ public class Application extends Entity {
     private Integer userId;
     private String roomTypeBySeats;
     private String roomClass;
-    private LocalDateTime checkinDate;
-    private LocalDateTime checkoutDate;
+    private LocalDate checkinDate;
+    private LocalDate checkoutDate;
 
     @Override
     public int getId() {
@@ -48,19 +49,19 @@ public class Application extends Entity {
     }
 
 
-    public LocalDateTime getCheckinDate() {
+    public LocalDate getCheckinDate() {
         return checkinDate;
     }
 
-    public void setCheckinDate(LocalDateTime checkinDate) {
+    public void setCheckinDate(LocalDate checkinDate) {
         this.checkinDate = checkinDate;
     }
 
-    public LocalDateTime getCheckoutDate() {
+    public LocalDate getCheckoutDate() {
         return checkoutDate;
     }
 
-    public void setCheckoutDate(LocalDateTime checkoutDate) {
+    public void setCheckoutDate(LocalDate checkoutDate) {
         this.checkoutDate = checkoutDate;
     }
 }

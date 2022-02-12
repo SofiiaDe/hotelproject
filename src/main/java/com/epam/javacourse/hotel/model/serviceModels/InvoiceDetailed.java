@@ -1,5 +1,6 @@
 package com.epam.javacourse.hotel.model.serviceModels;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class InvoiceDetailed {
@@ -9,12 +10,12 @@ public class InvoiceDetailed {
     private String bookedByUserEmail;
     private double amount;
     private int bookingId;
-    private LocalDateTime invoiceDate;
+    private LocalDate invoiceDate;
     private String status;
 
 
     public InvoiceDetailed(int id, String bookedByUser, String bookedByUserEmail,
-                           double amount, int bookingId, LocalDateTime invoiceDate,
+                           double amount, int bookingId, LocalDate invoiceDate,
                            String status) {
         this.id = id;
         this.bookedByUser = bookedByUser;
@@ -45,7 +46,7 @@ public class InvoiceDetailed {
         return bookingId;
     }
 
-    public LocalDateTime getInvoiceDate() {
+    public LocalDate getInvoiceDate() {
         return invoiceDate;
     }
 

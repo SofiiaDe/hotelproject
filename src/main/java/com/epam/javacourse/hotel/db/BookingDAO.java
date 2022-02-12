@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,8 @@ public class BookingDAO {
             con.setAutoCommit(false);
             pstmt = con.prepareStatement(DBConstatns.SQL_CREATE_BOOKING);
             pstmt.setInt(1, booking.getUserId());
-            pstmt.setTimestamp(2, Timestamp.valueOf(booking.getCheckinDate()));
-            pstmt.setTimestamp(3, Timestamp.valueOf(booking.getCheckoutDate()));
+            pstmt.setObject(2, booking.getCheckinDate());
+            pstmt.setObject(3, booking.getCheckoutDate());
             pstmt.setInt(4, booking.getRoomId());
             pstmt.setInt(5, booking.getApplicationId());
 
@@ -56,10 +57,9 @@ public class BookingDAO {
                 Booking booking = new Booking();
                 booking.setId(rs.getInt("id"));
                 booking.setUserId(userId);
-                booking.setCheckinDate(rs.getDate("checkin_date").toLocalDate().atStartOfDay());
-                booking.setCheckoutDate(rs.getDate("checkout_date").toLocalDate().atStartOfDay());
-                booking.setRoomId(rs.getInt("room_id"));
-                booking.setApplicationId(rs.getInt("application_id"));
+//                booking.setCheckinDate(rs.getDate("checkin_date").toLocalDate().atStartOfDay());
+//                booking.setCheckoutDate(rs.getDate("checkout_date").toLocalDate().atStartOfDay());
+                mapBookingCommonProperties(rs, booking);
                 userBookings.add(booking);
             }
 
@@ -89,10 +89,7 @@ public class BookingDAO {
                 Booking booking = new Booking();
                 booking.setId(rs.getInt("id"));
                 booking.setUserId(rs.getInt("user_id"));
-                booking.setCheckinDate(rs.getDate("checkin_date").toLocalDate().atStartOfDay());
-                booking.setCheckoutDate(rs.getDate("checkout_date").toLocalDate().atStartOfDay());
-                booking.setRoomId(rs.getInt("room_id"));
-                booking.setApplicationId(rs.getInt("application_id"));
+                mapBookingCommonProperties(rs, booking);
                 allBookingsList.add(booking);
 
             }
@@ -124,10 +121,7 @@ public class BookingDAO {
             while (rs.next()) {
                 booking.setId(id);
                 booking.setUserId(rs.getInt("user_id"));
-                booking.setCheckinDate(rs.getDate("checkin_date").toLocalDate().atStartOfDay());
-                booking.setCheckoutDate(rs.getDate("checkout_date").toLocalDate().atStartOfDay());
-                booking.setRoomId(rs.getInt("room_id"));
-                booking.setApplicationId(rs.getInt("application_id"));
+                mapBookingCommonProperties(rs, booking);
             }
 
         } catch (SQLException e) {
@@ -180,5 +174,12 @@ public class BookingDAO {
                 logger.error("Cannot rollback transaction", e);
             }
         }
+    }
+
+    private static void mapBookingCommonProperties(ResultSet rs, Booking booking) throws SQLException {
+        booking.setCheckinDate(rs.getObject("checkin_date", LocalDate.class));
+        booking.setCheckoutDate(rs.getObject("checkout_date", LocalDate.class));
+        booking.setRoomId(rs.getInt("room_id"));
+        booking.setApplicationId(rs.getInt("application_id"));
     }
 }

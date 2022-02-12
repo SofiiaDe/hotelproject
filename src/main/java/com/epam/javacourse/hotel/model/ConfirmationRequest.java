@@ -1,5 +1,6 @@
 package com.epam.javacourse.hotel.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class ConfirmationRequest extends Entity{
@@ -11,8 +12,8 @@ public class ConfirmationRequest extends Entity{
     private int userId;
     private int applicationId;
     private int roomId;
-    private LocalDateTime confirmRequestDate;
-    private LocalDateTime confirmRequestDueDate;
+    private LocalDate confirmRequestDate;
+    private LocalDate confirmRequestDueDate;
     private String confirmRequestStatus;
 
     private Application application;
@@ -27,11 +28,11 @@ public class ConfirmationRequest extends Entity{
         this.userId = userId;
     }
 
-    public LocalDateTime getConfirmRequestDueDate() {
+    public LocalDate getConfirmRequestDueDate() {
         return confirmRequestDueDate;
     }
 
-    public void setConfirmRequestDueDate(LocalDateTime confirmRequestDueDate) {
+    public void setConfirmRequestDueDate(LocalDate confirmRequestDueDate) {
         this.confirmRequestDueDate = confirmRequestDueDate;
     }
 
@@ -51,11 +52,11 @@ public class ConfirmationRequest extends Entity{
         this.roomId = roomId;
     }
 
-    public LocalDateTime getConfirmRequestDate() {
+    public LocalDate getConfirmRequestDate() {
         return confirmRequestDate;
     }
 
-    public void setConfirmRequestDate(LocalDateTime confirmRequestDate) {
+    public void setConfirmRequestDate(LocalDate confirmRequestDate) {
         this.confirmRequestDate = confirmRequestDate;
     }
 

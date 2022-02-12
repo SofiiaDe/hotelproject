@@ -3,6 +3,7 @@ package com.epam.javacourse.hotel.web.command.client;
 import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.Validator;
 import com.epam.javacourse.hotel.model.Room;
 import com.epam.javacourse.hotel.model.service.IRoomService;
 import com.epam.javacourse.hotel.web.Path;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +47,8 @@ public class FreeRoomsPageCommand implements ICommand {
 
         int page = parsePage(request);
 
-        LocalDate checkinDate = LocalDate.parse(checkin);
-        LocalDate checkoutDate = LocalDate.parse(checkout);
+        LocalDate checkinDate = Validator.dateParameterToLocalDate(checkin);
+        LocalDate checkoutDate = Validator.dateParameterToLocalDate(checkout);
 
         int totalFreeRooms;
         List<Room> freeRooms;

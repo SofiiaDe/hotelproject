@@ -86,13 +86,12 @@
         </init-param>
         <init-param>
             <param-name>client</param-name>
-            <param-value>clientAccount applicationPage submitApplication freeRoomsPage bookRoom editApplication
-                paymentPage payInvoice
+            <param-value>clientAccount applicationPage submitApplication editApplication paymentPage payInvoice
             </param-value>
         </init-param>
         <init-param>
             <param-name>common</param-name>
-            <param-value>logout removeApplication</param-value>
+            <param-value>logout removeApplication freeRoomsPage bookRoom</param-value>
         </init-param>
         <init-param>
             <param-name>no-role</param-name>

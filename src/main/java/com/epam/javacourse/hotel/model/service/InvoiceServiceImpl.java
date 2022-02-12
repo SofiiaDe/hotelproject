@@ -59,8 +59,8 @@ public class InvoiceServiceImpl implements IInvoiceService {
     public double getInvoiceAmount(Booking booking) throws DBException {
         IRoomService roomService = AppContext.getInstance().getRoomService();
 
-        LocalDate checkinDate = booking.getCheckinDate().toLocalDate();
-        LocalDate checkoutDate = booking.getCheckoutDate().toLocalDate();
+        LocalDate checkinDate = booking.getCheckinDate();
+        LocalDate checkoutDate = booking.getCheckoutDate();
         Period period = Period.between(checkinDate, checkoutDate);
         Room room = roomService.getRoomById(booking.getRoomId());
 
@@ -68,9 +68,9 @@ public class InvoiceServiceImpl implements IInvoiceService {
     }
 
     @Override
-    public LocalDateTime getInvoiceDueDate(Invoice invoice) {
-        LocalDate invoiceDate = invoice.getInvoiceDate().toLocalDate();
-        return invoiceDate.plusDays(2).atStartOfDay();
+    public LocalDate getInvoiceDueDate(Invoice invoice) {
+        LocalDate invoiceDate = invoice.getInvoiceDate();
+        return invoiceDate.plusDays(2);
 
     }
 
@@ -176,7 +176,7 @@ public class InvoiceServiceImpl implements IInvoiceService {
             newInvoice.setUserId(booking.getUserId());
             newInvoice.setAmount(getInvoiceAmount(booking));
             newInvoice.setBookingId(bookingId);
-            newInvoice.setInvoiceDate(LocalDateTime.now());
+            newInvoice.setInvoiceDate(LocalDate.now());
             newInvoice.setInvoiceStatus("new");
 
             createInvoice(newInvoice);
@@ -193,7 +193,7 @@ public class InvoiceServiceImpl implements IInvoiceService {
         List<Invoice> allInvoices = this.invoiceDAO.findAllInvoices();
         for(Invoice invoice : allInvoices) {
             if(invoice.getInvoiceStatus().equals("new") &&
-                    getInvoiceDueDate(invoice).isBefore(LocalDateTime.now())) {
+                    getInvoiceDueDate(invoice).isBefore(LocalDate.now())) {
                 invoice.setInvoiceStatus("cancelled");
                 this.invoiceDAO.updateInvoiceStatus(invoice);
             }

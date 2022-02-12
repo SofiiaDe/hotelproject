@@ -46,9 +46,9 @@ public class ConfirmRequestServiceImpl implements IConfirmRequestService {
     }
 
     @Override
-    public LocalDateTime getConfirmRequestDueDate(ConfirmationRequest confirmRequest) {
-        LocalDate confirmRequestDate = confirmRequest.getConfirmRequestDate().toLocalDate();
-        return confirmRequestDate.plusDays(5).atStartOfDay();
+    public LocalDate getConfirmRequestDueDate(ConfirmationRequest confirmRequest) {
+        LocalDate confirmRequestDate = confirmRequest.getConfirmRequestDate();
+        return confirmRequestDate.plusDays(5);
 
     }
 

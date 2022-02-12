@@ -1,15 +1,12 @@
 package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
-import com.epam.javacourse.hotel.model.Application;
-import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.model.ConfirmationRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +26,7 @@ public class ConfirmRequestDAO {
             pstmt.setInt(1, confirmRequest.getUserId());
             pstmt.setInt(2, confirmRequest.getApplicationId());
             pstmt.setInt(3, confirmRequest.getRoomId());
-            pstmt.setTimestamp(4, Timestamp.valueOf(confirmRequest.getConfirmRequestDate()));
+            pstmt.setObject(4, confirmRequest.getConfirmRequestDate());
 
             pstmt.executeUpdate();
             con.commit();
@@ -59,10 +56,7 @@ public class ConfirmRequestDAO {
                 ConfirmationRequest confirmRequest = new ConfirmationRequest();
                 confirmRequest.setId(rs.getInt("id"));
                 confirmRequest.setUserId(userId);
-                confirmRequest.setApplicationId(rs.getInt("application_id"));
-                confirmRequest.setRoomId(rs.getInt("room_id"));
-                confirmRequest.setConfirmRequestDate(rs.getDate("confirm_request_date").toLocalDate().atStartOfDay());
-                confirmRequest.setConfirmRequestStatus(rs.getString("status"));
+                mapConfirmRequestCommonProperties(rs, confirmRequest);
                 userConfirmRequests.add(confirmRequest);
             }
 
@@ -92,11 +86,7 @@ public class ConfirmRequestDAO {
                 ConfirmationRequest confirmRequest = new ConfirmationRequest();
                 confirmRequest.setId(rs.getInt("id"));
                 confirmRequest.setUserId(rs.getInt("user_id"));
-                confirmRequest.setApplicationId(rs.getInt("application_id"));
-                confirmRequest.setRoomId(rs.getInt("room_id"));
-//                confirmRequest.setConfirmRequestDate(rs.getDate("confirm_request_date").toLocalDate().atStartOfDay());
-                confirmRequest.setConfirmRequestDate(rs.getObject("confirm_request_date", LocalDateTime.class));
-                confirmRequest.setConfirmRequestStatus(rs.getString("status"));
+                mapConfirmRequestCommonProperties(rs, confirmRequest);
                 allConfirmRequestsList.add(confirmRequest);
             }
         } catch (SQLException e) {
@@ -150,5 +140,13 @@ public class ConfirmRequestDAO {
                 logger.error("Cannot rollback transaction in ConfirmRequestDAO", e);
             }
         }
+    }
+
+    private static void mapConfirmRequestCommonProperties(ResultSet rs, ConfirmationRequest confirmRequest) throws SQLException {
+        confirmRequest.setApplicationId(rs.getInt("application_id"));
+        confirmRequest.setRoomId(rs.getInt("room_id"));
+        confirmRequest.setConfirmRequestDate(rs.getObject("confirm_request_date", LocalDate.class));
+        confirmRequest.setConfirmRequestStatus(rs.getString("status"));
+
     }
 }

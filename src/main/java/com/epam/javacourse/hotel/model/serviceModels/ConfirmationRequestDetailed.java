@@ -1,5 +1,6 @@
 package com.epam.javacourse.hotel.model.serviceModels;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class ConfirmationRequestDetailed {
@@ -9,11 +10,11 @@ public class ConfirmationRequestDetailed {
     private String bookedByUserEmail;
     private int applicationId;
     private int roomId;
-    private LocalDateTime confirmRequestDate;
+    private LocalDate confirmRequestDate;
     private String status;
 
     public ConfirmationRequestDetailed(int id, String bookedByUser, String bookedByUserEmail,
-                                       int applicationId, int roomId, LocalDateTime confirmRequestDate, String status) {
+                                       int applicationId, int roomId, LocalDate confirmRequestDate, String status) {
         this.id = id;
         this.bookedByUser = bookedByUser;
         this.bookedByUserEmail = bookedByUserEmail;
@@ -43,7 +44,7 @@ public class ConfirmationRequestDetailed {
         return roomId;
     }
 
-    public LocalDateTime getConfirmRequestDate() {
+    public LocalDate getConfirmRequestDate() {
         return confirmRequestDate;
     }
 

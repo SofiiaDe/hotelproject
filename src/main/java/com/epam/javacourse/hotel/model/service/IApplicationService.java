@@ -27,6 +27,4 @@ public interface IApplicationService {
 
     List<UserApplicationDetailed> getUserDetailedApplications(int userID) throws DBException;
 
-    LocalDateTime parseToLocalDateTime(String date);
-
 }

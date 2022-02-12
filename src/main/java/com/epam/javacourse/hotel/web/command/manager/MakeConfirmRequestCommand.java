@@ -13,7 +13,6 @@ import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
 import com.epam.javacourse.hotel.web.command.ICommandResult;
 import com.epam.javacourse.hotel.web.command.RedirectCommandResult;
-import com.epam.javacourse.hotel.web.command.norole.LoginCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +22,6 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public class MakeConfirmRequestCommand implements ICommand {
@@ -46,27 +44,18 @@ public class MakeConfirmRequestCommand implements ICommand {
             return new AddressCommandResult(Path.PAGE_LOGIN);
         }
 
-
         String freeRoomAttrName = "freeRooms";
 
         var checkin = request.getParameter("checkin_date");
-        if(!Validator.validateDate(checkin)) {
-            return new RedirectCommandResult(Path.MANAGER_ACCOUNT_PAGE);
-        }
-
         var checkout = request.getParameter("checkout_date");
-        if(!Validator.validateDate(checkout)) {
-            return new RedirectCommandResult(Path.MANAGER_ACCOUNT_PAGE);
-        }
+
+        LocalDate checkinDate = Validator.dateParameterToLocalDate(checkin);
+        LocalDate checkoutDate = Validator.dateParameterToLocalDate(checkout);
 
         if (checkin == null || checkout == null){
             session.removeAttribute(freeRoomAttrName);
             return new AddressCommandResult(Path.PAGE_FREE_ROOMS);
         }
-
-        LocalDate checkinDate = LocalDate.parse(request.getParameter("checkin_date"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        LocalDate checkoutDate = LocalDate.parse(request.getParameter("checkout_date"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
 
         List<Room> freeRoomsRequest;
 
@@ -88,14 +77,16 @@ public class MakeConfirmRequestCommand implements ICommand {
 
         }
 
-        int id = Integer.parseInt((String) session.getAttribute("applicationId"));
+//        int id = Integer.parseInt((String) session.getAttribute("application_id"));
+        int id = Integer.parseInt(request.getParameter("applicationId"));
+
         Application applicationToBeRequested = applicationService.getApplicationById(id);
 
         ConfirmationRequest newConfirmationRequest = new ConfirmationRequest();
         newConfirmationRequest.setUserId(applicationToBeRequested.getUserId());
         newConfirmationRequest.setApplicationId(id);
         newConfirmationRequest.setRoomId(roomService.chooseSuitableRoomForRequest(applicationToBeRequested, freeRoomsRequest).getId());
-        newConfirmationRequest.setConfirmRequestDate(LocalDateTime.now());
+        newConfirmationRequest.setConfirmRequestDate(LocalDate.now());
         newConfirmationRequest.setConfirmRequestStatus("new");
 
         confirmRequestService.create(newConfirmationRequest);

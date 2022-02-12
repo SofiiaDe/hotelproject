@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +27,10 @@ public class ApplicationDAO {
             pstmt.setInt(1, application.getUserId());
             pstmt.setString(2, application.getRoomTypeBySeats());
             pstmt.setString(3, application.getRoomClass());
-            pstmt.setTimestamp(4, Timestamp.valueOf(application.getCheckinDate()));
-            pstmt.setTimestamp(5, Timestamp.valueOf(application.getCheckoutDate()));
+            pstmt.setObject(4, application.getCheckinDate());
+            pstmt.setObject(5, application.getCheckoutDate());
+//            pstmt.setTimestamp(4, Timestamp.valueOf(application.getCheckinDate()));
+//            pstmt.setTimestamp(5, Timestamp.valueOf(application.getCheckoutDate()));
 
             pstmt.executeUpdate();
             con.commit();
@@ -135,28 +138,30 @@ public class ApplicationDAO {
     
     public boolean updateApplication(Application application) throws DBException {
 
-        boolean applicationUpdated;
         Connection con = null;
         PreparedStatement pstmt = null;
         try {
             con = DBManager.getInstance().getConnection();
+            con.setAutoCommit(false);
+
             pstmt = con.prepareStatement(DBConstatns.SQL_UPDATE_APPLICATION);
             pstmt.setInt(1, application.getUserId());
             pstmt.setString(2, application.getRoomTypeBySeats());
             pstmt.setString(3, application.getRoomClass());
-            pstmt.setTimestamp(4, Timestamp.valueOf(application.getCheckinDate()));
-            pstmt.setTimestamp(5, Timestamp.valueOf(application.getCheckoutDate()));
+            pstmt.setObject(4, application.getCheckinDate());
+            pstmt.setObject(5, application.getCheckoutDate());
             pstmt.setInt(6, application.getId());
-            applicationUpdated = pstmt.executeUpdate() > 0;
-
+            pstmt.executeUpdate();
+            con.commit();
+            return true;
         } catch (SQLException e) {
             logger.error("Cannot update application", e);
+            rollBack(con);
             throw new DBException("Cannot update application", e);
         } finally {
             close(con);
             close(pstmt);
         }
-        return applicationUpdated;
     }
 
     public void deleteApplication(int applicationId) throws DBException {
@@ -202,7 +207,9 @@ public class ApplicationDAO {
     private static void setApplicationCommonProperties(ResultSet rs, Application application) throws SQLException {
         application.setRoomTypeBySeats(rs.getString("room_seats"));
         application.setRoomClass(rs.getString("room_class"));
-        application.setCheckinDate(rs.getDate("checkin_date").toLocalDate().atStartOfDay());
-        application.setCheckoutDate(rs.getDate("checkout_date").toLocalDate().atStartOfDay());
+        application.setCheckinDate(rs.getObject("checkin_date", LocalDate.class));
+        application.setCheckoutDate(rs.getObject("checkout_date", LocalDate.class));
+//        application.setCheckinDate(rs.getDate("checkin_date").toLocalDate().atStartOfDay());
+//        application.setCheckoutDate(rs.getDate("checkout_date").toLocalDate().atStartOfDay());
     }
 }

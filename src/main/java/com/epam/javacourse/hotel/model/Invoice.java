@@ -1,5 +1,6 @@
 package com.epam.javacourse.hotel.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Invoice extends Entity{
@@ -10,10 +11,10 @@ public class Invoice extends Entity{
     private int userId;
     private double amount;
     private int bookingId;
-    private LocalDateTime invoiceDate;
+    private LocalDate invoiceDate;
     private String invoiceStatus;
 
-    private LocalDateTime dueDate;
+    private LocalDate dueDate;
 
     @Override
     public int getId() {
@@ -41,7 +42,7 @@ public class Invoice extends Entity{
         this.bookingId = bookingId;
     }
 
-    public void setInvoiceDate(LocalDateTime invoiceDate) {
+    public void setInvoiceDate(LocalDate invoiceDate) {
         this.invoiceDate = invoiceDate;
     }
 
@@ -61,11 +62,11 @@ public class Invoice extends Entity{
         this.amount = amount;
     }
 
-    public LocalDateTime getInvoiceDate() {
+    public LocalDate getInvoiceDate() {
         return invoiceDate;
     }
 
-    public LocalDateTime getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 }

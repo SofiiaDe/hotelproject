@@ -2,8 +2,8 @@ package com.epam.javacourse.hotel.web.command.client;
 
 import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.Validator;
 import com.epam.javacourse.hotel.model.Booking;
-import com.epam.javacourse.hotel.model.Room;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.service.IBookingService;
 import com.epam.javacourse.hotel.model.service.IRoomService;
@@ -11,6 +11,7 @@ import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
 import com.epam.javacourse.hotel.web.command.ICommandResult;
+import com.epam.javacourse.hotel.web.command.RedirectCommandResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,35 +36,23 @@ public class BookRoomCommand implements ICommand {
         HttpSession session = request.getSession();
         User authorisedUser = (User) session.getAttribute("authorisedUser");
 
-        // get and validate check-in and check-out dates
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String address = Path.PAGE_ERROR;
+        String errorMessage;
 
         String checkinDate = request.getParameter("checkin_date");
         String checkoutDate = request.getParameter("checkout_date");
 
-        LocalDate ldCheckin = null;
-        LocalDate ldCheckout = null;
-        try {
-            ldCheckin = LocalDate.parse(checkinDate, formatter);
-            ldCheckout = LocalDate.parse(checkoutDate, formatter);
-        } catch (DateTimeParseException e) {
-            logger.error("Cannot get date type", e);
-        }
-
-        String address = Path.PAGE_ERROR;
-        String errorMessage;
+        LocalDate checkin = Validator.dateParameterToLocalDate(checkinDate);
+        LocalDate checkout = Validator.dateParameterToLocalDate(checkoutDate);
 
         if (checkinDate == null || checkoutDate == null || checkinDate.isEmpty() || checkoutDate.isEmpty()
-        || ldCheckin == null || ldCheckout == null) {
+        || checkin == null || checkout == null) {
             errorMessage = "Please choose check-in and check-out dates.";
             request.setAttribute("errorMessage", errorMessage);
             return new AddressCommandResult(address);
         }
 
-        LocalDateTime checkinDateLocal = LocalDateTime.of(ldCheckin, LocalDateTime.now().toLocalTime());
-        LocalDateTime checkoutDateLocal = LocalDateTime.of(ldCheckout, LocalDateTime.now().toLocalTime());
-
-        if(checkinDateLocal.isAfter(checkoutDateLocal)) {
+        if(checkin.isAfter(checkout)) {
             errorMessage = "Check-out date cannot be later than check-in date.\n " +
                     "Please enter correct dates.";
             request.setAttribute("errorMessage", errorMessage);
@@ -72,14 +61,13 @@ public class BookRoomCommand implements ICommand {
 
         // update room's status to "booked"
         int roomId = Integer.parseInt(request.getParameter("room_id"));
-        Room bookedRoom = roomService.getRoomById(roomId);
 
         // add new booking to DB
         Booking newBooking = new Booking();
 
         newBooking.setUserId(authorisedUser.getId());
-        newBooking.setCheckinDate(checkinDateLocal);
-        newBooking.setCheckoutDate(checkoutDateLocal);
+        newBooking.setCheckinDate(checkin);
+        newBooking.setCheckoutDate(checkout);
         newBooking.setRoomId(roomId);
         newBooking.setApplicationId(0);
         bookingService.create(newBooking);
@@ -88,9 +76,7 @@ public class BookRoomCommand implements ICommand {
         // Please check the invoice in your personal account."
 
 
+        return new RedirectCommandResult(Path.COMMAND_CLIENT_ACCOUNT);
 
-
-
-        return new AddressCommandResult(Path.PAGE_CLIENT_ACCOUNT);
     }
 }

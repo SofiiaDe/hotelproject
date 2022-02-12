@@ -1,23 +1,24 @@
 package com.epam.javacourse.hotel.model.serviceModels;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class UserConfirmationRequestDetailed {
 
     private int id;
-    private LocalDateTime confirmRequestDate;
-    private LocalDateTime confirmRequestDueDate;
+    private LocalDate confirmRequestDate;
+    private LocalDate confirmRequestDueDate;
     private String roomTypeBySeats;
     private String roomClass;
-    private LocalDateTime checkinDate;
-    private LocalDateTime checkoutDate;
+    private LocalDate checkinDate;
+    private LocalDate checkoutDate;
     private int applicationId;
     private String status;
 
-    public UserConfirmationRequestDetailed(int id, LocalDateTime confirmRequestDate,
-                                           LocalDateTime confirmRequestDueDate,
+    public UserConfirmationRequestDetailed(int id, LocalDate confirmRequestDate,
+                                           LocalDate confirmRequestDueDate,
                                            String roomTypeBySeats, String roomClass,
-                                           LocalDateTime checkinDate, LocalDateTime checkoutDate,
+                                           LocalDate checkinDate, LocalDate checkoutDate,
                                            int applicationId, String status) {
         this.id = id;
         this.confirmRequestDate = confirmRequestDate;
@@ -34,11 +35,11 @@ public class UserConfirmationRequestDetailed {
         return id;
     }
 
-    public LocalDateTime getConfirmRequestDate() {
+    public LocalDate getConfirmRequestDate() {
         return confirmRequestDate;
     }
 
-    public LocalDateTime getConfirmRequestDueDate() {
+    public LocalDate getConfirmRequestDueDate() {
         return confirmRequestDueDate;
     }
 
@@ -50,11 +51,11 @@ public class UserConfirmationRequestDetailed {
         return roomClass;
     }
 
-    public LocalDateTime getCheckinDate() {
+    public LocalDate getCheckinDate() {
         return checkinDate;
     }
 
-    public LocalDateTime getCheckoutDate() {
+    public LocalDate getCheckoutDate() {
         return checkoutDate;
     }
 

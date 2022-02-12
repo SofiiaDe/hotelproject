@@ -1,17 +1,18 @@
 package com.epam.javacourse.hotel.model.serviceModels;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class UserBookingDetailed {
 
     private int id;
-    private LocalDateTime checkinDate;
-    private LocalDateTime checkoutDate;
+    private LocalDate checkinDate;
+    private LocalDate checkoutDate;
     private String roomTypeBySeats;
     private String roomClass;
     private boolean isPaid;
 
-    public UserBookingDetailed(int id, LocalDateTime checkinDate, LocalDateTime checkoutDate,
+    public UserBookingDetailed(int id, LocalDate checkinDate, LocalDate checkoutDate,
                                String roomTypeBySeats, String roomClass, boolean isPaid) {
         this.id = id;
         this.checkinDate = checkinDate;
@@ -25,11 +26,11 @@ public class UserBookingDetailed {
         return id;
     }
 
-    public LocalDateTime getCheckinDate() {
+    public LocalDate getCheckinDate() {
         return checkinDate;
     }
 
-    public LocalDateTime getCheckoutDate() {
+    public LocalDate getCheckoutDate() {
         return checkoutDate;
     }
 

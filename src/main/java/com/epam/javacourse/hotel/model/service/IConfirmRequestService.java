@@ -5,6 +5,7 @@ import com.epam.javacourse.hotel.model.ConfirmationRequest;
 import com.epam.javacourse.hotel.model.serviceModels.ConfirmationRequestDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserConfirmationRequestDetailed;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,6 +23,6 @@ public interface IConfirmRequestService {
 
     List<UserConfirmationRequestDetailed> getUserDetailedConfirmRequests(int userID) throws DBException;
 
-    LocalDateTime getConfirmRequestDueDate(ConfirmationRequest confirmRequest);
+    LocalDate getConfirmRequestDueDate(ConfirmationRequest confirmRequest);
 
 }

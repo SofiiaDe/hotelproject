@@ -1,14 +1,12 @@
 package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
-import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.Invoice;
-import com.epam.javacourse.hotel.model.Room;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +27,7 @@ public class InvoiceDAO {
             pstmt.setInt(1, invoice.getUserId());
             pstmt.setDouble(2, invoice.getAmount());
             pstmt.setInt(3, invoice.getBookingId());
-            pstmt.setTimestamp(4, Timestamp.valueOf(invoice.getInvoiceDate()));
+            pstmt.setObject(4, invoice.getInvoiceDate());
             pstmt.setString(5, invoice.getInvoiceStatus());
 
             pstmt.executeUpdate();
@@ -60,10 +58,7 @@ public class InvoiceDAO {
                 Invoice invoice = new Invoice();
                 invoice.setId(rs.getInt("id"));
                 invoice.setUserId(rs.getInt("user_id"));
-                invoice.setAmount(rs.getDouble("amount"));
-                invoice.setBookingId(rs.getInt("booking_id"));
-                invoice.setInvoiceDate(rs.getDate("invoice_date").toLocalDate().atStartOfDay());
-                invoice.setInvoiceStatus(rs.getString("status"));
+                mapInvoiceCommonProperties(invoice, rs);
                 allInvoicesList.add(invoice);
 
             }
@@ -165,6 +160,7 @@ public class InvoiceDAO {
         PreparedStatement pstmt = null;
         try {
             con = DBManager.getInstance().getConnection();
+            con.setAutoCommit(false);
             pstmt = con.prepareStatement(DBConstatns.SQL_UPDATE_INVOICE_STATUS);
             pstmt.setString(1, invoice.getInvoiceStatus());
             pstmt.setInt(2, invoice.getId());
@@ -187,11 +183,12 @@ public class InvoiceDAO {
         PreparedStatement pstmt = null;
         try {
             con = DBManager.getInstance().getConnection();
+            con.setAutoCommit(false);
             pstmt = con.prepareStatement(DBConstatns.SQL_UPDATE_INVOICE);
             pstmt.setInt(1, invoice.getUserId());
             pstmt.setDouble(2, invoice.getAmount());
             pstmt.setInt(3, invoice.getBookingId());
-            pstmt.setTimestamp(4, Timestamp.valueOf(invoice.getInvoiceDate()));
+            pstmt.setObject(4, invoice.getInvoiceDate());
             pstmt.setString(5, invoice.getInvoiceStatus());
             pstmt.setInt(6, invoice.getId());
 
@@ -225,7 +222,7 @@ public class InvoiceDAO {
                 invoice.setUserId(rs.getInt("user_id"));
                 invoice.setAmount(rs.getDouble("amount"));
                 invoice.setBookingId(rs.getInt("booking_id"));
-                invoice.setInvoiceDate(rs.getDate("invoice_date").toLocalDate().atStartOfDay());
+                invoice.setInvoiceDate(rs.getObject("invoice_date", LocalDate.class));
                 invoice.setInvoiceStatus(status);
 
                 invoicesByStatus.add(invoice);
@@ -282,7 +279,7 @@ public class InvoiceDAO {
     private static void mapInvoiceCommonProperties(Invoice invoice, ResultSet rs) throws SQLException {
         invoice.setAmount(rs.getBigDecimal("amount").doubleValue());
         invoice.setBookingId(rs.getInt("booking_id"));
-        invoice.setInvoiceDate(rs.getDate("invoice_date").toLocalDate().atStartOfDay());
+        invoice.setInvoiceDate(rs.getObject("invoice_date", LocalDate.class));
         invoice.setInvoiceStatus(rs.getString("status"));
     }
 

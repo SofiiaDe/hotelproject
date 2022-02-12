@@ -150,11 +150,17 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
+
                                                     <div class="modal-body">
                                                         <form method="post"
+<%--                                                            action="controller?command=makeConfirmRequest&applicationId=${application.id}">--%>
                                                               action="controller?command=makeConfirmRequest">
-                                                            <jsp:useBean id="now" class="java.util.Date" />
-                                                            <fmt:formatDate var="currentDate" value="${now}" pattern="yyyy-MM-dd" />
+
+                                                            <%--                                                            <input type="hidden" name="pay_invoice"--%>
+<%--                                                                   value="${requestScope.application_id}">--%>
+<%--                                                            <input type="hidden" name="application_id"--%>
+<%--                                                                   value="${application.id}">--%>
+                                                                <%--                                                        <form method="get" action="controller">--%>
                                                             <div class="form-group">
                                                                 <div class="row">
                                                                     <div class="col">
@@ -179,8 +185,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                    <fmt:message
-                                                                            key="manager.request.specify_room"/>
+                                                                <fmt:message
+                                                                        key="manager.request.specify_room"/>
 
                                                                 <textarea class="form-control"
                                                                           name="description"
@@ -189,17 +195,66 @@
                                                                           required>${application.roomClass} ${application.roomTypeBySeats}
                                                                 </textarea>
                                                             </div>
+<%--                                                                    <input type="hidden" name="pay_invoice"--%>
+<%--                                                                           value="${requestScope.invoiceId}">--%>
 
-                                                            <input type="hidden" name="application_id"
-                                                                   value="${application.id}">
                                                             <div class="d-flex justify-content-end">
+
+
+                                                                <%--                                                                <input type="hidden" name="application_id"--%>
+<%--                                                                       value="${application.id}">--%>
                                                                 <button type="submit"
                                                                         class="btn btn-outline-primary">
                                                                     <fmt:message
-                                                                            key="save.button"/>
+                                                                            key="make_request.button"/>
                                                                 </button>
                                                             </div>
                                                         </form>
+
+                                                            <%--                                                        <form method="post"--%>
+                                                            <%--                                                              action="controller?command=makeConfirmRequest">--%>
+
+                                                            <%--                                                            <c:if test="${requestScope != null && requestScope.freeRooms != null}">--%>
+                                                            <%--                                                                <h1>Choose a room</h1>--%>
+                                                            <%--                                                                <br>--%>
+                                                            <%--                                                                <c:forEach var="freeRoom"--%>
+                                                            <%--                                                                           items="${requestScope.freeRooms}">--%>
+
+                                                            <%--                                                                    <div class="list-group">--%>
+
+                                                            <%--                                                                        <a class="list-group-item list-group-item-action flex-column align-items-start active">--%>
+                                                            <%--                                                                            <div class="d-flex w-100 justify-content-between">--%>
+                                                            <%--                                                                                <h5 class="mb-1">--%>
+                                                            <%--                                                                                    Type: ${freeRoom.roomTypeBySeats}</h5>--%>
+                                                            <%--                                                                                <small>No. ${freeRoom.roomNumber}</small>--%>
+                                                            <%--                                                                            </div>--%>
+                                                            <%--                                                                            <div class="d-flex w-100 justify-content-between">--%>
+                                                            <%--                                                                                <h5 class="mb-1">--%>
+                                                            <%--                                                                                    Type: ${freeRoom.roomClass}</h5>--%>
+                                                            <%--                                                                            </div>--%>
+                                                            <%--                                                                            <small>$${freeRoom.price}</small>--%>
+
+                                                            <%--                                                                            <div class="ml-1">--%>
+                                                            <%--                                                                                <input type="hidden" name="room_id"--%>
+                                                            <%--                                                                                       value="${freeRoom.id}">--%>
+                                                            <%--                                                                                <button class="ui-button"--%>
+                                                            <%--                                                                                        type="submit">--%>
+                                                            <%--                                                                                    <fmt:message--%>
+                                                            <%--                                                                                            key="make_reqest.button"/></button>--%>
+
+                                                            <%--                                                                            </div>--%>
+                                                            <%--                                                                            <br>--%>
+                                                            <%--                                                                            <br>--%>
+                                                            <%--                                                                            <br>--%>
+                                                            <%--                                                                        </a>--%>
+                                                            <%--                                                                    </div>--%>
+
+                                                            <%--                                                                </c:forEach>--%>
+
+                                                            <%--                                                            </c:if>--%>
+                                                            <%--                                                        </form>--%>
+
+
                                                     </div>
                                                 </div>
                                             </div>

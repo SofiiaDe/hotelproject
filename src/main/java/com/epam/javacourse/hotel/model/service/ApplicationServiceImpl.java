@@ -104,16 +104,4 @@ public class ApplicationServiceImpl implements IApplicationService {
         return this.applicationDAO.getApplicationById(id);
     }
 
-    @Override
-    public LocalDateTime parseToLocalDateTime(String date) {
-        LocalDateTime parsedDate = null;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        try {
-            LocalDate localDate = LocalDate.parse(date, formatter);
-            parsedDate = LocalDateTime.of(localDate, LocalDateTime.now().toLocalTime());
-        } catch (DateTimeParseException e) {
-            logger.error("Cannot get date type");
-        }
-        return parsedDate;
-    }
 }
