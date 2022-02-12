@@ -9,7 +9,6 @@ import com.epam.javacourse.hotel.model.serviceModels.ConfirmationRequestDetailed
 import com.epam.javacourse.hotel.model.serviceModels.UserConfirmationRequestDetailed;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -48,7 +47,7 @@ public class ConfirmRequestServiceImpl implements IConfirmRequestService {
     @Override
     public LocalDate getConfirmRequestDueDate(ConfirmationRequest confirmRequest) {
         LocalDate confirmRequestDate = confirmRequest.getConfirmRequestDate();
-        return confirmRequestDate.plusDays(5);
+        return confirmRequestDate.plusDays(3);
 
     }
 
@@ -107,7 +106,13 @@ public class ConfirmRequestServiceImpl implements IConfirmRequestService {
                             confirmRequest.getStatus()
                     ));
         }
-
         return result;
+    }
+
+    @Override
+    public void confirmRequestByClient(int confirmRequestId) throws DBException {
+        ConfirmationRequest requestToBeConfirmed = this.confirmRequestDAO.findConfirmRequestById(confirmRequestId);
+        requestToBeConfirmed.setStatus("confirmed");
+        this.confirmRequestDAO.updateConfirmRequestStatus(requestToBeConfirmed);
     }
 }

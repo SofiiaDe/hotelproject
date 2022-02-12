@@ -20,8 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class MakeConfirmRequestCommand implements ICommand {
@@ -36,7 +34,6 @@ public class MakeConfirmRequestCommand implements ICommand {
     public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
 
         HttpSession session = request.getSession();
-        User authorisedUser = (User) session.getAttribute("authorisedUser");
 
         if (!"manager".equalsIgnoreCase((String) session.getAttribute("userRole"))) {
             logger.error("You do not have permission to create a confirmation request. " +
@@ -74,10 +71,8 @@ public class MakeConfirmRequestCommand implements ICommand {
             notification = "There are no free rooms.";
             request.setAttribute("notification", notification);
             return new AddressCommandResult(Path.PAGE_MANAGER_ACCOUNT);
-
         }
 
-//        int id = Integer.parseInt((String) session.getAttribute("application_id"));
         int id = Integer.parseInt(request.getParameter("applicationId"));
 
         Application applicationToBeRequested = applicationService.getApplicationById(id);
@@ -87,11 +82,11 @@ public class MakeConfirmRequestCommand implements ICommand {
         newConfirmationRequest.setApplicationId(id);
         newConfirmationRequest.setRoomId(roomService.chooseSuitableRoomForRequest(applicationToBeRequested, freeRoomsRequest).getId());
         newConfirmationRequest.setConfirmRequestDate(LocalDate.now());
-        newConfirmationRequest.setConfirmRequestStatus("new");
+        newConfirmationRequest.setStatus("new");
 
         confirmRequestService.create(newConfirmationRequest);
 
-        return new RedirectCommandResult(Path.PAGE_MANAGER_ACCOUNT);
+        return new RedirectCommandResult(Path.COMMAND_MANAGER_ACCOUNT);
     }
 
 

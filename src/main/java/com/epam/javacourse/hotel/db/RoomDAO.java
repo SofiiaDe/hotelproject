@@ -204,7 +204,7 @@ public class RoomDAO {
     }
 
     private String createRoomsQuery(String select, RoomStatus roomStatus, RoomSeats roomSeats){
-        return createRoomsQuery(select, roomStatus, roomSeats, -1, -1, SortBy.None, SortType.None);
+        return createRoomsQuery(select, roomStatus, roomSeats, -1, -1, SortBy.NONE, SortType.NONE);
     }
 
     private String createRoomsQuery(String select, RoomStatus roomStatus, RoomSeats roomSeats, int page, int pageSize, SortBy sortBy, SortType sortType){
@@ -213,15 +213,15 @@ public class RoomDAO {
         result = result.replace("?0?", select + " ");
 
         switch (roomStatus){
-            case Reserved:
+            case RESERVED:
                 result = result.replace("?1?", "= 'new' ");
                 result = result.replace("?2?", "not");
                 break;
-            case Booked:
+            case BOOKED:
                 result = result.replace("?1?", "= 'paid' ");
                 result = result.replace("?2?", "not");
                 break;
-            case Unavailable:
+            case UNAVAILABLE:
                 result = result.replace("?1?", "!= 'cancelled' ");
                 result += "and room_status = 'unavailable' ";
                 result = result.replace("?2?", "");
@@ -233,13 +233,13 @@ public class RoomDAO {
                     result = result.replace("?2?", "");
         }
 
-        if (roomSeats != null && roomSeats != RoomSeats.None) {
+        if (roomSeats != null && roomSeats != RoomSeats.NONE) {
             result += " and room_seats = '" + roomSeats + "'";
         }
 
-        if (sortBy != null && sortBy != SortBy.None){
-            result += " ORDER BY " + (sortBy == SortBy.Class ? "room_class" : sortBy) + " ";
-            if (sortType != null && sortType != SortType.None){
+        if (sortBy != null && sortBy != SortBy.NONE){
+            result += " ORDER BY " + (sortBy == SortBy.CLASS ? "room_class" : sortBy) + " ";
+            if (sortType != null && sortType != SortType.NONE){
                 result += sortType;
             }
         }
@@ -284,7 +284,7 @@ public class RoomDAO {
     }
 
     public int getAvailableRoomCount(LocalDate checkin, LocalDate checkout) throws DBException {
-        return getRoomCount(checkin, checkout, RoomStatus.Available, null);
+        return getRoomCount(checkin, checkout, RoomStatus.AVAILABLE, null);
     }
 
     private static Room mapResultSetToRoom(ResultSet rs) throws SQLException{

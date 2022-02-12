@@ -2,16 +2,19 @@ package com.epam.javacourse.hotel.web.command;
 
 import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.web.Path;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+
 
 public class Controller extends HttpServlet {
+
+    private static final Logger logger = LogManager.getLogger(Controller.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -36,22 +39,24 @@ public class Controller extends HttpServlet {
         String commandName = request.getParameter("command");
 
         ICommand command = CommandFactory.getCommand(commandName);
-        ICommandResult commandResult = null;
+        ICommandResult commandResult;
 
         try {
             commandResult = command.execute(request, response);
         } catch (AppException e) {
-            if (e.getCause() != null) {
-                request.setAttribute("errorMessage", e.getMessage() + ": "
-                        + e.getCause().getMessage());
-            } else {
-                request.setAttribute("errorMessage", e.getMessage());
-            }
+            logger.error("AppException occurred", e);
+            request.setAttribute("errorMessage", e.getMessage());
+            commandResult = new AddressCommandResult(Path.PAGE_ERROR);
+
+        } catch (Exception e) {
+            logger.error(e);
+            request.setAttribute("errorMessage", "Smth went wrong");
+            commandResult = new AddressCommandResult(Path.PAGE_ERROR);
         }
 
         if (commandResult == null){
             address = Path.PAGE_ERROR;
-            request.setAttribute("errorMessage", "Null command result.");
+            request.setAttribute("errorMessage", "No result available.");
         }else{
             switch (commandResult.getType()){
                 case Address:
@@ -62,7 +67,7 @@ public class Controller extends HttpServlet {
                     return;
                 default:
                     address = Path.PAGE_ERROR;
-                    request.setAttribute("errorMessage", "Unknown command result type");
+                    request.setAttribute("errorMessage", "Unknown command result type.");
             }
         }
 

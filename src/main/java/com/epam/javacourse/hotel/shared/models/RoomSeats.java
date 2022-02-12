@@ -1,11 +1,11 @@
 package com.epam.javacourse.hotel.shared.models;
 
 public enum RoomSeats {
-    None("none"),
-    Single("single"),
-    Double("double"),
-    Twin("twin"),
-    Triple("triple");
+    NONE("none"),
+    SINGLE("single"),
+    DOUBLE("double"),
+    TWIN("twin"),
+    TRIPLE("triple");
 
     private final String text;
 
@@ -23,6 +23,6 @@ public enum RoomSeats {
                 return b;
             }
         }
-        return RoomSeats.None;
+        return RoomSeats.NONE;
     }
 }

@@ -12,7 +12,6 @@ import com.epam.javacourse.hotel.model.serviceModels.InvoiceDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
@@ -205,7 +204,6 @@ public class InvoiceServiceImpl implements IInvoiceService {
         Invoice invoiceToBePaid = this.invoiceDAO.findInvoiceById(invoiceId);
         invoiceToBePaid.setInvoiceStatus("paid");
         this.invoiceDAO.updateInvoiceStatus(invoiceToBePaid);
-
     }
 
 

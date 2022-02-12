@@ -1,6 +1,8 @@
 <%@ include file="/WEB-INF/jspf/taglib.jspf" %>
 <%@ include file="/WEB-INF/jspf/page.jspf" %>
 
+<%@ taglib prefix="htl" tagdir="/WEB-INF/tags" %>
+
 <!doctype html>
 <html>
 <c:set var="title" value="Manager's desk" scope="page"/>
@@ -153,20 +155,13 @@
 
                                                     <div class="modal-body">
                                                         <form method="post"
-<%--                                                            action="controller?command=makeConfirmRequest&applicationId=${application.id}">--%>
                                                               action="controller?command=makeConfirmRequest">
 
-                                                            <%--                                                            <input type="hidden" name="pay_invoice"--%>
-<%--                                                                   value="${requestScope.application_id}">--%>
-<%--                                                            <input type="hidden" name="application_id"--%>
-<%--                                                                   value="${application.id}">--%>
-                                                                <%--                                                        <form method="get" action="controller">--%>
                                                             <div class="form-group">
                                                                 <div class="row">
                                                                     <div class="col">
                                                                         <input type="text" name="checkin_date"
                                                                                class="form-control"
-                                                                               placeholder="<fmt:message key="checkin.date"/>"
                                                                                value="${application.checkinDate}"
                                                                                minlength="1"
                                                                                maxlength="40"
@@ -175,13 +170,11 @@
                                                                     <div class="col">
                                                                         <input type="text" name="checkout_date"
                                                                                class="form-control"
-                                                                               placeholder="<fmt:message key="checkin.date"/>"
                                                                                value="${application.checkoutDate}"
                                                                                minlength="1"
                                                                                maxlength="40"
                                                                                required>
                                                                     </div>
-
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
@@ -195,14 +188,10 @@
                                                                           required>${application.roomClass} ${application.roomTypeBySeats}
                                                                 </textarea>
                                                             </div>
-<%--                                                                    <input type="hidden" name="pay_invoice"--%>
-<%--                                                                           value="${requestScope.invoiceId}">--%>
 
                                                             <div class="d-flex justify-content-end">
-
-
-                                                                <%--                                                                <input type="hidden" name="application_id"--%>
-<%--                                                                       value="${application.id}">--%>
+                                                                <input type="hidden" name="applicationId"
+                                                                       value="${application.id}">
                                                                 <button type="submit"
                                                                         class="btn btn-outline-primary">
                                                                     <fmt:message
@@ -210,51 +199,6 @@
                                                                 </button>
                                                             </div>
                                                         </form>
-
-                                                            <%--                                                        <form method="post"--%>
-                                                            <%--                                                              action="controller?command=makeConfirmRequest">--%>
-
-                                                            <%--                                                            <c:if test="${requestScope != null && requestScope.freeRooms != null}">--%>
-                                                            <%--                                                                <h1>Choose a room</h1>--%>
-                                                            <%--                                                                <br>--%>
-                                                            <%--                                                                <c:forEach var="freeRoom"--%>
-                                                            <%--                                                                           items="${requestScope.freeRooms}">--%>
-
-                                                            <%--                                                                    <div class="list-group">--%>
-
-                                                            <%--                                                                        <a class="list-group-item list-group-item-action flex-column align-items-start active">--%>
-                                                            <%--                                                                            <div class="d-flex w-100 justify-content-between">--%>
-                                                            <%--                                                                                <h5 class="mb-1">--%>
-                                                            <%--                                                                                    Type: ${freeRoom.roomTypeBySeats}</h5>--%>
-                                                            <%--                                                                                <small>No. ${freeRoom.roomNumber}</small>--%>
-                                                            <%--                                                                            </div>--%>
-                                                            <%--                                                                            <div class="d-flex w-100 justify-content-between">--%>
-                                                            <%--                                                                                <h5 class="mb-1">--%>
-                                                            <%--                                                                                    Type: ${freeRoom.roomClass}</h5>--%>
-                                                            <%--                                                                            </div>--%>
-                                                            <%--                                                                            <small>$${freeRoom.price}</small>--%>
-
-                                                            <%--                                                                            <div class="ml-1">--%>
-                                                            <%--                                                                                <input type="hidden" name="room_id"--%>
-                                                            <%--                                                                                       value="${freeRoom.id}">--%>
-                                                            <%--                                                                                <button class="ui-button"--%>
-                                                            <%--                                                                                        type="submit">--%>
-                                                            <%--                                                                                    <fmt:message--%>
-                                                            <%--                                                                                            key="make_reqest.button"/></button>--%>
-
-                                                            <%--                                                                            </div>--%>
-                                                            <%--                                                                            <br>--%>
-                                                            <%--                                                                            <br>--%>
-                                                            <%--                                                                            <br>--%>
-                                                            <%--                                                                        </a>--%>
-                                                            <%--                                                                    </div>--%>
-
-                                                            <%--                                                                </c:forEach>--%>
-
-                                                            <%--                                                            </c:if>--%>
-                                                            <%--                                                        </form>--%>
-
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -312,7 +256,8 @@
                             <td>${confirmrequest.applicationId}</td>
                             <td>${confirmrequest.roomId}</td>
                             <td>${confirmrequest.confirmRequestDate}</td>
-                            <td>${confirmrequest.status}</td>
+                            <td><htl:requestStatus request="${confirmrequest.status}"/></td>
+
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -331,7 +276,7 @@
                             <fmt:message key="table.th.user_email"/>
                         </th>
                         <th scope="col">
-                            <fmt:message key="table.th.invoice_amount"/>
+                            <fmt:message key="table.th.invoice_amount"/>, $
                         </th>
                         <th scope="col">
                             <fmt:message key="table.th.booking_id"/>
@@ -353,7 +298,8 @@
                             <td>${invoice.amount}</td>
                             <td>${invoice.bookingId}</td>
                             <td>${invoice.invoiceDate}</td>
-                            <td>${invoice.status}</td>
+                            <td><htl:invoiceStatus invoiceStatus="${invoice.status}"/></td>
+                        <%--                            <td>${invoice.status}</td>--%>
                         </tr>
                     </c:forEach>
                     </tbody>

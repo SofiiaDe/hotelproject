@@ -1,9 +1,9 @@
 package com.epam.javacourse.hotel.shared.models;
 
 public enum SortBy {
-    None("none"),
-    Price("price"),
-    Class("class");
+    NONE("none"),
+    PRICE("price"),
+    CLASS("class");
 
     private final String text;
 
@@ -21,6 +21,6 @@ public enum SortBy {
                 return b;
             }
         }
-        return SortBy.None;
+        return SortBy.NONE;
     }
 }

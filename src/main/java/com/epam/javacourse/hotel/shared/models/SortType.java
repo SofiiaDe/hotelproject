@@ -1,9 +1,9 @@
 package com.epam.javacourse.hotel.shared.models;
 
 public enum SortType {
-    None("none"),
-    Asc("asc"),
-    Desc("desc");
+    NONE("none"),
+    ASC("asc"),
+    DESC("desc");
 
     private final String text;
 
@@ -22,6 +22,6 @@ public enum SortType {
             }
         }
 
-        return SortType.None;
+        return SortType.NONE;
     }
 }

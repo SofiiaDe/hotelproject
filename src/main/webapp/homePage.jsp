@@ -9,10 +9,13 @@
 
 <head>
     <title>Home page</title>
+    <link rel="stylesheet" href="home.css">
+
+    <c:set var="title" value="Home" scope="page"/>
+    <jsp:include page="/WEB-INF/components/head.jsp"/>
 </head>
-<c:set var="title" value="Home" scope="page"/>
-<jsp:include page="/WEB-INF/components/head.jsp"/>
-<body>
+
+<body class="text-center">
 <nav class="navbar background">
     <ul class="nav-list">
         <div class="logo">
@@ -37,22 +40,7 @@
             </h1>
 
             <p class="text-small">
-                Hotel.
-            </p>
-
-
-        </div>
-    </div>
-</section>
-
-<section class="secondsection">
-    <div class="box-main">
-        <div class="secondHalf">
-            <h1 class="text-big" id="program">
-                Description
-            </h1>
-            <p class="text-small">
-                Some text.
+                <fmt:message key="home.hotel.short_description"/>
             </p>
 
 
@@ -62,17 +50,22 @@
 
 <section class="section">
     <div class="paras">
-        <h1 class="sectionTag text-big">Java</h1>
+        <h1 class="sectionTag text-big"><fmt:message key="home.hotel.location"/></h1>
 
         <p class="sectionSubTag text-small">
-            More text.
+            <fmt:message key="home.hotel.location.address"/>
+            <br>
+            <fmt:message key="home.hotel.location.city"/>
+            <br>
+            <fmt:message key="home.hotel.location.phone"/>
+            <br>
+            <fmt:message key="home.hotel.location.email"/>
         </p>
-
 
     </div>
 
     <div class="thumbnail">
-        <img src="img.png" alt="laptop image">
+        <img src="/webapp/images/RoomHomepage.jpg" alt="laptop image">
     </div>
 </section>
 

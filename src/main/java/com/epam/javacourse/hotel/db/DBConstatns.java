@@ -1,6 +1,10 @@
 package com.epam.javacourse.hotel.db;
 
 public class DBConstatns {
+
+    private DBConstatns() {
+        throw new IllegalStateException();
+    }
     
     //QUERIES
 
@@ -42,12 +46,12 @@ public class DBConstatns {
     public static final String SQL_GET_ROOM_BY_ID = "SELECT * FROM rooms WHERE id = ?";
     public static final String SQL_GET_ROOMS_BY_IDS = "SELECT * FROM rooms r WHERE r.id IN (%s)";
     public static final String SQL_GET_ROOMS_EXCEPT = "SELECT * FROM rooms r WHERE NOT(r.id IN (%s))";
-    public static final String SQL_GET_AVAILABLE_ROOMS = "select * from rooms r left outer join (select distinct(room_id) " +
-            "from bookings b left join invoices i on i.booking_id = b.id where (b.checkin_date <= ? and b.checkout_date >= ?) " +
-            "and i.status != 'cancelled') q on q.room_id = r.id where q.room_id is null and room_status = 'available' ";
-    public static final String SQL_GET_ROOMS_BASIC_QUERY = "select ?0? from rooms r left outer join (select distinct(room_id) " +
-            "from bookings b left join invoices i on i.booking_id = b.id where (b.checkin_date <= ? and b.checkout_date >= ?) " +
-            "and i.status ?1?) q on q.room_id = r.id where q.room_id is ?2? null ";
+    public static final String SQL_GET_AVAILABLE_ROOMS = "SELECT * FROM rooms r LEFT OUTER JOIN (SELECT DISTINCT(room_id) " +
+            "FROM bookings b LEFT JOIN invoices i ON i.booking_id = b.id WHERE (b.checkin_date <= ? AND b.checkout_date >= ?) " +
+            "AND i.status != 'cancelled') q ON q.room_id = r.id WHERE q.room_id IS null AND room_status = 'available' ";
+    public static final String SQL_GET_ROOMS_BASIC_QUERY = "SELECT ?0? FROM rooms r LEFT OUTER JOIN (SELECT DISTINCT(room_id) " +
+            "FROM bookings b LEFT JOIN invoices i ON i.booking_id = b.id WHERE (b.checkin_date <= ? AND b.checkout_date >= ?) " +
+            "AND i.status ?1?) q ON q.room_id = r.id WHERE q.room_id IS ?2? null ";
 
 
     // BookingDAO
@@ -66,7 +70,9 @@ public class DBConstatns {
             "(DEFAULT, ?, ?, ?, ?, 'new')";
     public static final String SQL_GET_CONFIRM_REQUESTS_BY_USER_ID = "SELECT * FROM confirmation_requests WHERE user_id = ?";
     public static final String SQL_GET_ALL_CONFIRM_REQUESTS = "SELECT * FROM confirmation_requests";
-    public  static final String SQL_DELETE_CONFIRM_REQUEST_BY_ID = "DELETE FROM confirmation_requests WHERE ID = ?";
+    public  static final String SQL_DELETE_CONFIRM_REQUEST_BY_ID = "DELETE FROM confirmation_requests WHERE id = ?";
+    public static final String SQL_GET_CONFIRM_REQUEST_BY_ID = "SELECT * FROM confirmation_requests WHERE id = ?";
+    public static final String SQL_UPDATE_CONFIRM_REQUEST_STATUS = "UPDATE confirmation_requests cf SET cf.status = ? WHERE cf.id = ?";
 
 
     // InvoiceDAO

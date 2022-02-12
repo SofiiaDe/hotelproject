@@ -1,11 +1,11 @@
 package com.epam.javacourse.hotel.shared.models;
 
 public enum RoomStatus {
-    None("none"),
-    Available("available"),
-    Reserved("reserved"),
-    Booked("booked"),
-    Unavailable("unavailable");
+    NONE("none"),
+    AVAILABLE("available"),
+    RESERVED("reserved"),
+    BOOKED("booked"),
+    UNAVAILABLE("unavailable");
 
     private String text;
 
@@ -23,6 +23,6 @@ public enum RoomStatus {
                 return b;
             }
         }
-        return RoomStatus.None;
+        return RoomStatus.NONE;
     }
 }

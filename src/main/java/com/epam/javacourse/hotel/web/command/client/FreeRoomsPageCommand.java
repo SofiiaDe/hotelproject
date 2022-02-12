@@ -79,10 +79,10 @@ public class FreeRoomsPageCommand implements ICommand {
         request.setAttribute("pageCount", pageCount);
         request.setAttribute("checkin", checkin);
         request.setAttribute("checkout", checkout);
-        if (roomStatus != RoomStatus.None){
+        if (roomStatus != RoomStatus.NONE){
             request.setAttribute("roomStatus", roomStatus);
         }
-        if (roomSeats != RoomSeats.None){
+        if (roomSeats != RoomSeats.NONE){
             request.setAttribute("roomSeats", roomSeats);
         }
 

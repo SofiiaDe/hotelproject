@@ -2,6 +2,7 @@ package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.ConfirmationRequest;
+import com.epam.javacourse.hotel.model.Invoice;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -120,6 +121,57 @@ public class ConfirmRequestDAO {
         }
     }
 
+    public ConfirmationRequest findConfirmRequestById(int confirmRequestId) throws DBException {
+
+        ConfirmationRequest confirmRequest = new ConfirmationRequest();
+        Connection con = null;
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pStmt = con.prepareStatement(DBConstatns.SQL_GET_CONFIRM_REQUEST_BY_ID);
+            pStmt.setInt(1, confirmRequestId);
+
+            rs = pStmt.executeQuery();
+            while (rs.next()) {
+                confirmRequest.setId(confirmRequestId);
+                mapConfirmRequestCommonProperties(rs, confirmRequest);
+            }
+
+        } catch (SQLException e) {
+            logger.error("Cannot get invoice by id", e);
+            throw new DBException("Cannot get invoice by id", e);
+        } finally {
+            close(con);
+            close(pStmt);
+            close(rs);
+        }
+        return confirmRequest;
+    }
+
+    public boolean updateConfirmRequestStatus(ConfirmationRequest confirmRequest) throws DBException {
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            con.setAutoCommit(false);
+            pstmt = con.prepareStatement(DBConstatns.SQL_UPDATE_CONFIRM_REQUEST_STATUS);
+            pstmt.setString(1, confirmRequest.getStatus());
+            pstmt.setInt(2, confirmRequest.getId());
+            pstmt.executeUpdate();
+            con.commit();
+            return true;
+        } catch (SQLException e) {
+            logger.error("Cannot update invoice status", e);
+            rollBack(con);
+            throw new DBException("Cannot update invoice status", e);
+        } finally {
+            close(con);
+            close(pstmt);
+        }
+    }
 
     private static void close(AutoCloseable itemToBeClosed) {
         if (itemToBeClosed != null) {
@@ -146,7 +198,7 @@ public class ConfirmRequestDAO {
         confirmRequest.setApplicationId(rs.getInt("application_id"));
         confirmRequest.setRoomId(rs.getInt("room_id"));
         confirmRequest.setConfirmRequestDate(rs.getObject("confirm_request_date", LocalDate.class));
-        confirmRequest.setConfirmRequestStatus(rs.getString("status"));
+        confirmRequest.setStatus(rs.getString("status"));
 
     }
 }

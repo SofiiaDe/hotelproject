@@ -25,4 +25,5 @@ public interface IConfirmRequestService {
 
     LocalDate getConfirmRequestDueDate(ConfirmationRequest confirmRequest);
 
+    void confirmRequestByClient(int confirmRequestId) throws DBException;
 }

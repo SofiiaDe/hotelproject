@@ -155,9 +155,16 @@
                             <td>${confirmrequest.checkinDate}</td>
                             <td>${confirmrequest.checkoutDate}</td>
                             <td>${confirmrequest.applicationId}</td>
-<%--                            <td>${confirmrequest.status}</td>--%>
                             <td><htl:requestStatus request="${confirmrequest.status}"/></td>
-
+                            <td>
+                                <div class="ml-1">
+                                    <form action="controller?command=confirmRequest" method="post">
+                                        <input type="hidden" name="confirmRequest_id"
+                                               value="${confirmrequest.id}">
+                                        <button class="ui-button" type="submit"><fmt:message key="confirm.button"/></button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -177,13 +184,13 @@
                             <fmt:message key="table.th.invoice_due_date"/>
                         </th>
                         <th scope="col">
-                            <fmt:message key="table.th.invoice_amount"/>
+                            <fmt:message key="table.th.invoice_amount"/>, $
                         </th>
                         <th scope="col">
                             <fmt:message key="table.th.booking_id"/>
                         </th>
                         <th scope="col">
-                            <fmt:message key="table.th.room_price"/>
+                            <fmt:message key="table.th.room_price"/>, $
                         </th>
                         <th scope="col">
                             <fmt:message key="checkin.date"/>
@@ -217,14 +224,6 @@
                                             <button class="ui-button" type="submit"><fmt:message key="pay.button"/></button>
                                         </a>
                                 </div>
-
-
-                                    <%--                                <div class="d-flex justify-content-end">--%>
-                                    <%--                                    <div class="ml-1">--%>
-                                    <%--                                        <a class="nav-link" href="controller?command=paymentPage">--%>
-                                    <%--                                            <fmt:message key="pay.button"/> <span class="sr-only">(current)</span></a>--%>
-                                    <%--                                    </div>--%>
-                                    <%--                                </div>--%>
                             </td>
                         </tr>
                     </c:forEach>

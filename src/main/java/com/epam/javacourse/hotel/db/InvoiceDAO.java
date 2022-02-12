@@ -58,7 +58,7 @@ public class InvoiceDAO {
                 Invoice invoice = new Invoice();
                 invoice.setId(rs.getInt("id"));
                 invoice.setUserId(rs.getInt("user_id"));
-                mapInvoiceCommonProperties(invoice, rs);
+                mapInvoiceCommonProperties(rs, invoice);
                 allInvoicesList.add(invoice);
 
             }
@@ -90,7 +90,7 @@ public class InvoiceDAO {
                 Invoice invoice = new Invoice();
                 invoice.setId(rs.getInt("id"));
                 invoice.setUserId(userId);
-                mapInvoiceCommonProperties(invoice, rs);
+                mapInvoiceCommonProperties(rs, invoice);
                 userInvoices.add(invoice);
             }
 
@@ -254,7 +254,8 @@ public class InvoiceDAO {
             rs = pStmt.executeQuery();
             while (rs.next()) {
                 invoice.setId(invoiceId);
-                mapInvoiceCommonProperties(invoice, rs);
+                invoice.setUserId(rs.getInt("user_id"));
+                mapInvoiceCommonProperties(rs, invoice);
             }
 
         } catch (SQLException e) {
@@ -271,12 +272,12 @@ public class InvoiceDAO {
     private static Invoice mapResultSetToInvoice(ResultSet rs) throws SQLException {
         Invoice invoice = new Invoice();
         invoice.setId(rs.getInt("id"));
-        mapInvoiceCommonProperties(invoice, rs);
+        mapInvoiceCommonProperties(rs, invoice);
 
         return invoice;
     }
 
-    private static void mapInvoiceCommonProperties(Invoice invoice, ResultSet rs) throws SQLException {
+    private static void mapInvoiceCommonProperties(ResultSet rs, Invoice invoice) throws SQLException {
         invoice.setAmount(rs.getBigDecimal("amount").doubleValue());
         invoice.setBookingId(rs.getInt("booking_id"));
         invoice.setInvoiceDate(rs.getObject("invoice_date", LocalDate.class));

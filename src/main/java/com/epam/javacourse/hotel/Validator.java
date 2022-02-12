@@ -77,7 +77,7 @@ public class Validator {
     }
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    
+
     public static LocalDate dateParameterToLocalDate(String date) {
         LocalDate parsedDate = null;
         try {
