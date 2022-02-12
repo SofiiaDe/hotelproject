@@ -5,6 +5,10 @@ import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.db.RoomDAO;
 import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.Room;
+import com.epam.javacourse.hotel.shared.models.RoomSeats;
+import com.epam.javacourse.hotel.shared.models.RoomStatus;
+import com.epam.javacourse.hotel.shared.models.SortBy;
+import com.epam.javacourse.hotel.shared.models.SortType;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -64,11 +68,27 @@ public class RoomServiceImpl implements IRoomService {
     }
 
     @Override
-    public int getFreeRoomsNumberForPeriod(LocalDate checkinDate, LocalDate checkoutDate) throws DBException{
-
+    public List<Room> getRoomsForPeriod(LocalDate checkinDate, LocalDate checkoutDate, int page, int pageSize, SortBy sortBy,
+                                        SortType sortType, RoomStatus roomStatus, RoomSeats roomSeats) throws AppException{
         ensureDatesAreValid(checkinDate, checkoutDate);
 
-        return roomDAO.getAvailableRoomNumber(checkinDate, checkoutDate);
+        try{
+            return roomDAO.getRooms(checkinDate, checkoutDate, page, pageSize, sortBy, sortType, roomStatus, roomSeats);
+        }catch(DBException exception){
+            throw new AppException(exception);
+        }
+    }
+
+    @Override
+    public int getRoomsNumberForPeriod(LocalDate checkinDate, LocalDate checkoutDate, RoomStatus roomStatus, RoomSeats roomSeats) throws AppException{
+        
+        ensureDatesAreValid(checkinDate, checkoutDate);
+        
+        try{
+            return roomDAO.getRoomCount(checkinDate, checkoutDate, roomStatus, roomSeats);
+        }catch(DBException exception){
+            throw new AppException(exception);
+        }
     }
 
     private void ensureDatesAreValid(LocalDate checkinDate, LocalDate checkoutDate) {

@@ -2,6 +2,10 @@ package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.Room;
+import com.epam.javacourse.hotel.shared.models.RoomSeats;
+import com.epam.javacourse.hotel.shared.models.RoomStatus;
+import com.epam.javacourse.hotel.shared.models.SortBy;
+import com.epam.javacourse.hotel.shared.models.SortType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -80,10 +84,6 @@ public class RoomDAO {
             while (rs.next()) {
                 room.setId(roomId);
                 mapCommonProperties(room, rs);
-//                room.setPrice(rs.getDouble("price"));
-//                room.setRoomNumber(rs.getInt("room_number"));
-//                room.setRoomTypeBySeats(rs.getString("room_seats"));
-//                room.setRoomClass(rs.getString("room_class"));
             }
 
         } catch (SQLException e) {
@@ -141,19 +141,21 @@ public class RoomDAO {
         return getRoomsByIdsToIncludeOrExclude(ids, true, true);
     }
 
-    public List<Room> getAvailableRooms(LocalDate checkin, LocalDate checkout, int page, int pageSize) throws DBException {
-
+    public List<Room> getRooms(LocalDate checkin, LocalDate checkout, int page, int pageSize, SortBy sortBy, SortType sortType,
+                               RoomStatus roomStatus, RoomSeats roomSeats) throws DBException {
         List<Room> allRoomsList = new ArrayList<>();
+
+        String sql = createRoomsQuery("*", roomStatus, roomSeats, page, pageSize, sortBy, sortType);
+
+        executeGetRoomQuery(checkin, checkout, allRoomsList, sql);
+
+        return allRoomsList;
+    }
+
+    private void executeGetRoomQuery(LocalDate checkin, LocalDate checkout, List<Room> allRoomsList, String sql) throws DBException {
         Connection con = null;
         PreparedStatement pStmt = null;
         ResultSet rs = null;
-
-        String sql = DBConstatns.SQL_GET_AVAILABLE_ROOMS;
-        if (page > 0){
-            sql += " LIMIT " + pageSize;
-            sql += page > 1 ? " OFFSET " + (page - 1) * pageSize : "";
-        }
-        
         try {
             con = DBManager.getInstance().getConnection();
             pStmt = con.prepareStatement(sql);
@@ -171,6 +173,20 @@ public class RoomDAO {
             close(pStmt);
             close(rs);
         }
+    }
+    
+    public List<Room> getAvailableRooms(LocalDate checkin, LocalDate checkout, int page, int pageSize) throws DBException {
+
+        List<Room> allRoomsList = new ArrayList<>();
+
+        // todo something with this
+        String sql = DBConstatns.SQL_GET_AVAILABLE_ROOMS;
+        if (page > 0){
+            sql += " LIMIT " + pageSize;
+            sql += page > 1 ? " OFFSET " + (page - 1) * pageSize : "";
+        }
+
+        executeGetRoomQuery(checkin, checkout, allRoomsList, sql);
 
         return allRoomsList;
     }
@@ -187,15 +203,64 @@ public class RoomDAO {
         }
     }
 
-    public int getAvailableRoomNumber(LocalDate checkin, LocalDate checkout) throws DBException {
+    private String createRoomsQuery(String select, RoomStatus roomStatus, RoomSeats roomSeats){
+        return createRoomsQuery(select, roomStatus, roomSeats, -1, -1, SortBy.None, SortType.None);
+    }
+
+    private String createRoomsQuery(String select, RoomStatus roomStatus, RoomSeats roomSeats, int page, int pageSize, SortBy sortBy, SortType sortType){
+
+        String result = DBConstatns.SQL_GET_ROOMS_BASIC_QUERY;
+        result = result.replace("?0?", select + " ");
+
+        switch (roomStatus){
+            case Reserved:
+                result = result.replace("?1?", "= 'new' ");
+                result = result.replace("?2?", "not");
+                break;
+            case Booked:
+                result = result.replace("?1?", "= 'paid' ");
+                result = result.replace("?2?", "not");
+                break;
+            case Unavailable:
+                result = result.replace("?1?", "!= 'cancelled' ");
+                result += "and room_status = 'unavailable' ";
+                result = result.replace("?2?", "");
+                break;
+
+                default:
+                    result = result.replace("?1?", "!= 'cancelled'");
+                    result += "and room_status = 'available' ";
+                    result = result.replace("?2?", "");
+        }
+
+        if (roomSeats != null && roomSeats != RoomSeats.None) {
+            result += " and room_seats = '" + roomSeats + "'";
+        }
+
+        if (sortBy != null && sortBy != SortBy.None){
+            result += " ORDER BY " + (sortBy == SortBy.Class ? "room_class" : sortBy) + " ";
+            if (sortType != null && sortType != SortType.None){
+                result += sortType;
+            }
+        }
+
+        if (page > 0){
+            result += " LIMIT " + pageSize;
+            result += page > 1 ? " OFFSET " + (page - 1) * pageSize : " ";
+        }
+
+        return result;
+    }
+
+    public int getRoomCount(LocalDate checkin, LocalDate checkout, RoomStatus roomStatus, RoomSeats roomSeats) throws DBException {
 
         int result;
         Connection con = null;
         PreparedStatement pStmt = null;
         ResultSet rs = null;
-   
-        String sql = DBConstatns.SQL_GET_AVAILABLE_ROOMS_NUMBER;
-        
+
+        String sql = createRoomsQuery("count(*) as cnt", roomStatus, roomSeats);
+
         try {
             con = DBManager.getInstance().getConnection();
             pStmt = con.prepareStatement(sql);
@@ -205,7 +270,7 @@ public class RoomDAO {
             rs = pStmt.executeQuery();
             rs.next();
             result = rs.getInt("cnt");
-            
+
         } catch (SQLException e) {
             logger.error("Cannot get all rooms number", e);
             throw new DBException("Cannot get all rooms number", e);
@@ -216,6 +281,10 @@ public class RoomDAO {
         }
 
         return result;
+    }
+
+    public int getAvailableRoomCount(LocalDate checkin, LocalDate checkout) throws DBException {
+        return getRoomCount(checkin, checkout, RoomStatus.Available, null);
     }
 
     private static Room mapResultSetToRoom(ResultSet rs) throws SQLException{
