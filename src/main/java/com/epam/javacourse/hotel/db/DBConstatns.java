@@ -60,6 +60,7 @@ public class DBConstatns {
             "VALUES (DEFAULT, ?, ?, ?, ?, ?)";
     public static final String SQL_GET_BOOKINGS_BY_USER_ID = "SELECT * FROM bookings WHERE user_id = ?";
     public static final String SQL_GET_ALL_BOOKINGS = "SELECT * FROM bookings";
+    public static final String SQL_GET_ALL_BOOKINGS_COUNT = "SELECT count(*) as cnt FROM bookings";
     public static final String SQL_GET_BOOKING_BY_ID = "SELECT * FROM bookings WHERE id = ?";
     public static final String SQL_DELETE_BOOKING_BY_ID = "DELETE FROM bookings WHERE ID = ?";
     public static final String SQL_GET_BOOKING_ROOMS_BY_DATE = "SELECT id, room_id FROM bookings WHERE checkin_date <= ? and checkout_date >= ?";

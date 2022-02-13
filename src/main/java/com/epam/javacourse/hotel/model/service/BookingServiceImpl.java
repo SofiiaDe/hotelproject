@@ -1,6 +1,7 @@
 package com.epam.javacourse.hotel.model.service;
 
 import com.epam.javacourse.hotel.AppContext;
+import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.db.BookingDAO;
 import com.epam.javacourse.hotel.db.UserDAO;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 public class BookingServiceImpl implements IBookingService{
 
     private final BookingDAO bookingDAO;
-    private UserDAO userDao;
+    private final UserDAO userDao;
 
     public BookingServiceImpl(BookingDAO bookingDAO, UserDAO userDao) {
         this.bookingDAO = bookingDAO;
@@ -36,7 +37,7 @@ public class BookingServiceImpl implements IBookingService{
 
     @Override
     public List<Booking> getAllBookings() throws DBException {
-        return this.bookingDAO.findAllBookings();
+        return this.bookingDAO.getAllBookings();
     }
 
     @Override
@@ -50,8 +51,9 @@ public class BookingServiceImpl implements IBookingService{
     }
 
     @Override
-    public List<BookingDetailed> getAllDetailedBookings() throws DBException {
-        List<Booking> allBookings = this.bookingDAO.findAllBookings();
+    public List<BookingDetailed> getAllDetailedBookings(int page, int pageSize) throws AppException {
+        List<Booking> allBookings = this.bookingDAO.getAllBookings(page, pageSize);
+
         List<Integer> userIds = allBookings.stream().map(Booking::getUserId).distinct().collect(Collectors.toList());
         List<User> data = this.userDao.getUsersByIds(userIds);
         ArrayList<BookingDetailed> result = new ArrayList<>();
@@ -94,11 +96,6 @@ public class BookingServiceImpl implements IBookingService{
         return result;
     }
 
-    /**
-     * Finds invoices which were not paid by the due date and thus their status was changed to 'cancelled'.
-     * Then removes bookings related to cancelled invoices.
-     * @throws DBException
-     */
     @Override
     public void cancelUnpaidBookings() throws DBException {
 
@@ -107,6 +104,15 @@ public class BookingServiceImpl implements IBookingService{
         List<Invoice> unpaidInvoices = invoiceService.getInvoicesByStatus("cancelled");
         for(Invoice invoice : unpaidInvoices) {
             this.bookingDAO.deleteBookingById(invoice.getBookingId());
+        }
+    }
+
+    @Override
+    public int getAllBookingsCount() throws AppException {
+        try{
+            return this.bookingDAO.getAllBookingsCount();
+        }catch(DBException exception){
+            throw new AppException("Can't retrieve number of bookings");
         }
     }
 }

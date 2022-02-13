@@ -179,12 +179,8 @@ public class RoomDAO {
 
         List<Room> allRoomsList = new ArrayList<>();
 
-        // todo something with this
         String sql = DBConstatns.SQL_GET_AVAILABLE_ROOMS;
-        if (page > 0){
-            sql += " LIMIT " + pageSize;
-            sql += page > 1 ? " OFFSET " + (page - 1) * pageSize : "";
-        }
+        sql = Helpers.enrichWithPageSizeStatement(page, pageSize, sql);
 
         executeGetRoomQuery(checkin, checkout, allRoomsList, sql);
 

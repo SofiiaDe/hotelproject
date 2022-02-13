@@ -53,4 +53,12 @@ public class AppContext {
     public IInvoiceService getInvoiceService() {
         return invoiceService;
     }
+
+    /**
+     * TODO move to config to make it configurable
+     * @return number of items to return on typical page
+     */
+    public int getDefaultPageSize(){
+        return 5;
+    }
 }

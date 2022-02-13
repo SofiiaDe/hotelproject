@@ -13,6 +13,7 @@ import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
 import com.epam.javacourse.hotel.web.command.ICommandResult;
+import com.epam.javacourse.hotel.web.command.helpers.Helpers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,7 +42,7 @@ public class FreeRoomsPageCommand implements ICommand {
             return new AddressCommandResult(Path.PAGE_FREE_ROOMS);
         }
 
-        int page = parsePage(request);
+        int page = Helpers.parsePage(request);
 
         LocalDate checkinDate = Validator.dateParameterToLocalDate(checkin);
         LocalDate checkoutDate = Validator.dateParameterToLocalDate(checkout);
@@ -56,7 +57,7 @@ public class FreeRoomsPageCommand implements ICommand {
         try{
             totalFreeRooms = roomService.getRoomsNumberForPeriod(checkinDate, checkoutDate, roomStatus, roomSeats);
 
-            int pageSize = 3; // can put this in config
+            int pageSize = AppContext.getInstance().getDefaultPageSize();
             pageCount = (int) Math.ceil((float)totalFreeRooms / pageSize);
 
             boolean toGetRooms = totalFreeRooms > 0 && page <= pageCount;
@@ -87,11 +88,5 @@ public class FreeRoomsPageCommand implements ICommand {
         }
 
         return new AddressCommandResult(Path.PAGE_FREE_ROOMS);
-    }
-
-    private static int parsePage(HttpServletRequest request){
-        String pageParam = request.getParameter("page");
-        int page = pageParam != null ? Integer.parseInt(pageParam) : 1;
-        return page <= 0 ? 1: page;
     }
 }

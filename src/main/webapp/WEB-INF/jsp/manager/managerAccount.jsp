@@ -86,6 +86,15 @@
                     </c:forEach>
                     </tbody>
                 </table>
+
+                <c:if test="${requestScope != null && requestScope.page != null && requestScope.pageCount != null}">
+                    <form action="controller">
+                        <input type="hidden" name="command" value="managerAccount" />
+                        <nav aria-label="Manager's lift of booking navigation">
+                            <jsp:include page="/WEB-INF/components/pagination.jsp" />
+                        </nav>
+                    </form>
+                </c:if>
             </div>
 
             <%-- Application --%>
@@ -299,7 +308,6 @@
                             <td>${invoice.bookingId}</td>
                             <td>${invoice.invoiceDate}</td>
                             <td><htl:invoiceStatus invoiceStatus="${invoice.status}"/></td>
-                        <%--                            <td>${invoice.status}</td>--%>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -353,8 +361,31 @@
     </div>
 </div>
 
-
 <jsp:include page="/WEB-INF/components/scripts.jsp"/>
+<script>
+    function buildUrl(page) {
+        const result = new URL(window.location.href);
+        result.searchParams.set("page", page);
+        return result;
+    }
+    function setUrls(tagId, value) {
+        if (document.getElementById(tagId)) {
+            document.getElementById(tagId).href = value;
+        }
+    }
+    (function () {
+        setUrls("prevPage", buildUrl(${ requestScope.page } - 1));
+        setUrls("nextPage", buildUrl(${ requestScope.page } + 1));
+        setUrls("pageMin1", buildUrl(${ requestScope.page } - 1));
+        setUrls("pageMin2", buildUrl(${ requestScope.page } - 2));
+        setUrls("pagePlus1", buildUrl(${ requestScope.page } + 1));
+        setUrls("pagePlus2", buildUrl(${ requestScope.page } + 2));
+        setUrls("pagePlus2", buildUrl(${ requestScope.page } + 2));
+        setUrls("firstPage", buildUrl(1));
+        setUrls("lastPage", buildUrl(${ requestScope.pageCount }));
+    })();
+</script>
+
 
 </body>
 </html>

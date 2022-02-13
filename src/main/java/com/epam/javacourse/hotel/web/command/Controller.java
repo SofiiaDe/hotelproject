@@ -47,10 +47,9 @@ public class Controller extends HttpServlet {
             logger.error("AppException occurred", e);
             request.setAttribute("errorMessage", e.getMessage());
             commandResult = new AddressCommandResult(Path.PAGE_ERROR);
-
         } catch (Exception e) {
             logger.error(e);
-            request.setAttribute("errorMessage", "Smth went wrong");
+            request.setAttribute("errorMessage", "Something went wrong");
             commandResult = new AddressCommandResult(Path.PAGE_ERROR);
         }
 

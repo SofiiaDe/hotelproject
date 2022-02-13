@@ -137,123 +137,71 @@
     </form>
 
     <c:if test="${requestScope != null && requestScope.page != null && requestScope.pageCount != null}">
-
         <form action="controller">
             <input type="hidden" name="command" value="freeRoomsPage" />
             <input type="hidden" name="checkin" value="${requestScope.checkin}" />
             <input type="hidden" name="checkout" value="${requestScope.checkout}" />
 
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-
-                    <li class="page-item ${requestScope.page > 1 ? "" : " disabled"}">
-                        <a class="page-link" href="#" aria-label="Prev" id="prevPage">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">&laquo;</span>
-                        </a>
-                    </li>
-
-                    <c:if test="${requestScope.page - 3 > 1 || (requestScope.page> 1 && requestScope.page <= 4)}">
-                        <li class="page-item"><a class="page-link" href="#" id="firstPage">1</a></li>
-                    </c:if>
-                    <c:if test="${requestScope.page - 3 > 1}">
-                        <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-                    </c:if>
-
-                    <c:if test="${requestScope.page - 2 > 1}">
-                        <li class="page-item"><a class="page-link" href="#" id="pageMin2">${requestScope.page - 2}</a>
-                        </li>
-                    </c:if>
-
-                    <c:if test="${requestScope.page - 1 > 1}">
-                        <li class="page-item"><a class="page-link" href="#" id="pageMin1">${requestScope.page - 1}</a>
-                        </li>
-                    </c:if>
-
-                    <li class="page-item active"><a class="page-link" href="#">${requestScope.page}</a></li>
-
-                    <c:if test="${requestScope.page + 1 <= requestScope.pageCount}">
-                        <li class="page-item"><a class="page-link" href="#" id="pagePlus1">${requestScope.page + 1}</a>
-                        </li>
-                    </c:if>
-                    <c:if test="${requestScope.page + 2 <= requestScope.pageCount}">
-                        <li class="page-item"><a class="page-link" href="#" id="pagePlus2">${requestScope.page + 2}</a>
-                        </li>
-                    </c:if>
-
-                    <c:if test="${requestScope.page + 4 <= requestScope.pageCount}">
-                        <li class="page-item"><a class="page-link" href="#">...</a></li>
-                    </c:if>
-                    <c:if test="${requestScope.page + 3 <= requestScope.pageCount && requestScope.pageCount >= 4}">
-                        <li class="page-item"><a class="page-link" href="#" id="lastPage">${requestScope.pageCount}</a>
-                        </li>
-                    </c:if>
-
-                    <li class="page-item ${requestScope.page < requestScope.pageCount ? "": " disabled"}">
-                        <a class="page-link" href="#" aria-label="Next" id="nextPage">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
+            <nav aria-label="Free rooms navigation">
+                <jsp:include page="/WEB-INF/components/pagination.jsp" />
             </nav>
         </form>
-
     </c:if>
 </div>
-    <script>
-        (function () {
-            setUrls("prevPage", buildUrl(${ requestScope.page } - 1));
-            setUrls("nextPage", buildUrl(${ requestScope.page } + 1));
-            setUrls("pageMin1", buildUrl(${ requestScope.page } - 1));
-            setUrls("pageMin2", buildUrl(${ requestScope.page } - 2));
-            setUrls("pagePlus1", buildUrl(${ requestScope.page } + 1));
-            setUrls("pagePlus2", buildUrl(${ requestScope.page } + 2));
-            setUrls("pagePlus2", buildUrl(${ requestScope.page } + 2));
-            setUrls("firstPage", buildUrl(1));
-            setUrls("lastPage", buildUrl(${ requestScope.pageCount }));
-            
-            setUrls("priceAsc", buildUrl(1, "price", "asc"));
-            setUrls("priceDesc", buildUrl(1, "price", "desc"));
-            setUrls("classAsc", buildUrl(1, "class", "asc"));
-            setUrls("classDesc", buildUrl(1, "class", "desc"));
-            
-            setUrls("roomAvailable", buildUrl(1, undefined, undefined, "available"));
-            setUrls("roomReserved", buildUrl(1, undefined, undefined, "reserved"));
-            setUrls("roomBooked", buildUrl(1, undefined, undefined, "booked"));
-            setUrls("roomUnavailable", buildUrl(1, undefined, undefined, "unavailable"));
-
-            setUrls("seatsSingle", buildUrl(1, undefined, undefined, undefined, "single"));
-            setUrls("seatsDouble", buildUrl(1, undefined, undefined, undefined, "double"));
-            setUrls("seatsTwin", buildUrl(1, undefined, undefined, undefined, "twin"));
-            setUrls("seatsTriple", buildUrl(1, undefined, undefined, undefined, "triple"));
-        })();
-        function setUrls(tagId, value) {
-            if (document.getElementById(tagId)) {
-                document.getElementById(tagId).href = value;
-            }
-        }
-        function buildUrl(page, sortBy, sortType, roomStatus, roomSeats) {
-            const result = new URL(window.location.href);
-            result.searchParams.set("page", page);
-            
-            setOptionalSearchParam(result.searchParams, "sortBy", sortBy);
-            setOptionalSearchParam(result.searchParams, "sortType", sortType);
-            setOptionalSearchParam(result.searchParams, "roomStatus", roomStatus);
-            setOptionalSearchParam(result.searchParams, "roomSeats", roomSeats);
-
-            return result;
-        }
-        function setOptionalSearchParam(searchParams, paramName, value){
-            const data = value ?? searchParams.get(paramName);
-            if (data){
-                searchParams.set(paramName, data);
-            }
-        }
-
-    </script>
-
     <jsp:include page="/WEB-INF/components/scripts.jsp" />
+<script>
+    function setUrls(tagId, value) {
+        if (document.getElementById(tagId)) {
+            document.getElementById(tagId).href = value;
+        }
+    }
+    (function () {
+        setUrls("prevPage", buildUrl(${ requestScope.page } - 1));
+        setUrls("nextPage", buildUrl(${ requestScope.page } + 1));
+        setUrls("pageMin1", buildUrl(${ requestScope.page } - 1));
+        setUrls("pageMin2", buildUrl(${ requestScope.page } - 2));
+        setUrls("pagePlus1", buildUrl(${ requestScope.page } + 1));
+        setUrls("pagePlus2", buildUrl(${ requestScope.page } + 2));
+        setUrls("pagePlus2", buildUrl(${ requestScope.page } + 2));
+        setUrls("firstPage", buildUrl(1));
+        setUrls("lastPage", buildUrl(${ requestScope.pageCount }));
+
+        setUrls("priceAsc", buildUrl(1, "price", "asc"));
+        setUrls("priceDesc", buildUrl(1, "price", "desc"));
+        setUrls("classAsc", buildUrl(1, "class", "asc"));
+        setUrls("classDesc", buildUrl(1, "class", "desc"));
+
+        setUrls("roomAvailable", buildUrl(1, undefined, undefined, "available"));
+        setUrls("roomReserved", buildUrl(1, undefined, undefined, "reserved"));
+        setUrls("roomBooked", buildUrl(1, undefined, undefined, "booked"));
+        setUrls("roomUnavailable", buildUrl(1, undefined, undefined, "unavailable"));
+
+        setUrls("seatsSingle", buildUrl(1, undefined, undefined, undefined, "single"));
+        setUrls("seatsDouble", buildUrl(1, undefined, undefined, undefined, "double"));
+        setUrls("seatsTwin", buildUrl(1, undefined, undefined, undefined, "twin"));
+        setUrls("seatsTriple", buildUrl(1, undefined, undefined, undefined, "triple"));
+    })();
+    function buildUrl(page, sortBy, sortType, roomStatus, roomSeats) {
+        const result = new URL(window.location.href);
+        result.searchParams.set("page", page);
+
+        setOptionalSearchParam(result.searchParams, "sortBy", sortBy);
+        setOptionalSearchParam(result.searchParams, "sortType", sortType);
+        setOptionalSearchParam(result.searchParams, "roomStatus", roomStatus);
+        setOptionalSearchParam(result.searchParams, "roomSeats", roomSeats);
+
+        return result;
+    }
+
+    function setOptionalSearchParam(searchParams, paramName, value){
+        const data = value ?? searchParams.get(paramName);
+        if (data){
+            searchParams.set(paramName, data);
+        }
+    }
+
+</script>
+
 </body>
 
 </html>

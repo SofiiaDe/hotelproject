@@ -74,17 +74,36 @@ public class BookingDAO {
         return userBookings;
     }
 
-    public List<Booking> findAllBookings() throws DBException {
+    /**
+     * Get all bookings
+     * @return All bookings
+     * @throws DBException
+     */
+    public List<Booking> getAllBookings() throws DBException{
+        return getAllBookings(-1, -1);
+    }
+
+    /**
+     * Get all bookings limited by page and pageSize
+     * @param page result's page. Set -1 to not limit by page/size
+     * @param pageSize number of items to select
+     * @return bookings from specified page and given page size
+     * @throws DBException
+     */
+    public List<Booking> getAllBookings(int page, int pageSize) throws DBException {
 
         List<Booking> allBookingsList = new ArrayList<>();
         Connection con = null;
         Statement stmt = null;
         ResultSet rs = null;
 
+        String sql = DBConstatns.SQL_GET_ALL_BOOKINGS;
+        sql = Helpers.enrichWithPageSizeStatement(page, pageSize, sql);
+
         try {
             con = DBManager.getInstance().getConnection();
             stmt = con.createStatement();
-            rs = stmt.executeQuery(DBConstatns.SQL_GET_ALL_BOOKINGS);
+            rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 Booking booking = new Booking();
                 booking.setId(rs.getInt("id"));
@@ -181,5 +200,37 @@ public class BookingDAO {
         booking.setCheckoutDate(rs.getObject("checkout_date", LocalDate.class));
         booking.setRoomId(rs.getInt("room_id"));
         booking.setApplicationId(rs.getInt("application_id"));
+    }
+
+    /**
+     * Retrieve number of all bookings
+     * @return number of all bookings
+     * @throws DBException
+     */
+    public int getAllBookingsCount() throws DBException{
+        int result;
+        Connection con = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        String sql = DBConstatns.SQL_GET_ALL_BOOKINGS_COUNT;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(sql);
+            rs.next();
+            result = rs.getInt("cnt");
+        } catch (SQLException e) {
+            String errorMessage = "Cannot get all bookings count";
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
+        } finally {
+            close(con);
+            close(stmt);
+            close(rs);
+        }
+
+        return result;
     }
 }
