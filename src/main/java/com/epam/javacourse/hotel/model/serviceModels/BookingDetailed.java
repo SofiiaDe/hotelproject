@@ -1,5 +1,7 @@
 package com.epam.javacourse.hotel.model.serviceModels;
 
+import com.epam.javacourse.hotel.shared.models.BookingStatus;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -7,13 +9,13 @@ public class BookingDetailed{
 
     private static final long serialVersionUID = 1L;
 
-    private int id;
-    private String bookedByUser;
-    private String bookedByUserEmail;
-    private LocalDate checkinDate;
-    private LocalDate checkoutDate;
-    private int roomId;
-    private boolean isPaid;
+    private final int id;
+    private final String bookedByUser;
+    private final String bookedByUserEmail;
+    private final LocalDate checkinDate;
+    private final LocalDate checkoutDate;
+    private final int roomId;
+    private final boolean isPaid;
 
     public BookingDetailed(int id, String bookedByUser, String bookedByUserEmail,
                            LocalDate checkinDate, LocalDate checkoutDate, int roomId, boolean isPaid) {
@@ -46,5 +48,26 @@ public class BookingDetailed{
     }
     public int getRoomId() {
         return roomId;
+    }
+    public BookingStatus getBookingStatus(){
+
+        if(getIsPaid()){
+            if (LocalDate.now().isBefore(checkinDate)){
+                return BookingStatus.PAID;
+            }
+            if (LocalDate.now().isAfter(checkinDate) && LocalDate.now().isBefore(checkoutDate)){
+                return BookingStatus.ONGOING;
+            }
+            if (LocalDate.now().isAfter(checkoutDate)){
+                return BookingStatus.FINISHED;
+            }
+        }else{
+            if (LocalDate.now().isBefore(checkinDate)){
+                return BookingStatus.NEW;
+            }
+            return BookingStatus.CANCELLED;
+        }
+
+        return BookingStatus.NONE;
     }
 }

@@ -71,7 +71,9 @@
                         <th scope="col">
                             <fmt:message key="table.th.room_id"/>
                         </th>
-                        <th scope="col"></th>
+                        <th scope="col">
+                            Status
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -82,6 +84,7 @@
                             <td>${booking.checkinDate}</td>
                             <td>${booking.checkoutDate}</td>
                             <td>${booking.roomId}</td>
+                            <td>${booking.bookingStatus.text}</td>
                         </tr>
                     </c:forEach>
                     </tbody>

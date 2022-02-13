@@ -4,6 +4,7 @@ import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.db.BookingDAO;
+import com.epam.javacourse.hotel.db.InvoiceDAO;
 import com.epam.javacourse.hotel.db.UserDAO;
 import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.model.Invoice;
@@ -19,10 +20,12 @@ public class BookingServiceImpl implements IBookingService{
 
     private final BookingDAO bookingDAO;
     private final UserDAO userDao;
+    private final InvoiceDAO invoiceDAO;
 
-    public BookingServiceImpl(BookingDAO bookingDAO, UserDAO userDao) {
+    public BookingServiceImpl(BookingDAO bookingDAO, UserDAO userDao, InvoiceDAO invoiceDAO) {
         this.bookingDAO = bookingDAO;
         this.userDao = userDao;
+        this.invoiceDAO = invoiceDAO;
     }
 
     @Override
@@ -52,14 +55,26 @@ public class BookingServiceImpl implements IBookingService{
 
     @Override
     public List<BookingDetailed> getAllDetailedBookings(int page, int pageSize) throws AppException {
-        List<Booking> allBookings = this.bookingDAO.getAllBookings(page, pageSize);
+        List<Booking> allBookings;
+        List<User> users;
+        ArrayList<BookingDetailed> result;
+        List<Invoice> invoices;
 
-        List<Integer> userIds = allBookings.stream().map(Booking::getUserId).distinct().collect(Collectors.toList());
-        List<User> data = this.userDao.getUsersByIds(userIds);
-        ArrayList<BookingDetailed> result = new ArrayList<>();
+        try{
+            allBookings = this.bookingDAO.getAllBookings(page, pageSize);
+
+            List<Integer> userIds = allBookings.stream().map(Booking::getUserId).distinct().collect(Collectors.toList());
+            users = this.userDao.getUsersByIds(userIds);
+
+            result = new ArrayList<>();
+            invoices = this.invoiceDAO.findInvoices(allBookings.stream().map(Booking::getId).collect(Collectors.toList()));
+        }catch(DBException exception){
+            // todo logger
+            throw new AppException("Can't get booking");
+        }
 
         for (Booking booking: allBookings) {
-            var bookingUser = data.stream().filter(u -> u.getId() == booking.getUserId()).findFirst().get();
+            var bookingUser = users.stream().filter(u -> u.getId() == booking.getUserId()).findFirst().get();
             result.add(
                     new BookingDetailed(booking.getId(),
                         bookingUser.getFirstName() + ' '+ bookingUser.getLastName(),
@@ -67,7 +82,7 @@ public class BookingServiceImpl implements IBookingService{
                         booking.getCheckinDate(),
                         booking.getCheckoutDate(),
                         booking.getRoomId(),
-                        false
+                            invoices.stream().filter(i -> i.getBookingId() == booking.getId()).findFirst().get().getInvoiceStatus() == "paid"
                     ));
         }
 

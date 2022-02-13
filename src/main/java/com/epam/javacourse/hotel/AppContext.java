@@ -26,7 +26,7 @@ public class AppContext {
     private final IUserService userService = new UserServiceImpl(userDAO);
     private final IApplicationService applicationService = new ApplicationServiceImpl(applicationDAO, userDAO);
     private final IRoomService roomService = new RoomServiceImpl(roomDAO);
-    private final IBookingService bookingService = new BookingServiceImpl(bookingDAO, userDAO);
+    private final IBookingService bookingService = new BookingServiceImpl(bookingDAO, userDAO, invoiceDAO);
     private final IConfirmRequestService confirmRequestService = new ConfirmRequestServiceImpl(confirmRequestDAO, userDAO);
     private final IInvoiceService invoiceService =new InvoiceServiceImpl(invoiceDAO, userDAO);
 

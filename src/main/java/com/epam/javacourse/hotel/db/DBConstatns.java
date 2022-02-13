@@ -84,6 +84,8 @@ public class DBConstatns {
     public static final String SQL_GET_INVOICES_BY_USER_ID = "SELECT * FROM invoices WHERE user_id = ?";
     public static final String SQL_GET_CANCELLED_INVOICE_BOOKING_IDS_BY_BOOKING_ID =
             "SELECT booking_id FROM invoices i WHERE booking_id IN (%s) and i.status = 'cancelled'";
+    public static final String SQL_GET_INVOICES_BY_BOOKING_ID = "SELECT * FROM invoices i WHERE booking_id IN (%s)";
+
     public static final String SQL_UPDATE_INVOICE = "UPDATE invoices SET user_id = ?, amount =?, booking_id = ?, " +
             "invoice_date = ?, status = ? WHERE id = ?";
     public static final String SQL_UPDATE_INVOICE_STATUS = "UPDATE invoices i SET i.status = ? WHERE i.id = ?";

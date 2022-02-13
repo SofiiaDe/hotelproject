@@ -305,4 +305,49 @@ public class InvoiceDAO {
         }
     }
 
+    /**
+     * Get invoices attacked to bookings
+     * @param bookingIds ids of bookings for which retrieve invoices
+     * @return invoices by provided booking ids
+     * @throws DBException
+     */
+    public List<Invoice> findInvoices(List<Integer> bookingIds) throws DBException {
+
+        if (bookingIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<Invoice> allInvoicesList = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pStmt = null;
+
+        String query = DBConstatns.SQL_GET_INVOICES_BY_BOOKING_ID;
+        String sql = String.format(query, preparePlaceHolders(bookingIds.size()));
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pStmt = con.prepareStatement(sql);
+
+            setValuesInPreparedStatement(pStmt, bookingIds.toArray());
+
+            try (ResultSet rs = pStmt.executeQuery()) {
+                while (rs.next()) {
+                    Invoice invoice = new Invoice();
+                    invoice.setId(rs.getInt("id"));
+                    invoice.setUserId(rs.getInt("user_id"));
+                    mapInvoiceCommonProperties(rs, invoice);
+                    allInvoicesList.add(invoice);
+                }
+            }
+        } catch (SQLException e) {
+            String error = "Cannot find cancelled invoice's booking ids";
+            logger.error(error, e);
+            throw new DBException(error, e);
+        } finally {
+            close(con);
+            close(pStmt);
+        }
+
+        return allInvoicesList;
+    }
 }
