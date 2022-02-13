@@ -265,7 +265,7 @@
             </div>
 
             <%-- Invoice --%>
-            <div class="tab-pane fade active show" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
+            <div class="tab-pane fade active" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
                 <table class="table table-hover mt-2">
                     <thead>
                     <tr>
