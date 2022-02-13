@@ -118,12 +118,13 @@
                         </div>
                         <small>$${room.price}</small>
 
-                        <div class="ml-1">
-                            <input type="hidden" name="room_id" value="${room.id}">
-                            <button class="ui-button" type="submit">
-                                <fmt:message key="book.button" /></button>
-
-                        </div>
+                        <c:if test="${requestScope.roomStatus == null || requestScope.roomStatus == 'available'}">
+                            <div class="ml-1">
+                                <input type="hidden" name="room_id" value="${room.id}">
+                                <button class="ui-button" type="submit">
+                                    <fmt:message key="book.button" /></button>
+                            </div>
+                        </c:if>
                         <br>
                         <br>
                         <br>
