@@ -2,7 +2,7 @@ package com.epam.javacourse.hotel.web;
 
 
 import com.epam.javacourse.hotel.AppContext;
-import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.model.service.IBookingService;
 import com.epam.javacourse.hotel.model.service.IInvoiceService;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +16,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Scheduler for issuing invoices and checking payment within 2 days.
+ * Scheduler for issuing an invoice and checking its payment within 2 days.
  * The booking is cancelled automatically in case of invoice not being paid by the due date.
  */
 @WebListener
@@ -25,8 +25,8 @@ public class InvoiceScheduler implements ServletContextListener {
     private static final Logger logger = LogManager.getLogger(InvoiceScheduler.class);
 
     private ScheduledExecutorService scheduler;
-    private IInvoiceService invoiceService = AppContext.getInstance().getInvoiceService();
-    private IBookingService bookingService = AppContext.getInstance().getBookingService();
+    private final IInvoiceService invoiceService = AppContext.getInstance().getInvoiceService();
+    private final IBookingService bookingService = AppContext.getInstance().getBookingService();
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
@@ -48,20 +48,20 @@ public class InvoiceScheduler implements ServletContextListener {
         public void run() {
             try {
                 invoiceService.generateInvoiceForBooking();
-            } catch (DBException e) {
-                logger.error("Cannot generate invoice for booking", e);
+            } catch (AppException exception) {
+                logger.error("Can't generate invoice for booking", exception);
             }
 
             try {
                 invoiceService.updateInvoiceStatusToCancelled();
-            } catch (DBException e) {
-                logger.error("Cannot cancel unpaid invoice", e);
+            } catch (AppException exception) {
+                logger.error("Can't cancel unpaid invoice", exception);
             }
 
             try {
                 bookingService.cancelUnpaidBookings();
-            } catch (DBException e) {
-                logger.error("Cannot cancel unpaid booking", e);
+            } catch (AppException exception) {
+                logger.error("Can't cancel unpaid booking", exception);
             }
             logger.info("Daily invoice and booking updates were completed by scheduler");
         }

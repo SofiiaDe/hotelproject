@@ -89,4 +89,5 @@ public class FreeRoomsPageCommand implements ICommand {
 
         return new AddressCommandResult(Path.PAGE_FREE_ROOMS);
     }
+
 }

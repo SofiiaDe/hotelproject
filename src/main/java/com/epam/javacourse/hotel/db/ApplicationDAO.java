@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,14 +28,11 @@ public class ApplicationDAO {
             pstmt.setString(3, application.getRoomClass());
             pstmt.setObject(4, application.getCheckinDate());
             pstmt.setObject(5, application.getCheckoutDate());
-//            pstmt.setTimestamp(4, Timestamp.valueOf(application.getCheckinDate()));
-//            pstmt.setTimestamp(5, Timestamp.valueOf(application.getCheckoutDate()));
 
             pstmt.executeUpdate();
             con.commit();
             return true;
         } catch (SQLException e) {
-            logger.error("Cannot create an application", e);
             rollBack(con);
             throw new DBException("Cannot create an application", e);
         } finally {
@@ -45,7 +41,7 @@ public class ApplicationDAO {
         }
     }
 
-    public Application getApplicationById(int id) throws DBException {
+    public Application findApplicationById(int id) throws DBException {
 
         Application application = new Application();
         Connection con = null;
@@ -61,12 +57,12 @@ public class ApplicationDAO {
             while (rs.next()) {
                 application.setId(id);
                 application.setUserId(rs.getInt("user_id"));
-                setApplicationCommonProperties(rs, application);
+                mapApplicationCommonProperties(rs, application);
             }
-
         } catch (SQLException e) {
-            logger.error("Cannot get application by id", e);
-            throw new DBException("Cannot get application by id", e);
+            String errorMessage = "Cannot get application by id=" + id;
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pStmt);
@@ -90,11 +86,10 @@ public class ApplicationDAO {
                 Application application = new Application();
                 application.setId(rs.getInt("id"));
                 application.setUserId(rs.getInt("user_id"));
-                setApplicationCommonProperties(rs, application);
+                mapApplicationCommonProperties(rs, application);
                 allApplicationsList.add(application);
             }
         } catch (SQLException e) {
-            logger.error("Cannot get all applications", e);
             throw new DBException("Cannot get all applications", e);
         } finally {
             close(con);
@@ -121,13 +116,13 @@ public class ApplicationDAO {
                 Application application = new Application();
                 application.setId(rs.getInt("id"));
                 application.setUserId(userId);
-                setApplicationCommonProperties(rs, application);
+                mapApplicationCommonProperties(rs, application);
                 userApplications.add(application);
             }
-
         } catch (SQLException e) {
-            logger.error("Cannot get applications by user_id", e);
-            throw new DBException("Cannot get applications by user_id", e);
+            String errorMessage = "Cannot get applications by user_id=" + userId;
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pStmt);
@@ -135,7 +130,7 @@ public class ApplicationDAO {
         }
         return userApplications;
     }
-    
+
     public boolean updateApplication(Application application) throws DBException {
 
         Connection con = null;
@@ -155,7 +150,6 @@ public class ApplicationDAO {
             con.commit();
             return true;
         } catch (SQLException e) {
-            logger.error("Cannot update application", e);
             rollBack(con);
             throw new DBException("Cannot update application", e);
         } finally {
@@ -175,8 +169,9 @@ public class ApplicationDAO {
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            logger.error("Cannot remove application", e);
-            throw new DBException("Cannot remove application", e);
+            String errorMessage = "Cannot delete application with id=" + applicationId;
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pstmt);
@@ -204,12 +199,10 @@ public class ApplicationDAO {
         }
     }
 
-    private static void setApplicationCommonProperties(ResultSet rs, Application application) throws SQLException {
+    private static void mapApplicationCommonProperties(ResultSet rs, Application application) throws SQLException {
         application.setRoomTypeBySeats(rs.getString("room_seats"));
         application.setRoomClass(rs.getString("room_class"));
         application.setCheckinDate(rs.getObject("checkin_date", LocalDate.class));
         application.setCheckoutDate(rs.getObject("checkout_date", LocalDate.class));
-//        application.setCheckinDate(rs.getDate("checkin_date").toLocalDate().atStartOfDay());
-//        application.setCheckoutDate(rs.getDate("checkout_date").toLocalDate().atStartOfDay());
     }
 }

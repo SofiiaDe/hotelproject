@@ -1,6 +1,6 @@
 package com.epam.javacourse.hotel.web.command.norole;
 
-import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class LoginPageCommand implements ICommand {
     @Override
-    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
+    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
         return new AddressCommandResult(Path.PAGE_LOGIN);
     }
 }

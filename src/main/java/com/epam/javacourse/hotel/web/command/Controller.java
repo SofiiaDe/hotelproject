@@ -16,6 +16,8 @@ public class Controller extends HttpServlet {
 
     private static final Logger logger = LogManager.getLogger(Controller.class);
 
+    private static final String ERROR_MESSAGE = "errorMessage";
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -45,17 +47,17 @@ public class Controller extends HttpServlet {
             commandResult = command.execute(request, response);
         } catch (AppException e) {
             logger.error("AppException occurred", e);
-            request.setAttribute("errorMessage", e.getMessage());
+            request.setAttribute(ERROR_MESSAGE, e.getMessage());
             commandResult = new AddressCommandResult(Path.PAGE_ERROR);
         } catch (Exception e) {
             logger.error(e);
-            request.setAttribute("errorMessage", "Something went wrong");
+            request.setAttribute(ERROR_MESSAGE, "Something went wrong");
             commandResult = new AddressCommandResult(Path.PAGE_ERROR);
         }
 
         if (commandResult == null){
             address = Path.PAGE_ERROR;
-            request.setAttribute("errorMessage", "No result available.");
+            request.setAttribute(ERROR_MESSAGE, "No result available.");
         }else{
             switch (commandResult.getType()){
                 case Address:
@@ -66,7 +68,7 @@ public class Controller extends HttpServlet {
                     return;
                 default:
                     address = Path.PAGE_ERROR;
-                    request.setAttribute("errorMessage", "Unknown command result type.");
+                    request.setAttribute(ERROR_MESSAGE, "Unknown command result type.");
             }
         }
 

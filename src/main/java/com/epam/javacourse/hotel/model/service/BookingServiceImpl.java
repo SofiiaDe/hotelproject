@@ -29,28 +29,48 @@ public class BookingServiceImpl implements IBookingService{
     }
 
     @Override
-    public boolean create(Booking booking) throws DBException {
-        return this.bookingDAO.createBooking(booking);
+    public boolean create(Booking booking) throws AppException {
+        try {
+            return this.bookingDAO.createBooking(booking);
+        } catch (DBException exception) {
+            throw new AppException("Can't create new booking", exception);
+        }
     }
 
     @Override
-    public List<Booking> getBookingsByUserId(int userId) throws DBException {
-        return this.bookingDAO.findBookingsByUserId(userId);
+    public List<Booking> getBookingsByUserId(int userId) throws AppException {
+        try {
+            return this.bookingDAO.findBookingsByUserId(userId);
+        } catch (DBException exception) {
+            throw new AppException("Can't retrieve user's bookings by user's id", exception);
+        }
     }
 
     @Override
-    public List<Booking> getAllBookings() throws DBException {
-        return this.bookingDAO.getAllBookings();
+    public List<Booking> getAllBookings() throws AppException {
+        try {
+            return this.bookingDAO.getAllBookings();
+        } catch (DBException exception) {
+            throw new AppException("Can't retrieve all bookings", exception);
+        }
     }
 
     @Override
-    public Booking getBookingById(int id) throws DBException {
-        return this.bookingDAO.getBookingById(id);
+    public Booking getBookingById(int id) throws AppException {
+        try {
+            return this.bookingDAO.findBookingById(id);
+        } catch (DBException exception) {
+            throw new AppException("Can't retrieve booking by id", exception);
+        }
     }
 
     @Override
-    public void deleteBookingById(int id) throws DBException {
-        this.bookingDAO.deleteBookingById(id);
+    public void deleteBookingById(int id) throws AppException {
+        try {
+            this.bookingDAO.deleteBookingById(id);
+        } catch (DBException exception) {
+            throw new AppException("Can't remove booking by id", exception);
+        }
     }
 
     @Override
@@ -60,17 +80,16 @@ public class BookingServiceImpl implements IBookingService{
         ArrayList<BookingDetailed> result;
         List<Invoice> invoices;
 
-        try{
+        try {
             allBookings = this.bookingDAO.getAllBookings(page, pageSize);
 
             List<Integer> userIds = allBookings.stream().map(Booking::getUserId).distinct().collect(Collectors.toList());
-            users = this.userDao.getUsersByIds(userIds);
+            users = this.userDao.findUsersByIds(userIds);
 
             result = new ArrayList<>();
             invoices = this.invoiceDAO.findInvoices(allBookings.stream().map(Booking::getId).collect(Collectors.toList()));
-        }catch(DBException exception){
-            // todo logger
-            throw new AppException("Can't get booking");
+        } catch (DBException exception){
+            throw new AppException("Can't retrieve list of all bookings to show in the manager's account", exception);
         }
 
         for (Booking booking: allBookings) {
@@ -85,40 +104,48 @@ public class BookingServiceImpl implements IBookingService{
                             invoices.stream().filter(i -> i.getBookingId() == booking.getId()).findFirst().get().getInvoiceStatus() == "paid"
                     ));
         }
-
         return result;
     }
 
     @Override
-    public List<UserBookingDetailed> getUserDetailedBookings(int userID) throws DBException {
-        List<Booking> allUserBookings = this.bookingDAO.findBookingsByUserId(userID);
+    public List<UserBookingDetailed> getUserDetailedBookings(int userID) throws AppException {
 
-        IRoomService roomService = AppContext.getInstance().getRoomService();
+        try {
+            List<Booking> allUserBookings = this.bookingDAO.findBookingsByUserId(userID);
 
-        ArrayList<UserBookingDetailed> result = new ArrayList<>();
+            IRoomService roomService = AppContext.getInstance().getRoomService();
 
-        for (Booking booking : allUserBookings) {
-            var room = roomService.getRoomById(booking.getRoomId());
-            result.add(
-                    new UserBookingDetailed(booking.getId(),
-                            booking.getCheckinDate(),
-                            booking.getCheckoutDate(),
-                            room.getRoomTypeBySeats(),
-                            room.getRoomClass(),
-                            false
-                    ));
+            ArrayList<UserBookingDetailed> result = new ArrayList<>();
+
+            for (Booking booking : allUserBookings) {
+                var room = roomService.getRoomById(booking.getRoomId());
+                result.add(
+                        new UserBookingDetailed(booking.getId(),
+                                booking.getCheckinDate(),
+                                booking.getCheckoutDate(),
+                                room.getRoomTypeBySeats(),
+                                room.getRoomClass(),
+                                false
+                        ));
+            }
+            return result;
+        } catch (DBException exception) {
+            throw new AppException("Can't retrieve list of client's bookings to show in the client's account", exception);
         }
-        return result;
     }
 
     @Override
-    public void cancelUnpaidBookings() throws DBException {
+    public void cancelUnpaidBookings() throws AppException {
 
-        IInvoiceService invoiceService = AppContext.getInstance().getInvoiceService();
+        try {
+            IInvoiceService invoiceService = AppContext.getInstance().getInvoiceService();
 
-        List<Invoice> unpaidInvoices = invoiceService.getInvoicesByStatus("cancelled");
-        for(Invoice invoice : unpaidInvoices) {
-            this.bookingDAO.deleteBookingById(invoice.getBookingId());
+            List<Invoice> unpaidInvoices = invoiceService.getInvoicesByStatus("cancelled");
+            for (Invoice invoice : unpaidInvoices) {
+                this.bookingDAO.deleteBookingById(invoice.getBookingId());
+            }
+        } catch (DBException exception) {
+            throw new AppException("Can't cancel unpaid bookings", exception);
         }
     }
 
@@ -127,7 +154,7 @@ public class BookingServiceImpl implements IBookingService{
         try{
             return this.bookingDAO.getAllBookingsCount();
         }catch(DBException exception){
-            throw new AppException("Can't retrieve number of bookings");
+            throw new AppException("Can't retrieve number of bookings", exception);
         }
     }
 }

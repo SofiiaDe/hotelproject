@@ -1,7 +1,6 @@
 package com.epam.javacourse.hotel.model.service;
 
 import com.epam.javacourse.hotel.Exception.AppException;
-import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserBookingDetailed;
@@ -10,13 +9,13 @@ import java.util.List;
 
 public interface IBookingService {
 
-    boolean create(Booking booking) throws DBException;
+    boolean create(Booking booking) throws AppException;
 
-    List<Booking> getBookingsByUserId(int userId) throws DBException;
+    List<Booking> getBookingsByUserId(int userId) throws AppException;
 
-    List<Booking> getAllBookings() throws DBException;
+    List<Booking> getAllBookings() throws AppException;
 
-    Booking getBookingById(int id) throws DBException;
+    Booking getBookingById(int id) throws AppException;
 
     /**
      * Get all bookings with info about user
@@ -27,16 +26,16 @@ public interface IBookingService {
      */
     List<BookingDetailed> getAllDetailedBookings(int page, int pageSize) throws AppException;
 
-    void deleteBookingById(int id) throws DBException;
+    void deleteBookingById(int id) throws AppException;
 
-    List<UserBookingDetailed> getUserDetailedBookings(int userID) throws DBException;
+    List<UserBookingDetailed> getUserDetailedBookings(int userID) throws AppException;
 
     /**
      * Finds invoices which were not paid by the due date and thus their status was changed to 'cancelled'.
      * Then removes bookings related to cancelled invoices.
-     * @throws DBException
+     * @throws AppException
      */
-    void cancelUnpaidBookings() throws DBException;
+    void cancelUnpaidBookings() throws AppException;
 
     /**
      * Get number of bookings

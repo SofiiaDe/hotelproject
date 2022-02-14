@@ -19,7 +19,7 @@ public class RoomDAO {
 
     private static final Logger logger = LogManager.getLogger(RoomDAO.class);
 
-    public List<Room> getAllRooms() throws DBException {
+    public List<Room> findAllRooms() throws DBException {
 
         List<Room> allRoomsList = new ArrayList<>();
         Connection con = null;
@@ -32,8 +32,7 @@ public class RoomDAO {
             rs = stmt.executeQuery(DBConstatns.SQL_GET_ALL_ROOMS);
             fillRoomsFromDb(allRoomsList, rs);
         } catch (SQLException e) {
-            logger.error("Cannot get all rooms", e);
-            throw new DBException("Cannot get all rooms", e);
+            throw new DBException("Can't find all rooms", e);
         } finally {
             close(con);
             close(stmt);
@@ -59,8 +58,9 @@ public class RoomDAO {
             roomUpdated = pstmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            logger.error("Cannot update room with id={}", room.getId(), e);
-            throw new DBException("Cannot update room.", e);
+            String errorMessage = "Can't update room with id=" + room.getId();
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pstmt);
@@ -68,7 +68,7 @@ public class RoomDAO {
         return roomUpdated;
     }
 
-    public Room getRoomById(int roomId) throws DBException {
+    public Room findRoomById(int roomId) throws DBException {
 
         Room room = new Room();
         Connection con = null;
@@ -87,8 +87,9 @@ public class RoomDAO {
             }
 
         } catch (SQLException e) {
-            logger.error("Cannot get room by id", e);
-            throw new DBException("Cannot get room by id", e);
+            String errorMessage = "Can't find room by id";
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pStmt);
@@ -97,13 +98,23 @@ public class RoomDAO {
         return room;
     }
 
-    private List<Room> getRoomsByIdsToIncludeOrExclude(List<Integer> ids, boolean include, boolean onlyAvailable) throws DBException{
+    /**
+     * Get list of rooms by its ids
+     *
+     * @param ids           list of rooms ids
+     * @param include       true if "ids" param is list of ids which rooms are requested and
+     *                      false if "ids" param is list of ids except which rooms are requested
+     * @param onlyAvailable true if only available rooms are requested
+     * @return
+     * @throws DBException
+     */
+    private List<Room> getRoomsByIdsToIncludeOrExclude(List<Integer> ids, boolean include, boolean onlyAvailable) throws DBException {
         List<Room> rooms = new ArrayList<>();
 
         String query;
-        if (include){
+        if (include) {
             query = DBConstatns.SQL_GET_ROOMS_BY_IDS;
-        }else{
+        } else {
             query = DBConstatns.SQL_GET_ROOMS_EXCEPT;
         }
 
@@ -127,7 +138,6 @@ public class RoomDAO {
                 }
             }
         } catch (SQLException e) {
-            logger.error("Cannot get rooms by ids", e);
             throw new DBException("Cannot get rooms by ids", e);
         } finally {
             close(con);
@@ -137,6 +147,13 @@ public class RoomDAO {
         return rooms;
     }
 
+    /**
+     * Get available rooms by ids
+     *
+     * @param ids
+     * @return
+     * @throws DBException
+     */
     public List<Room> getRoomsByIds(List<Integer> ids) throws DBException {
         return getRoomsByIdsToIncludeOrExclude(ids, true, true);
     }
@@ -166,15 +183,14 @@ public class RoomDAO {
             fillRoomsFromDb(allRoomsList, rs);
 
         } catch (SQLException e) {
-            logger.error("Cannot get all rooms", e);
-            throw new DBException("Cannot get all rooms", e);
+            throw new DBException("Can't get all rooms", e);
         } finally {
             close(con);
             close(pStmt);
             close(rs);
         }
     }
-    
+
     public List<Room> getAvailableRooms(LocalDate checkin, LocalDate checkout, int page, int pageSize) throws DBException {
 
         List<Room> allRoomsList = new ArrayList<>();
@@ -199,16 +215,16 @@ public class RoomDAO {
         }
     }
 
-    private String createRoomsQuery(String select, RoomStatus roomStatus, RoomSeats roomSeats){
+    private String createRoomsQuery(String select, RoomStatus roomStatus, RoomSeats roomSeats) {
         return createRoomsQuery(select, roomStatus, roomSeats, -1, -1, SortBy.NONE, SortType.NONE);
     }
 
-    private String createRoomsQuery(String select, RoomStatus roomStatus, RoomSeats roomSeats, int page, int pageSize, SortBy sortBy, SortType sortType){
+    private String createRoomsQuery(String select, RoomStatus roomStatus, RoomSeats roomSeats, int page, int pageSize, SortBy sortBy, SortType sortType) {
 
         String result = DBConstatns.SQL_GET_ROOMS_BASIC_QUERY;
         result = result.replace("?0?", select + " ");
 
-        switch (roomStatus){
+        switch (roomStatus) {
             case RESERVED:
                 result = result.replace("?1?", "= 'new' ");
                 result = result.replace("?2?", "not");
@@ -223,24 +239,24 @@ public class RoomDAO {
                 result = result.replace("?2?", "");
                 break;
 
-                default:
-                    result = result.replace("?1?", "!= 'cancelled'");
-                    result += "and room_status = 'available' ";
-                    result = result.replace("?2?", "");
+            default:
+                result = result.replace("?1?", "!= 'cancelled'");
+                result += "and room_status = 'available' ";
+                result = result.replace("?2?", "");
         }
 
         if (roomSeats != null && roomSeats != RoomSeats.NONE) {
             result += " and room_seats = '" + roomSeats + "'";
         }
 
-        if (sortBy != null && sortBy != SortBy.NONE){
+        if (sortBy != null && sortBy != SortBy.NONE) {
             result += " ORDER BY " + (sortBy == SortBy.CLASS ? "room_class" : sortBy) + " ";
-            if (sortType != null && sortType != SortType.NONE){
+            if (sortType != null && sortType != SortType.NONE) {
                 result += sortType;
             }
         }
 
-        if (page > 0){
+        if (page > 0) {
             result += " LIMIT " + pageSize;
             result += page > 1 ? " OFFSET " + (page - 1) * pageSize : " ";
         }
@@ -268,8 +284,9 @@ public class RoomDAO {
             result = rs.getInt("cnt");
 
         } catch (SQLException e) {
-            logger.error("Cannot get all rooms number", e);
-            throw new DBException("Cannot get all rooms number", e);
+            String errorMessage = "Can't get all rooms number";
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pStmt);
@@ -283,7 +300,7 @@ public class RoomDAO {
         return getRoomCount(checkin, checkout, RoomStatus.AVAILABLE, null);
     }
 
-    private static Room mapResultSetToRoom(ResultSet rs) throws SQLException{
+    private static Room mapResultSetToRoom(ResultSet rs) throws SQLException {
         Room room = new Room();
         room.setId(rs.getInt("id"));
         mapCommonProperties(room, rs);

@@ -1,6 +1,6 @@
 package com.epam.javacourse.hotel.web.command.norole;
 
-import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.ICommand;
@@ -19,7 +19,7 @@ import java.util.Objects;
 public class I18nInternationalizationCommand implements ICommand {
 
     @Override
-    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
+    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
 
         HttpSession session = request.getSession();
 

@@ -1,7 +1,7 @@
 package com.epam.javacourse.hotel.web.command.norole;
 
 import com.epam.javacourse.hotel.AppContext;
-import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.Exception.HashPasswordException;
 import com.epam.javacourse.hotel.Security;
 import com.epam.javacourse.hotel.model.User;
@@ -26,7 +26,7 @@ public class LoginCommand implements ICommand {
 
     @Override
     public ICommandResult execute(HttpServletRequest request, HttpServletResponse response)
-            throws DBException {
+            throws AppException {
         
         HttpSession session = request.getSession();
 
@@ -45,7 +45,7 @@ public class LoginCommand implements ICommand {
             return new AddressCommandResult(address);
         }
 
-        User user = userService.findUserByEmail(email);
+        User user = userService.getUserByEmail(email);
 
         String hashPassword = null;
         try {

@@ -1,6 +1,7 @@
 package com.epam.javacourse.hotel.web.command.client;
 
 import com.epam.javacourse.hotel.AppContext;
+import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.*;
 import com.epam.javacourse.hotel.model.service.*;
@@ -31,7 +32,7 @@ public class ClientAccountPageCommand implements ICommand {
     private final IInvoiceService invoiceService = AppContext.getInstance().getInvoiceService();
 
     @Override
-    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
+    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
 
         HttpSession session = request.getSession();
         User authorisedUser = (User) session.getAttribute("authorisedUser");

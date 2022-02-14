@@ -1,10 +1,10 @@
 package com.epam.javacourse.hotel.model.service;
 
+import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.db.UserDAO;
 import com.epam.javacourse.hotel.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserServiceImpl implements IUserService {
@@ -16,45 +16,40 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<User> findAllUsers() throws DBException {
-        return this.userDao.findAllUsers();
+    public List<User> getAllUsers() throws AppException {
+        try {
+            return this.userDao.findAllUsers();
+        } catch (DBException exception) {
+            throw new AppException("Can't retrieve all users", exception);
+        }
     }
 
     @Override
-    public void create(User user) throws DBException {
-        this.userDao.createUser(user);
+    public void create(User user) throws AppException {
+        try {
+            this.userDao.createUser(user);
+        } catch (DBException exception) {
+            throw new AppException("Can't create a user", exception);
+        }
     }
 
     @Override
-    public User findUserByEmail(String email) throws DBException {
-        return this.userDao.getUserByEmail(email);
+    public User getUserByEmail(String email) throws AppException {
+        try {
+            return this.userDao.findUserByEmail(email);
+        } catch (DBException exception) {
+            throw new AppException("Can't retrieve user by email", exception);
+        }
     }
 
     @Override
-    public User findUserById(int id) throws DBException {
-        return this.userDao.getUserById(id);
+    public User getUserById(int id) throws AppException {
+        try {
+            return this.userDao.findUserById(id);
+        } catch (DBException exception) {
+            throw new AppException("Can't retrieve user by id", exception);
+        }
 
     }
-
-
-//
-//    @Override
-//    public void update(User user) throws DBException {
-//        this.userDao.updateUser(user);
-//    }
-//
-//    @Override
-//    public void remove(User user) throws DBException {
-//        this.userDao.deleteUsers(user);
-//    }
-//
-
-//
-//    @Override
-//    public List<Application> findUserApplications(User user) throws DBException {
-//        return this.userDao.getApplications(user);
-//    }
-
-
 
 }

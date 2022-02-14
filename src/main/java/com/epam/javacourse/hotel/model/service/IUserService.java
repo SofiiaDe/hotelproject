@@ -1,35 +1,19 @@
 package com.epam.javacourse.hotel.model.service;
 
-import com.epam.javacourse.hotel.Exception.DBException;
-import com.epam.javacourse.hotel.model.Application;
+import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.model.User;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+
 import java.util.List;
 
 public interface IUserService {
 
-    List<User> findAllUsers() throws DBException;
+    List<User> getAllUsers() throws AppException;
 
-    void create(User user) throws DBException;
+    void create(User user) throws AppException;
 
-    User findUserByEmail(String email) throws DBException;
+    User getUserByEmail(String email) throws AppException;
 
-    User findUserById(int id) throws DBException;
-//
-//
-//    void update(User user) throws DBException;
-//
-//    void remove(User user) throws DBException;
-//
-//
-//    List<Application> findUserApplications(User user) throws DBException;
+    User getUserById(int id) throws AppException;
 
-
-//    void saveLinksUserHasRooms(User user, String[] tariffsId);
-//
-//    void removeLinksUsersHasRooms(User user);
-
-//    void updateAuthorisedUserToSession(HttpServletRequest request, HttpSession session, User user) throws DBException;
 }

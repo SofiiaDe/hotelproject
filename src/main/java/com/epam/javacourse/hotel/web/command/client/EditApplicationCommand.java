@@ -1,7 +1,7 @@
 package com.epam.javacourse.hotel.web.command.client;
 
 import com.epam.javacourse.hotel.AppContext;
-import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.service.IApplicationService;
 import com.epam.javacourse.hotel.web.Path;
@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class EditApplicationCommand implements ICommand {
     @Override
-    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
+    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
         int id = Integer.parseInt(request.getParameter("id"));
         String room_seats = request.getParameter("room_seats").trim();
         String room_class = request.getParameter("room_class").trim();

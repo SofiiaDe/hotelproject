@@ -1,7 +1,6 @@
 package com.epam.javacourse.hotel.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Booking extends Entity{
 

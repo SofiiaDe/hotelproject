@@ -1,6 +1,7 @@
 package com.epam.javacourse.hotel.model.service;
 
 import com.epam.javacourse.hotel.AppContext;
+import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.db.ConfirmRequestDAO;
 import com.epam.javacourse.hotel.db.UserDAO;
@@ -25,94 +26,123 @@ public class ConfirmRequestServiceImpl implements IConfirmRequestService {
     }
 
     @Override
-    public void create(ConfirmationRequest confirmRequest) throws DBException {
-        this.confirmRequestDAO.createConfirmRequest(confirmRequest);
+    public void create(ConfirmationRequest confirmRequest) throws AppException {
+        try {
+            this.confirmRequestDAO.createConfirmRequest(confirmRequest);
+        } catch (DBException exception) {
+            throw new AppException("Can't create confirmation request", exception);
+        }
     }
 
     @Override
-    public List<ConfirmationRequest> getConfirmRequestsByUserId(int userId) throws DBException {
-        return this.confirmRequestDAO.findConfirmRequestsByUserId(userId);
+    public List<ConfirmationRequest> getConfirmRequestsByUserId(int userId) throws AppException {
+        try {
+            return this.confirmRequestDAO.findConfirmRequestsByUserId(userId);
+        } catch (DBException exception) {
+            throw new AppException("Can't retrieve clients confirmation requests", exception);
+        }
     }
 
     @Override
-    public List<ConfirmationRequest> getAllConfirmRequests() throws DBException {
-        return this.confirmRequestDAO.findAllConfirmRequests();
+    public List<ConfirmationRequest> getAllConfirmRequests() throws AppException {
+        try {
+            return this.confirmRequestDAO.findAllConfirmRequests();
+        } catch (DBException exception) {
+            throw new AppException("Can't retrieve all confirmation requests", exception);
+        }
     }
 
     @Override
-    public void deleteConfirmRequestById(int id) throws DBException {
-        this.deleteConfirmRequestById(id);
+    public void deleteConfirmRequestById(int id) throws AppException {
+        try {
+            this.deleteConfirmRequestById(id);
+        } catch (DBException exception) {
+            throw new AppException("Can't remove confirmation request by id", exception);
+        }
     }
 
     @Override
     public LocalDate getConfirmRequestDueDate(ConfirmationRequest confirmRequest) {
         LocalDate confirmRequestDate = confirmRequest.getConfirmRequestDate();
-        return confirmRequestDate.plusDays(3);
+        return confirmRequestDate.plusDays(2);
 
     }
 
     @Override
-    public List<ConfirmationRequestDetailed> getAllDetailedConfirmRequests() throws DBException {
-        List<ConfirmationRequest> allConfirmRequests = this.confirmRequestDAO.findAllConfirmRequests();
+    public List<ConfirmationRequestDetailed> getAllDetailedConfirmRequests() throws AppException {
+        try {
+            List<ConfirmationRequest> allConfirmRequests = this.confirmRequestDAO.findAllConfirmRequests();
 
-        if(allConfirmRequests.isEmpty()) {
-            return Collections.emptyList();
+            if (allConfirmRequests.isEmpty()) {
+                return Collections.emptyList();
+            }
+
+            List<Integer> userIds = allConfirmRequests.stream()
+                    .map(ConfirmationRequest::getUserId).distinct().collect(Collectors.toList());
+            List<User> data = this.userDAO.findUsersByIds(userIds);
+            ArrayList<ConfirmationRequestDetailed> result = new ArrayList<>();
+
+            for (ConfirmationRequest confirmRequest : allConfirmRequests) {
+                var bookingUser = data.stream().filter(u -> u.getId() == confirmRequest.getUserId()).findFirst().get();
+                result.add(
+                        new ConfirmationRequestDetailed(confirmRequest.getId(),
+                                bookingUser.getFirstName() + ' ' + bookingUser.getLastName(),
+                                bookingUser.getEmail(),
+                                confirmRequest.getApplicationId(),
+                                confirmRequest.getRoomId(),
+                                confirmRequest.getConfirmRequestDate(),
+                                confirmRequest.getStatus()
+                        ));
+            }
+
+            return result;
+        } catch (DBException exception) {
+            throw new AppException("Can't retrieve all confirmation requests to show in the manager's account", exception);
         }
-
-        List<Integer> userIds = allConfirmRequests.stream()
-                .map(ConfirmationRequest::getUserId).distinct().collect(Collectors.toList());
-        List<User> data = this.userDAO.getUsersByIds(userIds);
-        ArrayList<ConfirmationRequestDetailed> result = new ArrayList<>();
-
-        for (ConfirmationRequest confirmRequest: allConfirmRequests) {
-            var bookingUser = data.stream().filter(u -> u.getId() == confirmRequest.getUserId()).findFirst().get();
-            result.add(
-                    new ConfirmationRequestDetailed(confirmRequest.getId(),
-                            bookingUser.getFirstName() + ' '+ bookingUser.getLastName(),
-                            bookingUser.getEmail(),
-                            confirmRequest.getApplicationId(),
-                            confirmRequest.getRoomId(),
-                            confirmRequest.getConfirmRequestDate(),
-                            confirmRequest.getStatus()
-                    ));
-        }
-
-        return result;
     }
 
     @Override
-    public List<UserConfirmationRequestDetailed> getUserDetailedConfirmRequests(int userID) throws DBException {
+    public List<UserConfirmationRequestDetailed> getUserDetailedConfirmRequests(int userID) throws AppException {
 
-        List<ConfirmationRequest> allUserConfirmRequests = this.confirmRequestDAO.findConfirmRequestsByUserId(userID);
-        IApplicationService applicationService = AppContext.getInstance().getApplicationService();
-        List<Application> userApplications = applicationService.getApplicationsByUserId(userID);
+        try {
 
-        ArrayList<UserConfirmationRequestDetailed> result = new ArrayList<>();
+            List<ConfirmationRequest> allUserConfirmRequests = this.confirmRequestDAO.findConfirmRequestsByUserId(userID);
+            IApplicationService applicationService = AppContext.getInstance().getApplicationService();
+            List<Application> userApplications = applicationService.getApplicationsByUserId(userID);
 
-        for (ConfirmationRequest confirmRequest : allUserConfirmRequests) {
-            var application = userApplications.stream()
-                    .filter(a -> a.getId() == confirmRequest.getApplicationId())
-                    .findFirst()
-                    .get();
-            result.add(
-                    new UserConfirmationRequestDetailed(confirmRequest.getId(),
-                            confirmRequest.getConfirmRequestDate(),
-                            getConfirmRequestDueDate(confirmRequest),
-                            application.getRoomTypeBySeats(),
-                            application.getRoomClass(),
-                            application.getCheckinDate(),
-                            application.getCheckoutDate(),
-                            confirmRequest.getApplicationId(),
-                            confirmRequest.getStatus()
-                    ));
+            ArrayList<UserConfirmationRequestDetailed> result = new ArrayList<>();
+
+            for (ConfirmationRequest confirmRequest : allUserConfirmRequests) {
+                var application = userApplications.stream()
+                        .filter(a -> a.getId() == confirmRequest.getApplicationId())
+                        .findFirst()
+                        .get();
+                result.add(
+                        new UserConfirmationRequestDetailed(confirmRequest.getId(),
+                                confirmRequest.getConfirmRequestDate(),
+                                getConfirmRequestDueDate(confirmRequest),
+                                application.getRoomTypeBySeats(),
+                                application.getRoomClass(),
+                                application.getCheckinDate(),
+                                application.getCheckoutDate(),
+                                confirmRequest.getApplicationId(),
+                                confirmRequest.getStatus()
+                        ));
+            }
+            return result;
+        } catch (DBException exception) {
+            throw new AppException("Can't retrieve client's confirmation requests to show in the client's account", exception);
         }
-        return result;
     }
 
     @Override
-    public void confirmRequestByClient(int confirmRequestId) throws DBException {
-        ConfirmationRequest requestToBeConfirmed = this.confirmRequestDAO.findConfirmRequestById(confirmRequestId);
-        requestToBeConfirmed.setStatus("confirmed");
-        this.confirmRequestDAO.updateConfirmRequestStatus(requestToBeConfirmed);
+    public void confirmRequestByClient(int confirmRequestId) throws AppException {
+
+        try {
+            ConfirmationRequest requestToBeConfirmed = this.confirmRequestDAO.findConfirmRequestById(confirmRequestId);
+            requestToBeConfirmed.setStatus("confirmed");
+            this.confirmRequestDAO.updateConfirmRequestStatus(requestToBeConfirmed);
+        } catch (DBException exception) {
+            throw new AppException("Can't update confirmation request's status to 'confirmed'", exception);        }
     }
 }

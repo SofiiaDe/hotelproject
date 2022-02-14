@@ -1,7 +1,7 @@
 package com.epam.javacourse.hotel.web.command.manager;
 
 import com.epam.javacourse.hotel.AppContext;
-import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.Exception.AppException;
 
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.service.IUserService;
@@ -21,9 +21,9 @@ public class GetAllUsersCommand implements ICommand {
 
     @Override
     public ICommandResult execute(HttpServletRequest request,
-                                  HttpServletResponse response) throws DBException {
+                                  HttpServletResponse response) throws AppException {
 
-        List<User> list = userService.findAllUsers();
+        List<User> list = userService.getAllUsers();
         HttpSession session = request.getSession();
         session.setAttribute("usersList", list);
 

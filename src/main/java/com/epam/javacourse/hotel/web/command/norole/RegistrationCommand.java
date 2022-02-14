@@ -1,7 +1,7 @@
 package com.epam.javacourse.hotel.web.command.norole;
 
 import com.epam.javacourse.hotel.AppContext;
-import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.Exception.HashPasswordException;
 import com.epam.javacourse.hotel.Security;
 import com.epam.javacourse.hotel.Validator;
@@ -28,11 +28,11 @@ public class RegistrationCommand implements ICommand {
     IUserService userService = AppContext.getInstance().getUserService();
 
     @Override
-    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
+    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
 
         HttpSession session = request.getSession();
 
-        List<User> registeredUsers = userService.findAllUsers();
+        List<User> registeredUsers = userService.getAllUsers();
         List<String> emails = new ArrayList<>(registeredUsers.size());
 
         for(User user : registeredUsers) {
@@ -45,16 +45,16 @@ public class RegistrationCommand implements ICommand {
         String email = request.getParameter("email").trim();
 
         if(emails.contains(email)) {
-            throw new DBException("Email already exists.");
+            throw new AppException("Email already exists.");
         }
         if (Validator.validateEmail(email, 50) != null) {
-            throw new DBException(Validator.validateEmail(email, 50));
+            throw new AppException(Validator.validateEmail(email, 50));
         }
 
         String password = request.getParameter("password");
 
         if (Validator.validatePassword(password, 8, 20) != null) {
-            throw new DBException(Validator.validatePassword(password, 8, 20));
+            throw new AppException(Validator.validatePassword(password, 8, 20));
         }
 
         String confirmPassword = request.getParameter("confirmPassword").trim();
@@ -62,10 +62,10 @@ public class RegistrationCommand implements ICommand {
         Validator.validatePassword(confirmPassword, 8, 20);
 
         if(Validator.validatePassword(confirmPassword, 8, 20) != null) {
-            throw new DBException(Validator.validatePassword(confirmPassword, 8, 20));
+            throw new AppException(Validator.validatePassword(confirmPassword, 8, 20));
         }
         if (!password.equals(confirmPassword)) {
-            throw new DBException("Password does not match");
+            throw new AppException("Password does not match");
         }
 
         String country = request.getParameter("country").trim();
@@ -92,7 +92,7 @@ public class RegistrationCommand implements ICommand {
 
         session.setAttribute("newUser", newUser);
 
-        return new AddressCommandResult(Path.COMMAND_LOGIN_PAGE); //succesfull registration ==>
+        return new AddressCommandResult(Path.COMMAND_LOGIN_PAGE + "?showMessage"); //succesfull registration ==>
 
     }
 

@@ -1,39 +1,51 @@
 package com.epam.javacourse.hotel.model.service;
 
-import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.model.Invoice;
 import com.epam.javacourse.hotel.model.serviceModels.InvoiceDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IInvoiceService {
 
-    void createInvoice(Invoice invoice) throws DBException;
+    void createInvoice(Invoice invoice) throws AppException;
 
-    List<Invoice> getAllInvoices() throws DBException;
+    List<Invoice> getAllInvoices() throws AppException;
 
-    List<InvoiceDetailed> getAllDetailedInvoices() throws DBException;
+    List<InvoiceDetailed> getAllDetailedInvoices() throws AppException;
 
-    List<Invoice> getInvoicesByUserId(int userId) throws DBException;
+    List<Invoice> getInvoicesByUserId(int userId) throws AppException;
 
-    double getInvoiceAmount(Booking booking) throws DBException;
+    double getInvoiceAmount(Booking booking) throws AppException;
 
-    List<UserInvoiceDetailed> getUserDetailedInvoices(int userID) throws DBException;
+    List<UserInvoiceDetailed> getUserDetailedInvoices(int userID) throws AppException;
 
     LocalDate getInvoiceDueDate(Invoice invoice);
 
-    void generateInvoiceForBooking() throws DBException;
+    /**
+     * Creates new invoice once the new booking appeared.
+     * @throws AppException
+     */
+    void generateInvoiceForBooking() throws AppException;
 
-    void updateInvoiceStatusToCancelled() throws DBException;
+    /**
+     * Updates invoice's status to 'cancelled' in case of not paying the invoice by the due date.
+     * @throws AppException
+     */
+    void updateInvoiceStatusToCancelled() throws AppException;
 
-    List<Invoice> getInvoicesByStatus(String status) throws DBException;
+    List<Invoice> getInvoicesByStatus(String status) throws AppException;
 
-    void payInvoice(int invoiceId) throws DBException;
+    /**
+     * Updates invoice's status to 'paid' in case of successful payment transaction.
+     * @param invoiceId
+     * @throws AppException
+     */
+    void payInvoice(int invoiceId) throws AppException;
 
-    Invoice getInvoiceById(int invoiceId) throws DBException;
+    Invoice getInvoiceById(int invoiceId) throws AppException;
 
 }

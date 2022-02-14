@@ -1,7 +1,7 @@
 package com.epam.javacourse.hotel.web.command.client;
 
 import com.epam.javacourse.hotel.AppContext;
-import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.model.service.IConfirmRequestService;
 import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.ICommand;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ConfirmRequestCommand implements ICommand {
     @Override
-    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
+    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
 
         IConfirmRequestService confirmRequestService = AppContext.getInstance().getConfirmRequestService();
         int confirmRequestId = Integer.parseInt(request.getParameter("confirmRequest_id"));

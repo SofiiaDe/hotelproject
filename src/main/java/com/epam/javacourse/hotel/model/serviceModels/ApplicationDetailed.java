@@ -1,7 +1,6 @@
 package com.epam.javacourse.hotel.model.serviceModels;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class ApplicationDetailed {
     private final int id;

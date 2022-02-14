@@ -3,7 +3,6 @@ package com.epam.javacourse.hotel.model.serviceModels;
 import com.epam.javacourse.hotel.shared.models.BookingStatus;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class BookingDetailed{
 

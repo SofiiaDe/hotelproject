@@ -33,7 +33,6 @@ public class BookingDAO {
             con.commit();
             return true;
         } catch (SQLException e) {
-            logger.error("Cannot create a booking", e);
             rollBack(con);
             throw new DBException("Cannot create a booking", e);
         } finally {
@@ -42,7 +41,7 @@ public class BookingDAO {
         }
     }
 
-    public List<Booking> findBookingsByUserId(int userId) throws DBException{
+    public List<Booking> findBookingsByUserId(int userId) throws DBException {
         List<Booking> userBookings = new ArrayList<>();
         Connection con = null;
         PreparedStatement pStmt = null;
@@ -57,15 +56,13 @@ public class BookingDAO {
                 Booking booking = new Booking();
                 booking.setId(rs.getInt("id"));
                 booking.setUserId(userId);
-//                booking.setCheckinDate(rs.getDate("checkin_date").toLocalDate().atStartOfDay());
-//                booking.setCheckoutDate(rs.getDate("checkout_date").toLocalDate().atStartOfDay());
                 mapBookingCommonProperties(rs, booking);
                 userBookings.add(booking);
             }
-
         } catch (SQLException e) {
-            logger.error("Cannot get bookings by user_id", e);
-            throw new DBException("Cannot get bookings by user_id", e);
+            String errorMessage = "Cannot find bookings by user_id=" + userId;
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pStmt);
@@ -76,16 +73,18 @@ public class BookingDAO {
 
     /**
      * Get all bookings
+     *
      * @return All bookings
      * @throws DBException
      */
-    public List<Booking> getAllBookings() throws DBException{
+    public List<Booking> getAllBookings() throws DBException {
         return getAllBookings(-1, -1);
     }
 
     /**
      * Get all bookings limited by page and pageSize
-     * @param page result's page. Set -1 to not limit by page/size
+     *
+     * @param page     result's page. Set -1 to not limit by page/size
      * @param pageSize number of items to select
      * @return bookings from specified page and given page size
      * @throws DBException
@@ -110,11 +109,11 @@ public class BookingDAO {
                 booking.setUserId(rs.getInt("user_id"));
                 mapBookingCommonProperties(rs, booking);
                 allBookingsList.add(booking);
-
             }
         } catch (SQLException e) {
-            logger.error("Cannot get all bookings", e);
-            throw new DBException("Cannot get all bookings", e);
+            String errorMessage = "Cannot get all bookings for page=" + page + " and pageSize=" + pageSize;
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(stmt);
@@ -124,7 +123,7 @@ public class BookingDAO {
         return allBookingsList;
     }
 
-    public Booking getBookingById(int id) throws DBException {
+    public Booking findBookingById(int id) throws DBException {
 
         Booking booking = new Booking();
         Connection con = null;
@@ -142,10 +141,10 @@ public class BookingDAO {
                 booking.setUserId(rs.getInt("user_id"));
                 mapBookingCommonProperties(rs, booking);
             }
-
         } catch (SQLException e) {
-            logger.error("Cannot get booking by id", e);
-            throw new DBException("Cannot get booking by id", e);
+            String errorMessage = "Cannot find booking by id=" + id;
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pStmt);
@@ -166,8 +165,9 @@ public class BookingDAO {
             pStmt.executeUpdate();
 
         } catch (SQLException e) {
-            logger.error("Cannot delete booking by id", e);
-            throw new DBException("Cannot delete booking by id", e);
+            String errorMessage = "Cannot delete booking by id=" + id;
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pStmt);
@@ -179,7 +179,7 @@ public class BookingDAO {
             try {
                 itemToBeClosed.close();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("DB close failed in BookingDAO", e);
             }
         }
     }
@@ -190,7 +190,7 @@ public class BookingDAO {
                 con.rollback();
                 con.setAutoCommit(true);
             } catch (SQLException e) {
-                logger.error("Cannot rollback transaction", e);
+                logger.error("Cannot rollback transaction in BookingDAO", e);
             }
         }
     }
@@ -204,10 +204,11 @@ public class BookingDAO {
 
     /**
      * Retrieve number of all bookings
+     *
      * @return number of all bookings
      * @throws DBException
      */
-    public int getAllBookingsCount() throws DBException{
+    public int getAllBookingsCount() throws DBException {
         int result;
         Connection con = null;
         Statement stmt = null;

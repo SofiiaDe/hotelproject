@@ -33,9 +33,8 @@ public class ConfirmRequestDAO {
             con.commit();
             return true;
         } catch (SQLException e) {
-            logger.error("Cannot create a confirmation request", e);
             rollBack(con);
-            throw new DBException("Cannot create a confirmation request", e);
+            throw new DBException("Can't create confirmation request", e);
         } finally {
             close(con);
             close(pstmt);
@@ -62,8 +61,9 @@ public class ConfirmRequestDAO {
             }
 
         } catch (SQLException e) {
-            logger.error("Cannot get confirmation requests by user_id", e);
-            throw new DBException("Cannot get confirmation requests by user_id", e);
+            String errorMessage = "Can't find confirmation requests by user_id=" + userId;
+            logger.error(errorMessage, e);
+            throw new DBException("Cannot find confirmation requests by user_id", e);
         } finally {
             close(con);
             close(pStmt);
@@ -91,8 +91,7 @@ public class ConfirmRequestDAO {
                 allConfirmRequestsList.add(confirmRequest);
             }
         } catch (SQLException e) {
-            logger.error("Cannot get all confirmation requests", e);
-            throw new DBException("Cannot get all confirmation requests", e);
+            throw new DBException("Can't find all confirmation requests", e);
         } finally {
             close(con);
             close(stmt);
@@ -113,8 +112,9 @@ public class ConfirmRequestDAO {
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            logger.error("Cannot delete confirmation request", e);
-            throw new DBException("Cannot delete confirmation request", e);
+            String errorMessage = "Can't delete confirmation request by id=" + id;
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pstmt);
@@ -140,8 +140,9 @@ public class ConfirmRequestDAO {
             }
 
         } catch (SQLException e) {
-            logger.error("Cannot get invoice by id", e);
-            throw new DBException("Cannot get invoice by id", e);
+            String errorMessage = "Can't find invoice by id=" + confirmRequestId;
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pStmt);
@@ -164,9 +165,10 @@ public class ConfirmRequestDAO {
             con.commit();
             return true;
         } catch (SQLException e) {
-            logger.error("Cannot update invoice status", e);
+            String errorMessage = "Can't update invoice status with id=" + confirmRequest.getId();
+            logger.error(errorMessage, e);
             rollBack(con);
-            throw new DBException("Cannot update invoice status", e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pstmt);

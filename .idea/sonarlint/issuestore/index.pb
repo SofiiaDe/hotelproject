@@ -1,8 +1,6 @@
 
 V
 &src/main/webapp/WEB-INF/jspf/page.jspf,1\8\183723e0a3175350ac79039b001630c2d0d0a62f
-S
-#src/main/webapp/META-INF/contex.xml,e\0\e011cee888bfe0c0bb5164488abc61f748b28867
 r
 Bsrc/main/java/com/epam/javacourse/hotel/Exception/DBException.java,2\c\2cc1c7d355e8f6556f4f316ab8485c3880d95c2f
 s

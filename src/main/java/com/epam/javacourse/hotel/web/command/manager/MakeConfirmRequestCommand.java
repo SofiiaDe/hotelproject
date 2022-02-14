@@ -2,7 +2,6 @@ package com.epam.javacourse.hotel.web.command.manager;
 
 import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.AppException;
-import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.Validator;
 import com.epam.javacourse.hotel.model.*;
 import com.epam.javacourse.hotel.model.service.IApplicationService;
@@ -31,7 +30,7 @@ public class MakeConfirmRequestCommand implements ICommand {
     IConfirmRequestService confirmRequestService = AppContext.getInstance().getConfirmRequestService();
 
     @Override
-    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws DBException {
+    public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
 
         HttpSession session = request.getSession();
 

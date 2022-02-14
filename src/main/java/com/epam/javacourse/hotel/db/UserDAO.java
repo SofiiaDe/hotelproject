@@ -32,8 +32,7 @@ public class UserDAO {
                 allUsersList.add(user);
             }
         } catch (SQLException e) {
-            logger.error("Cannot get all users", e);
-            throw new DBException("Cannot get all users", e);
+            throw new DBException("Can't get all users", e);
         } finally {
             close(con);
             close(stmt);
@@ -65,16 +64,15 @@ public class UserDAO {
             con.commit();
 
         } catch (SQLException e) {
-            logger.error("Cannot create a user", e);
             rollBack(con);
-            throw new DBException("Cannot create a user", e);
+            throw new DBException("Can't create a user", e);
         } finally {
             close(con);
             close(pstmt);
         }
     }
 
-    public User getUserByEmail(String email) throws DBException {
+    public User findUserByEmail(String email) throws DBException {
 
         User user = null;
         Connection con = null;
@@ -90,8 +88,9 @@ public class UserDAO {
             }
 
         } catch (SQLException e) {
-            logger.error("Cannot get a user by email", e);
-            throw new DBException("Cannot get a user by email", e);
+            String errorMessage = "Can't get a user by email=" + email;
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pstmt);
@@ -101,7 +100,7 @@ public class UserDAO {
         return user;
     }
 
-    public List<User> getUsersByIds(List<Integer> ids) throws DBException {
+    public List<User> findUsersByIds(List<Integer> ids) throws DBException {
         List<User> users = new ArrayList<>();
         String sql = String.format(DBConstatns.SQL_GET_USERS_BY_IDS, preparePlaceHolders(ids.size()));
         Connection con = null;
@@ -120,8 +119,7 @@ public class UserDAO {
                 }
             }
         } catch (SQLException e) {
-            logger.error("Cannot get users by ids", e);
-            throw new DBException("Cannot get users by ids", e);
+            throw new DBException("Can't get users by ids", e);
         } finally {
             close(con);
             close(pStmt);
@@ -130,7 +128,7 @@ public class UserDAO {
         return users;
     }
 
-    public User getUserById(int id) throws DBException {
+    public User findUserById(int id) throws DBException {
 
         User user = new User();
         Connection con = null;
@@ -145,12 +143,13 @@ public class UserDAO {
             rs = pStmt.executeQuery();
             while (rs.next()) {
                 user.setId(id);
-                mapCommonProperties(user, rs);
+                mapUserCommonProperties(user, rs);
             }
 
         } catch (SQLException e) {
-            logger.error("Cannot get user by id", e);
-            throw new DBException("Cannot get user by id", e);
+            String errorMessage = "Cannot get user by id=" + id;
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pStmt);
@@ -162,12 +161,12 @@ public class UserDAO {
     private static User mapResultSetToUser(ResultSet rs) throws SQLException{
         User user = new User();
         user.setId(rs.getInt("id"));
-        mapCommonProperties(user, rs);
+        mapUserCommonProperties(user, rs);
 
         return user;
     }
 
-    private static void mapCommonProperties(User user, ResultSet rs) throws SQLException {
+    private static void mapUserCommonProperties(User user, ResultSet rs) throws SQLException {
         user.setFirstName(rs.getString("firstName"));
         user.setLastName(rs.getString("lastName"));
         user.setEmail(rs.getString("email"));

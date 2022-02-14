@@ -34,9 +34,10 @@ public class InvoiceDAO {
             con.commit();
             return true;
         } catch (SQLException e) {
-            logger.error("Cannot generate an invoice", e);
+            String errorMessage = "Can't create an invoice";
+            logger.error(errorMessage, e);
             rollBack(con);
-            throw new DBException("Cannot generate an invoice", e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pstmt);
@@ -63,8 +64,7 @@ public class InvoiceDAO {
 
             }
         } catch (SQLException e) {
-            logger.error("Cannot get all invoices", e);
-            throw new DBException("Cannot get all invoices", e);
+            throw new DBException("Can't get all invoices", e);
         } finally {
             close(con);
             close(stmt);
@@ -95,8 +95,9 @@ public class InvoiceDAO {
             }
 
         } catch (SQLException e) {
-            logger.error("Cannot get invoices by user_id", e);
-            throw new DBException("Cannot get invoices by user_id", e);
+            String errorMessage = "Cannot find invoices by user_id=" + userId;
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pStmt);
@@ -131,9 +132,9 @@ public class InvoiceDAO {
                 }
             }
         } catch (SQLException e) {
-            String error = "Cannot find cancelled invoice's booking ids";
-            logger.error(error, e);
-            throw new DBException(error, e);
+            String errorMessage = "Can't find cancelled invoice's booking ids";
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pStmt);
@@ -168,9 +169,10 @@ public class InvoiceDAO {
             con.commit();
             return true;
         } catch (SQLException e) {
-            logger.error("Cannot update invoice status", e);
+            String errorMessage = "Can't update status of invoice with id=" + invoice.getId();
+            logger.error(errorMessage, e);
             rollBack(con);
-            throw new DBException("Cannot update invoice status", e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pstmt);
@@ -196,9 +198,10 @@ public class InvoiceDAO {
             con.commit();
             return true;
         } catch (SQLException e) {
-            logger.error("Cannot update invoice", e);
+            String errorMessage = "Can't update invoice with id=" + invoice.getId();
+            logger.error(errorMessage, e);
             rollBack(con);
-            throw new DBException("Cannot update invoice", e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pstmt);
@@ -229,8 +232,9 @@ public class InvoiceDAO {
             }
 
         } catch (SQLException e) {
-            logger.error("Cannot get invoices by status", e);
-            throw new DBException("Cannot get invoices by status", e);
+            String errorMessage = "Can't find invoices by status=" + status;
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pStmt);
@@ -259,8 +263,9 @@ public class InvoiceDAO {
             }
 
         } catch (SQLException e) {
-            logger.error("Cannot get invoice by id", e);
-            throw new DBException("Cannot get invoice by id", e);
+            String errorMessage = "Cannot get invoice by id=" + invoiceId;
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pStmt);
@@ -306,7 +311,7 @@ public class InvoiceDAO {
     }
 
     /**
-     * Get invoices attacked to bookings
+     * Get invoices attached to bookings
      * @param bookingIds ids of bookings for which retrieve invoices
      * @return invoices by provided booking ids
      * @throws DBException
@@ -340,9 +345,9 @@ public class InvoiceDAO {
                 }
             }
         } catch (SQLException e) {
-            String error = "Cannot find cancelled invoice's booking ids";
-            logger.error(error, e);
-            throw new DBException(error, e);
+            String errorMessage = "Can't find cancelled invoice's booking ids";
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
         } finally {
             close(con);
             close(pStmt);
