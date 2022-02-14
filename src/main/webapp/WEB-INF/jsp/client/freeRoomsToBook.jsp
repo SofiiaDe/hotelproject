@@ -79,7 +79,26 @@
 
                 <div class="dropdown dropDownPadding">
                     <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            ${requestScope.roomStatus != null ? requestScope.roomStatus : "Status" }
+                        <c:if test="${requestScope.roomStatus != null}">
+                            <c:choose>
+                                <c:when test="${requestScope.roomStatus == 'available'}">
+                                    available
+                                </c:when>
+                                <c:when test="${requestScope.roomStatus == 'reserved'}">
+                                    reserved
+                                </c:when>
+                                <c:when test="${requestScope.roomStatus == 'booked'}">
+                                    booked
+                                </c:when>
+                                <c:when test="${requestScope.roomStatus == 'unavailable'}">
+                                    unavailable
+                                </c:when>
+                                <c:otherwise>
+                                    UNKNOWN_STATUS
+                                </c:otherwise>
+                            </c:choose>     
+                        </c:if> 
+                        <c:if test="${requestScope.roomStatus == null}">Status</c:if>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="#" id="roomAvailable">available</a>
