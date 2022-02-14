@@ -11,6 +11,7 @@ import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
 import com.epam.javacourse.hotel.web.command.ICommandResult;
+import com.epam.javacourse.hotel.web.command.RedirectCommandResult;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -92,7 +93,7 @@ public class RegistrationCommand implements ICommand {
 
         session.setAttribute("newUser", newUser);
 
-        return new AddressCommandResult(Path.COMMAND_LOGIN_PAGE + "?showMessage"); //succesfull registration ==>
+        return new RedirectCommandResult(Path.COMMAND_LOGIN_PAGE + "&success=1"); //succesfull registration ==>
 
     }
 
