@@ -78,7 +78,7 @@ public class BookingDAO {
      * @throws DBException
      */
     public List<Booking> getAllBookings() throws DBException {
-        return getAllBookings(-1, -1);
+        return getAllBookingsForPage(-1, -1);
     }
 
     /**
@@ -89,7 +89,7 @@ public class BookingDAO {
      * @return bookings from specified page and given page size
      * @throws DBException
      */
-    public List<Booking> getAllBookings(int page, int pageSize) throws DBException {
+    public List<Booking> getAllBookingsForPage(int page, int pageSize) throws DBException {
 
         List<Booking> allBookingsList = new ArrayList<>();
         Connection con = null;

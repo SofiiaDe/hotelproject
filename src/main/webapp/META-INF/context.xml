@@ -1,4 +1,6 @@
-<!--
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <!--
 Data source and connection pool configuration.
 Configuration file for Tomcat 9 (the default Tomcat's DBCP 2 is used).
 
@@ -29,17 +31,20 @@ defaultAutoCommit-> the default auto-commit state of connections created by this
 
 defaultTransactionIsolation-> the default TransactionIsolation state of connections created by this pool.
 -->
-
 <Context>
-
-    <Resource name="jdbc/hoteldb"
-              auth="Container"
-              type="javax.sql.DataSource"
-              maxActive="100" maxIdle="30" maxWait="10000"
-              username="root" password="root"
-              driverClassName="com.mysql.cj.jdbc.Driver"
-              defaultAutoCommit="false"
-              defaultTransactionIsolation="READ_COMMITTED"
-              url="jdbc:mysql://localhost:3306/hoteldb"/>
+    <Resource
+            name="jdbc/hotelDataBase"
+            auth="Container"
+            type="javax.sql.DataSource"
+            username="root"
+            password="root"
+            driverClassName="com.mysql.cj.jdbc.Driver"
+            url="jdbc:mysql://localhost:3306/hoteldb?autoReconnect=true"
+            validationQuery="select 1"
+            defaultTransactionIsolation="READ_UNCOMMITTED"
+            defaultAutoCommit="TRUE"
+            maxActive="100"
+            maxIdle="30"
+            maxWaitMillis="10000"/>
 
 </Context>

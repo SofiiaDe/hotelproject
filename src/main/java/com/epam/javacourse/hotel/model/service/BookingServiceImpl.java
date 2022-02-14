@@ -81,7 +81,7 @@ public class BookingServiceImpl implements IBookingService{
         List<Invoice> invoices;
 
         try {
-            allBookings = this.bookingDAO.getAllBookings(page, pageSize);
+            allBookings = this.bookingDAO.getAllBookingsForPage(page, pageSize);
 
             List<Integer> userIds = allBookings.stream().map(Booking::getUserId).distinct().collect(Collectors.toList());
             users = this.userDao.findUsersByIds(userIds);

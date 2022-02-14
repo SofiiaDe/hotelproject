@@ -1,7 +1,6 @@
 package com.epam.javacourse.hotel;
 
 import com.epam.javacourse.hotel.Exception.ReadPropertyException;
-import com.epam.javacourse.hotel.db.UserDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,17 +27,23 @@ public class PropertiesReader {
                 .getContextClassLoader()
                 .getResourceAsStream(propertyFile)) {
             if (inputStream == null) {
-                throw new ReadPropertyException("File was not found " + propertyFile);
+                String errorMessage = "Can't read properties because file " + propertyFile + " was not found.";
+                logger.error(errorMessage);
+                throw new ReadPropertyException(errorMessage);
             }
             Properties prop = new Properties();
             prop.load(inputStream);
             String property =  prop.getProperty(propertyToRead);
             if (property == null) {
-                throw new ReadPropertyException("Property was not found " + propertyToRead);
+                String errorMessage = "Can't read properties because property " + propertyToRead + " was not found.";
+                logger.error(errorMessage);
+                throw new ReadPropertyException(errorMessage);
             }
             return property;
         } catch (IOException e) {
-            throw new ReadPropertyException("Property was not found " + propertyToRead, e);
+            String errorMessage = "Can't read properties because property " + propertyToRead + " was not found.";
+            logger.error(errorMessage);
+            throw new ReadPropertyException(errorMessage, e);
         }
     }
 }

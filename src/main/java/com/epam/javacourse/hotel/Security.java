@@ -36,13 +36,17 @@ public class Security {
             String propsFile = "app.properties";
             salt = PropertiesReader.readProps(propsFile, passSaltProps);
         } catch (ReadPropertyException e) {
-            throw new HashPasswordException("Property Salt was not found", e);
+            String errorMessage = "Property Salt was not found";
+            logger.error(errorMessage, e);
+            throw new HashPasswordException(errorMessage, e);
         }
         String resultHash;
         try {
             resultHash = Security.createHashFromPassString(pass, salt);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
-            throw new HashPasswordException("Hash generation error", ex);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            String errorMessage = "Hash generation error";
+            logger.error(errorMessage, e);
+            throw new HashPasswordException(errorMessage, e);
         }
         return resultHash;
     }
@@ -87,7 +91,6 @@ public class Security {
     private static byte[] toByteArray(char[] chars) {
         CharBuffer charBuffer = CharBuffer.wrap(chars);
         ByteBuffer byteBuffer = StandardCharsets.UTF_8.encode(charBuffer);
-//        ByteBuffer byteBuffer = Charset.forName("UTF-8").encode(charBuffer);
         byte[] bytes = Arrays.copyOfRange(byteBuffer.array(), byteBuffer.position(), byteBuffer.limit());
         Arrays.fill(byteBuffer.array(), (byte) 0); // clear sensitive data
 
