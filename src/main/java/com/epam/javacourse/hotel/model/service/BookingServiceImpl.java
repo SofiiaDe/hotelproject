@@ -5,6 +5,7 @@ import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.db.BookingDAO;
 import com.epam.javacourse.hotel.db.InvoiceDAO;
+import com.epam.javacourse.hotel.db.RoomDAO;
 import com.epam.javacourse.hotel.db.UserDAO;
 import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.model.Invoice;
@@ -21,11 +22,13 @@ public class BookingServiceImpl implements IBookingService{
     private final BookingDAO bookingDAO;
     private final UserDAO userDao;
     private final InvoiceDAO invoiceDAO;
+    private final RoomDAO roomDAO;
 
-    public BookingServiceImpl(BookingDAO bookingDAO, UserDAO userDao, InvoiceDAO invoiceDAO) {
+    public BookingServiceImpl(BookingDAO bookingDAO, UserDAO userDao, InvoiceDAO invoiceDAO, RoomDAO roomDAO) {
         this.bookingDAO = bookingDAO;
         this.userDao = userDao;
         this.invoiceDAO = invoiceDAO;
+        this.roomDAO = roomDAO;
     }
 
     @Override
@@ -100,7 +103,7 @@ public class BookingServiceImpl implements IBookingService{
                         bookingUser.getEmail(),
                         booking.getCheckinDate(),
                         booking.getCheckoutDate(),
-                        booking.getRoomId(),
+                        this.roomDAO.findRoomById(booking.getRoomId()).getRoomNumber(),
                             invoices.stream().filter(i -> i.getBookingId() == booking.getId()).findFirst().get().getInvoiceStatus() == "paid"
                     ));
         }

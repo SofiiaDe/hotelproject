@@ -69,7 +69,7 @@
                             <fmt:message key="checkout.date"/>
                         </th>
                         <th scope="col">
-                            <fmt:message key="table.th.room_id"/>
+                            <fmt:message key="table.th.room_number"/>
                         </th>
                         <th scope="col">
                             Status
@@ -83,7 +83,7 @@
                             <td>${booking.bookedByUserEmail}</td>
                             <td>${booking.checkinDate}</td>
                             <td>${booking.checkoutDate}</td>
-                            <td>${booking.roomId}</td>
+                            <td>${booking.roomNumber}</td>
                             <td>${booking.bookingStatus.text}</td>
                         </tr>
                     </c:forEach>

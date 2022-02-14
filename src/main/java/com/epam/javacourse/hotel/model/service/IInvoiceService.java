@@ -19,17 +19,9 @@ public interface IInvoiceService {
 
     List<Invoice> getInvoicesByUserId(int userId) throws AppException;
 
-    double getInvoiceAmount(Booking booking) throws AppException;
-
     List<UserInvoiceDetailed> getUserDetailedInvoices(int userID) throws AppException;
 
     LocalDate getInvoiceDueDate(Invoice invoice);
-
-    /**
-     * Creates new invoice once the new booking appeared.
-     * @throws AppException
-     */
-    void generateInvoiceForBooking() throws AppException;
 
     /**
      * Updates invoice's status to 'cancelled' in case of not paying the invoice by the due date.

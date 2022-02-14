@@ -16,15 +16,16 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Scheduler for issuing an invoice and checking its payment within 2 days.
+ * Scheduler for issuing checking invoice payment within 2 days.
  * The booking is cancelled automatically in case of invoice not being paid by the due date.
  */
 @WebListener
-public class InvoiceScheduler implements ServletContextListener {
+public class PaymentScheduler implements ServletContextListener {
 
-    private static final Logger logger = LogManager.getLogger(InvoiceScheduler.class);
+    private static final Logger logger = LogManager.getLogger(PaymentScheduler.class);
 
     private ScheduledExecutorService scheduler;
+
     private final IInvoiceService invoiceService = AppContext.getInstance().getInvoiceService();
     private final IBookingService bookingService = AppContext.getInstance().getBookingService();
 
@@ -39,6 +40,7 @@ public class InvoiceScheduler implements ServletContextListener {
         scheduler.shutdownNow();
     }
 
+
     /**
      * Runnable class for task of updating invoices' status and cancelling bookings.
      */
@@ -46,11 +48,6 @@ public class InvoiceScheduler implements ServletContextListener {
 
         @Override
         public void run() {
-            try {
-                invoiceService.generateInvoiceForBooking();
-            } catch (AppException exception) {
-                logger.error("Scheduler can't generate invoice for booking", exception);
-            }
 
             try {
                 invoiceService.updateInvoiceStatusToCancelled();

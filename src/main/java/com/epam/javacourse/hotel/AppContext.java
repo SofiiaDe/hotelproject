@@ -21,14 +21,16 @@ public class AppContext {
     private final BookingDAO bookingDAO = new BookingDAO();
     private final ConfirmRequestDAO confirmRequestDAO = new ConfirmRequestDAO();
     private final InvoiceDAO invoiceDAO = new InvoiceDAO();
+    private final BookingInvoiceDAO bookingInvoiceDAO = new BookingInvoiceDAO();
 
     // services
     private final IUserService userService = new UserServiceImpl(userDAO);
     private final IApplicationService applicationService = new ApplicationServiceImpl(applicationDAO, userDAO);
     private final IRoomService roomService = new RoomServiceImpl(roomDAO);
-    private final IBookingService bookingService = new BookingServiceImpl(bookingDAO, userDAO, invoiceDAO);
+    private final IBookingService bookingService = new BookingServiceImpl(bookingDAO, userDAO, invoiceDAO, roomDAO);
     private final IConfirmRequestService confirmRequestService = new ConfirmRequestServiceImpl(confirmRequestDAO, userDAO);
     private final IInvoiceService invoiceService =new InvoiceServiceImpl(invoiceDAO, userDAO);
+    private final IBookingInvoiceService bookingInvoiceService = new BookingInvoiceServiceImpl(bookingInvoiceDAO);
 
     public IUserService getUserService() {
         return userService;
@@ -52,6 +54,10 @@ public class AppContext {
 
     public IInvoiceService getInvoiceService() {
         return invoiceService;
+    }
+
+    public IBookingInvoiceService getBookingInvoiceService() {
+        return bookingInvoiceService;
     }
 
     /**

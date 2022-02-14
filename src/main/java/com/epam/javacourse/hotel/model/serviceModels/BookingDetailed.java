@@ -13,17 +13,17 @@ public class BookingDetailed{
     private final String bookedByUserEmail;
     private final LocalDate checkinDate;
     private final LocalDate checkoutDate;
-    private final int roomId;
+    private final int roomNumber;
     private final boolean isPaid;
 
     public BookingDetailed(int id, String bookedByUser, String bookedByUserEmail,
-                           LocalDate checkinDate, LocalDate checkoutDate, int roomId, boolean isPaid) {
+                           LocalDate checkinDate, LocalDate checkoutDate, int roomNumber, boolean isPaid) {
         this.id = id;
         this.bookedByUser = bookedByUser;
         this.bookedByUserEmail = bookedByUserEmail;
         this.checkinDate = checkinDate;
         this.checkoutDate = checkoutDate;
-        this.roomId = roomId;
+        this.roomNumber = roomNumber;
         this.isPaid = isPaid;
     }
 
@@ -45,8 +45,8 @@ public class BookingDetailed{
     public boolean getIsPaid() {
         return isPaid;
     }
-    public int getRoomId() {
-        return roomId;
+    public int getRoomNumber() {
+        return roomNumber;
     }
     public BookingStatus getBookingStatus(){
 

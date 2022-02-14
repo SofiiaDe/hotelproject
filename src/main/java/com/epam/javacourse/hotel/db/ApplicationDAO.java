@@ -23,11 +23,7 @@ public class ApplicationDAO {
             con = DBManager.getInstance().getConnection();
             con.setAutoCommit(false);
             pstmt = con.prepareStatement(DBConstatns.SQL_CREATE_APPLICATION);
-            pstmt.setInt(1, application.getUserId());
-            pstmt.setString(2, application.getRoomTypeBySeats());
-            pstmt.setString(3, application.getRoomClass());
-            pstmt.setObject(4, application.getCheckinDate());
-            pstmt.setObject(5, application.getCheckoutDate());
+            mapApplicationCreateUpdate(pstmt, application);
 
             pstmt.executeUpdate();
             con.commit();
@@ -140,11 +136,7 @@ public class ApplicationDAO {
             con.setAutoCommit(false);
 
             pstmt = con.prepareStatement(DBConstatns.SQL_UPDATE_APPLICATION);
-            pstmt.setInt(1, application.getUserId());
-            pstmt.setString(2, application.getRoomTypeBySeats());
-            pstmt.setString(3, application.getRoomClass());
-            pstmt.setObject(4, application.getCheckinDate());
-            pstmt.setObject(5, application.getCheckoutDate());
+            mapApplicationCreateUpdate(pstmt, application);
             pstmt.setInt(6, application.getId());
             pstmt.executeUpdate();
             con.commit();
@@ -205,4 +197,13 @@ public class ApplicationDAO {
         application.setCheckinDate(rs.getObject("checkin_date", LocalDate.class));
         application.setCheckoutDate(rs.getObject("checkout_date", LocalDate.class));
     }
+
+    private void mapApplicationCreateUpdate(PreparedStatement pstmt, Application application) throws SQLException {
+        pstmt.setInt(1, application.getUserId());
+        pstmt.setString(2, application.getRoomTypeBySeats());
+        pstmt.setString(3, application.getRoomClass());
+        pstmt.setObject(4, application.getCheckinDate());
+        pstmt.setObject(5, application.getCheckoutDate());
+    }
+
 }

@@ -13,7 +13,6 @@ import com.epam.javacourse.hotel.model.serviceModels.InvoiceDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -75,21 +74,6 @@ public class InvoiceServiceImpl implements IInvoiceService {
     }
 
 
-    @Override
-    public double getInvoiceAmount(Booking booking) throws AppException {
-        try {
-            IRoomService roomService = AppContext.getInstance().getRoomService();
-
-            LocalDate checkinDate = booking.getCheckinDate();
-            LocalDate checkoutDate = booking.getCheckoutDate();
-            Period period = Period.between(checkinDate, checkoutDate);
-            Room room = roomService.getRoomById(booking.getRoomId());
-
-            return room.getPrice() * Math.abs(period.getDays());
-        } catch (DBException exception) {
-            throw new AppException("Can't calculate invoice amount", exception);
-        }
-    }
 
     @Override
     public LocalDate getInvoiceDueDate(Invoice invoice) {
@@ -165,59 +149,6 @@ public class InvoiceServiceImpl implements IInvoiceService {
             throw new AppException("Can't retrieve client's invoices to show in the client's account", exception);
         }
     }
-
-    @Override
-    public void generateInvoiceForBooking() throws AppException {
-
-        try {
-            IBookingService bookingService = AppContext.getInstance().getBookingService();
-
-
-            List<Booking> allBookings = bookingService.getAllBookings();
-            List<Invoice> allInvoices = this.invoiceDAO.findAllInvoices();
-            int allBookingsSize = allBookings.size();
-
-            if (allBookings.isEmpty()) {
-                return; // - do nothing
-            }
-
-            List<Integer> allBookingIds = allBookings.stream()
-                    .map(Booking::getId)
-                    .collect(Collectors.toList());
-
-            List<Integer> invoicedBookingIds = allInvoices.stream()
-                    .map(Invoice::getBookingId)
-                    .collect(Collectors.toList());
-
-            int invoicedBookingsSize = invoicedBookingIds.size();
-
-            if (invoicedBookingsSize == allBookingsSize) {
-                return; // - do nothing
-            }
-
-            List<Integer> bookingIdsToBeInvoiced = new ArrayList<>();
-            if (invoicedBookingsSize < allBookingsSize) {
-                bookingIdsToBeInvoiced = allBookingIds.stream()
-                        .filter(id -> !invoicedBookingIds.contains(id))
-                        .collect(Collectors.toList());
-            }
-
-            for (Integer bookingId : bookingIdsToBeInvoiced) {
-                Booking booking = bookingService.getBookingById(bookingId);
-                Invoice newInvoice = new Invoice();
-                newInvoice.setUserId(booking.getUserId());
-                newInvoice.setAmount(getInvoiceAmount(booking));
-                newInvoice.setBookingId(bookingId);
-                newInvoice.setInvoiceDate(LocalDate.now());
-                newInvoice.setInvoiceStatus("new");
-
-                createInvoice(newInvoice);
-            }
-        } catch (DBException exception) {
-            throw new AppException("Can't generate invoice for booking", exception);
-        }
-    }
-
 
     @Override
     public void updateInvoiceStatusToCancelled() throws AppException {

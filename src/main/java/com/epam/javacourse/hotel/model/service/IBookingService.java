@@ -2,6 +2,7 @@ package com.epam.javacourse.hotel.model.service;
 
 import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.model.Booking;
+import com.epam.javacourse.hotel.model.Invoice;
 import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserBookingDetailed;
 

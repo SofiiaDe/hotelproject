@@ -24,11 +24,7 @@ public class InvoiceDAO {
             con = DBManager.getInstance().getConnection();
             con.setAutoCommit(false);
             pstmt = con.prepareStatement(DBConstatns.SQL_CREATE_INVOICE);
-            pstmt.setInt(1, invoice.getUserId());
-            pstmt.setDouble(2, invoice.getAmount());
-            pstmt.setInt(3, invoice.getBookingId());
-            pstmt.setObject(4, invoice.getInvoiceDate());
-            pstmt.setString(5, invoice.getInvoiceStatus());
+            mapInvoiceCreateUpdate(pstmt, invoice);
 
             pstmt.executeUpdate();
             con.commit();
@@ -187,11 +183,7 @@ public class InvoiceDAO {
             con = DBManager.getInstance().getConnection();
             con.setAutoCommit(false);
             pstmt = con.prepareStatement(DBConstatns.SQL_UPDATE_INVOICE);
-            pstmt.setInt(1, invoice.getUserId());
-            pstmt.setDouble(2, invoice.getAmount());
-            pstmt.setInt(3, invoice.getBookingId());
-            pstmt.setObject(4, invoice.getInvoiceDate());
-            pstmt.setString(5, invoice.getInvoiceStatus());
+            mapInvoiceCreateUpdate(pstmt, invoice);
             pstmt.setInt(6, invoice.getId());
 
             pstmt.executeUpdate();
@@ -288,6 +280,15 @@ public class InvoiceDAO {
         invoice.setInvoiceDate(rs.getObject("invoice_date", LocalDate.class));
         invoice.setInvoiceStatus(rs.getString("status"));
     }
+
+    private static void mapInvoiceCreateUpdate(PreparedStatement pstmt, Invoice invoice) throws SQLException {
+        pstmt.setInt(1, invoice.getUserId());
+        pstmt.setDouble(2, invoice.getAmount());
+        pstmt.setInt(3, invoice.getBookingId());
+        pstmt.setObject(4, invoice.getInvoiceDate());
+        pstmt.setString(5, invoice.getInvoiceStatus());
+    }
+
 
     private static void close(AutoCloseable itemToBeClosed) {
         if (itemToBeClosed != null) {

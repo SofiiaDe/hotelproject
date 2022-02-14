@@ -50,11 +50,7 @@ public class RoomDAO {
         try {
             con = DBManager.getInstance().getConnection();
             pstmt = con.prepareStatement(DBConstatns.SQL_UPDATE_ROOM);
-            pstmt.setDouble(1, room.getPrice());
-            pstmt.setInt(2, room.getRoomNumber());
-            pstmt.setString(3, room.getRoomTypeBySeats());
-            pstmt.setString(4, room.getRoomClass());
-            pstmt.setInt(6, room.getId());
+            mapRoomCreateUpdate(pstmt, room);
             roomUpdated = pstmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
@@ -313,6 +309,14 @@ public class RoomDAO {
         room.setRoomNumber(rs.getInt("room_number"));
         room.setRoomTypeBySeats(rs.getString("room_seats"));
         room.setRoomClass(rs.getString("room_class"));
+    }
+
+    private static void mapRoomCreateUpdate(PreparedStatement pstmt, Room room) throws SQLException {
+        pstmt.setDouble(1, room.getPrice());
+        pstmt.setInt(2, room.getRoomNumber());
+        pstmt.setString(3, room.getRoomTypeBySeats());
+        pstmt.setString(4, room.getRoomClass());
+        pstmt.setInt(5, room.getId());
     }
 
     // todo code duplication

@@ -218,12 +218,17 @@
                             <td><htl:invoiceStatus invoiceStatus="${invoice.status}"/></td>
 
                             <td>
+                                <c:if test="${invoice.status == null || invoice.status == 'new'}">
+
                                 <div class="ml-1">
                                         <a class="nav-link" href="controller?command=paymentPage&invoiceId=${invoice.id}">
 
                                             <button class="ui-button" type="submit"><fmt:message key="pay.button"/></button>
                                         </a>
                                 </div>
+                                </c:if>
+
+
                             </td>
                         </tr>
                     </c:forEach>

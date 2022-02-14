@@ -23,11 +23,7 @@ public class BookingDAO {
             con = DBManager.getInstance().getConnection();
             con.setAutoCommit(false);
             pstmt = con.prepareStatement(DBConstatns.SQL_CREATE_BOOKING);
-            pstmt.setInt(1, booking.getUserId());
-            pstmt.setObject(2, booking.getCheckinDate());
-            pstmt.setObject(3, booking.getCheckoutDate());
-            pstmt.setInt(4, booking.getRoomId());
-            pstmt.setInt(5, booking.getApplicationId());
+            mapBookingCreateUpdate(pstmt, booking);
 
             pstmt.executeUpdate();
             con.commit();
@@ -200,6 +196,14 @@ public class BookingDAO {
         booking.setCheckoutDate(rs.getObject("checkout_date", LocalDate.class));
         booking.setRoomId(rs.getInt("room_id"));
         booking.setApplicationId(rs.getInt("application_id"));
+    }
+
+    private static void mapBookingCreateUpdate(PreparedStatement pstmt, Booking booking) throws SQLException {
+        pstmt.setInt(1, booking.getUserId());
+        pstmt.setObject(2, booking.getCheckinDate());
+        pstmt.setObject(3, booking.getCheckoutDate());
+        pstmt.setInt(4, booking.getRoomId());
+        pstmt.setInt(5, booking.getApplicationId());
     }
 
     /**

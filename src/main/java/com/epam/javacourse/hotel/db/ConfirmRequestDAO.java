@@ -24,10 +24,7 @@ public class ConfirmRequestDAO {
             con = DBManager.getInstance().getConnection();
             con.setAutoCommit(false);
             pstmt = con.prepareStatement(DBConstatns.SQL_CREATE_CONFIRM_REQUEST);
-            pstmt.setInt(1, confirmRequest.getUserId());
-            pstmt.setInt(2, confirmRequest.getApplicationId());
-            pstmt.setInt(3, confirmRequest.getRoomId());
-            pstmt.setObject(4, confirmRequest.getConfirmRequestDate());
+            mapConfirmRequestCreateUpdate(pstmt, confirmRequest);
 
             pstmt.executeUpdate();
             con.commit();
@@ -202,5 +199,12 @@ public class ConfirmRequestDAO {
         confirmRequest.setConfirmRequestDate(rs.getObject("confirm_request_date", LocalDate.class));
         confirmRequest.setStatus(rs.getString("status"));
 
+    }
+
+    private static void mapConfirmRequestCreateUpdate(PreparedStatement pstmt, ConfirmationRequest confirmRequest) throws SQLException{
+        pstmt.setInt(1, confirmRequest.getUserId());
+        pstmt.setInt(2, confirmRequest.getApplicationId());
+        pstmt.setInt(3, confirmRequest.getRoomId());
+        pstmt.setObject(4, confirmRequest.getConfirmRequestDate());
     }
 }

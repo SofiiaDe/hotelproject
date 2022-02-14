@@ -65,6 +65,15 @@ public class DBConstatns {
     public static final String SQL_DELETE_BOOKING_BY_ID = "DELETE FROM bookings WHERE ID = ?";
     public static final String SQL_GET_BOOKING_ROOMS_BY_DATE = "SELECT id, room_id FROM bookings WHERE checkin_date <= ? and checkout_date >= ?";
 
+//    public static final String SQL_CREATE_BOOKING_AND_INVOICE = "INSERT INTO bookings " +
+//            "(id, user_id, checkin_date, checkout_date, room_id, application_id) VALUES (DEFAULT, ?, ?, ?, ?, ?);" +
+//            "INSERT INTO invoices (id, user_id, amount, booking_id, invoice_date, status) " +
+//            "VALUES (DEFAULT, ?, ?, LAST_INSERT_ID(), ?, 'new')";
+    // + BEGIN; ... + COMMIT;
+    public static final String SQL_CREATE_BOOKING_AND_INVOICE = "INSERT INTO invoices " +
+        "(id, user_id, amount, booking_id, invoice_date, status) " +
+        "VALUES (DEFAULT, ?, ?, LAST_INSERT_ID(), ?, 'new')";
+
     // ConfirmRequestDAO
     public static final String SQL_CREATE_CONFIRM_REQUEST = "INSERT INTO confirmation_requests " +
             "(id, user_id, application_id, room_id, confirm_request_date, status) VALUES\n" +
