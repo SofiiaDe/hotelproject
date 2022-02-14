@@ -23,7 +23,7 @@
 
     <!-- Context listener =============================================================-->
     <listener>
-        <listener-class>com.epam.javacourse.hotel.web.ContextListener</listener-class>
+        <listener-class>com.epam.javacourse.hotel.web.listener.ContextListener</listener-class>
     </listener>
 
     <!--i18n Internationalization =============================================================-->

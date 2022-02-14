@@ -1,4 +1,4 @@
-package com.epam.javacourse.hotel.web;
+package com.epam.javacourse.hotel.web.listener;
 
 
 import com.epam.javacourse.hotel.AppContext;
@@ -49,19 +49,19 @@ public class InvoiceScheduler implements ServletContextListener {
             try {
                 invoiceService.generateInvoiceForBooking();
             } catch (AppException exception) {
-                logger.error("Can't generate invoice for booking", exception);
+                logger.error("Scheduler can't generate invoice for booking", exception);
             }
 
             try {
                 invoiceService.updateInvoiceStatusToCancelled();
             } catch (AppException exception) {
-                logger.error("Can't cancel unpaid invoice", exception);
+                logger.error("Scheduler can't cancel unpaid invoice", exception);
             }
 
             try {
                 bookingService.cancelUnpaidBookings();
             } catch (AppException exception) {
-                logger.error("Can't cancel unpaid booking", exception);
+                logger.error("Scheduler can't cancel unpaid booking", exception);
             }
             logger.info("Daily invoice and booking updates were completed by scheduler");
         }

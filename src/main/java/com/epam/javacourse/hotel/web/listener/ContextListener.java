@@ -1,4 +1,4 @@
-package com.epam.javacourse.hotel.web;
+package com.epam.javacourse.hotel.web.listener;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
