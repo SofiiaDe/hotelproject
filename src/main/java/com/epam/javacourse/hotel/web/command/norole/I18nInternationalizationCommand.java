@@ -56,10 +56,9 @@ public class I18nInternationalizationCommand implements ICommand {
 
 //        return new RedirectCommandResult(currentCommand + currentQuery);
 
-                User user = (User) session.getAttribute("authorisedUser");
+        String url = request.getHeader("referer");
+        String originalPath = url.substring(url.indexOf("controller"));
 
-        return ("manager".equalsIgnoreCase(user.getRole())) ? new RedirectCommandResult(Path.COMMAND_MANAGER_ACCOUNT)
-                : new RedirectCommandResult(Path.COMMAND_CLIENT_ACCOUNT);
-
+        return new RedirectCommandResult(originalPath);
     }
 }
