@@ -9,7 +9,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/Hotel/controller?command=managerAccount">
-        <img src="https://getbootstrap.com/docs/4.6/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+        <img src="image/logo-hotel.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
         <fmt:message key="manager.menu.label.manager"/>
     </a>
 
@@ -22,6 +22,8 @@
                 <a class="nav-link" href="controller?command=editRooms"><fmt:message key="manager.menu.button.rooms"/></a>
             </li>
         </ul>
+
+        ${sessionScope.authorisedUser.firstName} ${sessionScope.authorisedUser.lastName}
         <div class="dropdown">
             <button class="btn btn-outline-secondary btn-sm" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

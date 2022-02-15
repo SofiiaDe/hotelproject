@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.jstl.core.Config;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Internationalization command.
@@ -24,19 +25,41 @@ public class I18nInternationalizationCommand implements ICommand {
         HttpSession session = request.getSession();
 
         String fmtLocale = "javax.servlet.jsp.jstl.fmt.locale";
-//        String defaultLocale = "defaultLocale";
 
-        if (Objects.equals(request.getParameter("langField"), "en")) {
+        if (Objects.equals(request.getParameter("langField"), Path.LOCALE_NAME_EN)) {
             Config.set(session, fmtLocale, Path.LOCALE_NAME_EN);
-//            session.setAttribute(defaultLocale, "en");
+            session.setAttribute("locale", Path.LOCALE_NAME_EN);
         } else {
             Config.set(session, fmtLocale, Path.LOCALE_NAME_UK);
-//            session.setAttribute(defaultLocale, Path.LOCALE_NAME_UK);
+            session.setAttribute("locale", Path.LOCALE_NAME_UK);
         }
 
-        User user = (User) session.getAttribute("authorisedUser");
+
+
+        String currentCommand = Optional.ofNullable(session.getAttribute("currentCommand"))
+                .map(Object::toString)
+                .map(String::trim)
+                .orElse("Hotel");
+
+        String currentQuery = Optional.ofNullable(session.getAttribute("pageQuery"))
+                .map(Object::toString)
+                .map(String::trim)
+                .map(query -> "?" + query)
+                .orElse("");
+
+//        String locale = Optional.ofNullable(request.getParameter("langField"))
+//                .map(Object::toString)
+//                .map(String::trim)
+//                .orElse(Path.LOCALE_NAME_EN);
+
+//        session.setAttribute("locale", locale);
+
+//        return new RedirectCommandResult(currentCommand + currentQuery);
+
+                User user = (User) session.getAttribute("authorisedUser");
 
         return ("manager".equalsIgnoreCase(user.getRole())) ? new RedirectCommandResult(Path.COMMAND_MANAGER_ACCOUNT)
                 : new RedirectCommandResult(Path.COMMAND_CLIENT_ACCOUNT);
+
     }
 }

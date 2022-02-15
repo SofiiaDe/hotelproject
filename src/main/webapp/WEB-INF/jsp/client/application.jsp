@@ -10,7 +10,7 @@
     <title>Application form for client to book room</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/components/clientMenu.jsp"/>
+<jsp:include page="/WEB-INF/jsp/clientMenu.jsp"/>
 <form method="post" action="controller?command=submitApplication">
 
     <h2><fmt:message key="application.header.choose_type"/></h2>

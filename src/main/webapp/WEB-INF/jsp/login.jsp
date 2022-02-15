@@ -14,7 +14,7 @@
 </head>
 <body class="text-center">
 <form class="form-signin" method="post" action="controller?command=login">
-    <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <img class="mb-4" src="image/logo-hotel.jpg" alt="logo" width="80" height="80">
     <h1 class="h3 mb-3 font-weight-normal"><fmt:message key="login.title.signin"/></h1>
     <label for="login" class="sr-only"><fmt:message key="login.label.email"/></label>
     <input type="text" id="login" name="email" class="form-control" placeholder=<fmt:message key="login.placeholder.email"/> required autofocus>

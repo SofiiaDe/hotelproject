@@ -7,7 +7,7 @@
 <c:set var="title" value="Simulate payment transaction" scope="page"/>
 <jsp:include page="/WEB-INF/components/head.jsp"/>
 <body>
-<jsp:include page="/WEB-INF/components/clientMenu.jsp"/>
+<jsp:include page="/WEB-INF/jsp/clientMenu.jsp"/>
 <h2><fmt:message key="payment.header.confirm_payment"/></h2>
 
 <div class="ml-1">

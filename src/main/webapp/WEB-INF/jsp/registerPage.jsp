@@ -46,40 +46,40 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" name="firstName" class="form-control"
+                                    <input type="text" required="required" name="firstName" class="form-control"
                                            placeholder="<fmt:message key="register.placeholder.first_name"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="lastName" class="form-control"
+                                    <input type="text" required="required" name="lastName" class="form-control"
                                            placeholder="<fmt:message key="register.placeholder.last_name"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="country" class="form-control"
+                                    <input type="text" required="required" name="country" class="form-control"
                                            placeholder="<fmt:message key="register.placeholder.country"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="role" class="form-control" placeholder="Role *"
-                                           value="<fmt:message key="register.placeholder.client"/>"/>
+                                    <input type="text" required="required" name="role" class="form-control" placeholder="Role *"
+                                           readonly="readonly" value="<fmt:message key="register.placeholder.client"/>"/>
                                 </div>
 
 
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="email" name="email" class="form-control"
+                                    <input type="email" required="required" name="email" class="form-control"
                                            placeholder="<fmt:message key="register.placeholder.email"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="password" class="form-control" placeholder="<fmt:message
+                                    <input type="password" required="required" name="password" class="form-control" placeholder="<fmt:message
                                     key="register.placeholder.password"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="confirmPassword" class="form-control"
+                                    <input type="password" required="required" name="confirmPassword" class="form-control"
                                            placeholder="<fmt:message key="register.placeholder.confirm.password"/> *"
                                            value=""/>
                                 </div>
@@ -100,38 +100,38 @@
                         <div class="row register-form">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" name="firstName" class="form-control" placeholder="<fmt:message
+                                    <input type="text" required="required" name="firstName" class="form-control" placeholder="<fmt:message
                                     key="register.placeholder.first_name"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="lastName" class="form-control" placeholder="<fmt:message
+                                    <input type="text" required="required" name="lastName" class="form-control" placeholder="<fmt:message
                                     key="register.placeholder.last_name"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="country" class="form-control" placeholder="<fmt:message
+                                    <input type="text" required="required" name="country" class="form-control" placeholder="<fmt:message
                                     key="register.placeholder.country"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" name="role" class="form-control" placeholder="Role *"
-                                           value="<fmt:message key="register.placeholder.manager"/>"/>
+                                           readonly="readonly" value="<fmt:message key="register.placeholder.manager"/>"/>
                                 </div>
 
                             </div>
                             <div class="col-md-6">
 
                                 <div class="form-group">
-                                    <input type="email" name="email" class="form-control" placeholder="<fmt:message key="register.placeholder.email"/> *"
+                                    <input type="email" required="required" name="email" class="form-control" placeholder="<fmt:message key="register.placeholder.email"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="password" class="form-control" placeholder="<fmt:message key="register.placeholder.password"/> *"
+                                    <input type="password" required="required" name="password" class="form-control" placeholder="<fmt:message key="register.placeholder.password"/> *"
                                            value=""/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="confirmPassword" class="form-control"
+                                    <input type="password" required="required" name="confirmPassword" class="form-control"
                                            placeholder="<fmt:message key="register.placeholder.confirm.password"/> *"
                                            value=""/>
                                 </div>

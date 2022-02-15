@@ -10,7 +10,7 @@
 
 
 <body>
-<jsp:include page="/WEB-INF/components/clientMenu.jsp"/>
+<jsp:include page="/WEB-INF/jsp/clientMenu.jsp"/>
 <div class="container">
     <div class="tab-pane fade show active" id="v-pills-services" role="tabpanel"
          aria-labelledby="v-pills-services-tab">
@@ -62,6 +62,9 @@
                         </th>
                         <th scope="col">
                             <fmt:message key="table.th.room_class"/>
+                        </th>
+                        <th scope="col">
+                            <fmt:message key="table.th.status"/>
                         </th>
                         <th scope="col"></th>
                     </tr>

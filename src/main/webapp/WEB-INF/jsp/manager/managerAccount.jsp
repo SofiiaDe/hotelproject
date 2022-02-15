@@ -8,7 +8,7 @@
 <c:set var="title" value="Manager's desk" scope="page"/>
 <jsp:include page="/WEB-INF/components/head.jsp"/>
 <body>
-<jsp:include page="/WEB-INF/components/managerMenu.jsp"/>
+<jsp:include page="/WEB-INF/jsp/managerMenu.jsp"/>
 <div class="container">
     <div class="tab-pane fade show active" id="v-pills-services" role="tabpanel"
          aria-labelledby="v-pills-services-tab">

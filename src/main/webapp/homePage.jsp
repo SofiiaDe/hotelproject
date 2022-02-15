@@ -16,10 +16,11 @@
 </head>
 
 <body class="text-center">
+
 <nav class="navbar background">
     <ul class="nav-list">
         <div class="logo">
-            <img src="logo.png">
+            <img src="pictures/logo-hotel.jpg" alt="logo">
         </div>
         <li><a href="#rooms"><fmt:message key="home.menu.button.rooms"/></a></li>
         <li><a href="/Hotel/controller?command=loginPage"><fmt:message key="home.menu.button.login"/></a></li>
@@ -65,7 +66,7 @@
     </div>
 
     <div class="thumbnail">
-        <img src="/webapp/images/RoomHomepage.jpg" alt="laptop image">
+        <img src="pictures/exterior-homepage.jpg" alt="hotel building">
     </div>
 </section>
 
@@ -79,6 +80,11 @@
 
 <jsp:include page="/WEB-INF/components/scripts.jsp"/>
 
-</body>
 
+</body>
+<style>
+    body {
+        background-image: url('pictures/RoomHomepage.jpg');
+    }
+</style>
 </html>

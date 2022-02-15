@@ -13,7 +13,7 @@
 }
 
 .background {
-    background: #ffa600;
+    background: lightseagreen;
     background-blend-mode: darken;
     background-size: cover;
 }
@@ -31,13 +31,13 @@
 }
 
 .logo img {
-    width: 180px;
-    border-radius: 50px;
+    width: 150px;
+    border-radius: 40px;
 }
 
 .nav-list li {
     list-style: none;
-    padding: 26px 30px;
+    padding: 36px 50px;
 }
 
 .nav-list li a {
@@ -63,7 +63,7 @@
 
 .firstsection {
     background-color: floralwhite;
-    height: 250px;
+    height: 200px;
 }
 
 
@@ -122,7 +122,7 @@
 }
 
 .section {
-    height: 400px;
+    height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -139,7 +139,7 @@
 }
 
 .thumbnail img {
-    width: 250px;
+    width: 450px;
     border: 2px solid black;
     border-radius: 26px;
     margin-top: 19px;

@@ -4,15 +4,18 @@
 
 <html>
 <head>
-    <style type="text/css">
+    <style>
         form {
             width: auto;
             margin: 0 auto;
         }
     </style>
 </head>
+
+<c:set var="title" value="All users list" scope="page"/>
+<jsp:include page="/WEB-INF/components/head.jsp"/>
 <body>
-<%--<%@ include file="/WEB-INF/jspf/header.jspf" %>--%>
+<jsp:include page="/WEB-INF/jsp/managerMenu.jsp"/>
 <div align="center">
     <table border="1" style="text-align: center;">
         <tr>
@@ -20,21 +23,17 @@
             <td>firstName</td>
             <td>lastName</td>
             <td>email</td>
-            <td>password</td>
             <td>country</td>
             <td>role</td>
         </tr>
-        <c:forEach var="freeRoom" items="${sessionScope.usersList}">
+        <c:forEach var="user" items="${sessionScope.usersList}">
             <tr>
-                <td>${freeRoom.id}</td>
-                <td>${freeRoom.firstName}</td>
-                <td>${freeRoom.lastName}</td>
-                <td>${freeRoom.email}</td>
-                <td>${freeRoom.password}</td>
-                <td>${freeRoom.country}</td>
-                <td>${freeRoom.role}</td>
-
-
+                <td>${user.id}</td>
+                <td>${user.firstName}</td>
+                <td>${user.lastName}</td>
+                <td>${user.email}</td>
+                <td>${user.country}</td>
+                <td>${user.role}</td>
 
             </tr>
 
@@ -42,6 +41,8 @@
     </table>
     <br>
 </div>
+<jsp:include page="/WEB-INF/components/scripts.jsp"/>
+
 
 </body>
 </html>
