@@ -12,6 +12,7 @@ import com.epam.javacourse.hotel.model.Invoice;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserBookingDetailed;
+import com.epam.javacourse.hotel.shared.models.BookingStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,13 +79,18 @@ public class BookingServiceImpl implements IBookingService {
 
     @Override
     public List<BookingDetailed> getAllDetailedBookings(int page, int pageSize) throws AppException {
+        return getAllDetailedBookings(page, pageSize, BookingStatus.NONE);
+    }
+
+    @Override
+    public List<BookingDetailed> getAllDetailedBookings(int page, int pageSize, BookingStatus bookingStatus) throws AppException {
         List<Booking> allBookings;
         List<User> users;
         ArrayList<BookingDetailed> result;
         List<Invoice> invoices;
 
         try {
-            allBookings = this.bookingDAO.getAllBookingsForPage(page, pageSize);
+            allBookings = this.bookingDAO.getAllBookingsForPage(page, pageSize, bookingStatus);
 
             List<Integer> userIds = allBookings.stream().map(Booking::getUserId).distinct().collect(Collectors.toList());
             users = this.userDao.findUsersByIds(userIds);
@@ -96,7 +102,7 @@ public class BookingServiceImpl implements IBookingService {
         }
 
         for (Booking booking : allBookings) {
-            var bookingUser = users.stream().filter(u -> u.getId() == booking.getUserId()).findFirst().get();
+            User bookingUser = users.stream().filter(u -> u.getId() == booking.getUserId()).findFirst().get();
             result.add(
                     new BookingDetailed(booking.getId(),
                             bookingUser.getFirstName() + ' ' + bookingUser.getLastName(),
@@ -160,8 +166,13 @@ public class BookingServiceImpl implements IBookingService {
 
     @Override
     public int getAllBookingsCount() throws AppException {
+        return getAllBookingsCount(BookingStatus.NONE);
+    }
+
+    @Override
+    public int getAllBookingsCount(BookingStatus bookingStatus) throws AppException {
         try {
-            return this.bookingDAO.getAllBookingsCount();
+            return this.bookingDAO.getAllBookingsCount(bookingStatus);
         } catch (DBException exception) {
             throw new AppException("Can't retrieve number of bookings", exception);
         }

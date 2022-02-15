@@ -79,7 +79,7 @@
                         <fmt:message key="sorting" bundle="${localeBundle}"/>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#" id="priceAsc"><fmt:message key="sorting.price.asc"/>price asc</a>
+                        <a class="dropdown-item" href="#" id="priceAsc"><fmt:message key="sorting.price.asc"/></a>
                         <a class="dropdown-item" href="#" id="priceDesc"><fmt:message key="sorting.price.desc"/></a>
                         <a class="dropdown-item" href="#" id="classAsc"><fmt:message key="sorting.class.asc" /></a>
                         <a class="dropdown-item" href="#" id="classDesc"><fmt:message key="sorting.class.desc" /></a>
@@ -93,32 +93,28 @@
                             <c:choose>
                                 <c:when test="${requestScope.roomStatus == 'available'}">
                                     <fmt:message key="sorting.status.available"/>
-                                    <%--                                    available--%>
                                 </c:when>
                                 <c:when test="${requestScope.roomStatus == 'reserved'}">
-                                    reserved                                     <fmt:message key="sorting.status.reserved"/>
-
+                                    <fmt:message key="sorting.status.reserved"/>
                                 </c:when>
                                 <c:when test="${requestScope.roomStatus == 'booked'}">
-                                    booked                                     <fmt:message key="sorting.status.booked"/>
-
+                                    <fmt:message key="sorting.status.booked"/>
                                 </c:when>
                                 <c:when test="${requestScope.roomStatus == 'unavailable'}">
-                                    unavailable                                     <fmt:message key="sorting.status.unavailable"/>
-
+                                    <fmt:message key="sorting.status.unavailable"/>
                                 </c:when>
                                 <c:otherwise>
                                     UNKNOWN_STATUS
                                 </c:otherwise>
                             </c:choose>
                         </c:if>
-                        <c:if test="${requestScope.roomStatus == null}"><fmt:message key="status" bundle="${localeBundle}"/>price asc</c:if>
+                        <c:if test="${requestScope.roomStatus == null}"><fmt:message key="status" bundle="${localeBundle}"/></c:if>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#" id="roomAvailable">available</a>
-                        <a class="dropdown-item" href="#" id="roomReserved">reserved</a>
-                        <a class="dropdown-item" href="#" id="roomBooked">booked</a>
-                        <a class="dropdown-item" href="#" id="roomUnavailable">unavailable</a>
+                        <a class="dropdown-item" href="#" id="roomAvailable"><fmt:message key="sorting.status.available"/></a>
+                        <a class="dropdown-item" href="#" id="roomReserved"><fmt:message key="sorting.status.reserved"/></a>
+                        <a class="dropdown-item" href="#" id="roomBooked"><fmt:message key="sorting.status.booked"/></a>
+                        <a class="dropdown-item" href="#" id="roomUnavailable"><fmt:message key="sorting.status.unavailable"/></a>
                     </div>
                 </div>
 
@@ -258,4 +254,4 @@
 </body>
 
 </html>
-</t:page>
+<%--</t:page>--%>

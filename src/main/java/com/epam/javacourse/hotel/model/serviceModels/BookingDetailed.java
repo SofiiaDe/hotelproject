@@ -49,24 +49,6 @@ public class BookingDetailed{
         return roomNumber;
     }
     public BookingStatus getBookingStatus(){
-
-        if(getIsPaid()){
-            if (LocalDate.now().isBefore(checkinDate)){
-                return BookingStatus.PAID;
-            }
-            if (LocalDate.now().isAfter(checkinDate) && LocalDate.now().isBefore(checkoutDate)){
-                return BookingStatus.ONGOING;
-            }
-            if (LocalDate.now().isAfter(checkoutDate)){
-                return BookingStatus.FINISHED;
-            }
-        }else{
-            if (LocalDate.now().isBefore(checkinDate)){
-                return BookingStatus.NEW;
-            }
-            return BookingStatus.CANCELLED;
-        }
-
-        return BookingStatus.NONE;
+        return Helpers.calculateBookingStatus(getCheckinDate(), getCheckoutDate(), getIsPaid());
     }
 }

@@ -5,6 +5,7 @@ import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.model.Invoice;
 import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserBookingDetailed;
+import com.epam.javacourse.hotel.shared.models.BookingStatus;
 
 import java.util.List;
 
@@ -27,6 +28,16 @@ public interface IBookingService {
      */
     List<BookingDetailed> getAllDetailedBookings(int page, int pageSize) throws AppException;
 
+    /**
+     * Get all bookings with info about user
+     * @param page
+     * @param pageSize items per page
+     * @param bookingStatus sets filter for bookings
+     * @return bookings with info about user
+     * @throws AppException
+     */
+    List<BookingDetailed> getAllDetailedBookings(int page, int pageSize, BookingStatus bookingStatus) throws AppException;
+
     void deleteBookingById(int id) throws AppException;
 
     List<UserBookingDetailed> getUserDetailedBookings(int userID, int page, int pageSize) throws AppException;
@@ -44,6 +55,14 @@ public interface IBookingService {
      * @throws AppException
      */
     int getAllBookingsCount() throws AppException;
+
+    /**
+     * Get number of bookings that has specified booking status
+     * @param bookingStatus with which status bookings should be counted
+     * @return number of bookings
+     * @throws AppException
+     */
+    int getAllBookingsCount(BookingStatus bookingStatus) throws AppException;
 
     /**
      * Get number of client's bookings

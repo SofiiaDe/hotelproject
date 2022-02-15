@@ -2,6 +2,7 @@ package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.Booking;
+import com.epam.javacourse.hotel.shared.models.BookingStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -95,7 +96,7 @@ public class BookingDAO {
      * @throws DBException
      */
     public List<Booking> getAllBookings() throws DBException {
-        return getAllBookingsForPage(-1, -1);
+        return getAllBookingsForPage(-1, -1, BookingStatus.NONE);
     }
 
     /**
@@ -103,18 +104,25 @@ public class BookingDAO {
      *
      * @param page     result's page. Set -1 to not limit by page/size
      * @param pageSize number of items to select
+     * @param bookingStatus witch which booking status retrieve bookings
      * @return bookings from specified page and given page size
      * @throws DBException
      */
-    public List<Booking> getAllBookingsForPage(int page, int pageSize) throws DBException {
+    public List<Booking> getAllBookingsForPage(int page, int pageSize, BookingStatus bookingStatus) throws DBException {
 
         List<Booking> allBookingsList = new ArrayList<>();
         Connection con = null;
         Statement stmt = null;
         ResultSet rs = null;
 
-        String sql = DBConstatns.SQL_GET_ALL_BOOKINGS;
-        sql = Helpers.enrichWithPageSizeStatement(page, pageSize, sql);
+        String sql;
+        if (bookingStatus == null || bookingStatus == BookingStatus.NONE){
+            sql = DBConstatns.SQL_GET_ALL_BOOKINGS;
+        }else{
+            sql = DBConstatns.SQL_GET_ALL_BOOKINGS_WITH_STATUS;
+        }
+
+        sql = createGetAllBookingsSql(sql, page, pageSize, bookingStatus);
 
         try {
             con = DBManager.getInstance().getConnection();
@@ -232,14 +240,21 @@ public class BookingDAO {
      *
      * @return number of all bookings
      * @throws DBException
+     * @param bookingStatus
      */
-    public int getAllBookingsCount() throws DBException {
+    public int getAllBookingsCount(BookingStatus bookingStatus) throws DBException {
         int result;
         Connection con = null;
         Statement stmt = null;
         ResultSet rs = null;
 
-        String sql = DBConstatns.SQL_GET_ALL_BOOKINGS_COUNT;
+        String sql;
+        if (bookingStatus == null || bookingStatus == BookingStatus.NONE){
+            sql = DBConstatns.SQL_GET_ALL_BOOKINGS_COUNT;
+        }else{
+            sql = DBConstatns.SQL_GET_ALL_BOOKINGS_COUNT_WITH_STATUS;
+        }
+        sql = createGetAllBookingsSql(sql, -1, -1, bookingStatus);
 
         try {
             con = DBManager.getInstance().getConnection();
@@ -291,4 +306,42 @@ public class BookingDAO {
 
         return result;
     }
+
+
+    /**
+     * Build a sql query to select bookings
+     * @param baseQuery base select on top of which we add filters by status
+     * @param page page of results. Set -1, to get all results
+     * @param pageSize number of items. Set -1, to get all results
+     * @param bookingStatus status of a bookings, with which we want to select
+     * @return sql query
+     */
+    private String createGetAllBookingsSql(String baseQuery, int page, int pageSize, BookingStatus bookingStatus){
+        String sql = baseQuery;;
+
+        switch (bookingStatus){
+            case NONE:
+                break;
+            case NEW:
+                sql += DBConstatns.SQL_FILTER_BOOKING_NEW;
+                break;
+            case CANCELLED:
+                sql += DBConstatns.SQL_FILTER_BOOKING_CANCELLED;
+                break;
+            case PAID:
+                sql += DBConstatns.SQL_FILTER_BOOKING_PAID;
+                break;
+            case FINISHED:
+                sql += DBConstatns.SQL_FILTER_BOOKING_FINISHED;
+                break;
+            case ONGOING:
+                sql += DBConstatns.SQL_FILTER_BOOKING_ONGOING;
+                break;
+        }
+
+        sql = Helpers.enrichWithPageSizeStatement(page, pageSize, sql);
+
+        return sql;
+    }
+
 }

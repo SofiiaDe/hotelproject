@@ -6,12 +6,12 @@ import java.time.LocalDate;
 
 public class UserBookingDetailed {
 
-    private int id;
-    private LocalDate checkinDate;
-    private LocalDate checkoutDate;
-    private String roomTypeBySeats;
-    private String roomClass;
-    private boolean isPaid;
+    private final int id;
+    private final LocalDate checkinDate;
+    private final LocalDate checkoutDate;
+    private final String roomTypeBySeats;
+    private final String roomClass;
+    private final boolean isPaid;
 
     public UserBookingDetailed(int id, LocalDate checkinDate, LocalDate checkoutDate,
                                String roomTypeBySeats, String roomClass, boolean isPaid) {
@@ -48,24 +48,6 @@ public class UserBookingDetailed {
     }
 
     public BookingStatus getBookingStatus(){
-
-        if(getIsPaid()){
-            if (LocalDate.now().isBefore(checkinDate)){
-                return BookingStatus.PAID;
-            }
-            if (LocalDate.now().isAfter(checkinDate) && LocalDate.now().isBefore(checkoutDate)){
-                return BookingStatus.ONGOING;
-            }
-            if (LocalDate.now().isAfter(checkoutDate)){
-                return BookingStatus.FINISHED;
-            }
-        }else{
-            if (LocalDate.now().isBefore(checkinDate)){
-                return BookingStatus.NEW;
-            }
-            return BookingStatus.CANCELLED;
-        }
-
-        return BookingStatus.NONE;
+        return Helpers.calculateBookingStatus(getCheckinDate(), getCheckoutDate(), getIsPaid());
     }
 }

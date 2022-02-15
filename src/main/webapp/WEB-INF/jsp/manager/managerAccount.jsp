@@ -52,6 +52,19 @@
 
         <div class="tab-content" id="myTabContent">
             <%-- Booking --%>
+                <div class="dropdown dropDownPadding">
+                    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        Status
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#" id="statusPaid">paid</a>
+                        <a class="dropdown-item" href="#" id="statusOngoing">ongoing</a>
+                        <a class="dropdown-item" href="#" id="statusFinished">finished</a>
+                        <a class="dropdown-item" href="#" id="statusNew">new</a>
+                        <a class="dropdown-item" href="#" id="statusCancelled">cancelled</a>
+                    </div>
+                </div>
             <div class="tab-pane fade active show" id="booking" role="tabpanel" aria-labelledby="booking-tab">
                 <table class="table table-hover mt-2">
                     <thead>
@@ -72,7 +85,7 @@
                             <fmt:message key="table.th.room_number"/>
                         </th>
                         <th scope="col">
-                            Status
+                            <fmt:message key="table.th.status"/>
                         </th>
                     </tr>
                     </thead>
@@ -366,6 +379,32 @@
 
 <jsp:include page="/WEB-INF/components/scripts.jsp"/>
 
+<script>
+    (function () {
+        setUrls("statusPaid", buildUrl(1, "paid"));
+        setUrls("statusOngoing", buildUrl(1, "ongoing"));
+        setUrls("statusFinished", buildUrl(1, "finished"));
+        setUrls("statusNew", buildUrl(1, "new"));
+        setUrls("statusCancelled", buildUrl(1, "cancelled"));
+    })();
+
+    function buildUrl(page, bookingStatus) {
+        const result = new URL(window.location.href);
+        result.searchParams.set("page", page);
+
+        setOptionalSearchParam(result.searchParams, "bookingStatus", bookingStatus);
+
+        return result;
+    }
+
+    function setOptionalSearchParam(searchParams, paramName, value) {
+        const data = value ?? searchParams.get(paramName);
+        if (data) {
+            searchParams.set(paramName, data);
+        }
+    }
+
+</script>
 
 </body>
 </html>

@@ -60,7 +60,14 @@ public class DBConstatns {
             "VALUES (DEFAULT, ?, ?, ?, ?, ?)";
     public static final String SQL_GET_BOOKINGS_BY_USER_ID = "SELECT * FROM bookings WHERE user_id = ?";
     public static final String SQL_GET_ALL_BOOKINGS = "SELECT * FROM bookings";
-    public static final String SQL_GET_ALL_BOOKINGS_COUNT = "SELECT count(*) as cnt FROM bookings";
+    public static final String SQL_GET_ALL_BOOKINGS_WITH_STATUS = "SELECT b.* FROM bookings b JOIN invoices i ON i.booking_id = b.id";
+    public static final String SQL_FILTER_BOOKING_NEW = " WHERE checkin_date > now() AND i.status = 'new'";
+    public static final String SQL_FILTER_BOOKING_CANCELLED = " WHERE i.status = 'cancelled' OR checkin_date < now()";
+    public static final String SQL_FILTER_BOOKING_PAID = " WHERE checkin_date > now() AND i.status = 'paid'";
+    public static final String SQL_FILTER_BOOKING_FINISHED = " WHERE checkout_date > now() AND i.status = 'paid'";
+    public static final String SQL_FILTER_BOOKING_ONGOING = " WHERE checkin_date < now() AND checkout_date > now() AND i.status = 'paid'";
+    public static final String SQL_GET_ALL_BOOKINGS_COUNT = " SELECT count(*) as cnt FROM bookings";
+    public static final String SQL_GET_ALL_BOOKINGS_COUNT_WITH_STATUS = "SELECT count(*) as cnt FROM bookings b JOIN invoices i ON i.booking_id = b.id";
     public static final String SQL_GET_USER_BOOKINGS_COUNT = "SELECT count(*) as cnt FROM bookings WHERE user_id = ?";
     public static final String SQL_GET_BOOKING_BY_ID = "SELECT * FROM bookings WHERE id = ?";
     public static final String SQL_DELETE_BOOKING_BY_ID = "DELETE FROM bookings WHERE ID = ?";

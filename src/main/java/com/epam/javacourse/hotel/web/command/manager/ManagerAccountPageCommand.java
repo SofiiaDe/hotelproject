@@ -2,8 +2,6 @@ package com.epam.javacourse.hotel.web.command.manager;
 
 import com.epam.javacourse.hotel.AppContext;
 import com.epam.javacourse.hotel.Exception.AppException;
-import com.epam.javacourse.hotel.Exception.DBException;
-import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.service.IApplicationService;
 import com.epam.javacourse.hotel.model.service.IBookingService;
 import com.epam.javacourse.hotel.model.service.IConfirmRequestService;
@@ -12,6 +10,7 @@ import com.epam.javacourse.hotel.model.serviceModels.ApplicationDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.ConfirmationRequestDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.InvoiceDetailed;
+import com.epam.javacourse.hotel.shared.models.BookingStatus;
 import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
@@ -41,12 +40,13 @@ public class ManagerAccountPageCommand implements ICommand {
         List<ApplicationDetailed> allApplications = applicationService.getAllDetailedApplications();
         session.setAttribute("allApplications", allApplications);
 
-        int allBookingsCount = bookingService.getAllBookingsCount();
+        BookingStatus bookingStatus = BookingStatus.fromString(request.getParameter("bookingStatus"));
+        int allBookingsCount = bookingService.getAllBookingsCount(bookingStatus);
         int pageCount = (int) Math.ceil((float)allBookingsCount / pageSize);
 
         boolean toGetBookings = allBookingsCount > 0 && page <= pageCount;
         List<BookingDetailed> allBookings = toGetBookings ?
-                bookingService.getAllDetailedBookings(page, pageSize) : new ArrayList<>();
+                bookingService.getAllDetailedBookings(page, pageSize, bookingStatus) : new ArrayList<>();
         session.setAttribute("allBookings", allBookings);
 
         List<InvoiceDetailed> allInvoices = invoiceService.getAllDetailedInvoices();
