@@ -110,7 +110,7 @@ public class BookingServiceImpl implements IBookingService {
                             booking.getCheckinDate(),
                             booking.getCheckoutDate(),
                             this.roomDAO.findRoomById(booking.getRoomId()).getRoomNumber(),
-                            invoices.stream().filter(i -> i.getBookingId() == booking.getId()).findFirst().get().getInvoiceStatus() == "paid"
+                            invoices.stream().filter(i -> i.getBookingId() == booking.getId()).findFirst().get().getInvoiceStatus().equals("paid")
                     ));
         }
         return result;
