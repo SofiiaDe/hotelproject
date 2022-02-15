@@ -9,9 +9,13 @@
   }
 </script>
 
+<style>
+  #userName{color:white}
+</style>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="/Hotel/controller?command=clientAccount">
-    <img src="image/logo-hotel.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
+    <img src="pictures/logo-hotel.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
     <fmt:message key="client.menu.label.client"/>
   </a>
 
@@ -26,7 +30,7 @@
     </ul>
 
 
-    ${sessionScope.authorisedUser.firstName} ${sessionScope.authorisedUser.lastName}
+    <div id="userName">${sessionScope.authorisedUser.firstName} ${sessionScope.authorisedUser.lastName}</div>
     <div class="dropdown">
       <button class="btn btn-outline-secondary btn-sm" type="button" id="dropdownMenuButton"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -34,6 +38,7 @@
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <form class="form-inline" method="post" action="controller?command=i18n">
+<%--          input hidden--%>
           <button type="submit" name="en" onclick="changeFieldElement('langField', 'en')" class="dropdown-item"><fmt:message key="main.menu.button.english"/></button>
           <button type="submit" name="uk" onclick="changeFieldElement('langField', 'uk')" class="dropdown-item"><fmt:message key="main.menu.button.ukrainian"/></button>
           <input name="langField" type="hidden" value="en">

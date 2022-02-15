@@ -1,6 +1,7 @@
 package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.model.Invoice;
 import com.epam.javacourse.hotel.model.Room;
 import com.epam.javacourse.hotel.shared.models.RoomSeats;
 import com.epam.javacourse.hotel.shared.models.RoomStatus;
@@ -18,6 +19,31 @@ import java.util.List;
 public class RoomDAO {
 
     private static final Logger logger = LogManager.getLogger(RoomDAO.class);
+
+    public boolean createRoom(Room room) throws DBException {
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            con.setAutoCommit(false);
+            pstmt = con.prepareStatement(DBConstatns.SQL_CREATE_ROOM);
+            mapRoomCreateUpdate(pstmt, room);
+
+            pstmt.executeUpdate();
+            con.commit();
+            return true;
+        } catch (SQLException e) {
+            String errorMessage = "Can't create a room";
+            logger.error(errorMessage, e);
+            rollBack(con);
+            throw new DBException(errorMessage, e);
+        } finally {
+            close(con);
+            close(pstmt);
+        }
+    }
 
     public List<Room> findAllRooms() throws DBException {
 
@@ -51,6 +77,7 @@ public class RoomDAO {
             con = DBManager.getInstance().getConnection();
             pstmt = con.prepareStatement(DBConstatns.SQL_UPDATE_ROOM);
             mapRoomCreateUpdate(pstmt, room);
+            pstmt.setInt(6, room.getId());
             roomUpdated = pstmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
@@ -296,6 +323,30 @@ public class RoomDAO {
         return getRoomCount(checkin, checkout, RoomStatus.AVAILABLE, null);
     }
 
+    public List<Integer> findAllRoomNumbers() throws DBException {
+        List<Integer> allRoomNumbers = new ArrayList<>();
+        Connection con = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(DBConstatns.SQL_GET_ALL_ROOM_NUMBERS);
+            while(rs.next()) {
+                allRoomNumbers.add(rs.getInt("room_number"));
+            }
+        } catch (SQLException e) {
+            throw new DBException("Can't find all rooms' numbers", e);
+        } finally {
+            close(con);
+            close(stmt);
+            close(rs);
+        }
+
+        return allRoomNumbers;
+    }
+
     private static Room mapResultSetToRoom(ResultSet rs) throws SQLException {
         Room room = new Room();
         room.setId(rs.getInt("id"));
@@ -316,7 +367,7 @@ public class RoomDAO {
         pstmt.setInt(2, room.getRoomNumber());
         pstmt.setString(3, room.getRoomTypeBySeats());
         pstmt.setString(4, room.getRoomClass());
-        pstmt.setInt(5, room.getId());
+        pstmt.setString(5, room.getRoomStatus());
     }
 
     // todo code duplication

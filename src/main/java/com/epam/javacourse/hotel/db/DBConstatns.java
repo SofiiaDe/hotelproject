@@ -40,9 +40,11 @@ public class DBConstatns {
 
 
     // RoomDAO
+    public static final String SQL_CREATE_ROOM = "INSERT INTO rooms (id, price, room_number, room_seats, room_class, room_status)\n" +
+            "VALUES (DEFAULT, ?, ?, ?, ?, ?)";
     public static final String SQL_GET_ALL_ROOMS = "SELECT * FROM rooms";
     public static final String SQL_UPDATE_ROOM = "UPDATE rooms SET price = ?, room_number = ?, room_seats = ?," +
-            "room_class = ?, WHERE id = ?";
+            "room_class = ?, room_status =? WHERE id = ?";
     public static final String SQL_GET_ROOM_BY_ID = "SELECT * FROM rooms WHERE id = ?";
     public static final String SQL_GET_ROOMS_BY_IDS = "SELECT * FROM rooms r WHERE r.id IN (%s)";
     public static final String SQL_GET_ROOMS_EXCEPT = "SELECT * FROM rooms r WHERE NOT(r.id IN (%s))";
@@ -52,7 +54,7 @@ public class DBConstatns {
     public static final String SQL_GET_ROOMS_BASIC_QUERY = "SELECT ?0? FROM rooms r LEFT OUTER JOIN (SELECT DISTINCT(room_id) " +
             "FROM bookings b LEFT JOIN invoices i ON i.booking_id = b.id WHERE (b.checkin_date <= ? AND b.checkout_date >= ?) " +
             "AND i.status ?1?) q ON q.room_id = r.id WHERE q.room_id IS ?2? null ";
-
+    public static final String SQL_GET_ALL_ROOM_NUMBERS = "SELECT room_number FROM rooms ORDER BY room_number DESC";
 
     // BookingDAO
     public static final String SQL_CREATE_BOOKING = "INSERT INTO bookings " +

@@ -52,19 +52,19 @@
 
         <div class="tab-content" id="myTabContent">
             <%-- Booking --%>
-                <div class="dropdown dropDownPadding">
-                    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                        Status
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#" id="statusPaid">paid</a>
-                        <a class="dropdown-item" href="#" id="statusOngoing">ongoing</a>
-                        <a class="dropdown-item" href="#" id="statusFinished">finished</a>
-                        <a class="dropdown-item" href="#" id="statusNew">new</a>
-                        <a class="dropdown-item" href="#" id="statusCancelled">cancelled</a>
-                    </div>
+            <div class="dropdown dropDownPadding">
+                <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    Status
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#" id="statusPaid">paid</a>
+                    <a class="dropdown-item" href="#" id="statusOngoing">ongoing</a>
+                    <a class="dropdown-item" href="#" id="statusFinished">finished</a>
+                    <a class="dropdown-item" href="#" id="statusNew">new</a>
+                    <a class="dropdown-item" href="#" id="statusCancelled">cancelled</a>
                 </div>
+            </div>
             <div class="tab-pane fade active show" id="booking" role="tabpanel" aria-labelledby="booking-tab">
                 <table class="table table-hover mt-2">
                     <thead>
@@ -105,9 +105,9 @@
 
                 <c:if test="${requestScope != null && requestScope.page != null && requestScope.pageCount != null}">
                     <form action="controller">
-                        <input type="hidden" name="command" value="managerAccount" />
+                        <input type="hidden" name="command" value="managerAccount"/>
                         <nav aria-label="Manager's lift of booking navigation">
-                            <jsp:include page="/WEB-INF/components/pagination.jsp" />
+                            <jsp:include page="/WEB-INF/components/pagination.jsp"/>
                         </nav>
                     </form>
                 </c:if>
@@ -337,8 +337,24 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col">
-                                <input type="text" name="name" class="form-control"
-                                       placeholder="<fmt:message key="manager.modal.placeholder.name"/>"
+                                <select class="custom-select" name="roomSeats">
+                                    <option value="single">single</option>
+                                    <option value="double">double</option>
+                                    <option value="twin">twin</option>
+                                    <option value="triple">triple</option>
+                                </select>
+                            </div>
+
+                            <div class="col">
+                                <select class="custom-select" name="roomClass">
+                                    <option value="standard">standard</option>
+                                    <option value="business">business</option>
+                                    <option value="lux">lux</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <input type="text" name="roomNumber" class="form-control"
+                                       placeholder="<fmt:message key="manager.modal.placeholder.number"/>"
                                        minlength="1"
                                        maxlength="40"
                                        required>
@@ -351,26 +367,28 @@
                                        required>
                             </div>
                             <div class="col">
-                                <select class="custom-select" name="serviceId">
-                                    <c:forEach var="service" items="${services}">
-                                        <option value="${service.id}">${service.name}</option>
-                                    </c:forEach>
+                                <select class="custom-select" name="roomStatus">
+                                    <option value="available">available</option>
+                                    <option value="unavailable">unavailable</option>
                                 </select>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="description">
-                            <fmt:message key="manager.modal.description"/>
-                        </label>
-                        <textarea class="form-control" id="description" name="description"
-                                  rows="3" minlength="10"
-                                  maxlength="250"
-                                  required></textarea>
-                    </div>
+<%--                    <div class="form-group">--%>
+<%--                        <label for="description">--%>
+<%--                            <fmt:message key="manager.modal.description"/>--%>
+<%--                        </label>--%>
+<%--                        <textarea class="form-control" id="description" name="description"--%>
+<%--                                  rows="3" minlength="10"--%>
+<%--                                  maxlength="250"--%>
+<%--                                  required></textarea>--%>
+<%--                    </div>--%>
+                    <br>
+                    <br>
                     <button type="submit" class="btn btn-dark">
                         <fmt:message key="manager.modal.button.save"/>
                     </button>
+
                 </form>
             </div>
         </div>

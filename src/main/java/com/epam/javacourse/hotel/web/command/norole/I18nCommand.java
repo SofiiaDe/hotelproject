@@ -17,7 +17,7 @@ import java.util.Optional;
 /**
  * Internationalization command.
  */
-public class I18nInternationalizationCommand implements ICommand {
+public class I18nCommand implements ICommand {
 
     @Override
     public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws AppException {

@@ -9,7 +9,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/Hotel/controller?command=managerAccount">
-        <img src="image/logo-hotel.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
+        <img src="pictures/logo-hotel.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
         <fmt:message key="manager.menu.label.manager"/>
     </a>
 

@@ -146,7 +146,7 @@
                                 <c:choose>
                                     <c:when test="${room.id == 18}">
 <%--                                        <div class="room-img">--%>
-                                            <img src="images/business_double.jpg" alt="Business double" style="width:400px;height:300px;">
+                                            <img src="pictures/business_double.jpg" alt="Business double" style="width:400px;height:300px;">
 <%--                                        </div>--%>
 <%--                                        <img src="images/business_double.jpg" alt="" border=3 height=100 width=100></img>--%>
                                     </c:when>

@@ -2,6 +2,7 @@ package com.epam.javacourse.hotel.web.command;
 
 import com.epam.javacourse.hotel.web.command.client.*;
 import com.epam.javacourse.hotel.web.command.common.*;
+import com.epam.javacourse.hotel.web.command.manager.AddRoomCommand;
 import com.epam.javacourse.hotel.web.command.norole.*;
 import com.epam.javacourse.hotel.web.command.manager.MakeConfirmRequestCommand;
 import com.epam.javacourse.hotel.web.command.manager.GetAllUsersCommand;
@@ -47,6 +48,7 @@ public class CommandFactory {
         commands.put("allUsersList", new GetAllUsersCommand());
         commands.put("managerAccount", new ManagerAccountPageCommand());
         commands.put("makeConfirmRequest", new MakeConfirmRequestCommand());
+        commands.put("addRoom", new AddRoomCommand());
 
         //common commands
         commands.put("registerPage", new RegisterPageCommand());
@@ -57,7 +59,7 @@ public class CommandFactory {
         commands.put("login", new LoginCommand());
         commands.put("loginPage", new LoginPageCommand());
         commands.put("logout", new LogoutCommand());
-        commands.put("i18n", new I18nInternationalizationCommand());
+        commands.put("i18n", new I18nCommand());
     }
 
     public static ICommand getCommand(String commandName) {

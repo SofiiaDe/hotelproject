@@ -4,16 +4,16 @@ import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.db.RoomDAO;
 import com.epam.javacourse.hotel.model.Application;
+import com.epam.javacourse.hotel.model.ConfirmationRequest;
 import com.epam.javacourse.hotel.model.Room;
-import com.epam.javacourse.hotel.shared.models.RoomSeats;
-import com.epam.javacourse.hotel.shared.models.RoomStatus;
-import com.epam.javacourse.hotel.shared.models.SortBy;
-import com.epam.javacourse.hotel.shared.models.SortType;
+import com.epam.javacourse.hotel.shared.models.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RoomServiceImpl implements IRoomService {
 
@@ -147,4 +147,53 @@ public class RoomServiceImpl implements IRoomService {
         }
         return suitableRoom;
     }
+
+    @Override
+    public List<String> getRoomTypeList() {
+        return Arrays.stream(RoomSeats.values())
+                .map(RoomSeats::name)
+                .filter(type -> !type.equals("NONE"))
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getRoomClassList() {
+        return Arrays.stream(RoomClass.values())
+                .map(RoomClass::name)
+                .filter(type -> !type.equals("NONE"))
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
+    public List<RoomSeats> getRoomSeatsValues() {
+        return Arrays.asList(RoomSeats.values());
+    }
+
+    @Override
+    public List<RoomClass> getRoomClassValues() {
+        return Arrays.asList(RoomClass.values());
+
+    }
+
+    @Override
+    public void create(Room room) throws AppException {
+        try {
+            this.roomDAO.createRoom(room);
+        } catch (DBException exception) {
+            throw new AppException("Can't create room", exception);
+        }
+    }
+
+    @Override
+    public List<Integer> getRoomsNumbers() throws AppException{
+        try {
+            return this.roomDAO.findAllRoomNumbers();
+        } catch (DBException exception) {
+            throw new AppException("Can't get all rooms' numbers");
+        }
+    }
+
 }
