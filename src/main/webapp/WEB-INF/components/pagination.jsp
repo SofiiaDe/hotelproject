@@ -37,7 +37,8 @@
     </c:if>
 
     <c:if test="${requestScope.page + 4 <= requestScope.pageCount}">
-        <li class="page-item"><a class="page-link" href="#">...</a></li>
+        <li class="page-item"><a class="page-link" href="#">...</a>
+        </li>
     </c:if>
     <c:if test="${requestScope.page + 3 <= requestScope.pageCount && requestScope.pageCount >= 4}">
         <li class="page-item"><a class="page-link" href="#" id="lastPage">${requestScope.pageCount}</a>

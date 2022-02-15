@@ -13,3 +13,41 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+
+<script>
+    (function () {
+        const url = new URL(window.location.href);
+        if(url.searchParams.get("success")){
+            showSnackbar();
+        }
+        function showSnackbar() {
+            const x = document.getElementById("succRegSnackbar");
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        }
+    })();
+</script>
+
+<script>
+    function buildUrl(page) {
+        const result = new URL(window.location.href);
+        result.searchParams.set("page", page);
+        return result;
+    }
+    function setUrls(tagId, value) {
+        if (document.getElementById(tagId)) {
+            document.getElementById(tagId).href = value;
+        }
+    }
+    (function () {
+        setUrls("prevPage", buildUrl(${ requestScope.page } - 1));
+        setUrls("nextPage", buildUrl(${ requestScope.page } + 1));
+        setUrls("pageMin1", buildUrl(${ requestScope.page } - 1));
+        setUrls("pageMin2", buildUrl(${ requestScope.page } - 2));
+        setUrls("pagePlus1", buildUrl(${ requestScope.page } + 1));
+        setUrls("pagePlus2", buildUrl(${ requestScope.page } + 2));
+        setUrls("pagePlus2", buildUrl(${ requestScope.page } + 2));
+        setUrls("firstPage", buildUrl(1));
+        setUrls("lastPage", buildUrl(${ requestScope.pageCount }));
+    })();
+</script>

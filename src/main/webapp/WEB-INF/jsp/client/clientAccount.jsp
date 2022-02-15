@@ -73,10 +73,20 @@
                             <td>${booking.checkoutDate}</td>
                             <td>${booking.roomTypeBySeats}</td>
                             <td>${booking.roomClass}</td>
+                            <td>${booking.bookingStatus.text}</td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
+
+                <c:if test="${requestScope != null && requestScope.page != null && requestScope.pageCount != null}">
+                    <form action="controller">
+                        <input type="hidden" name="command" value="clientAccount" />
+                        <nav aria-label="Client's lift of booking navigation">
+                            <jsp:include page="/WEB-INF/components/pagination.jsp" />
+                        </nav>
+                    </form>
+                </c:if>
             </div>
 
 

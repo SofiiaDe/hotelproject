@@ -29,7 +29,7 @@ public interface IBookingService {
 
     void deleteBookingById(int id) throws AppException;
 
-    List<UserBookingDetailed> getUserDetailedBookings(int userID) throws AppException;
+    List<UserBookingDetailed> getUserDetailedBookings(int userID, int page, int pageSize) throws AppException;
 
     /**
      * Finds invoices which were not paid by the due date and thus their status was changed to 'cancelled'.
@@ -44,4 +44,11 @@ public interface IBookingService {
      * @throws AppException
      */
     int getAllBookingsCount() throws AppException;
+
+    /**
+     * Get number of client's bookings
+     * @return number of bookings
+     * @throws AppException
+     */
+    int getUserBookingsCount(int userId) throws AppException;
 }

@@ -57,6 +57,10 @@
         </p>
     </form>
 </form>
+
+<div id="succRegSnackbar"><fmt:message key="client.snackbar.success.submit_application"/></div>
+
+
 <jsp:include page="/WEB-INF/components/scripts.jsp"/>
 </body>
 </html>

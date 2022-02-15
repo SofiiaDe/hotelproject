@@ -37,15 +37,36 @@ public class BookingDAO {
         }
     }
 
+    /**
+     * Get client's bookings
+     *
+     * @return Client's bookings
+     * @throws DBException
+     */
     public List<Booking> findBookingsByUserId(int userId) throws DBException {
+        return findBookingsByUserIdForPage(userId, -1, 0);
+    }
+
+    /**
+     * Get client's bookings limited by page and pageSize
+     *
+     * @param page     result's page. Set -1 to not limit by page/size
+     * @param pageSize number of items to select
+     * @return bookings from specified page and given page size
+     * @throws DBException
+     */
+    public List<Booking> findBookingsByUserIdForPage(int userId, int page, int pageSize) throws DBException {
         List<Booking> userBookings = new ArrayList<>();
         Connection con = null;
         PreparedStatement pStmt = null;
         ResultSet rs = null;
 
+        String sql = DBConstatns.SQL_GET_BOOKINGS_BY_USER_ID;
+        sql = Helpers.enrichWithPageSizeStatement(page, pageSize, sql);
+
         try {
             con = DBManager.getInstance().getConnection();
-            pStmt = con.prepareStatement(DBConstatns.SQL_GET_BOOKINGS_BY_USER_ID);
+            pStmt = con.prepareStatement(sql);
             pStmt.setInt(1, userId);
             rs = pStmt.executeQuery();
             while (rs.next()) {
@@ -233,6 +254,38 @@ public class BookingDAO {
         } finally {
             close(con);
             close(stmt);
+            close(rs);
+        }
+
+        return result;
+    }
+
+    /**
+     * Retrieve number of client's bookings
+     *
+     * @return number of client's bookings
+     * @throws DBException
+     */
+    public int getUserBookingsCount(int userId) throws DBException {
+        int result;
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(DBConstatns.SQL_GET_USER_BOOKINGS_COUNT);
+            pstmt.setObject(1, userId);
+            rs = pstmt.executeQuery();
+            rs.next();
+            result = rs.getInt("cnt");
+        } catch (SQLException e) {
+            String errorMessage = "Cannot get client's bookings count";
+            logger.error(errorMessage, e);
+            throw new DBException(errorMessage, e);
+        } finally {
+            close(con);
+            close(pstmt);
             close(rs);
         }
 

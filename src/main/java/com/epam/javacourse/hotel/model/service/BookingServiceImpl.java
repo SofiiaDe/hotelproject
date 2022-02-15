@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BookingServiceImpl implements IBookingService{
+public class BookingServiceImpl implements IBookingService {
 
     private final BookingDAO bookingDAO;
     private final UserDAO userDao;
@@ -91,19 +91,19 @@ public class BookingServiceImpl implements IBookingService{
 
             result = new ArrayList<>();
             invoices = this.invoiceDAO.findInvoices(allBookings.stream().map(Booking::getId).collect(Collectors.toList()));
-        } catch (DBException exception){
+        } catch (DBException exception) {
             throw new AppException("Can't retrieve list of all bookings to show in the manager's account", exception);
         }
 
-        for (Booking booking: allBookings) {
+        for (Booking booking : allBookings) {
             var bookingUser = users.stream().filter(u -> u.getId() == booking.getUserId()).findFirst().get();
             result.add(
                     new BookingDetailed(booking.getId(),
-                        bookingUser.getFirstName() + ' '+ bookingUser.getLastName(),
-                        bookingUser.getEmail(),
-                        booking.getCheckinDate(),
-                        booking.getCheckoutDate(),
-                        this.roomDAO.findRoomById(booking.getRoomId()).getRoomNumber(),
+                            bookingUser.getFirstName() + ' ' + bookingUser.getLastName(),
+                            bookingUser.getEmail(),
+                            booking.getCheckinDate(),
+                            booking.getCheckoutDate(),
+                            this.roomDAO.findRoomById(booking.getRoomId()).getRoomNumber(),
                             invoices.stream().filter(i -> i.getBookingId() == booking.getId()).findFirst().get().getInvoiceStatus() == "paid"
                     ));
         }
@@ -111,30 +111,36 @@ public class BookingServiceImpl implements IBookingService{
     }
 
     @Override
-    public List<UserBookingDetailed> getUserDetailedBookings(int userID) throws AppException {
+    public List<UserBookingDetailed> getUserDetailedBookings(int userID, int page, int pageSize) throws AppException {
+
+        List<Booking> allUserBookings;
+        ArrayList<UserBookingDetailed> result;
 
         try {
-            List<Booking> allUserBookings = this.bookingDAO.findBookingsByUserId(userID);
+            allUserBookings = this.bookingDAO.findBookingsByUserIdForPage(userID, page, pageSize);
 
-            IRoomService roomService = AppContext.getInstance().getRoomService();
 
-            ArrayList<UserBookingDetailed> result = new ArrayList<>();
+            result = new ArrayList<>();
 
-            for (Booking booking : allUserBookings) {
-                var room = roomService.getRoomById(booking.getRoomId());
-                result.add(
-                        new UserBookingDetailed(booking.getId(),
-                                booking.getCheckinDate(),
-                                booking.getCheckoutDate(),
-                                room.getRoomTypeBySeats(),
-                                room.getRoomClass(),
-                                false
-                        ));
-            }
-            return result;
         } catch (DBException exception) {
             throw new AppException("Can't retrieve list of client's bookings to show in the client's account", exception);
         }
+
+        IRoomService roomService = AppContext.getInstance().getRoomService();
+
+        for (Booking booking : allUserBookings) {
+            var room = roomService.getRoomById(booking.getRoomId());
+            result.add(
+                    new UserBookingDetailed(booking.getId(),
+                            booking.getCheckinDate(),
+                            booking.getCheckoutDate(),
+                            room.getRoomTypeBySeats(),
+                            room.getRoomClass(),
+                            false
+                    ));
+        }
+        return result;
+
     }
 
     @Override
@@ -154,10 +160,19 @@ public class BookingServiceImpl implements IBookingService{
 
     @Override
     public int getAllBookingsCount() throws AppException {
-        try{
+        try {
             return this.bookingDAO.getAllBookingsCount();
-        }catch(DBException exception){
+        } catch (DBException exception) {
             throw new AppException("Can't retrieve number of bookings", exception);
+        }
+    }
+
+    @Override
+    public int getUserBookingsCount(int userId) throws AppException {
+        try {
+            return this.bookingDAO.getUserBookingsCount(userId);
+        } catch (DBException exception) {
+            throw new AppException("Can't retrieve number of client's bookings", exception);
         }
     }
 }

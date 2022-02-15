@@ -82,7 +82,8 @@
                         <c:if test="${requestScope.roomStatus != null}">
                             <c:choose>
                                 <c:when test="${requestScope.roomStatus == 'available'}">
-                                    available
+                                    <fmt:message key="dropdown.status.available" />
+<%--                                    available--%>
                                 </c:when>
                                 <c:when test="${requestScope.roomStatus == 'reserved'}">
                                     reserved

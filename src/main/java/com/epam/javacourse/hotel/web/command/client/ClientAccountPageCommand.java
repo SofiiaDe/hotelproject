@@ -13,10 +13,12 @@ import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
 import com.epam.javacourse.hotel.web.command.ICommandResult;
+import com.epam.javacourse.hotel.web.command.helpers.Helpers;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -37,10 +39,18 @@ public class ClientAccountPageCommand implements ICommand {
         HttpSession session = request.getSession();
         User authorisedUser = (User) session.getAttribute("authorisedUser");
 
+        int page = Helpers.parsePage(request);
+        int pageSize = AppContext.getInstance().getDefaultPageSize();
+
         List<UserApplicationDetailed> userApplications = applicationService.getUserDetailedApplications(authorisedUser.getId());
         userApplications.sort(Comparator.comparing(UserApplicationDetailed::getCheckinDate).reversed());
 
-        List<UserBookingDetailed> userBookings = bookingService.getUserDetailedBookings(authorisedUser.getId());
+        int userBookingsCount = bookingService.getUserBookingsCount(authorisedUser.getId());
+        int pageCount = (int) Math.ceil((float)userBookingsCount / pageSize);
+
+        boolean toGetBookings = userBookingsCount > 0 && page <= pageCount;
+        List<UserBookingDetailed> userBookings = toGetBookings ?
+                bookingService.getUserDetailedBookings(authorisedUser.getId(), page, pageSize) : new ArrayList<>();
         userBookings.sort(Comparator.comparing(UserBookingDetailed::getCheckinDate).reversed());
 
         List<UserConfirmationRequestDetailed> userConfirmRequests = confirmRequestService
@@ -54,6 +64,8 @@ public class ClientAccountPageCommand implements ICommand {
         session.setAttribute("myBookings", userBookings);
         session.setAttribute("myConfirmRequests", userConfirmRequests);
         session.setAttribute("myInvoices", userInvoices);
+        request.setAttribute("page", page);
+        request.setAttribute("pageCount", pageCount);
 
         return new AddressCommandResult(Path.PAGE_CLIENT_ACCOUNT);
     }

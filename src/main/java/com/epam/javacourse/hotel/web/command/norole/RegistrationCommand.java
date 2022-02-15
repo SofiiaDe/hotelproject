@@ -93,7 +93,7 @@ public class RegistrationCommand implements ICommand {
 
         session.setAttribute("newUser", newUser);
 
-        return new RedirectCommandResult(Path.COMMAND_LOGIN_PAGE + "&success=1"); //succesfull registration ==>
+        return new RedirectCommandResult(Path.COMMAND_LOGIN_PAGE + "&success=1"); //successful registration ==>
 
     }
 
