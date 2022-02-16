@@ -55,6 +55,12 @@ public class DBConstatns {
             "FROM bookings b LEFT JOIN invoices i ON i.booking_id = b.id WHERE (b.checkin_date <= ? AND b.checkout_date >= ?) " +
             "AND i.status ?1?) q ON q.room_id = r.id WHERE q.room_id IS ?2? null ";
     public static final String SQL_GET_ALL_ROOM_NUMBERS = "SELECT room_number FROM rooms ORDER BY room_number DESC";
+//    public static final String SQL_FOR_UPDATE = "SELECT * FROM rooms WHERE room_id = (SELECT * FROM bookings WHERE room_id = ?) FOR UPDATE";
+    public static final String SQL_FOR_UPDATE = "SELECT * FROM rooms WHERE id = ? FOR UPDATE";
+
+    public static final String SQL_GET_AVAILABLE_ROOM = "SELECT * FROM rooms r LEFT OUTER JOIN (SELECT DISTINCT(room_id) " +
+            "FROM bookings b LEFT JOIN invoices i ON i.booking_id = b.id WHERE (b.checkin_date <= ? AND b.checkout_date >= ?) " +
+            "AND i.status != 'cancelled') q ON q.room_id = r.id WHERE q.room_id IS null AND room_status = 'available' AND r.id = ?";
 
     // BookingDAO
     public static final String SQL_CREATE_BOOKING = "INSERT INTO bookings " +
@@ -75,14 +81,6 @@ public class DBConstatns {
     public static final String SQL_DELETE_BOOKING_BY_ID = "DELETE FROM bookings WHERE ID = ?";
     public static final String SQL_GET_BOOKING_ROOMS_BY_DATE = "SELECT id, room_id FROM bookings WHERE checkin_date <= ? and checkout_date >= ?";
 
-//    public static final String SQL_CREATE_BOOKING_AND_INVOICE = "INSERT INTO bookings " +
-//            "(id, user_id, checkin_date, checkout_date, room_id, application_id) VALUES (DEFAULT, ?, ?, ?, ?, ?);" +
-//            "INSERT INTO invoices (id, user_id, amount, booking_id, invoice_date, status) " +
-//            "VALUES (DEFAULT, ?, ?, LAST_INSERT_ID(), ?, 'new')";
-    // + BEGIN; ... + COMMIT;
-    public static final String SQL_CREATE_BOOKING_AND_INVOICE = "INSERT INTO invoices " +
-        "(id, user_id, amount, booking_id, invoice_date, status) " +
-        "VALUES (DEFAULT, ?, ?, LAST_INSERT_ID(), ?, 'new')";
 
     // ConfirmRequestDAO
     public static final String SQL_CREATE_CONFIRM_REQUEST = "INSERT INTO confirmation_requests " +
@@ -110,6 +108,8 @@ public class DBConstatns {
     public static final String SQL_UPDATE_INVOICE_STATUS = "UPDATE invoices i SET i.status = ? WHERE i.id = ?";
     public static final String SQL_GET_INVOICES_BY_STATUS = "SELECT * FROM invoices i WHERE i.status = ?";
     public static final String SQL_GET_INVOICE_BY_ID = "SELECT * FROM invoices WHERE ID = ?";
+    public static final String SQL_CREATE_INVOICE_WITH_BOOKING = "INSERT INTO invoices " +
+            "(id, user_id, amount, booking_id, invoice_date, status) VALUES (DEFAULT, ?, ?, LAST_INSERT_ID(), ?, 'new')";
 
     //FIELDS
     public static final String F_USER_NAME = "name";

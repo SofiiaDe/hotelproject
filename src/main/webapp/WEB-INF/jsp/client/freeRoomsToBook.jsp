@@ -77,8 +77,7 @@
                     <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                         <fmt:message key="sorting"/>
-                        <c:if test="${requestScope.SortType.text != null && requestScope.SortBy.text != null}">
-                            <%--                            edit!!!!!!--%>
+                        <c:if test="${requestScope.sortType.text != null && requestScope.sortBy.text != null}">
                             <c:choose>
                                 <c:when test="${requestScope.sortBy.text == 'price' && requestScope.sortType.text == 'asc'}">
                                     <fmt:message key="sorting.price.asc"/>
@@ -97,8 +96,6 @@
                                 </c:otherwise>
                             </c:choose>
                         </c:if>
-                        <c:if test="${requestScope.sortType == null}"><fmt:message key="sorting.type"/></c:if>
-                        <c:if test="${requestScope.sortBy == null}"><fmt:message key="sorting.by"/></c:if>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="#" id="priceAsc"><fmt:message key="sorting.price.asc"/></a>

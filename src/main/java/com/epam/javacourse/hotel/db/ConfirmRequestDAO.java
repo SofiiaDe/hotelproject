@@ -2,7 +2,6 @@ package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.ConfirmationRequest;
-import com.epam.javacourse.hotel.model.Invoice;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
