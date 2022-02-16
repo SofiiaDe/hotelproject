@@ -21,7 +21,7 @@
             <h3>Welcome</h3>
             <p><fmt:message key="register.welcome.text"/></p>
             <form class="form-signin" method="post" action="controller?command=loginPage">
-                <input type="submit" name="login" value="Sign In"/><br/>
+                <input type="submit" name="login" value="<fmt:message key="login.button.login"/>"/><br/>
                 <%--                <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message key="login.button.login"/></button><br/>--%>
 
             </form>

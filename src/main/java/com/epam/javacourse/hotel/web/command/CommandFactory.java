@@ -39,7 +39,6 @@ public class CommandFactory {
         commands.put("submitApplication", new SubmitApplicationCommand());
         commands.put("freeRoomsPage", new FreeRoomsPageCommand());
         commands.put("bookRoom", new BookRoomCommand());
-        commands.put("editApplication", new EditApplicationCommand());
         commands.put("paymentPage", new PaymentPageCommand());
         commands.put("payInvoice", new PayInvoiceCommand());
         commands.put("confirmRequest", new ConfirmRequestCommand());
@@ -60,6 +59,7 @@ public class CommandFactory {
         commands.put("loginPage", new LoginPageCommand());
         commands.put("logout", new LogoutCommand());
         commands.put("i18n", new I18nCommand());
+        commands.put("homePage", new HomePageCommand());
     }
 
     public static ICommand getCommand(String commandName) {

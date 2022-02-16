@@ -95,7 +95,7 @@
         </init-param>
         <init-param>
             <param-name>no-role</param-name>
-            <param-value>registerPage registration login loginPage i18n</param-value>
+            <param-value>registerPage registration login loginPage i18n homePage</param-value>
         </init-param>
     </filter>
 
