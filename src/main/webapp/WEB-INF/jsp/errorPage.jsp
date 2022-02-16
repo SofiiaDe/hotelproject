@@ -16,7 +16,7 @@
         <td class="content">
 
             <h2 class="error">
-                The following error occurred
+                <fmt:message key="error.occurred"/>
             </h2>
 
             <%-- obtain an information about an exception in case it has been occurred --%>
@@ -25,7 +25,7 @@
             <c:set var="exception" value="${requestScope['javax.servlet.error.exception']}"/>
 
             <c:if test="${not empty code}">
-                <h3>Error code: ${code}</h3>
+                <h3><fmt:message key="error.code"/> ${code}</h3>
             </c:if>
 
             <c:if test="${not empty message}">

@@ -72,7 +72,7 @@
 
 <footer class="background">
     <p class="text-footer">
-        Copyright ©-All rights are reserved
+        <fmt:message key="home.copyright"/>
     </p>
 
 

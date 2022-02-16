@@ -16,21 +16,15 @@
 <c:set var="title" value="Form for client to book room" scope="page"/>
 <jsp:include page="/WEB-INF/components/head.jsp"/>
 
-<%--<fmt:setLocale value="${sessionScope.locale}"/>--%>
-<fmt:setBundle basename="locale_resources" var="localeBundle"/>
 
-<%--<fmt:message key="client.book.title" bundle="${localeBundle}" var="pageFreeRoomsTitle" scope="page"/>--%>
-<%--<t:page title="${pageFreeRoomsTitle}">--%>
-<%--<head>--%>
-<%--    <title>Free rooms list</title>--%>
-<%--</head>--%>
-
-
+<head>
+    <title>Free rooms list</title>
+</head>
 
 <body>
-<jsp:include page="/WEB-INF/jsp/clientMenu.jsp"/>
+<jsp:include page="/WEB-INF/components/clientMenu.jsp"/>
 <div class="container">
-    <h1><fmt:message key="client.book.choose_time" bundle="${localeBundle}"/></h1>
+    <h1><fmt:message key="client.book.choose_time"/></h1>
 
     <form method="get" action="controller">
         <jsp:useBean id="now" class="java.util.Date"/>
@@ -41,7 +35,7 @@
                 <!-- select check-in date -->
                 <div class="booking-tittle">
                     <span>
-                        <fmt:message key="checkin.date" bundle="${localeBundle}"/>:
+                        <fmt:message key="checkin.date"/>:
                     </span>
                 </div>
                 <div class="booking-datepicker">
@@ -54,7 +48,7 @@
                 <!-- select check-out date -->
                 <div class="booking-tittle">
                     <span>
-                        <fmt:message key="checkout.date" bundle="${localeBundle}"/>:
+                        <fmt:message key="checkout.date"/>:
                     </span>
                 </div>
                 <div class="booking-datepicker">
@@ -63,7 +57,7 @@
                 </div>
             </div>
 
-            <input type="submit" value="Submit">
+            <input type="submit" value="<fmt:message key="find.button"/>">
 
         </div>
     </form>
@@ -76,13 +70,35 @@
                 <div class="dropdown dropDownPadding">
                     <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
-                        <fmt:message key="sorting" bundle="${localeBundle}"/>
+                        <fmt:message key="sorting"/>
+                        <c:if test="${requestScope.SortType.text != null && requestScope.SortBy.text != null}">
+                            <%--                            edit!!!!!!--%>
+                            <c:choose>
+                                <c:when test="${requestScope.sortBy.text == 'price' && requestScope.sortType.text == 'asc'}">
+                                    <fmt:message key="sorting.price.asc"/>
+                                </c:when>
+                                <c:when test="${requestScope.sortBy.text == 'price' && requestScope.sortType.text == 'desc'}">
+                                    <fmt:message key="sorting.price.desc"/>
+                                </c:when>
+                                <c:when test="${requestScope.sortBy.text == 'class' && requestScope.sortType.text == 'asc'}">
+                                    <fmt:message key="sorting.class.asc"/>
+                                </c:when>
+                                <c:when test="${requestScope.sortBy.text == 'class' && requestScope.sortType.text == 'desc'}">
+                                    <fmt:message key="sorting.class.desc"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <fmt:message key="sorting.unknown"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:if>
+                        <c:if test="${requestScope.sortType == null}"><fmt:message key="sorting.type"/></c:if>
+                        <c:if test="${requestScope.sortBy == null}"><fmt:message key="sorting.by"/></c:if>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="#" id="priceAsc"><fmt:message key="sorting.price.asc"/></a>
                         <a class="dropdown-item" href="#" id="priceDesc"><fmt:message key="sorting.price.desc"/></a>
-                        <a class="dropdown-item" href="#" id="classAsc"><fmt:message key="sorting.class.asc" /></a>
-                        <a class="dropdown-item" href="#" id="classDesc"><fmt:message key="sorting.class.desc" /></a>
+                        <a class="dropdown-item" href="#" id="classAsc"><fmt:message key="sorting.class.asc"/></a>
+                        <a class="dropdown-item" href="#" id="classDesc"><fmt:message key="sorting.class.desc"/></a>
                     </div>
                 </div>
 
@@ -92,47 +108,69 @@
                         <c:if test="${requestScope.roomStatus != null}">
                             <c:choose>
                                 <c:when test="${requestScope.roomStatus == 'available'}">
-                                    <fmt:message key="sorting.status.available"/>
+                                    <fmt:message key="sort.status.available"/>
                                 </c:when>
                                 <c:when test="${requestScope.roomStatus == 'reserved'}">
-                                    <fmt:message key="sorting.status.reserved"/>
+                                    <fmt:message key="sort.status.reserved"/>
                                 </c:when>
                                 <c:when test="${requestScope.roomStatus == 'booked'}">
-                                    <fmt:message key="sorting.status.booked"/>
+                                    <fmt:message key="sort.status.booked"/>
                                 </c:when>
                                 <c:when test="${requestScope.roomStatus == 'unavailable'}">
-                                    <fmt:message key="sorting.status.unavailable"/>
+                                    <fmt:message key="sort.status.unavailable"/>
                                 </c:when>
                                 <c:otherwise>
-                                    UNKNOWN_STATUS
+                                    <fmt:message key="sort.status.unknown"/>
                                 </c:otherwise>
                             </c:choose>
                         </c:if>
-                        <c:if test="${requestScope.roomStatus == null}"><fmt:message key="status" bundle="${localeBundle}"/></c:if>
+                        <c:if test="${requestScope.roomStatus == null}"><fmt:message key="status"/></c:if>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#" id="roomAvailable"><fmt:message key="sorting.status.available"/></a>
-                        <a class="dropdown-item" href="#" id="roomReserved"><fmt:message key="sorting.status.reserved"/></a>
-                        <a class="dropdown-item" href="#" id="roomBooked"><fmt:message key="sorting.status.booked"/></a>
-                        <a class="dropdown-item" href="#" id="roomUnavailable"><fmt:message key="sorting.status.unavailable"/></a>
+                        <a class="dropdown-item" href="#" id="roomAvailable"><fmt:message
+                                key="sort.status.available"/></a>
+                        <a class="dropdown-item" href="#" id="roomReserved"><fmt:message
+                                key="sort.status.reserved"/></a>
+                        <a class="dropdown-item" href="#" id="roomBooked"><fmt:message key="sort.status.booked"/></a>
+                        <a class="dropdown-item" href="#" id="roomUnavailable"><fmt:message
+                                key="sort.status.unavailable"/></a>
                     </div>
                 </div>
 
                 <div class="dropdown">
                     <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
-                            ${requestScope.roomSeats != null ? requestScope.roomSeats : "Room seats" }
+                        <c:if test="${requestScope.roomSeats != null}">
+                            <c:choose>
+                                <c:when test="${requestScope.roomSeats == 'single'}">
+                                    <fmt:message key="sort.seats.single"/>
+                                </c:when>
+                                <c:when test="${requestScope.roomSeats == 'double'}">
+                                    <fmt:message key="sort.seats.double"/>
+                                </c:when>
+                                <c:when test="${requestScope.roomSeats == 'twin'}">
+                                    <fmt:message key="sort.seats.twin"/>
+                                </c:when>
+                                <c:when test="${requestScope.roomSeats == 'triple'}">
+                                    <fmt:message key="sort.seats.triple"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <fmt:message key="sort.seats.unknown"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:if>
+                        <c:if test="${requestScope.roomSeats == null}"><fmt:message key="sort.seats"/></c:if>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#" id="seatsSingle">single</a>
-                        <a class="dropdown-item" href="#" id="seatsDouble">double</a>
-                        <a class="dropdown-item" href="#" id="seatsTwin">twin</a>
-                        <a class="dropdown-item" href="#" id="seatsTriple">triple</a>
+                        <a class="dropdown-item" href="#" id="seatsSingle"><fmt:message key="sort.seats.single"/></a>
+                        <a class="dropdown-item" href="#" id="seatsDouble"><fmt:message key="sort.seats.double"/></a>
+                        <a class="dropdown-item" href="#" id="seatsTwin"><fmt:message key="sort.seats.twin"/></a>
+                        <a class="dropdown-item" href="#" id="seatsTriple"><fmt:message key="sort.seats.triple"/></a>
                     </div>
                 </div>
             </div>
 
-            <h1>Choose a room</h1>
+            <h1><fmt:message key="client.book.choose_room"/></h1>
             <br>
             <c:forEach var="room" items="${requestScope.freeRooms}">
                 <input type="hidden" name="room_id" value="${room.id}"/>
@@ -145,19 +183,16 @@
                             <c:if test="${room.id != null}">
                                 <c:choose>
                                     <c:when test="${room.id == 18}">
-<%--                                        <div class="room-img">--%>
-                                            <img src="pictures/business_double.jpg" alt="Business double" style="width:400px;height:300px;">
-<%--                                        </div>--%>
-<%--                                        <img src="images/business_double.jpg" alt="" border=3 height=100 width=100></img>--%>
+                                        <img src="pictures/business_double.jpg" alt="Business double"
+                                             style="width:400px;height:300px;">
                                     </c:when>
-<%--                                    <c:otherwise>--%>
-<%--                                        UNKNOWN_STATUS--%>
-<%--                                    </c:otherwise>--%>
+                                    <%--                                    <c:otherwise>--%>
+                                    <%--                                        UNKNOWN_STATUS--%>
+                                    <%--                                    </c:otherwise>--%>
                                 </c:choose>
                             </c:if>
                             <c:if test="${room.id == null}"> </c:if>
 
-                                <%--                            <img src="H.gif" alt="" border=3 height=100 width=100></img>--%>
                             <small>No. ${room.roomNumber}</small>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
@@ -235,7 +270,8 @@
         result.searchParams.set("page", page);
 
         setOptionalSearchParam(result.searchParams, "sortBy", sortBy);
-        setOptionalSearchParam(result.searchParams, "sortType", sortType);
+        +
+            setOptionalSearchParam(result.searchParams, "sortType", sortType);
         setOptionalSearchParam(result.searchParams, "roomStatus", roomStatus);
         setOptionalSearchParam(result.searchParams, "roomSeats", roomSeats);
 
@@ -254,4 +290,3 @@
 </body>
 
 </html>
-<%--</t:page>--%>

@@ -10,7 +10,7 @@
 
 
 <body>
-<jsp:include page="/WEB-INF/jsp/clientMenu.jsp"/>
+<jsp:include page="/WEB-INF/components/clientMenu.jsp"/>
 <div class="container">
     <div class="tab-pane fade show active" id="v-pills-services" role="tabpanel"
          aria-labelledby="v-pills-services-tab">
@@ -46,6 +46,7 @@
 
         </ul>
         <div class="tab-content" id="myTabContent">
+
             <%-- My bookings --%>
             <div class="tab-pane fade active show" id="booking" role="tabpanel" aria-labelledby="booking-tab">
                 <table class="table table-hover mt-2">

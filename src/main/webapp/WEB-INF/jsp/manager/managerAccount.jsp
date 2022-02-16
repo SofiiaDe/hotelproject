@@ -8,7 +8,7 @@
 <c:set var="title" value="Manager's desk" scope="page"/>
 <jsp:include page="/WEB-INF/components/head.jsp"/>
 <body>
-<jsp:include page="/WEB-INF/jsp/managerMenu.jsp"/>
+<jsp:include page="/WEB-INF/components/managerMenu.jsp"/>
 <div class="container">
     <div class="tab-pane fade show active" id="v-pills-services" role="tabpanel"
          aria-labelledby="v-pills-services-tab">
@@ -58,11 +58,11 @@
                     Status
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#" id="statusPaid">paid</a>
-                    <a class="dropdown-item" href="#" id="statusOngoing">ongoing</a>
-                    <a class="dropdown-item" href="#" id="statusFinished">finished</a>
-                    <a class="dropdown-item" href="#" id="statusNew">new</a>
-                    <a class="dropdown-item" href="#" id="statusCancelled">cancelled</a>
+                    <a class="dropdown-item" href="#" id="statusPaid"><fmt:message key="status.paid"/></a>
+                    <a class="dropdown-item" href="#" id="statusOngoing"><fmt:message key="status.ongoing"/></a>
+                    <a class="dropdown-item" href="#" id="statusFinished"><fmt:message key="status.finished"/></a>
+                    <a class="dropdown-item" href="#" id="statusNew"><fmt:message key="status.new"/></a>
+                    <a class="dropdown-item" href="#" id="statusCancelled"><fmt:message key="status.cancelled"/></a>
                 </div>
             </div>
             <div class="tab-pane fade active show" id="booking" role="tabpanel" aria-labelledby="booking-tab">
@@ -338,18 +338,18 @@
                         <div class="row">
                             <div class="col">
                                 <select class="custom-select" name="roomSeats">
-                                    <option value="single">single</option>
-                                    <option value="double">double</option>
-                                    <option value="twin">twin</option>
-                                    <option value="triple">triple</option>
+                                    <option value="single"><fmt:message key="sort.seats.single"/></option>
+                                    <option value="double"><fmt:message key="sort.seats.double"/></option>
+                                    <option value="twin"><fmt:message key="sort.seats.twin"/></option>
+                                    <option value="triple"><fmt:message key="sort.seats.triple"/></option>
                                 </select>
                             </div>
 
                             <div class="col">
                                 <select class="custom-select" name="roomClass">
-                                    <option value="standard">standard</option>
-                                    <option value="business">business</option>
-                                    <option value="lux">lux</option>
+                                    <option value="standard"><fmt:message key="room.class.standard"/></option>
+                                    <option value="business"><fmt:message key="room.class.business"/></option>
+                                    <option value="lux"><fmt:message key="room.class.lux"/></option>
                                 </select>
                             </div>
                             <div class="col">
@@ -368,8 +368,8 @@
                             </div>
                             <div class="col">
                                 <select class="custom-select" name="roomStatus">
-                                    <option value="available">available</option>
-                                    <option value="unavailable">unavailable</option>
+                                    <option value="available"><fmt:message key="sort.status.available"/></option>
+                                    <option value="unavailable"><fmt:message key="sort.status.unavailable"/></option>
                                 </select>
                             </div>
                         </div>
