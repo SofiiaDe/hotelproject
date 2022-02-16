@@ -63,6 +63,7 @@
     </form>
 
     <form action="controller?command=bookRoom" method="post">
+        <input type="hidden" id="room_id" name="room_id" >
         <c:if test="${requestScope != null && requestScope.freeRooms != null}">
             <input type="hidden" name="checkin_date" value="${requestScope.checkin}">
             <input type="hidden" name="checkout_date" value="${requestScope.checkout}">
@@ -202,8 +203,7 @@
 
                         <c:if test="${requestScope.roomStatus == null || requestScope.roomStatus == 'available'}">
                             <div class="ml-1">
-                                <input type="hidden" name="room_id" value="${room.id}">
-                                <button class="ui-button" type="submit">
+                                <button class="ui-button" type="submit" onclick="setInputValue('room_id', ${room.id})">
                                     <fmt:message key="book.button"/></button>
                             </div>
                         </c:if>
@@ -232,6 +232,9 @@
 </div>
 <jsp:include page="/WEB-INF/components/scripts.jsp"/>
 <script>
+    function setInputValue(tagId, value){
+        document.getElementById(tagId).value = value;
+    }
     function setUrls(tagId, value) {
         if (document.getElementById(tagId)) {
             document.getElementById(tagId).href = value;
