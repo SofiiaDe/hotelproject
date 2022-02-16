@@ -125,8 +125,6 @@ public class RoomServiceImpl implements IRoomService {
         Room suitableRoom = null;
 
         try {
-
-
             for (Room freeRoom : freeRooms) {
                 if ((application.getRoomTypeBySeats().equals(freeRoom.getRoomTypeBySeats()))
                         && (application.getRoomClass().equals(freeRoom.getRoomClass()))) {

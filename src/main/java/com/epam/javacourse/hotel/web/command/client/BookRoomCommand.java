@@ -55,7 +55,6 @@ public class BookRoomCommand implements ICommand {
             return new AddressCommandResult(address);
         }
 
-        // update room's status to "booked"
         int roomId = Integer.parseInt(request.getParameter("room_id"));
 
         // add new booking and new invoice to DB

@@ -22,6 +22,7 @@
     width: 70%;
     display: flex;
     align-items: center;
+    font-size: 20px;
 }
 
 .logo {
@@ -31,7 +32,7 @@
 }
 
 .logo img {
-    width: 120px;
+    width: 100px;
     border-radius: 35px;
 }
 
@@ -63,7 +64,7 @@
 
 .firstsection {
     background-color: floralwhite;
-    height: 200px;
+    height: 170px;
 }
 
 
@@ -74,7 +75,7 @@
     color: black;
     max-width: 80%;
     margin: auto;
-    height: 50%;
+    height: 60%;
 }
 
 .firsthalf {

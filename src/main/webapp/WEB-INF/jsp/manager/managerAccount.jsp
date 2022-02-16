@@ -55,7 +55,7 @@
             <div class="dropdown dropDownPadding">
                 <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                    Status
+                    <fmt:message key="status"/>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="#" id="statusPaid"><fmt:message key="status.paid"/></a>

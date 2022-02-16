@@ -27,10 +27,30 @@
         <li><a href="/Hotel/controller?command=registerPage"><fmt:message key="home.menu.button.register"/></a></li>
     </ul>
 
+    <div class="dropdown">
+        <button class="btn btn-outline-secondary btn-sm" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="material-icons">
+                language
+            </i>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <form class="form-inline" method="post" action="controller?command=i18n">
+                <button type="submit" name="en" onclick="changeFieldElement('langField', 'en')"
+                        class="dropdown-item"><fmt:message key="main.menu.button.english"/></button>
+                <button type="submit" name="uk" onclick="changeFieldElement('langField', 'uk')"
+                        class="dropdown-item"><fmt:message key="main.menu.button.ukrainian"/></button>
+                <input name="langField" type="hidden" value="en">
+            </form>
+        </div>
+    </div>
+
     <div class="rightNav">
         <input type="text" name="search" id="search">
         <button class="btn btn-sm"><fmt:message key="home.menu.button.search"/></button>
     </div>
+
+
 </nav>
 
 <section class="firstsection">
@@ -85,6 +105,7 @@
 <style>
     body {
         background-image: url('pictures/RoomHomepage.jpg');
+        background-repeat: no-repeat;
     }
 </style>
 </html>
