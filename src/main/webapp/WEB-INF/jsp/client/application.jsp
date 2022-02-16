@@ -9,9 +9,18 @@
 
     <title>Application form for client to book room</title>
 </head>
+<style>
+    #appForm{
+        margin-left: 35px;
+        margin-top: 35px;
+    }
+    form input{
+        margin-right: 10px;
+    }
+</style>
 <body>
 <jsp:include page="/WEB-INF/components/clientMenu.jsp"/>
-<form method="post" action="controller?command=submitApplication">
+<form method="post" action="controller?command=submitApplication" id="appForm">
 
     <h2><fmt:message key="application.header.choose_type"/></h2>
     <p>
@@ -53,7 +62,7 @@
         </p>
         <br>
         <p>
-            <button type="submit"><fmt:message key="submit.button"/></button>
+            <button type="submit" class="btn btn-info"><fmt:message key="submit.button"/></button>
         </p>
     </form>
 </form>

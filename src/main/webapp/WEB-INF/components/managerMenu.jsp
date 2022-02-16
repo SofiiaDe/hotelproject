@@ -8,7 +8,8 @@
 
 <style>
     #userName {
-        color: white
+        color: white;
+        margin-right: 10px;
     }
 </style>
 
