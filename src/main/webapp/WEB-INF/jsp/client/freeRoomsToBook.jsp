@@ -7,10 +7,16 @@
     .dropDownPadding {
         margin-right: 20px;
     }
-
     #sortingSection {
         margin-top: 20px;
         display: flex;
+    }
+    .bookingSection{
+        color: white;
+        margin-bottom: 10px;
+    }
+    #bookBtn{
+        margin-top: 5px;
     }
 </style>
 <c:set var="title" value="Form for client to book room" scope="page"/>
@@ -57,8 +63,7 @@
                 </div>
             </div>
 
-            <input type="submit" value="<fmt:message key="find.button"/>">
-
+            <button type="submit" class="btn btn-info"><fmt:message key="find.button"/></button>
         </div>
     </form>
 
@@ -175,9 +180,9 @@
             <br>
             <c:forEach var="room" items="${requestScope.freeRooms}">
                 <input type="hidden" name="room_id" value="${room.id}"/>
-                <div class="list-group">
+                <div class="bookingSection">
 
-                    <a class="list-group-item list-group-item-action flex-column align-items-start active">
+                    <a class="list-group-item list-group-item-action flex-column align-items-start active" style="background-color: #17a2b8">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1"><fmt:message key="client.book.type"/>: ${room.roomTypeBySeats}</h5>
 
@@ -202,12 +207,11 @@
                         <small>$${room.price}</small>
 
                         <c:if test="${requestScope.roomStatus == null || requestScope.roomStatus == 'available'}">
-                            <div class="ml-1">
-                                <button class="ui-button" type="submit" onclick="setInputValue('room_id', ${room.id})">
+                            <div id="bookBtn">
+                                <button class="btn btn-light" type="submit" onclick="setInputValue('room_id', ${room.id})">
                                     <fmt:message key="book.button"/></button>
                             </div>
                         </c:if>
-                        <br>
                         <br>
                         <br>
                     </a>
