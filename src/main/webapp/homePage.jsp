@@ -13,6 +13,32 @@
 
     <c:set var="title" value="Home" scope="page"/>
     <jsp:include page="/WEB-INF/components/head.jsp"/>
+
+    <style>
+        #infoSection{
+            background-color: floralwhite;
+            border-radius: 30px 0 0 15px;
+            color: #404040;
+            padding: 30px;
+        }
+        #footer{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        #title{
+            color: #404040;
+        }
+        .navLink{
+            color: white !important;
+        }
+        body{
+            background-color: floralwhite;
+        }
+        #web{
+            margin-top: 55px;
+        }
+    </style>
 </head>
 
 <body class="text-center">
@@ -22,9 +48,9 @@
         <div class="logo">
             <img src="pictures/logo-hotel.jpg" alt="logo">
         </div>
-        <li><a href="#rooms"><fmt:message key="home.menu.button.rooms"/></a></li>
-        <li><a href="/Hotel/controller?command=loginPage"><fmt:message key="home.menu.button.login"/></a></li>
-        <li><a href="/Hotel/controller?command=registerPage"><fmt:message key="home.menu.button.register"/></a></li>
+        <li><a href="#rooms" class="navLink"><fmt:message key="home.menu.button.rooms"/></a></li>
+        <li><a href="/Hotel/controller?command=loginPage" class="navLink"><fmt:message key="home.menu.button.login"/></a></li>
+        <li><a href="/Hotel/controller?command=registerPage" class="navLink"><fmt:message key="home.menu.button.register"/></a></li>
     </ul>
 
     <div class="dropdown">
@@ -55,7 +81,7 @@
 
 <section class="firstsection">
     <div class="box-main">
-        <div class="firstHalf">
+        <div class="firstHalf" id="title">
             <h1 class="text-big" id="web">
                 Hotel
             </h1>
@@ -69,8 +95,8 @@
     </div>
 </section>
 
-<section class="section">
-    <div class="paras">
+<section class="section" style="justify-content: end">
+    <div class="paras" id="infoSection">
         <h1 class="sectionTag text-big"><fmt:message key="home.hotel.location"/></h1>
 
         <p class="sectionSubTag text-small">
@@ -90,7 +116,7 @@
     </div>
 </section>
 
-<footer class="background">
+<footer class="background" id="footer">
     <p class="text-footer">
         <fmt:message key="home.copyright"/>
     </p>
