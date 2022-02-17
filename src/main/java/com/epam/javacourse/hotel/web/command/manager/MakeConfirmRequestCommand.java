@@ -36,7 +36,7 @@ public class MakeConfirmRequestCommand implements ICommand {
 
         if (!"manager".equalsIgnoreCase((String) session.getAttribute("userRole"))) {
             logger.error("You do not have permission to create a confirmation request. " +
-                    "Please login as Manager.");
+                    "Please login as a Manager.");
             return new AddressCommandResult(Path.PAGE_LOGIN);
         }
 
@@ -45,8 +45,8 @@ public class MakeConfirmRequestCommand implements ICommand {
         var checkin = request.getParameter("checkin_date");
         var checkout = request.getParameter("checkout_date");
 
-        LocalDate checkinDate = Validator.dateParameterToLocalDate(checkin);
-        LocalDate checkoutDate = Validator.dateParameterToLocalDate(checkout);
+        LocalDate checkinDate = Validator.dateParameterToLocalDate(checkin, request);
+        LocalDate checkoutDate = Validator.dateParameterToLocalDate(checkout, request);
 
         if (checkin == null || checkout == null){
             session.removeAttribute(freeRoomAttrName);

@@ -44,8 +44,8 @@ public class FreeRoomsPageCommand implements ICommand {
 
         int page = Helpers.parsePage(request);
 
-        LocalDate checkinDate = Validator.dateParameterToLocalDate(checkin);
-        LocalDate checkoutDate = Validator.dateParameterToLocalDate(checkout);
+        LocalDate checkinDate = Validator.dateParameterToLocalDate(checkin, request);
+        LocalDate checkoutDate = Validator.dateParameterToLocalDate(checkout, request);
 
         int totalFreeRooms;
         List<Room> freeRooms;

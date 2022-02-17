@@ -38,20 +38,10 @@ public class BookRoomCommand implements ICommand {
         String checkinDate = request.getParameter("checkin_date");
         String checkoutDate = request.getParameter("checkout_date");
 
-        LocalDate checkin = Validator.dateParameterToLocalDate(checkinDate);
-        LocalDate checkout = Validator.dateParameterToLocalDate(checkoutDate);
+        LocalDate checkin = Validator.dateParameterToLocalDate(checkinDate, request);
+        LocalDate checkout = Validator.dateParameterToLocalDate(checkoutDate, request);
 
-        if (checkinDate == null || checkoutDate == null || checkinDate.isEmpty() || checkoutDate.isEmpty()
-        || checkin == null || checkout == null) {
-            logger.error("Check-in and/or check-out dates were not selected");
-            request.setAttribute("errorMessage", "Please select check-in and check-out dates.");
-            return new AddressCommandResult(address);
-        }
-
-        if(checkin.isAfter(checkout)) {
-            logger.error("Check-in date is after check-out date");
-            request.setAttribute("errorMessage", "Check-out date cannot be later than check-in date.\n " +
-                    "Please enter correct dates.");
+        if (!Validator.isCorrectDate(checkin, checkout, request)) {
             return new AddressCommandResult(address);
         }
 
