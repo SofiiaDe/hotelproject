@@ -77,18 +77,18 @@
                             <td>${booking.checkinDate}</td>
                             <td>${booking.checkoutDate}</td>
                             <td>${booking.roomTypeBySeats}
-                                <c:if test="${requestScope.roomTypeBySeats != null}">
+                                <c:if test="${requestScope.roomType != null}">
                                     <c:choose>
-                                        <c:when test="${requestScope.roomTypeBySeats == 'single'}">
+                                        <c:when test="${requestScope.roomType == 'single'}">
                                             <fmt:message key="room.type.single"/>
                                         </c:when>
-                                        <c:when test="${requestScope.roomTypeBySeats == 'double'}">
+                                        <c:when test="${requestScope.roomType == 'double'}">
                                             <fmt:message key="room.type.double"/>
                                         </c:when>
-                                        <c:when test="${requestScope.roomTypeBySeats == 'twin'}">
+                                        <c:when test="${requestScope.roomType == 'twin'}">
                                             <fmt:message key="room.type.twin"/>
                                         </c:when>
-                                        <c:when test="${requestScope.roomTypeBySeats == 'triple'}">
+                                        <c:when test="${requestScope.roomType == 'triple'}">
                                             <fmt:message key="room.type.triple"/>
                                         </c:when>
                                         <c:otherwise>
@@ -96,6 +96,25 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </c:if>
+<%--                                <c:if test="${sessionScope.roomType != null}">--%>
+<%--                                    <c:choose>--%>
+<%--                                        <c:when test="${sessionScope.roomType == 'single'}">--%>
+<%--                                            <fmt:message key="room.type.single"/>--%>
+<%--                                        </c:when>--%>
+<%--                                        <c:when test="${sessionScope.roomType == 'double'}">--%>
+<%--                                            <fmt:message key="room.type.double"/>--%>
+<%--                                        </c:when>--%>
+<%--                                        <c:when test="${sessionScope.roomType == 'twin'}">--%>
+<%--                                            <fmt:message key="room.type.twin"/>--%>
+<%--                                        </c:when>--%>
+<%--                                        <c:when test="${sessionScope.roomType == 'triple'}">--%>
+<%--                                            <fmt:message key="room.type.triple"/>--%>
+<%--                                        </c:when>--%>
+<%--                                        <c:otherwise>--%>
+<%--                                            <fmt:message key="sort.seats.unknown"/>--%>
+<%--                                        </c:otherwise>--%>
+<%--                                    </c:choose>--%>
+<%--                                </c:if>--%>
                             </td>
                             <td>${booking.roomClass}
                             <c:if test="${requestScope.roomClass != null}">

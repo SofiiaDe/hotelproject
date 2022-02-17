@@ -5,10 +5,7 @@ import com.epam.javacourse.hotel.Exception.AppException;
 import com.epam.javacourse.hotel.Exception.DBException;
 import com.epam.javacourse.hotel.model.*;
 import com.epam.javacourse.hotel.model.service.*;
-import com.epam.javacourse.hotel.model.serviceModels.UserApplicationDetailed;
-import com.epam.javacourse.hotel.model.serviceModels.UserBookingDetailed;
-import com.epam.javacourse.hotel.model.serviceModels.UserConfirmationRequestDetailed;
-import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.*;
 import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
@@ -27,7 +24,6 @@ import java.util.List;
  */
 public class ClientAccountPageCommand implements ICommand {
 
-    private final IUserService userService = AppContext.getInstance().getUserService();
     private final IApplicationService applicationService = AppContext.getInstance().getApplicationService();
     private final IBookingService bookingService = AppContext.getInstance().getBookingService();
     private final IConfirmRequestService confirmRequestService = AppContext.getInstance().getConfirmRequestService();
@@ -39,6 +35,7 @@ public class ClientAccountPageCommand implements ICommand {
         HttpSession session = request.getSession();
         User authorisedUser = (User) session.getAttribute("authorisedUser");
 
+//        String roomType = null;
         int page = Helpers.parsePage(request);
         int pageSize = AppContext.getInstance().getDefaultPageSize();
 
@@ -53,6 +50,12 @@ public class ClientAccountPageCommand implements ICommand {
                 bookingService.getUserDetailedBookings(authorisedUser.getId(), page, pageSize) : new ArrayList<>();
         userBookings.sort(Comparator.comparing(UserBookingDetailed::getCheckinDate).reversed());
 
+        for(UserBookingDetailed bookingDetailed : userBookings) {
+            String roomType = bookingDetailed.getRoomTypeBySeats();
+            request.setAttribute("roomType", roomType);
+
+        }
+
         List<UserConfirmationRequestDetailed> userConfirmRequests = confirmRequestService
                 .getUserDetailedConfirmRequests(authorisedUser.getId());
         userConfirmRequests.sort(Comparator.comparing(UserConfirmationRequestDetailed::getConfirmRequestDate).reversed());
@@ -66,6 +69,7 @@ public class ClientAccountPageCommand implements ICommand {
         session.setAttribute("myInvoices", userInvoices);
         request.setAttribute("page", page);
         request.setAttribute("pageCount", pageCount);
+//        request.setAttribute("roomType", roomType);
 
         return new AddressCommandResult(Path.PAGE_CLIENT_ACCOUNT);
     }

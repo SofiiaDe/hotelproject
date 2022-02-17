@@ -7,15 +7,18 @@
     .dropDownPadding {
         margin-right: 20px;
     }
+
     #sortingSection {
         margin-top: 20px;
         display: flex;
     }
-    .bookingSection{
+
+    .bookingSection {
         color: white;
         margin-bottom: 10px;
     }
-    #bookBtn{
+
+    #bookBtn {
         margin-top: 5px;
     }
 </style>
@@ -68,7 +71,7 @@
     </form>
 
     <form action="controller?command=bookRoom" method="post">
-        <input type="hidden" id="room_id" name="room_id" >
+        <input type="hidden" id="room_id" name="room_id">
         <c:if test="${requestScope != null && requestScope.freeRooms != null}">
             <input type="hidden" name="checkin_date" value="${requestScope.checkin}">
             <input type="hidden" name="checkout_date" value="${requestScope.checkout}">
@@ -179,19 +182,84 @@
                 <input type="hidden" name="room_id" value="${room.id}"/>
                 <div class="bookingSection">
 
-                    <a class="list-group-item list-group-item-action flex-column align-items-start active" style="background-color: #17a2b8">
+                    <a class="list-group-item list-group-item-action flex-column align-items-start active"
+                       style="background-color: #17a2b8">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1"><fmt:message key="client.book.type"/>: ${room.roomTypeBySeats}</h5>
 
                             <c:if test="${room.id != null}">
                                 <c:choose>
-                                    <c:when test="${room.id == 18}">
-                                        <img src="pictures/business_double.jpg" alt="Business double"
+                                    <c:when test="${room.id == 6}">
+                                        <img src="pictures/6single_business.jpg" alt="single business"
                                              style="width:400px;height:300px;">
                                     </c:when>
-                                    <%--                                    <c:otherwise>--%>
-                                    <%--                                        UNKNOWN_STATUS--%>
-                                    <%--                                    </c:otherwise>--%>
+                                    <c:when test="${room.id == 7}">
+                                        <img src="pictures/7double_standard.jpg" alt="double standard"
+                                             style="width:400px;height:300px;">
+                                    </c:when>
+                                    <c:when test="${room.id == 8}">
+                                        <img src="pictures/8twin_business.jpg" alt="twin business"
+                                             style="width:400px;height:300px;">
+                                    </c:when>
+                                    <c:when test="${room.id == 9}">
+                                        <img src="pictures/9triple_standard.jpg" alt="triple standard"
+                                             style="width:400px;height:300px;">
+                                    </c:when>
+                                    <c:when test="${room.id == 10}">
+                                        <img src="pictures/10lux_double.jpg" alt="double lux"
+                                             style="width:400px;height:300px;">
+                                    </c:when>
+                                    <c:when test="${room.id == 11}">
+                                        <img src="pictures/11single_business.jpg" alt="single business"
+                                             style="width:400px;height:300px;">
+                                    </c:when>
+                                    <c:when test="${room.id == 12}">
+                                        <img src="pictures/12double_standard.jpg" alt="double standard"
+                                             style="width:400px;height:300px;">
+                                    </c:when>
+                                    <c:when test="${room.id == 13}">
+                                        <img src="pictures/13business_double.jpg" alt="double business"
+                                             style="width:400px;height:300px;">
+                                    </c:when>
+                                    <c:when test="${room.id == 14}">
+                                        <img src="pictures/14triple_business.jpg" alt="triple business"
+                                             style="width:400px;height:300px;">
+                                    </c:when>
+                                    <c:when test="${room.id == 15}">
+                                        <img src="pictures/15lux_twin.jpg" alt="twin lux"
+                                             style="width:400px;height:300px;">
+                                    </c:when>
+                                    <c:when test="${room.id == 16}">
+                                        <img src="pictures/16single_lux.jpg" alt="single lux"
+                                             style="width:400px;height:300px;">
+                                    </c:when>
+                                    <c:when test="${room.id == 17}">
+                                        <img src="pictures/17double_standard.jpg" alt="double standard"
+                                             style="width:400px;height:300px;">
+                                    </c:when>
+                                    <c:when test="${room.id == 18}">
+                                        <img src="pictures/18business_double.jpg" alt="double business"
+                                             style="width:400px;height:300px;">
+                                    </c:when>
+                                    <c:when test="${room.id == 19}">
+                                        <img src="pictures/19triple_business.jpg" alt="triple business"
+                                             style="width:400px;height:300px;">
+                                    </c:when>
+                                    <c:when test="${room.id == 20}">
+                                        <img src="pictures/20single_standard.jpg" alt="twin standard"
+                                             style="width:400px;height:300px;">
+                                    </c:when>
+                                    <c:when test="${room.id == 21}">
+                                        <img src="pictures/21single_standard.jpg" alt="single standard"
+                                             style="width:400px;height:300px;">
+                                    </c:when>
+                                    <c:when test="${room.id == 22}">
+                                        <img src="pictures/22single_standard.jpg" alt="single standard"
+                                             style="width:400px;height:300px;">
+                                    </c:when>
+<%--                                    <c:otherwise>--%>
+<%--                                        UNKNOWN_STATUS--%>
+<%--                                    </c:otherwise>--%>
                                 </c:choose>
                             </c:if>
                             <c:if test="${room.id == null}"> </c:if>
@@ -205,7 +273,8 @@
 
                         <c:if test="${requestScope.roomStatus == null || requestScope.roomStatus == 'available'}">
                             <div id="bookBtn">
-                                <button class="btn btn-light" type="submit" onclick="setInputValue('room_id', ${room.id})">
+                                <button class="btn btn-light" type="submit"
+                                        onclick="setInputValue('room_id', ${room.id})">
                                     <fmt:message key="book.button"/></button>
                             </div>
                         </c:if>
@@ -233,9 +302,10 @@
 </div>
 <jsp:include page="/WEB-INF/components/scripts.jsp"/>
 <script>
-    function setInputValue(tagId, value){
+    function setInputValue(tagId, value) {
         document.getElementById(tagId).value = value;
     }
+
     function setUrls(tagId, value) {
         if (document.getElementById(tagId)) {
             document.getElementById(tagId).href = value;
