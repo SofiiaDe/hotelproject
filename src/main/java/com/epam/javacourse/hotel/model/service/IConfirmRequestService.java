@@ -12,6 +12,8 @@ public interface IConfirmRequestService {
 
     void create(ConfirmationRequest confirmRequest) throws AppException;
 
+    ConfirmationRequest getConfirmRequestById(int confirmRequestId) throws AppException;
+
     List<ConfirmationRequest> getConfirmRequestsByUserId(int userId) throws AppException;
 
     List<ConfirmationRequest> getAllConfirmRequests() throws AppException;

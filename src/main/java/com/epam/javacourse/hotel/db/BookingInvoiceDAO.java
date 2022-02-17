@@ -35,8 +35,13 @@ public class BookingInvoiceDAO extends GenericDAO implements IBookingInvoiceDAO 
             pstmtForUpdate.setInt(1, booking.getRoomId());
             pstmtForUpdate.executeQuery();
 
-            // check if room is still available
-            pstmtAvailable = con.prepareStatement(DBConstatns.SQL_GET_AVAILABLE_ROOM);
+            // check if room is still available -->
+
+            //A default ResultSet object is not updatable and has a cursor that moves forward only.
+            // Thus, you can iterate through it only once and only from the first row to the last row.
+            // It is possible to produce ResultSet objects that are scrollable and/or updatable.
+            pstmtAvailable = con.prepareStatement(DBConstatns.SQL_GET_AVAILABLE_ROOM, ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
             pstmtAvailable.setObject(1, booking.getCheckinDate());
             pstmtAvailable.setObject(2, booking.getCheckoutDate());
             pstmtAvailable.setInt(3, booking.getRoomId());
@@ -65,11 +70,11 @@ public class BookingInvoiceDAO extends GenericDAO implements IBookingInvoiceDAO 
             con.commit();
             return true;
         } catch (DBException e) {
-            rollBack(con);
+            rollback(con);
             logger.error(e);
             throw e;
         } catch (SQLException e) {
-            rollBack(con);
+            rollback(con);
             throw new DBException("Cannot create booking and invoice", e);
         } finally {
             close(con);
@@ -86,7 +91,7 @@ public class BookingInvoiceDAO extends GenericDAO implements IBookingInvoiceDAO 
         close(itemToBeClosed, "DB close failed in BookingInvoiceDAO");
     }
 
-    private static void rollBack(Connection con) {
+    private static void rollback(Connection con) {
         rollback(con, "Cannot rollback transaction in BookingInvoiceDAO");
     }
 

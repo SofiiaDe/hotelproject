@@ -35,6 +35,15 @@ public class ConfirmRequestServiceImpl implements IConfirmRequestService {
     }
 
     @Override
+    public ConfirmationRequest getConfirmRequestById(int confirmRequestId) throws AppException {
+        try {
+            return this.confirmRequestDAO.findConfirmRequestById(confirmRequestId);
+        } catch (DBException exception) {
+            throw new AppException("Can't get confirmation request by id");
+        }
+    }
+
+    @Override
     public List<ConfirmationRequest> getConfirmRequestsByUserId(int userId) throws AppException {
         try {
             return this.confirmRequestDAO.findConfirmRequestsByUserId(userId);
