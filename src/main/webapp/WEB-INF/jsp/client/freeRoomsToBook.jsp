@@ -185,7 +185,29 @@
                     <a class="list-group-item list-group-item-action flex-column align-items-start active"
                        style="background-color: #17a2b8">
                         <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1"><fmt:message key="client.book.type"/>: ${room.roomTypeBySeats}</h5>
+                            <h5 class="mb-1"><fmt:message key="client.book.type"/>:
+                                <c:if test="${room.roomTypeBySeats != null}">
+                                    <c:choose>
+                                        <c:when test="${room.roomTypeBySeats == 'single'}">
+                                            <fmt:message key="room.type.single"/>
+                                        </c:when>
+                                        <c:when test="${room.roomTypeBySeats == 'double'}">
+                                            <fmt:message key="room.type.double"/>
+                                        </c:when>
+                                        <c:when test="${room.roomTypeBySeats == 'twin'}">
+                                            <fmt:message key="room.type.twin"/>
+                                        </c:when>
+                                        <c:when test="${room.roomTypeBySeats == 'triple'}">
+                                            <fmt:message key="room.type.triple"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <fmt:message key="sort.seats.unknown"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:if>
+
+
+                            </h5>
 
                             <c:if test="${room.id != null}">
                                 <c:choose>
@@ -257,9 +279,10 @@
                                         <img src="pictures/22single_standard.jpg" alt="single standard"
                                              style="width:400px;height:300px;">
                                     </c:when>
-<%--                                    <c:otherwise>--%>
-<%--                                        UNKNOWN_STATUS--%>
-<%--                                    </c:otherwise>--%>
+                                    <c:otherwise>
+                                        <fmt:message key="client.book.noimage"/>
+                                        style="width:400px;height:300px;">
+                                    </c:otherwise>
                                 </c:choose>
                             </c:if>
                             <c:if test="${room.id == null}"> </c:if>
@@ -267,7 +290,24 @@
                             <small>No. ${room.roomNumber}</small>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1"><fmt:message key="client.book.class"/>: ${room.roomClass}</h5>
+                            <h5 class="mb-1"><fmt:message key="client.book.class"/>:
+                                <c:if test="${room.roomClass != null}">
+                                    <c:choose>
+                                        <c:when test="${room.roomClass == 'standard'}">
+                                            <fmt:message key="room.class.standard"/>
+                                        </c:when>
+                                        <c:when test="${room.roomClass == 'business'}">
+                                            <fmt:message key="room.class.business"/>
+                                        </c:when>
+                                        <c:when test="${room.roomClass == 'lux'}">
+                                            <fmt:message key="room.class.lux"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <fmt:message key="sort.seats.unknown"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:if>
+                            </h5>
                         </div>
                         <small>$${room.price}</small>
 

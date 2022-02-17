@@ -97,7 +97,31 @@
                             <td>${booking.checkinDate}</td>
                             <td>${booking.checkoutDate}</td>
                             <td>${booking.roomNumber}</td>
-                            <td>${booking.bookingStatus.text}</td>
+                            <td>
+                                <c:if test="${booking.bookingStatus.text != null}">
+                                    <c:choose>
+                                        <c:when test="${booking.bookingStatus.text == 'new'}">
+                                            <fmt:message key="status.new"/>
+                                        </c:when>
+                                        <c:when test="${booking.bookingStatus.text == 'cancelled'}">
+                                            <fmt:message key="status.cancelled"/>
+                                        </c:when>
+                                        <c:when test="${booking.bookingStatus.text == 'paid'}">
+                                            <fmt:message key="status.paid"/>
+                                        </c:when>
+                                        <c:when test="${booking.bookingStatus.text == 'finished'}">
+                                            <fmt:message key="status.finished"/>
+                                        </c:when>
+                                        <c:when test="${booking.bookingStatus.text == 'ongoing'}">
+                                            <fmt:message key="status.ongoing"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <fmt:message key="status"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:if>
+                                <c:if test="${booking.bookingStatus.text == null}"><fmt:message key="status"/></c:if>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -144,8 +168,45 @@
                         <tr>
                             <td>${application.bookedByUser}</td>
                             <td>${application.bookedByUserEmail}</td>
-                            <td>${application.roomTypeBySeats}</td>
-                            <td>${application.roomClass}</td>
+                            <td>
+                                <c:if test="${application.roomTypeBySeats != null}">
+                                    <c:choose>
+                                        <c:when test="${application.roomTypeBySeats == 'single'}">
+                                            <fmt:message key="room.type.single"/>
+                                        </c:when>
+                                        <c:when test="${application.roomTypeBySeats == 'double'}">
+                                            <fmt:message key="room.type.double"/>
+                                        </c:when>
+                                        <c:when test="${application.roomTypeBySeats == 'twin'}">
+                                            <fmt:message key="room.type.twin"/>
+                                        </c:when>
+                                        <c:when test="${application.roomTypeBySeats == 'triple'}">
+                                            <fmt:message key="room.type.triple"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <fmt:message key="sort.seats.unknown"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:if>
+                            </td>
+                            <td>
+                                <c:if test="${application.roomClass != null}">
+                                    <c:choose>
+                                        <c:when test="${application.roomClass == 'standard'}">
+                                            <fmt:message key="room.class.standard"/>
+                                        </c:when>
+                                        <c:when test="${application.roomClass == 'business'}">
+                                            <fmt:message key="room.class.business"/>
+                                        </c:when>
+                                        <c:when test="${application.roomClass == 'lux'}">
+                                            <fmt:message key="room.class.lux"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <fmt:message key="sort.seats.unknown"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:if>
+                            </td>
                             <td>${application.checkinDate}</td>
                             <td>${application.checkoutDate}</td>
                             <td>
@@ -385,7 +446,7 @@
 <%--                    </div>--%>
                     <br>
                     <br>
-                    <button type="submit" class="btn btn-dark">
+                    <button type="submit" class="btn btn-info" >
                         <fmt:message key="manager.modal.button.save"/>
                     </button>
 

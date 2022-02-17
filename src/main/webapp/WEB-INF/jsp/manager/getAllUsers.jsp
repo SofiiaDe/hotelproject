@@ -42,8 +42,47 @@
             <td>${user.firstName}</td>
             <td>${user.lastName}</td>
             <td>${user.email}</td>
-            <td>${user.country}</td>
-            <td>${user.role}</td>
+            <td>
+                <c:if test="${user.country != null}">
+                    <c:choose>
+                        <c:when test="${user.country == 'Italy'}">
+                            <fmt:message key="country.italy"/>
+                        </c:when>
+                        <c:when test="${user.country == 'UK'}">
+                            <fmt:message key="country.uk"/>
+                        </c:when>
+                        <c:when test="${user.country == 'Ukraine'}">
+                            <fmt:message key="country.ukraine"/>
+                        </c:when>
+                        <c:when test="${user.country == 'Poland'}">
+                            <fmt:message key="country.poland"/>
+                        </c:when>
+                        <c:when test="${user.country == 'Germany'}">
+                            <fmt:message key="country.germany"/>
+                        </c:when>
+                        <c:otherwise>
+                            <fmt:message key="country"/>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+                <c:if test="${user.country == null}"><fmt:message key="country"/></c:if>
+            </td>
+            <td>
+                <c:if test="${user.role != null}">
+                    <c:choose>
+                        <c:when test="${user.role == 'client'}">
+                            <fmt:message key="role.client"/>
+                        </c:when>
+                        <c:when test="${user.role == 'manager'}">
+                            <fmt:message key="role.manager"/>
+                        </c:when>
+                        <c:otherwise>
+                            <fmt:message key="role"/>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+                <c:if test="${user.role == null}"><fmt:message key="role"/></c:if>
+            </td>
 
         </tr>
     </c:forEach>

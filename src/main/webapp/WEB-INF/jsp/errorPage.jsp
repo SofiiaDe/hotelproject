@@ -23,12 +23,6 @@
 </style>
 <body class="text-center" id="errorForm">
 
-<%--<table id="main-container">--%>
-
-
-<%--    <tr id="errorForm">--%>
-<%--        <td class="content">--%>
-
             <h2 class="error">
                 <fmt:message key="error.occurred"/>:
             </h2>
@@ -38,10 +32,6 @@
                 <h3>${requestScope.errorMessage}</h3>
             </c:if>
 
-<%--        </td>--%>
-<%--    </tr>--%>
-
-<%--</table>--%>
 <jsp:include page="/WEB-INF/components/scripts.jsp"/>
 
 </body>

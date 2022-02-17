@@ -96,60 +96,41 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </c:if>
-<%--                                <c:if test="${sessionScope.roomType != null}">--%>
-<%--                                    <c:choose>--%>
-<%--                                        <c:when test="${sessionScope.roomType == 'single'}">--%>
-<%--                                            <fmt:message key="room.type.single"/>--%>
-<%--                                        </c:when>--%>
-<%--                                        <c:when test="${sessionScope.roomType == 'double'}">--%>
-<%--                                            <fmt:message key="room.type.double"/>--%>
-<%--                                        </c:when>--%>
-<%--                                        <c:when test="${sessionScope.roomType == 'twin'}">--%>
-<%--                                            <fmt:message key="room.type.twin"/>--%>
-<%--                                        </c:when>--%>
-<%--                                        <c:when test="${sessionScope.roomType == 'triple'}">--%>
-<%--                                            <fmt:message key="room.type.triple"/>--%>
-<%--                                        </c:when>--%>
-<%--                                        <c:otherwise>--%>
-<%--                                            <fmt:message key="sort.seats.unknown"/>--%>
-<%--                                        </c:otherwise>--%>
-<%--                                    </c:choose>--%>
-<%--                                </c:if>--%>
                             </td>
-                            <td>${booking.roomClass}
-                            <c:if test="${requestScope.roomClass != null}">
-                                <c:choose>
-                                    <c:when test="${requestScope.roomClass == 'standard'}">
-                                        <fmt:message key="room.class.standard"/>
-                                    </c:when>
-                                    <c:when test="${requestScope.roomClass == 'business'}">
-                                        <fmt:message key="room.class.business"/>
-                                    </c:when>
-                                    <c:when test="${requestScope.roomClass == 'lux'}">
-                                        <fmt:message key="room.class.lux"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <fmt:message key="sort.seats.unknown"/>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:if>
-                            </td>
-                            <td>${booking.bookingStatus.text}
-                                <c:if test="${requestScope.bookingStatus.text != null}">
+                            <td>
+                                <c:if test="${booking.roomClass != null}">
                                     <c:choose>
-                                        <c:when test="${requestScope.bookingStatus.text == 'new'}">
+                                        <c:when test="${booking.roomClass == 'standard'}">
+                                            <fmt:message key="room.class.standard"/>
+                                        </c:when>
+                                        <c:when test="${booking.roomClass == 'business'}">
+                                            <fmt:message key="room.class.business"/>
+                                        </c:when>
+                                        <c:when test="${booking.roomClass == 'lux'}">
+                                            <fmt:message key="room.class.lux"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <fmt:message key="sort.seats.unknown"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:if>
+                            </td>
+                            <td>
+                                <c:if test="${booking.bookingStatus.text != null}">
+                                    <c:choose>
+                                        <c:when test="${booking.bookingStatus.text == 'new'}">
                                             <fmt:message key="status.new"/>
                                         </c:when>
-                                        <c:when test="${requestScope.bookingStatus.text == 'cancelled'}">
+                                        <c:when test="${booking.bookingStatus.text == 'cancelled'}">
                                             <fmt:message key="status.cancelled"/>
                                         </c:when>
-                                        <c:when test="${requestScope.bookingStatus.text == 'paid'}">
+                                        <c:when test="${booking.bookingStatus.text == 'paid'}">
                                             <fmt:message key="status.paid"/>
                                         </c:when>
-                                        <c:when test="${requestScope.bookingStatus.text == 'finished'}">
+                                        <c:when test="${booking.bookingStatus.text == 'finished'}">
                                             <fmt:message key="status.finished"/>
                                         </c:when>
-                                        <c:when test="${requestScope.bookingStatus.text == 'ongoing'}">
+                                        <c:when test="${booking.bookingStatus.text == 'ongoing'}">
                                             <fmt:message key="status.ongoing"/>
                                         </c:when>
                                         <c:otherwise>
@@ -165,9 +146,9 @@
 
                 <c:if test="${requestScope != null && requestScope.page != null && requestScope.pageCount != null}">
                     <form action="controller">
-                        <input type="hidden" name="command" value="clientAccount" />
+                        <input type="hidden" name="command" value="clientAccount"/>
                         <nav aria-label="Client's lift of booking navigation">
-                            <jsp:include page="/WEB-INF/components/pagination.jsp" />
+                            <jsp:include page="/WEB-INF/components/pagination.jsp"/>
                         </nav>
                     </form>
                 </c:if>
@@ -197,19 +178,19 @@
                     <tbody>
                     <c:forEach var="application" items="${sessionScope.myApplications}">
                         <tr>
-                            <td>${application.roomTypeBySeats}
-                                <c:if test="${requestScope.roomTypeBySeats != null}">
+                            <td>
+                                <c:if test="${application.roomTypeBySeats != null}">
                                     <c:choose>
-                                        <c:when test="${requestScope.roomTypeBySeats == 'single'}">
+                                        <c:when test="${application.roomTypeBySeats == 'single'}">
                                             <fmt:message key="room.type.single"/>
                                         </c:when>
-                                        <c:when test="${requestScope.roomTypeBySeats == 'double'}">
+                                        <c:when test="${application.roomTypeBySeats == 'double'}">
                                             <fmt:message key="room.type.double"/>
                                         </c:when>
-                                        <c:when test="${requestScope.roomTypeBySeats == 'twin'}">
+                                        <c:when test="${application.roomTypeBySeats == 'twin'}">
                                             <fmt:message key="room.type.twin"/>
                                         </c:when>
-                                        <c:when test="${requestScope.roomTypeBySeats == 'triple'}">
+                                        <c:when test="${application.roomTypeBySeats == 'triple'}">
                                             <fmt:message key="room.type.triple"/>
                                         </c:when>
                                         <c:otherwise>
@@ -218,8 +199,23 @@
                                     </c:choose>
                                 </c:if>
                             </td>
-                            <td>${application.roomClass}
-
+                            <td>
+                                <c:if test="${application.roomClass != null}">
+                                    <c:choose>
+                                        <c:when test="${application.roomClass == 'standard'}">
+                                            <fmt:message key="room.class.standard"/>
+                                        </c:when>
+                                        <c:when test="${application.roomClass == 'business'}">
+                                            <fmt:message key="room.class.business"/>
+                                        </c:when>
+                                        <c:when test="${application.roomClass == 'lux'}">
+                                            <fmt:message key="room.class.lux"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <fmt:message key="sort.seats.unknown"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:if>
                             </td>
                             <td>${application.checkinDate}</td>
                             <td>${application.checkoutDate}</td>
@@ -266,19 +262,19 @@
                         <tr>
                             <td>${confirmrequest.confirmRequestDate}</td>
                             <td>${confirmrequest.confirmRequestDueDate}</td>
-                            <td>${confirmrequest.roomTypeBySeats}
-                                <c:if test="${requestScope.roomTypeBySeats != null}">
+                            <td>
+                                <c:if test="${confirmrequest.roomTypeBySeats != null}">
                                     <c:choose>
-                                        <c:when test="${requestScope.roomTypeBySeats == 'single'}">
+                                        <c:when test="${confirmrequest.roomTypeBySeats == 'single'}">
                                             <fmt:message key="room.type.single"/>
                                         </c:when>
-                                        <c:when test="${requestScope.roomTypeBySeats == 'double'}">
+                                        <c:when test="${confirmrequest.roomTypeBySeats == 'double'}">
                                             <fmt:message key="room.type.double"/>
                                         </c:when>
-                                        <c:when test="${requestScope.roomTypeBySeats == 'twin'}">
+                                        <c:when test="${confirmrequest.roomTypeBySeats == 'twin'}">
                                             <fmt:message key="room.type.twin"/>
                                         </c:when>
-                                        <c:when test="${requestScope.roomTypeBySeats == 'triple'}">
+                                        <c:when test="${confirmrequest.roomTypeBySeats == 'triple'}">
                                             <fmt:message key="room.type.triple"/>
                                         </c:when>
                                         <c:otherwise>
@@ -287,16 +283,16 @@
                                     </c:choose>
                                 </c:if>
                             </td>
-                            <td>${confirmrequest.roomClass}
-                                <c:if test="${requestScope.roomClass != null}">
+                            <td>
+                                <c:if test="${confirmrequest.roomClass != null}">
                                     <c:choose>
-                                        <c:when test="${requestScope.roomClass == 'standard'}">
+                                        <c:when test="${confirmrequest.roomClass == 'standard'}">
                                             <fmt:message key="room.class.standard"/>
                                         </c:when>
-                                        <c:when test="${requestScope.roomClass == 'business'}">
+                                        <c:when test="${confirmrequest.roomClass == 'business'}">
                                             <fmt:message key="room.class.business"/>
                                         </c:when>
-                                        <c:when test="${requestScope.roomClass == 'lux'}">
+                                        <c:when test="${confirmrequest.roomClass == 'lux'}">
                                             <fmt:message key="room.class.lux"/>
                                         </c:when>
                                         <c:otherwise>
@@ -315,7 +311,8 @@
                                     <form action="controller?command=confirmRequest" method="post">
                                         <input type="hidden" name="confirmRequest_id"
                                                value="${confirmrequest.id}">
-                                        <button class="ui-button" type="submit"><fmt:message key="confirm.button"/></button>
+                                        <button class="ui-button" type="submit"><fmt:message
+                                                key="confirm.button"/></button>
                                     </form>
                                 </div>
                             </td>
@@ -374,12 +371,14 @@
                             <td>
                                 <c:if test="${invoice.status == null || invoice.status == 'new'}">
 
-                                <div class="ml-1">
-                                        <a class="nav-link" href="controller?command=paymentPage&invoiceId=${invoice.id}">
+                                    <div class="ml-1">
+                                        <a class="nav-link"
+                                           href="controller?command=paymentPage&invoiceId=${invoice.id}">
 
-                                            <button class="ui-button" type="submit"><fmt:message key="pay.button"/></button>
+                                            <button class="ui-button" type="submit"><fmt:message
+                                                    key="pay.button"/></button>
                                         </a>
-                                </div>
+                                    </div>
                                 </c:if>
 
 
