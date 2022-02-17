@@ -1,12 +1,5 @@
 package com.epam.javacourse.hotel;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.LoggerContext;
-import org.apache.logging.log4j.core.appender.FileAppender;
-import org.apache.logging.log4j.core.config.Configuration;
-
-import java.io.File;
-
 public class TestMain {
 
     public static void main(String[] args) {

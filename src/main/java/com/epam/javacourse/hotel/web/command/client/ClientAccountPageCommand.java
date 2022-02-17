@@ -1,13 +1,16 @@
 package com.epam.javacourse.hotel.web.command.client;
 
+import com.epam.javacourse.hotel.exception.AppException;
+import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.service.interfaces.IApplicationService;
 import com.epam.javacourse.hotel.model.service.interfaces.IBookingService;
 import com.epam.javacourse.hotel.model.service.interfaces.IConfirmRequestService;
 import com.epam.javacourse.hotel.model.service.interfaces.IInvoiceService;
+import com.epam.javacourse.hotel.model.serviceModels.UserApplicationDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.UserBookingDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.UserConfirmationRequestDetailed;
+import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
 import com.epam.javacourse.hotel.utils.AppContext;
-import com.epam.javacourse.hotel.exception.AppException;
-import com.epam.javacourse.hotel.model.*;
-import com.epam.javacourse.hotel.model.serviceModels.*;
 import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
@@ -37,7 +40,6 @@ public class ClientAccountPageCommand implements ICommand {
         HttpSession session = request.getSession();
         User authorisedUser = (User) session.getAttribute("authorisedUser");
 
-//        String roomType = null;
         int page = Helpers.parsePage(request);
         int pageSize = AppContext.getInstance().getDefaultPageSize();
 

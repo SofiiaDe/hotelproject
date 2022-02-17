@@ -3,7 +3,7 @@ package com.epam.javacourse.hotel.exception;
 /**
  *  * An exception which provides information on a database error.
  */
-public class DBException extends AppException{
+public class DBException extends AppException {
 
     //    private static final long serialVersionUID =
 

@@ -14,19 +14,11 @@
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 
-<%--<script>--%>
-<%--    (function () {--%>
-<%--        const url = new URL(window.location.href);--%>
-<%--        if(url.searchParams.get("success")){--%>
-<%--            showSnackbar();--%>
-<%--        }--%>
-<%--        function showSnackbar() {--%>
-<%--            const x = document.getElementById("succRegSnackbar");--%>
-<%--            x.className = "show";--%>
-<%--            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);--%>
-<%--        }--%>
-<%--    })();--%>
-<%--</script>--%>
+<script>
+    function changeFieldElement(element, value) {
+        document.getElementsByName(element)[0].value = value;
+    }
+</script>
 
 <script>
     function buildUrl(page) {

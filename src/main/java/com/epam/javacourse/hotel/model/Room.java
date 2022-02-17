@@ -1,10 +1,6 @@
 package com.epam.javacourse.hotel.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Room extends Entity implements Serializable {
 

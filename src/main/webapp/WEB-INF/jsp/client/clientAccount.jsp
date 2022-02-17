@@ -393,7 +393,8 @@
     </div>
 </div>
 
-<div id="succRegSnackbar"><fmt:message key="client.snackbar.success.submit_application"/></div>
+<div id="succApplicSnackbar"><fmt:message key="client.snackbar.success.submit_application"/></div>
+
 
 <jsp:include page="/WEB-INF/components/scripts.jsp"/>
 <script>
@@ -403,10 +404,10 @@
             showSnackbar();
         }
         if(url.searchParams.get("success1")){
-            showSnackbar();
+            showSnackbar("succApplicSnackbar");
         }
-        function showSnackbar() {
-            const x = document.getElementById("succRegSnackbar");
+        function showSnackbar(tagId) {
+            const x = document.getElementById(tagId);
             x.className = "show";
             setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
         }

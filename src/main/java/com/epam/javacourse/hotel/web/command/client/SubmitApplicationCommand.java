@@ -1,11 +1,11 @@
 package com.epam.javacourse.hotel.web.command.client;
 
-import com.epam.javacourse.hotel.utils.AppContext;
 import com.epam.javacourse.hotel.exception.AppException;
-import com.epam.javacourse.hotel.utils.Validator;
 import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.service.interfaces.IApplicationService;
+import com.epam.javacourse.hotel.utils.AppContext;
+import com.epam.javacourse.hotel.utils.Validator;
 import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;

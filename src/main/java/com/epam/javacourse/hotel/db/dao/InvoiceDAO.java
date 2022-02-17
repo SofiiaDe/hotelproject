@@ -1,9 +1,9 @@
 package com.epam.javacourse.hotel.db.dao;
 
-import com.epam.javacourse.hotel.db.DBConstatns;
 import com.epam.javacourse.hotel.db.ConnectionPool;
-import com.epam.javacourse.hotel.exception.DBException;
+import com.epam.javacourse.hotel.db.DBConstatns;
 import com.epam.javacourse.hotel.db.interfaces.IInvoiceDAO;
+import com.epam.javacourse.hotel.exception.DBException;
 import com.epam.javacourse.hotel.model.Invoice;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

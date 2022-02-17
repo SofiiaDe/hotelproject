@@ -1,11 +1,11 @@
 package com.epam.javacourse.hotel.web.command.norole;
 
-import com.epam.javacourse.hotel.utils.AppContext;
 import com.epam.javacourse.hotel.exception.AppException;
 import com.epam.javacourse.hotel.exception.HashPasswordException;
-import com.epam.javacourse.hotel.utils.Security;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.service.interfaces.IUserService;
+import com.epam.javacourse.hotel.utils.AppContext;
+import com.epam.javacourse.hotel.utils.Security;
 import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;

@@ -2,11 +2,6 @@
 <%@ include file="/WEB-INF/jspf/page.jspf" %>
 
 
-<script>
-    function changeFieldElement(element, value) {
-        document.getElementsByName(element)[0].value = value;
-    }
-</script>
 
 <style>
     #userName {

@@ -1,8 +1,8 @@
 package com.epam.javacourse.hotel.model.service.impl;
 
+import com.epam.javacourse.hotel.db.dao.UserDAO;
 import com.epam.javacourse.hotel.exception.AppException;
 import com.epam.javacourse.hotel.exception.DBException;
-import com.epam.javacourse.hotel.db.dao.UserDAO;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.service.interfaces.IUserService;
 

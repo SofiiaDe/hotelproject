@@ -1,6 +1,5 @@
 package com.epam.javacourse.hotel.web.command.manager;
 
-import com.epam.javacourse.hotel.utils.AppContext;
 import com.epam.javacourse.hotel.exception.AppException;
 import com.epam.javacourse.hotel.model.service.interfaces.IApplicationService;
 import com.epam.javacourse.hotel.model.service.interfaces.IBookingService;
@@ -11,6 +10,7 @@ import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.ConfirmationRequestDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.InvoiceDetailed;
 import com.epam.javacourse.hotel.shared.models.BookingStatus;
+import com.epam.javacourse.hotel.utils.AppContext;
 import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;

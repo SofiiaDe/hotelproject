@@ -1,12 +1,13 @@
 package com.epam.javacourse.hotel.web.command;
 
 import com.epam.javacourse.hotel.web.command.client.*;
-import com.epam.javacourse.hotel.web.command.common.*;
+import com.epam.javacourse.hotel.web.command.common.LogoutCommand;
+import com.epam.javacourse.hotel.web.command.common.RemoveApplicationCommand;
 import com.epam.javacourse.hotel.web.command.manager.AddRoomCommand;
-import com.epam.javacourse.hotel.web.command.norole.*;
-import com.epam.javacourse.hotel.web.command.manager.MakeConfirmRequestCommand;
 import com.epam.javacourse.hotel.web.command.manager.GetAllUsersCommand;
+import com.epam.javacourse.hotel.web.command.manager.MakeConfirmRequestCommand;
 import com.epam.javacourse.hotel.web.command.manager.ManagerAccountPageCommand;
+import com.epam.javacourse.hotel.web.command.norole.*;
 
 import java.util.HashMap;
 import java.util.Map;

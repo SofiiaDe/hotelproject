@@ -1,6 +1,3 @@
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 class SecurityTest {
 
     // These test were for first variant of hashing ==> to be altered

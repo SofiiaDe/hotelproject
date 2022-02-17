@@ -1,10 +1,10 @@
 package com.epam.javacourse.hotel.db.dao;
 
-import com.epam.javacourse.hotel.db.DBConstatns;
 import com.epam.javacourse.hotel.db.ConnectionPool;
+import com.epam.javacourse.hotel.db.DBConstatns;
 import com.epam.javacourse.hotel.db.Helpers;
-import com.epam.javacourse.hotel.exception.DBException;
 import com.epam.javacourse.hotel.db.interfaces.IBookingDAO;
+import com.epam.javacourse.hotel.exception.DBException;
 import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.shared.models.BookingStatus;
 import org.apache.logging.log4j.LogManager;

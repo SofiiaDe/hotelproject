@@ -116,7 +116,7 @@
                                             <fmt:message key="status.ongoing"/>
                                         </c:when>
                                         <c:otherwise>
-                                            <fmt:message key="status"/>
+                                            !
                                         </c:otherwise>
                                     </c:choose>
                                 </c:if>
@@ -435,15 +435,7 @@
                             </div>
                         </div>
                     </div>
-<%--                    <div class="form-group">--%>
-<%--                        <label for="description">--%>
-<%--                            <fmt:message key="manager.modal.description"/>--%>
-<%--                        </label>--%>
-<%--                        <textarea class="form-control" id="description" name="description"--%>
-<%--                                  rows="3" minlength="10"--%>
-<%--                                  maxlength="250"--%>
-<%--                                  required></textarea>--%>
-<%--                    </div>--%>
+
                     <br>
                     <br>
                     <button type="submit" class="btn btn-info" >

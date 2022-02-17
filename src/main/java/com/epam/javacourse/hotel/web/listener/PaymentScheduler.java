@@ -1,10 +1,10 @@
 package com.epam.javacourse.hotel.web.listener;
 
 
-import com.epam.javacourse.hotel.utils.AppContext;
 import com.epam.javacourse.hotel.exception.AppException;
 import com.epam.javacourse.hotel.model.service.interfaces.IBookingService;
 import com.epam.javacourse.hotel.model.service.interfaces.IInvoiceService;
+import com.epam.javacourse.hotel.utils.AppContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -17,9 +17,7 @@
         margin-left: 35px;
         margin-top: 35px;
     }
-    form input{
-        margin-right: 35px;
-    }
+
 </style>
 <body class="text-center" id="errorForm">
 

@@ -1,21 +1,22 @@
 package com.epam.javacourse.hotel.model.service.impl;
 
-import com.epam.javacourse.hotel.model.service.interfaces.IBookingService;
-import com.epam.javacourse.hotel.model.service.interfaces.IInvoiceService;
-import com.epam.javacourse.hotel.model.service.interfaces.IRoomService;
-import com.epam.javacourse.hotel.utils.AppContext;
-import com.epam.javacourse.hotel.exception.AppException;
-import com.epam.javacourse.hotel.exception.DBException;
 import com.epam.javacourse.hotel.db.dao.InvoiceDAO;
 import com.epam.javacourse.hotel.db.dao.UserDAO;
+import com.epam.javacourse.hotel.exception.AppException;
+import com.epam.javacourse.hotel.exception.DBException;
 import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.model.Invoice;
 import com.epam.javacourse.hotel.model.User;
+import com.epam.javacourse.hotel.model.service.interfaces.IBookingService;
+import com.epam.javacourse.hotel.model.service.interfaces.IInvoiceService;
+import com.epam.javacourse.hotel.model.service.interfaces.IRoomService;
 import com.epam.javacourse.hotel.model.serviceModels.InvoiceDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserInvoiceDetailed;
+import com.epam.javacourse.hotel.utils.AppContext;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,7 +77,6 @@ public class InvoiceServiceImpl implements IInvoiceService {
     }
 
 
-
     @Override
     public LocalDate getInvoiceDueDate(Invoice invoice) {
         LocalDate invoiceDate = invoice.getInvoiceDate();
@@ -120,6 +120,10 @@ public class InvoiceServiceImpl implements IInvoiceService {
         try {
             List<Invoice> allUserInvoices = this.invoiceDAO.findInvoicesByUserId(userID);
 
+
+            if (allUserInvoices.isEmpty()) {
+                return Collections.emptyList();
+            }
 
             IBookingService bookingService = AppContext.getInstance().getBookingService();
             List<Booking> userBookings = bookingService.getBookingsByUserId(userID);

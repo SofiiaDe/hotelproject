@@ -7,7 +7,8 @@ import com.epam.javacourse.hotel.shared.models.RoomStatus;
 import com.epam.javacourse.hotel.shared.models.SortBy;
 import com.epam.javacourse.hotel.shared.models.SortType;
 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 

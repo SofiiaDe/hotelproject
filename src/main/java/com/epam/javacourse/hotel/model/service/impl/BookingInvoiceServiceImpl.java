@@ -1,14 +1,14 @@
 package com.epam.javacourse.hotel.model.service.impl;
 
-import com.epam.javacourse.hotel.model.service.interfaces.IBookingInvoiceService;
-import com.epam.javacourse.hotel.model.service.interfaces.IRoomService;
-import com.epam.javacourse.hotel.utils.AppContext;
+import com.epam.javacourse.hotel.db.dao.BookingInvoiceDAO;
 import com.epam.javacourse.hotel.exception.AppException;
 import com.epam.javacourse.hotel.exception.DBException;
-import com.epam.javacourse.hotel.db.dao.BookingInvoiceDAO;
 import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.model.Invoice;
 import com.epam.javacourse.hotel.model.Room;
+import com.epam.javacourse.hotel.model.service.interfaces.IBookingInvoiceService;
+import com.epam.javacourse.hotel.model.service.interfaces.IRoomService;
+import com.epam.javacourse.hotel.utils.AppContext;
 
 import java.time.LocalDate;
 import java.time.Period;

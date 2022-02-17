@@ -1,15 +1,17 @@
 package com.epam.javacourse.hotel.model.service.impl;
 
-import com.epam.javacourse.hotel.model.service.interfaces.IApplicationService;
-import com.epam.javacourse.hotel.model.service.interfaces.IConfirmRequestService;
-import com.epam.javacourse.hotel.utils.AppContext;
-import com.epam.javacourse.hotel.exception.AppException;
-import com.epam.javacourse.hotel.exception.DBException;
 import com.epam.javacourse.hotel.db.dao.ConfirmRequestDAO;
 import com.epam.javacourse.hotel.db.dao.UserDAO;
-import com.epam.javacourse.hotel.model.*;
+import com.epam.javacourse.hotel.exception.AppException;
+import com.epam.javacourse.hotel.exception.DBException;
+import com.epam.javacourse.hotel.model.Application;
+import com.epam.javacourse.hotel.model.ConfirmationRequest;
+import com.epam.javacourse.hotel.model.User;
+import com.epam.javacourse.hotel.model.service.interfaces.IApplicationService;
+import com.epam.javacourse.hotel.model.service.interfaces.IConfirmRequestService;
 import com.epam.javacourse.hotel.model.serviceModels.ConfirmationRequestDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserConfirmationRequestDetailed;
+import com.epam.javacourse.hotel.utils.AppContext;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
