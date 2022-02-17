@@ -7,6 +7,7 @@ import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.service.IApplicationService;
 import com.epam.javacourse.hotel.web.Path;
+import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
 import com.epam.javacourse.hotel.web.command.ICommandResult;
 import com.epam.javacourse.hotel.web.command.RedirectCommandResult;
@@ -34,8 +35,27 @@ public class SubmitApplicationCommand implements ICommand {
         String roomTypeBySeats = request.getParameter("room_seats");
         String roomClass = request.getParameter("room_class");
 
-        LocalDate checkin = Validator.dateParameterToLocalDate(request.getParameter("checkin_date"));
-        LocalDate checkout = Validator.dateParameterToLocalDate(request.getParameter("checkout_date"));
+        String address = Path.PAGE_ERROR;
+
+        String checkinDate = request.getParameter("checkin_date");
+        String checkoutDate = request.getParameter("checkout_date");
+
+        LocalDate checkin = Validator.dateParameterToLocalDate(checkinDate);
+        LocalDate checkout = Validator.dateParameterToLocalDate(checkoutDate);
+
+        if (checkinDate == null || checkoutDate == null || checkinDate.isEmpty() || checkoutDate.isEmpty()
+                || checkin == null || checkout == null) {
+            logger.error("Check-in and/or check-out dates were not selected");
+            request.setAttribute("errorMessage", "Please select check-in and check-out dates.");
+            return new AddressCommandResult(address);
+        }
+
+        if(checkin.isAfter(checkout)) {
+            logger.error("Check-in date is after check-out date");
+            request.setAttribute("errorMessage", "Check-out date cannot be later than check-in date.\n " +
+                    "Please enter correct dates.");
+            return new AddressCommandResult(address);
+        }
 
         Application newApplication = new Application();
         newApplication.setUserId(authorisedUser.getId());
