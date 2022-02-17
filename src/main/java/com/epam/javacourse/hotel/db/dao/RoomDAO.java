@@ -128,7 +128,7 @@ public class RoomDAO extends GenericDAO implements IRoomDAO {
     }
 
     @Override
-    public List<Room> getRoomsByIdsToIncludeOrExclude(List<Integer> ids, boolean include, boolean onlyAvailable) throws DBException {
+    public List<Room> findRoomsByIdsToIncludeOrExclude(List<Integer> ids, boolean include, boolean onlyAvailable) throws DBException {
         List<Room> rooms = new ArrayList<>();
 
         String query;
@@ -168,13 +168,13 @@ public class RoomDAO extends GenericDAO implements IRoomDAO {
     }
 
     @Override
-    public List<Room> getRoomsByIds(List<Integer> ids) throws DBException {
-        return getRoomsByIdsToIncludeOrExclude(ids, true, true);
+    public List<Room> findRoomsByIds(List<Integer> ids) throws DBException {
+        return findRoomsByIdsToIncludeOrExclude(ids, true, true);
     }
 
     @Override
-    public List<Room> getRooms(LocalDate checkin, LocalDate checkout, int page, int pageSize, SortBy sortBy, SortType sortType,
-                               RoomStatus roomStatus, RoomSeats roomSeats) throws DBException {
+    public List<Room> findRooms(LocalDate checkin, LocalDate checkout, int page, int pageSize, SortBy sortBy, SortType sortType,
+                                RoomStatus roomStatus, RoomSeats roomSeats) throws DBException {
         List<Room> allRoomsList = new ArrayList<>();
 
         String sql = createRoomsQuery("*", roomStatus, roomSeats, page, pageSize, sortBy, sortType);
@@ -208,7 +208,7 @@ public class RoomDAO extends GenericDAO implements IRoomDAO {
     }
 
     @Override
-    public List<Room> getAvailableRooms(LocalDate checkin, LocalDate checkout, int page, int pageSize) throws DBException {
+    public List<Room> findAvailableRooms(LocalDate checkin, LocalDate checkout, int page, int pageSize) throws DBException {
 
         List<Room> allRoomsList = new ArrayList<>();
 
@@ -285,7 +285,7 @@ public class RoomDAO extends GenericDAO implements IRoomDAO {
     }
 
     @Override
-    public int getRoomCount(LocalDate checkin, LocalDate checkout, RoomStatus roomStatus, RoomSeats roomSeats) throws DBException {
+    public int findRoomCount(LocalDate checkin, LocalDate checkout, RoomStatus roomStatus, RoomSeats roomSeats) throws DBException {
 
         int result;
         Connection con = null;
@@ -318,8 +318,8 @@ public class RoomDAO extends GenericDAO implements IRoomDAO {
     }
 
     @Override
-    public int getAvailableRoomCount(LocalDate checkin, LocalDate checkout) throws DBException {
-        return getRoomCount(checkin, checkout, RoomStatus.AVAILABLE, null);
+    public int findAvailableRoomCount(LocalDate checkin, LocalDate checkout) throws DBException {
+        return findRoomCount(checkin, checkout, RoomStatus.AVAILABLE, null);
     }
 
     @Override

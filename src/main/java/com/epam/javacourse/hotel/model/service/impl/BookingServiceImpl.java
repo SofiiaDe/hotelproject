@@ -56,7 +56,7 @@ public class BookingServiceImpl implements IBookingService {
     @Override
     public List<Booking> getAllBookings() throws AppException {
         try {
-            return this.bookingDAO.getAllBookings();
+            return this.bookingDAO.findAllBookings();
         } catch (DBException exception) {
             throw new AppException("Can't retrieve all bookings", exception);
         }
@@ -93,7 +93,7 @@ public class BookingServiceImpl implements IBookingService {
         List<Invoice> invoices;
 
         try {
-            allBookings = this.bookingDAO.getAllBookingsForPage(page, pageSize, bookingStatus);
+            allBookings = this.bookingDAO.findAllBookingsForPage(page, pageSize, bookingStatus);
 
             List<Integer> userIds = allBookings.stream().map(Booking::getUserId).distinct().collect(Collectors.toList());
             users = this.userDao.findUsersByIds(userIds);
@@ -175,7 +175,7 @@ public class BookingServiceImpl implements IBookingService {
     @Override
     public int getAllBookingsCount(BookingStatus bookingStatus) throws AppException {
         try {
-            return this.bookingDAO.getAllBookingsCount(bookingStatus);
+            return this.bookingDAO.findAllBookingsCount(bookingStatus);
         } catch (DBException exception) {
             throw new AppException("Can't retrieve number of bookings", exception);
         }
@@ -184,7 +184,7 @@ public class BookingServiceImpl implements IBookingService {
     @Override
     public int getUserBookingsCount(int userId) throws AppException {
         try {
-            return this.bookingDAO.getUserBookingsCount(userId);
+            return this.bookingDAO.findUserBookingsCount(userId);
         } catch (DBException exception) {
             throw new AppException("Can't retrieve number of client's bookings", exception);
         }

@@ -57,7 +57,7 @@ public class RoomServiceImpl implements IRoomService {
     @Override
     public List<Room> getRoomsByIds(List<Integer> ids) throws AppException {
         try {
-            return this.roomDAO.getRoomsByIds(ids);
+            return this.roomDAO.findRoomsByIds(ids);
         } catch (DBException exception) {
             throw new AppException("Can't retrieve rooms by ids", exception);
         }
@@ -81,7 +81,7 @@ public class RoomServiceImpl implements IRoomService {
         }
 
         try {
-            return roomDAO.getAvailableRooms(checkinDate, checkoutDate, page, pageSize);
+            return roomDAO.findAvailableRooms(checkinDate, checkoutDate, page, pageSize);
         } catch (DBException exception) {
             throw new AppException("Can't retrieve free rooms for the specified period", exception);
         }
@@ -93,7 +93,7 @@ public class RoomServiceImpl implements IRoomService {
         ensureDatesAreValid(checkinDate, checkoutDate);
 
         try {
-            return roomDAO.getRooms(checkinDate, checkoutDate, page, pageSize, sortBy, sortType, roomStatus, roomSeats);
+            return roomDAO.findRooms(checkinDate, checkoutDate, page, pageSize, sortBy, sortType, roomStatus, roomSeats);
         } catch (DBException exception) {
             throw new AppException("Can't retrieve free rooms for the specified period", exception);
         }
@@ -105,7 +105,7 @@ public class RoomServiceImpl implements IRoomService {
         ensureDatesAreValid(checkinDate, checkoutDate);
 
         try {
-            return roomDAO.getRoomCount(checkinDate, checkoutDate, roomStatus, roomSeats);
+            return roomDAO.findRoomCount(checkinDate, checkoutDate, roomStatus, roomSeats);
         } catch (DBException exception) {
             throw new AppException("Can't retrieve rooms number for the specified period", exception);
         }

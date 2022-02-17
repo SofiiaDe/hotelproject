@@ -215,7 +215,7 @@
                                         <button type="submit" class="btn btn-outline-secondary btn-sm"
                                                 data-toggle="modal"
                                                 data-target="#makeRequestModalCenter${application.id}">
-                                            <i class="material-icons">Make request</i>
+                                            <i class="material-icons"><fmt:message key="manager.make.request"/></i>
                                         </button>
                                         <!-- Modal -->
                                         <div class="modal fade bd-example-modal-lg"
@@ -230,7 +230,7 @@
                                                     <div class="modal-header">
                                                         <h5 class="modal-title"
                                                             id="makeRequestModalCenterTitle">
-                                                            Make request
+                                                            <fmt:message key="manager.make.request"/>
                                                         </h5>
                                                         <button type="button" class="close"
                                                                 data-dismiss="modal"

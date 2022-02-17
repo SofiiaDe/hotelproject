@@ -34,7 +34,7 @@ public interface IBookingDAO {
      * @return All bookings
      * @throws DBException
      */
-    List<Booking> getAllBookings() throws DBException;
+    List<Booking> findAllBookings() throws DBException;
 
     /**
      * Get all bookings limited by page and pageSize
@@ -45,7 +45,7 @@ public interface IBookingDAO {
      * @return bookings from specified page and given page size
      * @throws DBException
      */
-    List<Booking> getAllBookingsForPage(int page, int pageSize, BookingStatus bookingStatus) throws DBException;
+    List<Booking> findAllBookingsForPage(int page, int pageSize, BookingStatus bookingStatus) throws DBException;
 
     Booking findBookingById(int id) throws DBException;
 
@@ -58,7 +58,7 @@ public interface IBookingDAO {
      * @throws DBException
      * @param bookingStatus
      */
-    int getAllBookingsCount(BookingStatus bookingStatus) throws DBException;
+    int findAllBookingsCount(BookingStatus bookingStatus) throws DBException;
 
     /**
      * Retrieve number of client's bookings
@@ -66,7 +66,7 @@ public interface IBookingDAO {
      * @return number of client's bookings
      * @throws DBException
      */
-    int getUserBookingsCount(int userId) throws DBException;
+    int findUserBookingsCount(int userId) throws DBException;
 
 
     /**

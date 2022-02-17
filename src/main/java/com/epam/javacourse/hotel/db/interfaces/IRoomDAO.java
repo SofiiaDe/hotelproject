@@ -32,7 +32,7 @@ public interface IRoomDAO {
      * @return
      * @throws DBException
      */
-    List<Room> getRoomsByIdsToIncludeOrExclude(List<Integer> ids, boolean include, boolean onlyAvailable) throws DBException;
+    List<Room> findRoomsByIdsToIncludeOrExclude(List<Integer> ids, boolean include, boolean onlyAvailable) throws DBException;
 
     /**
      * Get available rooms by ids
@@ -41,14 +41,14 @@ public interface IRoomDAO {
      * @return
      * @throws DBException
      */
-    List<Room> getRoomsByIds(List<Integer> ids) throws DBException;
+    List<Room> findRoomsByIds(List<Integer> ids) throws DBException;
 
-    List<Room> getRooms(LocalDate checkin, LocalDate checkout, int page, int pageSize, SortBy sortBy, SortType sortType,
-                        RoomStatus roomStatus, RoomSeats roomSeats) throws DBException;
+    List<Room> findRooms(LocalDate checkin, LocalDate checkout, int page, int pageSize, SortBy sortBy, SortType sortType,
+                         RoomStatus roomStatus, RoomSeats roomSeats) throws DBException;
 
     void executeGetRoomQuery(LocalDate checkin, LocalDate checkout, List<Room> allRoomsList, String sql) throws DBException;
 
-    List<Room> getAvailableRooms(LocalDate checkin, LocalDate checkout, int page, int pageSize) throws DBException;
+    List<Room> findAvailableRooms(LocalDate checkin, LocalDate checkout, int page, int pageSize) throws DBException;
 
     void fillRoomsFromDb(List<Room> allRoomsList, ResultSet rs) throws SQLException;
 
@@ -56,9 +56,9 @@ public interface IRoomDAO {
 
     String createRoomsQuery(String select, RoomStatus roomStatus, RoomSeats roomSeats, int page, int pageSize, SortBy sortBy, SortType sortType);
 
-    int getRoomCount(LocalDate checkin, LocalDate checkout, RoomStatus roomStatus, RoomSeats roomSeats) throws DBException;
+    int findRoomCount(LocalDate checkin, LocalDate checkout, RoomStatus roomStatus, RoomSeats roomSeats) throws DBException;
 
-    int getAvailableRoomCount(LocalDate checkin, LocalDate checkout) throws DBException;
+    int findAvailableRoomCount(LocalDate checkin, LocalDate checkout) throws DBException;
 
     List<Integer> findAllRoomNumbers() throws DBException;
 }

@@ -83,12 +83,12 @@ public class BookingDAO extends GenericDAO implements IBookingDAO {
     }
 
     @Override
-    public List<Booking> getAllBookings() throws DBException {
-        return getAllBookingsForPage(-1, -1, BookingStatus.NONE);
+    public List<Booking> findAllBookings() throws DBException {
+        return findAllBookingsForPage(-1, -1, BookingStatus.NONE);
     }
 
     @Override
-    public List<Booking> getAllBookingsForPage(int page, int pageSize, BookingStatus bookingStatus) throws DBException {
+    public List<Booking> findAllBookingsForPage(int page, int pageSize, BookingStatus bookingStatus) throws DBException {
 
         List<Booking> allBookingsList = new ArrayList<>();
         Connection con = null;
@@ -205,7 +205,7 @@ public class BookingDAO extends GenericDAO implements IBookingDAO {
     }
 
     @Override
-    public int getAllBookingsCount(BookingStatus bookingStatus) throws DBException {
+    public int findAllBookingsCount(BookingStatus bookingStatus) throws DBException {
         int result;
         Connection con = null;
         Statement stmt = null;
@@ -239,7 +239,7 @@ public class BookingDAO extends GenericDAO implements IBookingDAO {
     }
 
     @Override
-    public int getUserBookingsCount(int userId) throws DBException {
+    public int findUserBookingsCount(int userId) throws DBException {
         int result;
         Connection con = null;
         PreparedStatement pstmt = null;
