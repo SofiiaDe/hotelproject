@@ -76,19 +76,19 @@
                         <tr>
                             <td>${booking.checkinDate}</td>
                             <td>${booking.checkoutDate}</td>
-                            <td>${booking.roomTypeBySeats}
-                                <c:if test="${requestScope.roomType != null}">
+                            <td>
+                                <c:if test="${booking.roomTypeBySeats != null}">
                                     <c:choose>
-                                        <c:when test="${requestScope.roomType == 'single'}">
+                                        <c:when test="${booking.roomTypeBySeats == 'single'}">
                                             <fmt:message key="room.type.single"/>
                                         </c:when>
-                                        <c:when test="${requestScope.roomType == 'double'}">
+                                        <c:when test="${booking.roomTypeBySeats == 'double'}">
                                             <fmt:message key="room.type.double"/>
                                         </c:when>
-                                        <c:when test="${requestScope.roomType == 'twin'}">
+                                        <c:when test="${booking.roomTypeBySeats == 'twin'}">
                                             <fmt:message key="room.type.twin"/>
                                         </c:when>
-                                        <c:when test="${requestScope.roomType == 'triple'}">
+                                        <c:when test="${booking.roomTypeBySeats == 'triple'}">
                                             <fmt:message key="room.type.triple"/>
                                         </c:when>
                                         <c:otherwise>

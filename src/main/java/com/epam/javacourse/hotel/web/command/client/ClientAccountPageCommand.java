@@ -50,12 +50,6 @@ public class ClientAccountPageCommand implements ICommand {
                 bookingService.getUserDetailedBookings(authorisedUser.getId(), page, pageSize) : new ArrayList<>();
         userBookings.sort(Comparator.comparing(UserBookingDetailed::getCheckinDate).reversed());
 
-        for(UserBookingDetailed bookingDetailed : userBookings) {
-            String roomType = bookingDetailed.getRoomTypeBySeats();
-            request.setAttribute("roomType", roomType);
-
-        }
-
         List<UserConfirmationRequestDetailed> userConfirmRequests = confirmRequestService
                 .getUserDetailedConfirmRequests(authorisedUser.getId());
         userConfirmRequests.sort(Comparator.comparing(UserConfirmationRequestDetailed::getConfirmRequestDate).reversed());
@@ -69,7 +63,6 @@ public class ClientAccountPageCommand implements ICommand {
         session.setAttribute("myInvoices", userInvoices);
         request.setAttribute("page", page);
         request.setAttribute("pageCount", pageCount);
-//        request.setAttribute("roomType", roomType);
 
         return new AddressCommandResult(Path.PAGE_CLIENT_ACCOUNT);
     }
