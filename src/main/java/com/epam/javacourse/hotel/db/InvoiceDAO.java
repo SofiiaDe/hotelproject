@@ -1,6 +1,7 @@
 package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.db.interfaces.IInvoiceDAO;
 import com.epam.javacourse.hotel.model.Invoice;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,10 +12,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class InvoiceDAO {
+public class InvoiceDAO extends GenericDAO implements IInvoiceDAO {
 
     private static final Logger logger = LogManager.getLogger(InvoiceDAO.class);
 
+    @Override
     public boolean createInvoice(Invoice invoice) throws DBException {
 
         Connection con = null;
@@ -32,7 +34,7 @@ public class InvoiceDAO {
         } catch (SQLException e) {
             String errorMessage = "Can't create an invoice";
             logger.error(errorMessage, e);
-            rollBack(con);
+            rollback(con);
             throw new DBException(errorMessage, e);
         } finally {
             close(con);
@@ -40,6 +42,7 @@ public class InvoiceDAO {
         }
     }
 
+    @Override
     public List<Invoice> findAllInvoices() throws DBException {
 
         List<Invoice> allInvoicesList = new ArrayList<>();
@@ -70,6 +73,7 @@ public class InvoiceDAO {
         return allInvoicesList;
     }
 
+    @Override
     public List<Invoice> findInvoicesByUserId(int userId) throws DBException {
 
         List<Invoice> userInvoices = new ArrayList<>();
@@ -102,6 +106,7 @@ public class InvoiceDAO {
         return userInvoices;
     }
 
+    @Override
     public List<Integer> findCancelledInvoicedBookingIds(List<Integer> bookingIds) throws DBException {
 
         if (bookingIds.isEmpty()) {
@@ -139,18 +144,7 @@ public class InvoiceDAO {
         return bookingIdsResult;
     }
 
-    // todo code duplication
-    private static String preparePlaceHolders(int length) {
-        return String.join(",", Collections.nCopies(length, "?"));
-    }
-
-    // todo code duplication
-    private static void setValuesInPreparedStatement(PreparedStatement preparedStatement, Object... values) throws SQLException {
-        for (int i = 0; i < values.length; i++) {
-            preparedStatement.setObject(i + 1, values[i]);
-        }
-    }
-
+    @Override
     public boolean updateInvoiceStatus(Invoice invoice) throws DBException {
 
         Connection con = null;
@@ -167,7 +161,7 @@ public class InvoiceDAO {
         } catch (SQLException e) {
             String errorMessage = "Can't update status of invoice with id=" + invoice.getId();
             logger.error(errorMessage, e);
-            rollBack(con);
+            rollback(con);
             throw new DBException(errorMessage, e);
         } finally {
             close(con);
@@ -175,6 +169,7 @@ public class InvoiceDAO {
         }
     }
 
+    @Override
     public boolean updateInvoice(Invoice invoice) throws DBException {
 
         Connection con = null;
@@ -192,7 +187,7 @@ public class InvoiceDAO {
         } catch (SQLException e) {
             String errorMessage = "Can't update invoice with id=" + invoice.getId();
             logger.error(errorMessage, e);
-            rollBack(con);
+            rollback(con);
             throw new DBException(errorMessage, e);
         } finally {
             close(con);
@@ -200,6 +195,7 @@ public class InvoiceDAO {
         }
     }
 
+    @Override
     public List<Invoice> findInvoicesByStatus(String status) throws DBException {
 
         List<Invoice> invoicesByStatus = new ArrayList<>();
@@ -235,6 +231,7 @@ public class InvoiceDAO {
         return invoicesByStatus;
     }
 
+    @Override
     public Invoice findInvoiceById(int invoiceId) throws DBException {
 
         Invoice invoice = new Invoice();
@@ -291,32 +288,14 @@ public class InvoiceDAO {
 
 
     private static void close(AutoCloseable itemToBeClosed) {
-        if (itemToBeClosed != null) {
-            try {
-                itemToBeClosed.close();
-            } catch (Exception e) {
-                logger.error("DB close failed in InvoiceDAO", e);
-            }
-        }
+        close(itemToBeClosed, "DB close failed in InvoiceDAO");
     }
 
-    private static void rollBack(Connection con) {
-        if (con != null) {
-            try {
-                con.rollback();
-                con.setAutoCommit(true);
-            } catch (SQLException e) {
-                logger.error("Cannot rollback transaction in InvoiceDAO", e);
-            }
-        }
+    private static void rollback(Connection con) {
+        rollback(con, "Cannot rollback transaction in InvoiceDAO");
     }
 
-    /**
-     * Get invoices attached to bookings
-     * @param bookingIds ids of bookings for which retrieve invoices
-     * @return invoices by provided booking ids
-     * @throws DBException
-     */
+    @Override
     public List<Invoice> findInvoices(List<Integer> bookingIds) throws DBException {
 
         if (bookingIds.isEmpty()) {

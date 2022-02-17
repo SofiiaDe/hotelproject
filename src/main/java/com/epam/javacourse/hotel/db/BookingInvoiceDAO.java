@@ -1,6 +1,7 @@
 package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.db.interfaces.IBookingInvoiceDAO;
 import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.model.Invoice;
 import org.apache.logging.log4j.LogManager;
@@ -11,10 +12,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class BookingInvoiceDAO {
+public class BookingInvoiceDAO extends GenericDAO implements IBookingInvoiceDAO {
 
     private static final Logger logger = LogManager.getLogger(BookingInvoiceDAO.class);
 
+    @Override
     public boolean createBookingAndInvoice(Booking booking, Invoice invoice) throws DBException {
 
         Connection con = null;
@@ -66,8 +68,7 @@ public class BookingInvoiceDAO {
             rollBack(con);
             logger.error(e);
             throw e;
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             rollBack(con);
             throw new DBException("Cannot create booking and invoice", e);
         } finally {
@@ -82,24 +83,11 @@ public class BookingInvoiceDAO {
     }
 
     private static void close(AutoCloseable itemToBeClosed) {
-        if (itemToBeClosed != null) {
-            try {
-                itemToBeClosed.close();
-            } catch (Exception e) {
-                logger.error("DB close failed in BookingInvoiceDAO", e);
-            }
-        }
+        close(itemToBeClosed, "DB close failed in BookingInvoiceDAO");
     }
 
     private static void rollBack(Connection con) {
-        if (con != null) {
-            try {
-                con.rollback();
-                con.setAutoCommit(true);
-            } catch (SQLException e) {
-                logger.error("Cannot rollback transaction in BookingInvoiceDAO", e);
-            }
-        }
+        rollback(con, "Cannot rollback transaction in BookingInvoiceDAO");
     }
 
 }

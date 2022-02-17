@@ -1,6 +1,7 @@
 package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.db.interfaces.IBookingDAO;
 import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.shared.models.BookingStatus;
 import org.apache.logging.log4j.LogManager;
@@ -11,10 +12,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookingDAO {
+public class BookingDAO extends GenericDAO implements IBookingDAO {
 
     private static final Logger logger = LogManager.getLogger(BookingDAO.class);
 
+    @Override
     public boolean createBooking(Booking booking) throws DBException {
 
         Connection con = null;
@@ -30,7 +32,7 @@ public class BookingDAO {
             con.commit();
             return true;
         } catch (SQLException e) {
-            rollBack(con);
+            rollback(con);
             throw new DBException("Cannot create a booking", e);
         } finally {
             close(con);
@@ -38,24 +40,12 @@ public class BookingDAO {
         }
     }
 
-    /**
-     * Get client's bookings
-     *
-     * @return Client's bookings
-     * @throws DBException
-     */
+    @Override
     public List<Booking> findBookingsByUserId(int userId) throws DBException {
         return findBookingsByUserIdForPage(userId, -1, 0);
     }
 
-    /**
-     * Get client's bookings limited by page and pageSize
-     *
-     * @param page     result's page. Set -1 to not limit by page/size
-     * @param pageSize number of items to select
-     * @return bookings from specified page and given page size
-     * @throws DBException
-     */
+    @Override
     public List<Booking> findBookingsByUserIdForPage(int userId, int page, int pageSize) throws DBException {
         List<Booking> userBookings = new ArrayList<>();
         Connection con = null;
@@ -89,25 +79,12 @@ public class BookingDAO {
         return userBookings;
     }
 
-    /**
-     * Get all bookings
-     *
-     * @return All bookings
-     * @throws DBException
-     */
+    @Override
     public List<Booking> getAllBookings() throws DBException {
         return getAllBookingsForPage(-1, -1, BookingStatus.NONE);
     }
 
-    /**
-     * Get all bookings limited by page and pageSize
-     *
-     * @param page     result's page. Set -1 to not limit by page/size
-     * @param pageSize number of items to select
-     * @param bookingStatus witch which booking status retrieve bookings
-     * @return bookings from specified page and given page size
-     * @throws DBException
-     */
+    @Override
     public List<Booking> getAllBookingsForPage(int page, int pageSize, BookingStatus bookingStatus) throws DBException {
 
         List<Booking> allBookingsList = new ArrayList<>();
@@ -148,6 +125,7 @@ public class BookingDAO {
         return allBookingsList;
     }
 
+    @Override
     public Booking findBookingById(int id) throws DBException {
 
         Booking booking = new Booking();
@@ -178,6 +156,7 @@ public class BookingDAO {
         return booking;
     }
 
+    @Override
     public void deleteBookingById(int id) throws DBException {
 
         Connection con = null;
@@ -200,24 +179,11 @@ public class BookingDAO {
     }
 
     private static void close(AutoCloseable itemToBeClosed) {
-        if (itemToBeClosed != null) {
-            try {
-                itemToBeClosed.close();
-            } catch (Exception e) {
-                logger.error("DB close failed in BookingDAO", e);
-            }
-        }
+        close(itemToBeClosed, "DB close failed in BookingDAO");
     }
 
-    private static void rollBack(Connection con) {
-        if (con != null) {
-            try {
-                con.rollback();
-                con.setAutoCommit(true);
-            } catch (SQLException e) {
-                logger.error("Cannot rollback transaction in BookingDAO", e);
-            }
-        }
+    private static void rollback(Connection con) {
+        rollback(con, "Cannot rollback transaction in BookingDAO");
     }
 
     private static void mapBookingCommonProperties(ResultSet rs, Booking booking) throws SQLException {
@@ -235,13 +201,7 @@ public class BookingDAO {
         pstmt.setInt(5, booking.getApplicationId());
     }
 
-    /**
-     * Retrieve number of all bookings
-     *
-     * @return number of all bookings
-     * @throws DBException
-     * @param bookingStatus
-     */
+    @Override
     public int getAllBookingsCount(BookingStatus bookingStatus) throws DBException {
         int result;
         Connection con = null;
@@ -275,12 +235,7 @@ public class BookingDAO {
         return result;
     }
 
-    /**
-     * Retrieve number of client's bookings
-     *
-     * @return number of client's bookings
-     * @throws DBException
-     */
+    @Override
     public int getUserBookingsCount(int userId) throws DBException {
         int result;
         Connection con = null;
@@ -307,17 +262,9 @@ public class BookingDAO {
         return result;
     }
 
-
-    /**
-     * Build a sql query to select bookings
-     * @param baseQuery base select on top of which we add filters by status
-     * @param page page of results. Set -1, to get all results
-     * @param pageSize number of items. Set -1, to get all results
-     * @param bookingStatus status of a bookings, with which we want to select
-     * @return sql query
-     */
-    private String createGetAllBookingsSql(String baseQuery, int page, int pageSize, BookingStatus bookingStatus){
-        String sql = baseQuery;;
+    @Override
+    public String createGetAllBookingsSql(String baseQuery, int page, int pageSize, BookingStatus bookingStatus){
+        String sql = baseQuery;
 
         switch (bookingStatus){
             case NONE:

@@ -1,20 +1,21 @@
 package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.db.interfaces.IUserDAO;
 import com.epam.javacourse.hotel.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class UserDAO {
+public class UserDAO extends GenericDAO implements IUserDAO {
 
     private static final Logger logger = LogManager.getLogger(UserDAO.class);
 
+    @Override
     public List<User> findAllUsers() throws DBException {
 
         List<User> allUsersList = new ArrayList<>();
@@ -42,6 +43,7 @@ public class UserDAO {
         return allUsersList;
     }
 
+    @Override
     public void createUser(User user) throws DBException {
 
         Connection con = null;
@@ -64,7 +66,7 @@ public class UserDAO {
             con.commit();
 
         } catch (SQLException e) {
-            rollBack(con);
+            rollback(con);
             throw new DBException("Can't create a user", e);
         } finally {
             close(con);
@@ -72,6 +74,7 @@ public class UserDAO {
         }
     }
 
+    @Override
     public User findUserByEmail(String email) throws DBException {
 
         User user = null;
@@ -100,6 +103,7 @@ public class UserDAO {
         return user;
     }
 
+    @Override
     public List<User> findUsersByIds(List<Integer> ids) throws DBException {
         List<User> users = new ArrayList<>();
         String sql = String.format(DBConstatns.SQL_GET_USERS_BY_IDS, preparePlaceHolders(ids.size()));
@@ -128,6 +132,7 @@ public class UserDAO {
         return users;
     }
 
+    @Override
     public User findUserById(int id) throws DBException {
 
         User user = new User();
@@ -175,34 +180,11 @@ public class UserDAO {
         user.setRole(rs.getString("role"));
     }
 
-    private static String preparePlaceHolders(int length) {
-        return String.join(",", Collections.nCopies(length, "?"));
-    }
-
-    private static void setValuesInPreparedStatement(PreparedStatement preparedStatement, Object... values) throws SQLException {
-        for (int i = 0; i < values.length; i++) {
-            preparedStatement.setObject(i + 1, values[i]);
-        }
-    }
-
     private static void close(AutoCloseable itemToBeClosed) {
-        if (itemToBeClosed != null) {
-            try {
-                itemToBeClosed.close();
-            } catch (Exception e) {
-                logger.error("DB close failed in UserDAO", e);
-            }
-        }
+        close(itemToBeClosed, "DB close failed in UserDAO");
     }
 
-    private static void rollBack(Connection con) {
-        if (con != null) {
-            try {
-                con.rollback();
-                con.setAutoCommit(true);
-            } catch (SQLException e) {
-                logger.error("Cannot rollback transaction in UserDAO", e);
-            }
-        }
+    private static void rollback(Connection con) {
+        rollback(con, "Cannot rollback transaction in UserDAO");
     }
 }

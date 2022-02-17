@@ -1,7 +1,7 @@
 package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
-import com.epam.javacourse.hotel.model.Invoice;
+import com.epam.javacourse.hotel.db.interfaces.IRoomDAO;
 import com.epam.javacourse.hotel.model.Room;
 import com.epam.javacourse.hotel.shared.models.RoomSeats;
 import com.epam.javacourse.hotel.shared.models.RoomStatus;
@@ -13,13 +13,13 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class RoomDAO {
+public class RoomDAO extends GenericDAO implements IRoomDAO {
 
     private static final Logger logger = LogManager.getLogger(RoomDAO.class);
 
+    @Override
     public boolean createRoom(Room room) throws DBException {
 
         Connection con = null;
@@ -37,7 +37,7 @@ public class RoomDAO {
         } catch (SQLException e) {
             String errorMessage = "Can't create a room";
             logger.error(errorMessage, e);
-            rollBack(con);
+            rollback(con);
             throw new DBException(errorMessage, e);
         } finally {
             close(con);
@@ -45,6 +45,7 @@ public class RoomDAO {
         }
     }
 
+    @Override
     public List<Room> findAllRooms() throws DBException {
 
         List<Room> allRoomsList = new ArrayList<>();
@@ -68,6 +69,7 @@ public class RoomDAO {
         return allRoomsList;
     }
 
+    @Override
     public boolean updateRoom(Room room) throws DBException {
 
         boolean roomUpdated;
@@ -91,6 +93,7 @@ public class RoomDAO {
         return roomUpdated;
     }
 
+    @Override
     public Room findRoomById(int roomId) throws DBException {
 
         Room room = new Room();
@@ -121,17 +124,8 @@ public class RoomDAO {
         return room;
     }
 
-    /**
-     * Get list of rooms by its ids
-     *
-     * @param ids           list of rooms ids
-     * @param include       true if "ids" param is list of ids which rooms are requested and
-     *                      false if "ids" param is list of ids except which rooms are requested
-     * @param onlyAvailable true if only available rooms are requested
-     * @return
-     * @throws DBException
-     */
-    private List<Room> getRoomsByIdsToIncludeOrExclude(List<Integer> ids, boolean include, boolean onlyAvailable) throws DBException {
+    @Override
+    public List<Room> getRoomsByIdsToIncludeOrExclude(List<Integer> ids, boolean include, boolean onlyAvailable) throws DBException {
         List<Room> rooms = new ArrayList<>();
 
         String query;
@@ -170,17 +164,12 @@ public class RoomDAO {
         return rooms;
     }
 
-    /**
-     * Get available rooms by ids
-     *
-     * @param ids
-     * @return
-     * @throws DBException
-     */
+    @Override
     public List<Room> getRoomsByIds(List<Integer> ids) throws DBException {
         return getRoomsByIdsToIncludeOrExclude(ids, true, true);
     }
 
+    @Override
     public List<Room> getRooms(LocalDate checkin, LocalDate checkout, int page, int pageSize, SortBy sortBy, SortType sortType,
                                RoomStatus roomStatus, RoomSeats roomSeats) throws DBException {
         List<Room> allRoomsList = new ArrayList<>();
@@ -192,7 +181,8 @@ public class RoomDAO {
         return allRoomsList;
     }
 
-    private void executeGetRoomQuery(LocalDate checkin, LocalDate checkout, List<Room> allRoomsList, String sql) throws DBException {
+    @Override
+    public void executeGetRoomQuery(LocalDate checkin, LocalDate checkout, List<Room> allRoomsList, String sql) throws DBException {
         Connection con = null;
         PreparedStatement pStmt = null;
         ResultSet rs = null;
@@ -214,6 +204,7 @@ public class RoomDAO {
         }
     }
 
+    @Override
     public List<Room> getAvailableRooms(LocalDate checkin, LocalDate checkout, int page, int pageSize) throws DBException {
 
         List<Room> allRoomsList = new ArrayList<>();
@@ -226,7 +217,8 @@ public class RoomDAO {
         return allRoomsList;
     }
 
-    private void fillRoomsFromDb(List<Room> allRoomsList, ResultSet rs) throws SQLException {
+    @Override
+    public void fillRoomsFromDb(List<Room> allRoomsList, ResultSet rs) throws SQLException {
         while (rs.next()) {
             Room room = new Room();
             room.setId(rs.getInt("id"));
@@ -238,11 +230,13 @@ public class RoomDAO {
         }
     }
 
-    private String createRoomsQuery(String select, RoomStatus roomStatus, RoomSeats roomSeats) {
+    @Override
+    public String createRoomsQuery(String select, RoomStatus roomStatus, RoomSeats roomSeats) {
         return createRoomsQuery(select, roomStatus, roomSeats, -1, -1, SortBy.NONE, SortType.NONE);
     }
 
-    private String createRoomsQuery(String select, RoomStatus roomStatus, RoomSeats roomSeats, int page, int pageSize, SortBy sortBy, SortType sortType) {
+    @Override
+    public String createRoomsQuery(String select, RoomStatus roomStatus, RoomSeats roomSeats, int page, int pageSize, SortBy sortBy, SortType sortType) {
 
         String result = DBConstatns.SQL_GET_ROOMS_BASIC_QUERY;
         result = result.replace("?0?", select + " ");
@@ -287,6 +281,7 @@ public class RoomDAO {
         return result;
     }
 
+    @Override
     public int getRoomCount(LocalDate checkin, LocalDate checkout, RoomStatus roomStatus, RoomSeats roomSeats) throws DBException {
 
         int result;
@@ -319,10 +314,12 @@ public class RoomDAO {
         return result;
     }
 
+    @Override
     public int getAvailableRoomCount(LocalDate checkin, LocalDate checkout) throws DBException {
         return getRoomCount(checkin, checkout, RoomStatus.AVAILABLE, null);
     }
 
+    @Override
     public List<Integer> findAllRoomNumbers() throws DBException {
         List<Integer> allRoomNumbers = new ArrayList<>();
         Connection con = null;
@@ -370,37 +367,12 @@ public class RoomDAO {
         pstmt.setString(5, room.getRoomStatus());
     }
 
-    // todo code duplication
-    private static String preparePlaceHolders(int length) {
-        return String.join(",", Collections.nCopies(length, "?"));
-    }
-
-    // todo code duplication
-    private static void setValuesInPreparedStatement(PreparedStatement preparedStatement, Object... values) throws SQLException {
-        for (int i = 0; i < values.length; i++) {
-            preparedStatement.setObject(i + 1, values[i]);
-        }
-    }
-
     private static void close(AutoCloseable itemToBeClosed) {
-        if (itemToBeClosed != null) {
-            try {
-                itemToBeClosed.close();
-            } catch (Exception e) {
-                logger.error("DB close failed in RoomDAO", e);
-            }
-        }
+        close(itemToBeClosed, "DB close failed in RoomDAO");
     }
 
-    private static void rollBack(Connection con) {
-        if (con != null) {
-            try {
-                con.rollback();
-                con.setAutoCommit(true);
-            } catch (SQLException e) {
-                logger.error("Cannot rollback transaction in RoomDAO", e);
-            }
-        }
+    private static void rollback(Connection con) {
+       rollback(con, "Cannot rollback transaction in RoomDAO");
     }
 
 }

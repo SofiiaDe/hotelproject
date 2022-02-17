@@ -1,6 +1,7 @@
 package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.db.interfaces.IConfirmRequestDAO;
 import com.epam.javacourse.hotel.model.ConfirmationRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,10 +11,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfirmRequestDAO {
+public class ConfirmRequestDAO extends GenericDAO implements IConfirmRequestDAO {
 
     private static final Logger logger = LogManager.getLogger(ConfirmRequestDAO.class);
 
+    @Override
     public boolean createConfirmRequest(ConfirmationRequest confirmRequest) throws DBException {
 
         Connection con = null;
@@ -29,7 +31,7 @@ public class ConfirmRequestDAO {
             con.commit();
             return true;
         } catch (SQLException e) {
-            rollBack(con);
+            rollback(con);
             throw new DBException("Can't create confirmation request", e);
         } finally {
             close(con);
@@ -37,6 +39,7 @@ public class ConfirmRequestDAO {
         }
     }
 
+    @Override
     public List<ConfirmationRequest> findConfirmRequestsByUserId(int userId) throws DBException {
         List<ConfirmationRequest> userConfirmRequests = new ArrayList<>();
         Connection con = null;
@@ -68,6 +71,7 @@ public class ConfirmRequestDAO {
         return userConfirmRequests;
     }
 
+    @Override
     public List<ConfirmationRequest> findAllConfirmRequests() throws DBException {
 
         List<ConfirmationRequest> allConfirmRequestsList = new ArrayList<>();
@@ -97,6 +101,7 @@ public class ConfirmRequestDAO {
         return allConfirmRequestsList;
     }
 
+    @Override
     public void deleteConfirmRequestById(int id) throws DBException {
 
         Connection con = null;
@@ -117,6 +122,7 @@ public class ConfirmRequestDAO {
         }
     }
 
+    @Override
     public ConfirmationRequest findConfirmRequestById(int confirmRequestId) throws DBException {
 
         ConfirmationRequest confirmRequest = new ConfirmationRequest();
@@ -147,6 +153,7 @@ public class ConfirmRequestDAO {
         return confirmRequest;
     }
 
+    @Override
     public boolean updateConfirmRequestStatus(ConfirmationRequest confirmRequest) throws DBException {
 
         Connection con = null;
@@ -163,7 +170,7 @@ public class ConfirmRequestDAO {
         } catch (SQLException e) {
             String errorMessage = "Can't update invoice status with id=" + confirmRequest.getId();
             logger.error(errorMessage, e);
-            rollBack(con);
+            rollback(con);
             throw new DBException(errorMessage, e);
         } finally {
             close(con);
@@ -172,24 +179,11 @@ public class ConfirmRequestDAO {
     }
 
     private static void close(AutoCloseable itemToBeClosed) {
-        if (itemToBeClosed != null) {
-            try {
-                itemToBeClosed.close();
-            } catch (Exception e) {
-                logger.error("DB close failed in ConfirmRequestDAO", e);
-            }
-        }
+        close(itemToBeClosed, "DB close failed in ConfirmRequestDAO");
     }
 
-    private static void rollBack(Connection con) {
-        if (con != null) {
-            try {
-                con.rollback();
-                con.setAutoCommit(true);
-            } catch (SQLException e) {
-                logger.error("Cannot rollback transaction in ConfirmRequestDAO", e);
-            }
-        }
+    private static void rollback(Connection con) {
+        rollback(con, "Cannot rollback transaction in ConfirmRequestDAO");
     }
 
     private static void mapConfirmRequestCommonProperties(ResultSet rs, ConfirmationRequest confirmRequest) throws SQLException {

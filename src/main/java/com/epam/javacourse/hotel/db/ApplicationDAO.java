@@ -1,6 +1,7 @@
 package com.epam.javacourse.hotel.db;
 
 import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.db.interfaces.IApplicationDAO;
 import com.epam.javacourse.hotel.model.Application;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,10 +11,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApplicationDAO {
+public class ApplicationDAO extends GenericDAO implements IApplicationDAO {
 
     private static final Logger logger = LogManager.getLogger(ApplicationDAO.class);
 
+    @Override
     public boolean createApplication(Application application) throws DBException {
 
         Connection con = null;
@@ -37,6 +39,7 @@ public class ApplicationDAO {
         }
     }
 
+    @Override
     public Application findApplicationById(int id) throws DBException {
 
         Application application = new Application();
@@ -67,6 +70,7 @@ public class ApplicationDAO {
         return application;
     }
 
+    @Override
     public List<Application> findAllApplications() throws DBException {
 
         List<Application> allApplicationsList = new ArrayList<>();
@@ -96,6 +100,7 @@ public class ApplicationDAO {
         return allApplicationsList;
     }
 
+    @Override
     public List<Application> findApplicationsByUserId(int userId) throws DBException {
 
         List<Application> userApplications = new ArrayList<>();
@@ -127,6 +132,7 @@ public class ApplicationDAO {
         return userApplications;
     }
 
+    @Override
     public boolean updateApplication(Application application) throws DBException {
 
         Connection con = null;
@@ -150,6 +156,7 @@ public class ApplicationDAO {
         }
     }
 
+    @Override
     public void deleteApplication(int applicationId) throws DBException {
 
         Connection con = null;
@@ -171,24 +178,11 @@ public class ApplicationDAO {
     }
 
     private static void close(AutoCloseable itemToBeClosed) {
-        if (itemToBeClosed != null) {
-            try {
-                itemToBeClosed.close();
-            } catch (Exception e) {
-                logger.error("DB close failed in ApplicationDAO", e);
-            }
-        }
+        close(itemToBeClosed, "DB close failed in ApplicationDAO");
     }
 
     private static void rollBack(Connection con) {
-        if (con != null) {
-            try {
-                con.rollback();
-                con.setAutoCommit(true);
-            } catch (SQLException e) {
-                logger.error("Cannot rollback transaction in ApplicationDAO", e);
-            }
-        }
+        rollback(con, "Cannot rollback transaction in ApplicationDAO");
     }
 
     private static void mapApplicationCommonProperties(ResultSet rs, Application application) throws SQLException {
@@ -198,7 +192,7 @@ public class ApplicationDAO {
         application.setCheckoutDate(rs.getObject("checkout_date", LocalDate.class));
     }
 
-    private void mapApplicationCreateUpdate(PreparedStatement pstmt, Application application) throws SQLException {
+    private static void mapApplicationCreateUpdate(PreparedStatement pstmt, Application application) throws SQLException {
         pstmt.setInt(1, application.getUserId());
         pstmt.setString(2, application.getRoomTypeBySeats());
         pstmt.setString(3, application.getRoomClass());
