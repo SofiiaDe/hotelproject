@@ -1,11 +1,11 @@
 package com.epam.javacourse.hotel.web.command.manager;
 
-import com.epam.javacourse.hotel.AppContext;
-import com.epam.javacourse.hotel.Exception.AppException;
-import com.epam.javacourse.hotel.model.service.IApplicationService;
-import com.epam.javacourse.hotel.model.service.IBookingService;
-import com.epam.javacourse.hotel.model.service.IConfirmRequestService;
-import com.epam.javacourse.hotel.model.service.IInvoiceService;
+import com.epam.javacourse.hotel.utils.AppContext;
+import com.epam.javacourse.hotel.exception.AppException;
+import com.epam.javacourse.hotel.model.service.interfaces.IApplicationService;
+import com.epam.javacourse.hotel.model.service.interfaces.IBookingService;
+import com.epam.javacourse.hotel.model.service.interfaces.IConfirmRequestService;
+import com.epam.javacourse.hotel.model.service.interfaces.IInvoiceService;
 import com.epam.javacourse.hotel.model.serviceModels.ApplicationDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.BookingDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.ConfirmationRequestDetailed;

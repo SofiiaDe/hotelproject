@@ -1,6 +1,6 @@
 package com.epam.javacourse.hotel.web.command.common;
 
-import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.exception.DBException;
 import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;

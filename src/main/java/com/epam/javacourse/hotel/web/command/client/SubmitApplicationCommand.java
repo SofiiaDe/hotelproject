@@ -1,11 +1,11 @@
 package com.epam.javacourse.hotel.web.command.client;
 
-import com.epam.javacourse.hotel.AppContext;
-import com.epam.javacourse.hotel.Exception.AppException;
-import com.epam.javacourse.hotel.Validator;
+import com.epam.javacourse.hotel.utils.AppContext;
+import com.epam.javacourse.hotel.exception.AppException;
+import com.epam.javacourse.hotel.utils.Validator;
 import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.User;
-import com.epam.javacourse.hotel.model.service.IApplicationService;
+import com.epam.javacourse.hotel.model.service.interfaces.IApplicationService;
 import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
@@ -56,6 +56,6 @@ public class SubmitApplicationCommand implements ICommand {
 
         applicationService.create(newApplication);
 
-        return new RedirectCommandResult(Path.COMMAND_CLIENT_ACCOUNT + "&success=1"); //successful submission ==>);
+        return new RedirectCommandResult(Path.COMMAND_CLIENT_ACCOUNT + "&success1=1"); //successful submission ==>);
     }
 }

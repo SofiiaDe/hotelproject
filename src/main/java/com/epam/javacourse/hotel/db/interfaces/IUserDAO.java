@@ -1,6 +1,6 @@
 package com.epam.javacourse.hotel.db.interfaces;
 
-import com.epam.javacourse.hotel.Exception.DBException;
+import com.epam.javacourse.hotel.exception.DBException;
 import com.epam.javacourse.hotel.model.User;
 
 import java.util.List;

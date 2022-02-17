@@ -1,10 +1,10 @@
 package com.epam.javacourse.hotel.web.command.client;
 
-import com.epam.javacourse.hotel.AppContext;
-import com.epam.javacourse.hotel.Exception.AppException;
-import com.epam.javacourse.hotel.Validator;
+import com.epam.javacourse.hotel.utils.AppContext;
+import com.epam.javacourse.hotel.exception.AppException;
+import com.epam.javacourse.hotel.utils.Validator;
 import com.epam.javacourse.hotel.model.Room;
-import com.epam.javacourse.hotel.model.service.IRoomService;
+import com.epam.javacourse.hotel.model.service.interfaces.IRoomService;
 import com.epam.javacourse.hotel.shared.models.RoomSeats;
 import com.epam.javacourse.hotel.shared.models.RoomStatus;
 import com.epam.javacourse.hotel.shared.models.SortBy;

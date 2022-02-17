@@ -1,6 +1,6 @@
 package com.epam.javacourse.hotel.web.command;
 
-import com.epam.javacourse.hotel.Exception.AppException;
+import com.epam.javacourse.hotel.exception.AppException;
 import com.epam.javacourse.hotel.web.Path;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -60,10 +60,10 @@ public class Controller extends HttpServlet {
             request.setAttribute(ERROR_MESSAGE, "No result available.");
         }else{
             switch (commandResult.getType()){
-                case Address:
+                case ADDRESS:
                     address = ((AddressCommandResult)commandResult).getAddress();
                     break;
-                case Redirect:
+                case REDIRECT:
                     response.sendRedirect(((RedirectCommandResult)commandResult).getAddress());
                     return;
                 default:

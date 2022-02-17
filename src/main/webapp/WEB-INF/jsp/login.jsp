@@ -90,7 +90,7 @@
     <p class="mt-5 mb-3 text-muted">&copy;My project 2022</p>
 </form>
 
-<div id="succRegSnackbar"><fmt:message key="login.snackbar.success.login"/></div>
+<div id="succRegSnackbar">Successful registration</div>
 
 <footer class="background" id="footer">
     <p class="text-footer">
@@ -100,6 +100,18 @@
 </footer>
 
 <jsp:include page="/WEB-INF/components/scripts.jsp"/>
-
+<script>
+    (function () {
+        const url = new URL(window.location.href);
+        if(url.searchParams.get("success")){
+            showSnackbar();
+        }
+        function showSnackbar() {
+            const x = document.getElementById("succRegSnackbar");
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        }
+    })();
+</script>
 </body>
 </html>

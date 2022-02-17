@@ -1,6 +1,6 @@
 package com.epam.javacourse.hotel.web.command.norole;
 
-import com.epam.javacourse.hotel.Exception.AppException;
+import com.epam.javacourse.hotel.exception.AppException;
 import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;

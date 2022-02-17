@@ -393,7 +393,25 @@
     </div>
 </div>
 
+<div id="succRegSnackbar"><fmt:message key="client.snackbar.success.submit_application"/></div>
+
 <jsp:include page="/WEB-INF/components/scripts.jsp"/>
+<script>
+    (function () {
+        const url = new URL(window.location.href);
+        if(url.searchParams.get("success")){
+            showSnackbar();
+        }
+        if(url.searchParams.get("success1")){
+            showSnackbar();
+        }
+        function showSnackbar() {
+            const x = document.getElementById("succRegSnackbar");
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        }
+    })();
+</script>
 
 </body>
 </html>
