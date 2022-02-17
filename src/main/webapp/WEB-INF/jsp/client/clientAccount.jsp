@@ -72,12 +72,73 @@
                     </thead>
                     <tbody>
                     <c:forEach var="booking" items="${sessionScope.myBookings}">
+
                         <tr>
                             <td>${booking.checkinDate}</td>
                             <td>${booking.checkoutDate}</td>
-                            <td>${booking.roomTypeBySeats}</td>
-                            <td>${booking.roomClass}</td>
-                            <td>${booking.bookingStatus.text}</td>
+                            <td>${booking.roomTypeBySeats}
+                                <c:if test="${requestScope.roomTypeBySeats != null}">
+                                    <c:choose>
+                                        <c:when test="${requestScope.roomTypeBySeats == 'single'}">
+                                            <fmt:message key="room.type.single"/>
+                                        </c:when>
+                                        <c:when test="${requestScope.roomTypeBySeats == 'double'}">
+                                            <fmt:message key="room.type.double"/>
+                                        </c:when>
+                                        <c:when test="${requestScope.roomTypeBySeats == 'twin'}">
+                                            <fmt:message key="room.type.twin"/>
+                                        </c:when>
+                                        <c:when test="${requestScope.roomTypeBySeats == 'triple'}">
+                                            <fmt:message key="room.type.triple"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <fmt:message key="sort.seats.unknown"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:if>
+                            </td>
+                            <td>${booking.roomClass}
+                            <c:if test="${requestScope.roomClass != null}">
+                                <c:choose>
+                                    <c:when test="${requestScope.roomClass == 'standard'}">
+                                        <fmt:message key="room.class.standard"/>
+                                    </c:when>
+                                    <c:when test="${requestScope.roomClass == 'business'}">
+                                        <fmt:message key="room.class.business"/>
+                                    </c:when>
+                                    <c:when test="${requestScope.roomClass == 'lux'}">
+                                        <fmt:message key="room.class.lux"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <fmt:message key="sort.seats.unknown"/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
+                            </td>
+                            <td>${booking.bookingStatus.text}
+                                <c:if test="${requestScope.bookingStatus.text != null}">
+                                    <c:choose>
+                                        <c:when test="${requestScope.bookingStatus.text == 'new'}">
+                                            <fmt:message key="status.new"/>
+                                        </c:when>
+                                        <c:when test="${requestScope.bookingStatus.text == 'cancelled'}">
+                                            <fmt:message key="status.cancelled"/>
+                                        </c:when>
+                                        <c:when test="${requestScope.bookingStatus.text == 'paid'}">
+                                            <fmt:message key="status.paid"/>
+                                        </c:when>
+                                        <c:when test="${requestScope.bookingStatus.text == 'finished'}">
+                                            <fmt:message key="status.finished"/>
+                                        </c:when>
+                                        <c:when test="${requestScope.bookingStatus.text == 'ongoing'}">
+                                            <fmt:message key="status.ongoing"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <fmt:message key="status"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:if>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -117,8 +178,30 @@
                     <tbody>
                     <c:forEach var="application" items="${sessionScope.myApplications}">
                         <tr>
-                            <td>${application.roomTypeBySeats}</td>
-                            <td>${application.roomClass}</td>
+                            <td>${application.roomTypeBySeats}
+                                <c:if test="${requestScope.roomTypeBySeats != null}">
+                                    <c:choose>
+                                        <c:when test="${requestScope.roomTypeBySeats == 'single'}">
+                                            <fmt:message key="room.type.single"/>
+                                        </c:when>
+                                        <c:when test="${requestScope.roomTypeBySeats == 'double'}">
+                                            <fmt:message key="room.type.double"/>
+                                        </c:when>
+                                        <c:when test="${requestScope.roomTypeBySeats == 'twin'}">
+                                            <fmt:message key="room.type.twin"/>
+                                        </c:when>
+                                        <c:when test="${requestScope.roomTypeBySeats == 'triple'}">
+                                            <fmt:message key="room.type.triple"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <fmt:message key="sort.seats.unknown"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:if>
+                            </td>
+                            <td>${application.roomClass}
+
+                            </td>
                             <td>${application.checkinDate}</td>
                             <td>${application.checkoutDate}</td>
                         </tr>
@@ -164,8 +247,46 @@
                         <tr>
                             <td>${confirmrequest.confirmRequestDate}</td>
                             <td>${confirmrequest.confirmRequestDueDate}</td>
-                            <td>${confirmrequest.roomTypeBySeats}</td>
-                            <td>${confirmrequest.roomClass}</td>
+                            <td>${confirmrequest.roomTypeBySeats}
+                                <c:if test="${requestScope.roomTypeBySeats != null}">
+                                    <c:choose>
+                                        <c:when test="${requestScope.roomTypeBySeats == 'single'}">
+                                            <fmt:message key="room.type.single"/>
+                                        </c:when>
+                                        <c:when test="${requestScope.roomTypeBySeats == 'double'}">
+                                            <fmt:message key="room.type.double"/>
+                                        </c:when>
+                                        <c:when test="${requestScope.roomTypeBySeats == 'twin'}">
+                                            <fmt:message key="room.type.twin"/>
+                                        </c:when>
+                                        <c:when test="${requestScope.roomTypeBySeats == 'triple'}">
+                                            <fmt:message key="room.type.triple"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <fmt:message key="sort.seats.unknown"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:if>
+                            </td>
+                            <td>${confirmrequest.roomClass}
+                                <c:if test="${requestScope.roomClass != null}">
+                                    <c:choose>
+                                        <c:when test="${requestScope.roomClass == 'standard'}">
+                                            <fmt:message key="room.class.standard"/>
+                                        </c:when>
+                                        <c:when test="${requestScope.roomClass == 'business'}">
+                                            <fmt:message key="room.class.business"/>
+                                        </c:when>
+                                        <c:when test="${requestScope.roomClass == 'lux'}">
+                                            <fmt:message key="room.class.lux"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <fmt:message key="sort.seats.unknown"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:if>
+                            </td>
+
                             <td>${confirmrequest.checkinDate}</td>
                             <td>${confirmrequest.checkoutDate}</td>
                             <td>${confirmrequest.applicationId}</td>
