@@ -235,3 +235,14 @@ javax.naming.NoInitialContextException: Need to specify class name in environmen
 	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:33) [junit-rt.jar:?]
 	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:235) [junit-rt.jar:?]
 	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:54) [junit-rt.jar:?]
+08:28:25,491 [ERROR] main ConnectionPool:<init>:26 - Cannot initialize DB connection
+javax.naming.NoInitialContextException: Need to specify class name in environment or system property, or in an application resource file: java.naming.factory.initial
+	at javax.naming.spi.NamingManager.getInitialContext(NamingManager.java:702) ~[?:?]
+	at javax.naming.InitialContext.getDefaultInitCtx(InitialContext.java:305) ~[?:?]
+	at javax.naming.InitialContext.getURLOrDefaultInitCtx(InitialContext.java:342) ~[?:?]
+	at javax.naming.InitialContext.lookup(InitialContext.java:409) ~[?:?]
+	at com.epam.javacourse.hotel.db.ConnectionPool.<init>(ConnectionPool.java:23) [classes/:?]
+	at com.epam.javacourse.hotel.db.ConnectionPool.getInstance(ConnectionPool.java:37) [classes/:?]
+	at com.epam.javacourse.hotel.db.dao.RoomDAO.findRoomById(RoomDAO.java:108) [classes/:?]
+	at com.epam.javacourse.hotel.model.service.impl.RoomServiceImpl.getRoomById(RoomServiceImpl.java:51) [classes/:?]
+	at com.epam.javacourse.hotel.TestMain.main(TestMain.java:22) [classes/:?]

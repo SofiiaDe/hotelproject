@@ -65,7 +65,7 @@ public class BookingInvoiceDAO extends GenericDAO implements IBookingInvoiceDAO 
             // create new invoice in the same transaction
             pstmtBookInvoice = con.prepareStatement(DBConstatns.SQL_CREATE_INVOICE_WITH_BOOKING);
             pstmtBookInvoice.setInt(1, invoice.getUserId());
-            pstmtBookInvoice.setDouble(2, invoice.getAmount());
+            pstmtBookInvoice.setBigDecimal(2, invoice.getAmount());
             pstmtBookInvoice.setObject(3, invoice.getInvoiceDate());
             pstmtBookInvoice.executeUpdate();
 

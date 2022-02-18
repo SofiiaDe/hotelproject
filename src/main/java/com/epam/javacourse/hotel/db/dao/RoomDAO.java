@@ -225,7 +225,7 @@ public class RoomDAO extends GenericDAO implements IRoomDAO {
         while (rs.next()) {
             Room room = new Room();
             room.setId(rs.getInt("id"));
-            room.setPrice(rs.getBigDecimal("price").doubleValue());
+            room.setPrice(rs.getBigDecimal("price"));
             room.setRoomNumber(rs.getInt("room_number"));
             room.setRoomTypeBySeats(rs.getString("room_seats"));
             room.setRoomClass(rs.getString("room_class"));
@@ -356,14 +356,13 @@ public class RoomDAO extends GenericDAO implements IRoomDAO {
     }
 
     private static void mapCommonProperties(Room room, ResultSet rs) throws SQLException {
-        room.setPrice(rs.getBigDecimal("price").doubleValue());
-        room.setRoomNumber(rs.getInt("room_number"));
+        room.setPrice(rs.getBigDecimal("price"));
         room.setRoomTypeBySeats(rs.getString("room_seats"));
         room.setRoomClass(rs.getString("room_class"));
     }
 
     private static void mapRoomCreateUpdate(PreparedStatement pstmt, Room room) throws SQLException {
-        pstmt.setDouble(1, room.getPrice());
+        pstmt.setBigDecimal(1, room.getPrice());
         pstmt.setInt(2, room.getRoomNumber());
         pstmt.setString(3, room.getRoomTypeBySeats());
         pstmt.setString(4, room.getRoomClass());

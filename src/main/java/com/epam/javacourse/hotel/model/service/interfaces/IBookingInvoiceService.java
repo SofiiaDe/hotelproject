@@ -4,6 +4,8 @@ import com.epam.javacourse.hotel.exception.AppException;
 import com.epam.javacourse.hotel.model.Booking;
 import com.epam.javacourse.hotel.model.Invoice;
 
+import java.math.BigDecimal;
+
 public interface IBookingInvoiceService {
 
     /**
@@ -12,7 +14,7 @@ public interface IBookingInvoiceService {
      */
     boolean createBookingAndInvoice(Booking booking, Invoice invoice) throws AppException;
 
-    double getInvoiceAmount(Booking booking) throws AppException;
+    BigDecimal getInvoiceAmount(Booking booking) throws AppException;
 
 
 }

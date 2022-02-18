@@ -1,5 +1,6 @@
 package com.epam.javacourse.hotel.model.serviceModels;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class InvoiceDetailed {
@@ -7,14 +8,14 @@ public class InvoiceDetailed {
     private int id;
     private String bookedByUser;
     private String bookedByUserEmail;
-    private double amount;
+    private BigDecimal amount;
     private int bookingId;
     private LocalDate invoiceDate;
     private String status;
 
 
     public InvoiceDetailed(int id, String bookedByUser, String bookedByUserEmail,
-                           double amount, int bookingId, LocalDate invoiceDate,
+                           BigDecimal amount, int bookingId, LocalDate invoiceDate,
                            String status) {
         this.id = id;
         this.bookedByUser = bookedByUser;
@@ -37,7 +38,7 @@ public class InvoiceDetailed {
         return bookedByUserEmail;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 

@@ -1,23 +1,37 @@
 package com.epam.javacourse.hotel;
 
+import com.epam.javacourse.hotel.exception.AppException;
+import com.epam.javacourse.hotel.exception.DBException;
+import com.epam.javacourse.hotel.model.Booking;
+import com.epam.javacourse.hotel.model.Room;
+import com.epam.javacourse.hotel.model.service.impl.RoomServiceImpl;
+import com.epam.javacourse.hotel.model.service.interfaces.IRoomService;
+import com.epam.javacourse.hotel.utils.AppContext;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.Period;
+
 public class TestMain {
 
-    public static void main(String[] args) {
-//        LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
-//        Configuration config = ctx.getConfiguration();
-//        FileAppender techical = (FileAppender) config.getAppender("FileAppender");
-//        File dir = new File(techical.getFileName().replaceFirst("[^\\/]+$", ""));
+    public static void main(String[] args) throws AppException {
 
-//        String result;
-//        System.out.println(getFileAppenderPath());
+        IRoomService roomService = AppContext.getInstance().getRoomService();
+
+        Room room = roomService.getRoomById(20);
+
+                // initialize amount as 0 for a default value
+        BigDecimal amount = new BigDecimal(BigInteger.ZERO, 2);
+
+        // number of days is converted to BigDecimal
+        BigDecimal totalCost = room.getPrice().multiply(new BigDecimal(Math.abs(2)));
+        amount = amount.add(totalCost);
+
+        System.out.println(amount);
 
     }
-
-//    public static String getFileAppenderPath() {
-//        LoggerContext ctx = (LoggerContext) LogManager.getContext(true);
-//        Configuration config = ctx.getConfiguration();
-//        FileAppender rollingFileAppender = (FileAppender) config.getAppender("RollingFileAppender");
-//        return rollingFileAppender.getFileName().replaceFirst("[^\\/]+$", "");
-//    }
-
 }
+
+
+

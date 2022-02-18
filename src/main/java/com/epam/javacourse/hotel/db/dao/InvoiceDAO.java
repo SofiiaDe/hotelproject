@@ -213,7 +213,7 @@ public class InvoiceDAO extends GenericDAO implements IInvoiceDAO {
             while (rs.next()) {
                 Invoice invoice = new Invoice();
                 invoice.setUserId(rs.getInt("user_id"));
-                invoice.setAmount(rs.getDouble("amount"));
+                invoice.setAmount(rs.getBigDecimal("amount"));
                 invoice.setBookingId(rs.getInt("booking_id"));
                 invoice.setInvoiceDate(rs.getObject("invoice_date", LocalDate.class));
                 invoice.setInvoiceStatus(status);
@@ -274,7 +274,7 @@ public class InvoiceDAO extends GenericDAO implements IInvoiceDAO {
     }
 
     private static void mapInvoiceCommonProperties(ResultSet rs, Invoice invoice) throws SQLException {
-        invoice.setAmount(rs.getBigDecimal("amount").doubleValue());
+        invoice.setAmount(rs.getBigDecimal("amount"));
         invoice.setBookingId(rs.getInt("booking_id"));
         invoice.setInvoiceDate(rs.getObject("invoice_date", LocalDate.class));
         invoice.setInvoiceStatus(rs.getString("status"));
@@ -282,7 +282,7 @@ public class InvoiceDAO extends GenericDAO implements IInvoiceDAO {
 
     private static void mapInvoiceCreateUpdate(PreparedStatement pstmt, Invoice invoice) throws SQLException {
         pstmt.setInt(1, invoice.getUserId());
-        pstmt.setDouble(2, invoice.getAmount());
+        pstmt.setBigDecimal(2, invoice.getAmount());
         pstmt.setInt(3, invoice.getBookingId());
         pstmt.setObject(4, invoice.getInvoiceDate());
         pstmt.setString(5, invoice.getInvoiceStatus());

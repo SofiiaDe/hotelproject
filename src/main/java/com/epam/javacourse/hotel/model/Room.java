@@ -1,13 +1,14 @@
 package com.epam.javacourse.hotel.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class Room extends Entity implements Serializable {
 
     private static final long serialVersionUID = -1L;
 
     private int id;
-    private double price;
+    private BigDecimal price;
     private int roomNumber;
     private String roomTypeBySeats;
     private String roomClass;
@@ -23,11 +24,11 @@ public class Room extends Entity implements Serializable {
         this.id = id;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

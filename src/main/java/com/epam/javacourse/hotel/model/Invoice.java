@@ -1,5 +1,6 @@
 package com.epam.javacourse.hotel.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Invoice extends Entity{
@@ -8,7 +9,7 @@ public class Invoice extends Entity{
 
     private int id;
     private int userId;
-    private double amount;
+    private BigDecimal amount;
     private int bookingId;
     private LocalDate invoiceDate;
     private String invoiceStatus;
@@ -53,11 +54,11 @@ public class Invoice extends Entity{
         this.invoiceStatus = invoiceStatus;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
