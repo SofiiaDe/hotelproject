@@ -279,7 +279,7 @@
                                                                 <input type="hidden" name="applicationId"
                                                                        value="${application.id}">
                                                                 <button type="submit"
-                                                                        class="btn btn-outline-primary">
+                                                                        class="btn btn-info btn-outline-primary">
                                                                     <fmt:message
                                                                             key="make_request.button"/>
                                                                 </button>

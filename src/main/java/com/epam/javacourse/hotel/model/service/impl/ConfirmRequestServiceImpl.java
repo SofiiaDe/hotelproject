@@ -120,6 +120,11 @@ public class ConfirmRequestServiceImpl implements IConfirmRequestService {
         try {
 
             List<ConfirmationRequest> allUserConfirmRequests = this.confirmRequestDAO.findConfirmRequestsByUserId(userID);
+
+            if (allUserConfirmRequests.isEmpty()) {
+                return Collections.emptyList();
+            }
+
             IApplicationService applicationService = AppContext.getInstance().getApplicationService();
             List<Application> userApplications = applicationService.getApplicationsByUserId(userID);
 

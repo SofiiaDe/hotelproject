@@ -55,7 +55,6 @@ public class DBConstatns {
             "FROM bookings b LEFT JOIN invoices i ON i.booking_id = b.id WHERE (b.checkin_date <= ? AND b.checkout_date >= ?) " +
             "AND i.status ?1?) q ON q.room_id = r.id WHERE q.room_id IS ?2? null ";
     public static final String SQL_GET_ALL_ROOM_NUMBERS = "SELECT room_number FROM rooms ORDER BY room_number DESC";
-//    public static final String SQL_FOR_UPDATE = "SELECT * FROM rooms WHERE room_id = (SELECT * FROM bookings WHERE room_id = ?) FOR UPDATE";
     public static final String SQL_FOR_UPDATE = "SELECT * FROM rooms WHERE id = ? FOR UPDATE";
 
     public static final String SQL_GET_AVAILABLE_ROOM = "SELECT * FROM rooms r LEFT OUTER JOIN (SELECT DISTINCT(room_id) " +

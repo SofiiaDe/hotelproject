@@ -84,6 +84,10 @@ public class ApplicationServiceImpl implements IApplicationService {
         try {
             List<Application> allUserApplications = this.applicationDAO.findApplicationsByUserId(userID);
 
+            if (allUserApplications.isEmpty()) {
+                return Collections.emptyList();
+            }
+
             ArrayList<UserApplicationDetailed> result = new ArrayList<>();
 
             for (Application application : allUserApplications) {

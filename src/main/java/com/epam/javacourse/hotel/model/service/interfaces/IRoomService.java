@@ -8,6 +8,9 @@ import com.epam.javacourse.hotel.shared.models.*;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Room Service interface
+ */
 public interface IRoomService {
 
     List<Room> getAllRooms() throws AppException;
@@ -18,9 +21,19 @@ public interface IRoomService {
 
     List<Room> getRoomsByIds(List<Integer> ids) throws AppException;
 
+    /**
+     *
+     * @return list of all available rooms for defined period (notwithstanding the page)
+     * @throws AppException
+     */
     List<Room> getFreeRoomsForPeriod(LocalDate checkinDate, LocalDate checkoutDate) throws AppException;
 
+    /**
+     * @param page result's page. When page = -1 it means get all
+     * @return list of rooms available for booking
+     */
     List<Room> getFreeRoomsForPeriod(LocalDate checkinDate, LocalDate checkoutDate, int page, int pageSize) throws AppException;
+
 
     List<Room> getRoomsForPeriod(LocalDate checkinDate, LocalDate checkoutDate, int page, int pageSize, SortBy sortBy,
                                  SortType sortType, RoomStatus roomStatus, RoomSeats roomSeats) throws AppException;
@@ -28,11 +41,11 @@ public interface IRoomService {
     int getRoomsNumberForPeriod(LocalDate checkinDate, LocalDate checkoutDate, RoomStatus roomStatus, RoomSeats roomSeats) throws AppException;
 
     /**
-     * returns a Room which is the most suitable according to the Client's criteria specified in the application
+     * finds the most suitable room according to the Client's criteria specified in the application
      *
-     * @param application
-     * @param freeRooms
-     * @return
+     * @param application in which Client has specified roomType, roomClass, checkin and checkout dates
+     * @param freeRooms list of rooms which are for a period specified in the application
+     * @return Room
      */
     Room chooseSuitableRoomForRequest(Application application, List<Room> freeRooms);
 
@@ -46,5 +59,10 @@ public interface IRoomService {
 
     void create(Room room) throws AppException;
 
+    /**
+     * gets numbers of all rooms (desc order)
+     * @return list of integers
+     * @throws AppException
+     */
     List<Integer> getRoomsNumbers() throws AppException;
 }

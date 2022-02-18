@@ -10,6 +10,9 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * DataSource connection pool.
+ */
 public class ConnectionPool {
 
     private static final Logger logger = LogManager.getLogger(ConnectionPool.class);

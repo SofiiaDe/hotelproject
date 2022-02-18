@@ -184,6 +184,7 @@ public class RoomDAO extends GenericDAO implements IRoomDAO {
         return allRoomsList;
     }
 
+
     @Override
     public void executeGetRoomQuery(LocalDate checkin, LocalDate checkout, List<Room> allRoomsList, String sql) throws DBException {
         Connection con = null;

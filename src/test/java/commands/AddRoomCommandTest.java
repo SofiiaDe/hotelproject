@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
-class AddRoomTest {
+public class AddRoomCommandTest {
 
     @Mock
     HttpServletRequest request;
@@ -52,4 +52,3 @@ class AddRoomTest {
 
     }
 }
-

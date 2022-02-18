@@ -46,14 +46,48 @@ public interface IRoomDAO {
     List<Room> findRooms(LocalDate checkin, LocalDate checkout, int page, int pageSize, SortBy sortBy, SortType sortType,
                          RoomStatus roomStatus, RoomSeats roomSeats) throws DBException;
 
+    /**
+     *
+     * @param checkin
+     * @param checkout
+     * @param allRoomsList
+     * @param sql
+     * @throws DBException
+     */
     void executeGetRoomQuery(LocalDate checkin, LocalDate checkout, List<Room> allRoomsList, String sql) throws DBException;
 
+    /**
+     * Find all available rooms considering pagination
+     * @param checkin
+     * @param checkout
+     * @param page result's page
+     * @param pageSize as configured
+     * @return
+     * @throws DBException
+     */
     List<Room> findAvailableRooms(LocalDate checkin, LocalDate checkout, int page, int pageSize) throws DBException;
 
+    /**
+     * Sets to Room object parameters retrieved from DB as a resultSet. Then add this object to given list.
+     * @param allRoomsList
+     * @param rs
+     * @throws SQLException
+     */
     void fillRoomsFromDb(List<Room> allRoomsList, ResultSet rs) throws SQLException;
 
     String createRoomsQuery(String select, RoomStatus roomStatus, RoomSeats roomSeats);
 
+    /**
+     * Creates SQL-query to provide sorting along with pagination
+     * @param select
+     * @param roomStatus
+     * @param roomSeats
+     * @param page
+     * @param pageSize
+     * @param sortBy
+     * @param sortType
+     * @return
+     */
     String createRoomsQuery(String select, RoomStatus roomStatus, RoomSeats roomSeats, int page, int pageSize, SortBy sortBy, SortType sortType);
 
     int findRoomCount(LocalDate checkin, LocalDate checkout, RoomStatus roomStatus, RoomSeats roomSeats) throws DBException;

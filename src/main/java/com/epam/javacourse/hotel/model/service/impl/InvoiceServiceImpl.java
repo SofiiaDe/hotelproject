@@ -124,7 +124,6 @@ public class InvoiceServiceImpl implements IInvoiceService {
         try {
             List<Invoice> allUserInvoices = this.invoiceDAO.findInvoicesByUserId(userID);
 
-
             if (allUserInvoices.isEmpty()) {
                 return Collections.emptyList();
             }

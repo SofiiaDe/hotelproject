@@ -1,5 +1,8 @@
 package com.epam.javacourse.hotel.web.command;
 
+/**
+ * Class which instance is returned when command is executed
+ */
 public class CommandResult implements ICommandResult {
     private final String address;
     private final CommandResultType commandResultType;

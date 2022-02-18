@@ -16,7 +16,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Scheduler for issuing checking invoice payment within 2 days.
+ * Scheduler for issuing and checking invoice payment within 2 days.
  * The booking is cancelled automatically in case of invoice not being paid by the due date.
  */
 @WebListener

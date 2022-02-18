@@ -12,13 +12,15 @@ import com.epam.javacourse.hotel.web.command.norole.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Factory containing a map of all app commands
+ */
 public class CommandFactory {
 
-    private static CommandFactory commandFactory = new CommandFactory();
+    private static CommandFactory commandFactory;
     private static Map<String, ICommand> commands = new HashMap<>();
 
     private CommandFactory() {
-
     }
 
     /**
@@ -32,6 +34,10 @@ public class CommandFactory {
         return commandFactory;
     }
 
+    /**
+     * key ia s command name
+     * value is a command instance
+     */
     static {
 
         //client commands

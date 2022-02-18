@@ -1,6 +1,13 @@
 package com.epam.javacourse.hotel.web;
 
+/**
+ * Container for jsp-pages and commands necessary to forward / redirect between pages
+ */
 public class Path {
+
+    private Path() {
+    }
+
     public static final String PAGE_GET_USERS = "/WEB-INF/jsp/manager/getAllUsers.jsp";
     public static final String PAGE_ERROR = "/WEB-INF/jsp/errorPage.jsp";
     public static final String PAGE_LOGIN = "/WEB-INF/jsp/login.jsp";
@@ -12,14 +19,10 @@ public class Path {
     public static final String PAGE_PAY_INVOICE = "/WEB-INF/jsp/client/paymentTransaction.jsp";
     public static final String PAGE_FREE_ROOMS = "/WEB-INF/jsp/client/freeRoomsToBook.jsp";
 
-
-    public static final String COMMAND_REDIRECT = "redirect";
     public static final String COMMAND_LOGIN_PAGE = "controller?command=loginPage";
     public static final String COMMAND_MANAGER_ACCOUNT = "controller?command=managerAccount";
     public static final String COMMAND_CLIENT_ACCOUNT = "controller?command=clientAccount";
     public static final String COMMAND_HOME_PAGE = "controller?command=homePage";
-
-    public static final String COMMAND_FREE_ROOMS_PAGE = "controller?command=freeRoomsPage";
 
     // i18n
     public static final String LOCALE_NAME_UK = "uk";

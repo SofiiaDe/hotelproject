@@ -68,10 +68,6 @@ public class RoomServiceImpl implements IRoomService {
         return getFreeRoomsForPeriod(checkinDate, checkoutDate, -1, pageSize);
     }
 
-    /**
-     * @param page result's page. When page = -1 it means get all
-     * @return list of rooms available for booking
-     */
     @Override
     public List<Room> getFreeRoomsForPeriod(LocalDate checkinDate, LocalDate checkoutDate, int page, int pageSize) throws IllegalArgumentException, AppException {
         ensureDatesAreValid(checkinDate, checkoutDate);
@@ -111,6 +107,12 @@ public class RoomServiceImpl implements IRoomService {
         }
     }
 
+    /**
+     * validates if checkin date is not after checkout date or checkout date is equal to checkin date
+     * @param checkinDate
+     * @param checkoutDate
+     * @throws AppException in case of at least one of dates is incorrect
+     */
     private void ensureDatesAreValid(LocalDate checkinDate, LocalDate checkoutDate) throws AppException {
         if (checkinDate.isAfter(checkoutDate) || checkoutDate.isEqual(checkinDate)) {
             throw new AppException("Check-in and check-out dates are overlapping or equal");
