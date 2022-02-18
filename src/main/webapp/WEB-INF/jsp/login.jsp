@@ -33,13 +33,27 @@
         body {
             background-color: floralwhite;
         }
+        #headr{
+            position: absolute;
+            width: 100%;
+            justify-content: space-between;
+        }
+        #loginBtn{
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+        }
+        #loginBtn:hover {
+            color: #fff;
+            background-color: #138496;
+            border-color: #117a8b;
+        }
 
     </style>
 </head>
 
 <body class="text-center">
 
-<nav class="navbar background">
+<nav class="navbar background" id="headr">
     <ul class="nav-list">
         <div class="logo">
             <img src="pictures/logo-hotel.jpg" alt="logo">
@@ -86,7 +100,7 @@
             <input type="checkbox" value="remember-me"> <fmt:message key="login.checkbox.remember"/>
         </label>
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message key="login.button.login"/></button>
+    <button class="btn btn-lg btn-primary btn-block" id="loginBtn" type="submit"><fmt:message key="login.button.login"/></button>
     <p class="mt-5 mb-3 text-muted">&copy;My project 2022</p>
 </form>
 
