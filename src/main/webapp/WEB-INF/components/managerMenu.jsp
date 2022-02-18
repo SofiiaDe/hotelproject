@@ -1,11 +1,5 @@
 <%@ include file="/WEB-INF/jspf/taglib.jspf" %>
 
-<script>
-    function changeFieldElement(element, value) {
-        document.getElementsByName(element)[0].value = value;
-    }
-</script>
-
 <style>
     #userName {
         color: white;

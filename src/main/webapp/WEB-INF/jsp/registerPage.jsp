@@ -183,7 +183,7 @@
                                            value=""/>
                                 </div>
 
-                                <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message
+                                <button class="btn btn-info btn-lg btn-block" type="submit"><fmt:message
                                         key="register.button"/></button>
 
                             </div>

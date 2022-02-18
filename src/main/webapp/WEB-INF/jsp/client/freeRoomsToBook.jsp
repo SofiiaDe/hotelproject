@@ -268,7 +268,7 @@
                                              style="width:400px;height:300px;">
                                     </c:when>
                                     <c:when test="${room.id == 20}">
-                                        <img src="pictures/20single_standard.jpg" alt="twin standard"
+                                        <img src="pictures/20twin_standard.jpg" alt="twin standard"
                                              style="width:400px;height:300px;">
                                     </c:when>
                                     <c:when test="${room.id == 21}">
@@ -277,6 +277,10 @@
                                     </c:when>
                                     <c:when test="${room.id == 22}">
                                         <img src="pictures/22single_standard.jpg" alt="single standard"
+                                             style="width:400px;height:300px;">
+                                    </c:when>
+                                    <c:when test="${room.id == 23}">
+                                        <img src="pictures/23single_standard.jpg" alt="single standard"
                                              style="width:400px;height:300px;">
                                     </c:when>
                                     <c:otherwise>

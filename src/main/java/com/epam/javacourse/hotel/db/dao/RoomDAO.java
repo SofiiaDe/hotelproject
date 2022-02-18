@@ -357,6 +357,7 @@ public class RoomDAO extends GenericDAO implements IRoomDAO {
 
     private static void mapCommonProperties(Room room, ResultSet rs) throws SQLException {
         room.setPrice(rs.getBigDecimal("price"));
+        room.setRoomNumber(rs.getInt("room_number"));
         room.setRoomTypeBySeats(rs.getString("room_seats"));
         room.setRoomClass(rs.getString("room_class"));
     }

@@ -23,8 +23,6 @@ import java.time.LocalDate;
 
 public class BookRoomCommand implements ICommand {
 
-    private static final Logger logger = LogManager.getLogger(BookRoomCommand.class);
-
     IBookingInvoiceService bookingInvoiceService = AppContext.getInstance().getBookingInvoiceService();
 
     @Override

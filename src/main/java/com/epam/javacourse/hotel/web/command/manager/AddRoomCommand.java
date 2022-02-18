@@ -40,11 +40,10 @@ public class AddRoomCommand implements ICommand {
             return new AddressCommandResult(Path.PAGE_ERROR);
         }
 
-//        double price = Double.parseDouble(request.getParameter("price"));
         BigDecimal price = BigDecimal.valueOf(Double.parseDouble(request.getParameter("price")));
         int compareNotLower = price.compareTo(new BigDecimal("100"));
         int compareNotHigher = price.compareTo(new BigDecimal("1000"));
-        if (compareNotLower < 0 && compareNotHigher > 0) {
+        if (compareNotLower < 0 || compareNotHigher > 0) {
             errorMessage = "Room price should correspond to the company's pricing policy.";
             logger.error(errorMessage);
             request.setAttribute("errorMessage", errorMessage);
