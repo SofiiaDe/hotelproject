@@ -400,10 +400,7 @@
 <script>
     (function () {
         const url = new URL(window.location.href);
-        if(url.searchParams.get("success")){
-            showSnackbar();
-        }
-        if(url.searchParams.get("success1")){
+        if(url.searchParams.get("successApplic")){
             showSnackbar("succApplicSnackbar");
         }
         function showSnackbar(tagId) {

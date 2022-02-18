@@ -11,6 +11,7 @@ import com.epam.javacourse.hotel.model.serviceModels.ApplicationDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserApplicationDetailed;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,6 +50,11 @@ public class ApplicationServiceImpl implements IApplicationService {
     public List<ApplicationDetailed> getAllDetailedApplications() throws AppException {
         try {
             List<Application> allApplications = this.applicationDAO.findAllApplications();
+
+            if (allApplications.isEmpty()) {
+                return Collections.emptyList();
+            }
+
             List<Integer> userIds = allApplications.stream().map(Application::getUserId).distinct().collect(Collectors.toList());
             List<User> data = this.userDao.findUsersByIds(userIds);
 

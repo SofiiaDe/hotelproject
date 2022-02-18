@@ -89,6 +89,10 @@ public class InvoiceServiceImpl implements IInvoiceService {
         try {
             List<Invoice> allInvoices = this.invoiceDAO.findAllInvoices();
 
+            if (allInvoices.isEmpty()) {
+                return Collections.emptyList();
+            }
+
             List<Integer> userIds = allInvoices.stream()
                     .map(Invoice::getUserId)
                     .distinct()

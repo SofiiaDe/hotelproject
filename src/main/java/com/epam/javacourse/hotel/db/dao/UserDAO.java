@@ -110,7 +110,6 @@ public class UserDAO extends GenericDAO implements IUserDAO {
         String sql = String.format(DBConstatns.SQL_GET_USERS_BY_IDS, preparePlaceHolders(ids.size()));
         Connection con = null;
         PreparedStatement pStmt = null;
-        ResultSet rs = null;
 
         try {
             con = ConnectionPool.getInstance().getConnection();

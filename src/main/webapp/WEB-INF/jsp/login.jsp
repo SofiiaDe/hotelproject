@@ -104,7 +104,7 @@
     <p class="mt-5 mb-3 text-muted">&copy;My project 2022</p>
 </form>
 
-<div id="succRegSnackbar">Successful registration</div>
+<div id="succRegSnackbar"><fmt:message key="notify.success.registration"/></div>
 
 <footer class="background" id="footer">
     <p class="text-footer">
@@ -117,11 +117,11 @@
 <script>
     (function () {
         const url = new URL(window.location.href);
-        if(url.searchParams.get("success")){
-            showSnackbar();
+        if(url.searchParams.get("successReg")){
+            showSnackbar("succRegSnackbar");
         }
-        function showSnackbar() {
-            const x = document.getElementById("succRegSnackbar");
+        function showSnackbar(tagId) {
+            const x = document.getElementById(tagId);
             x.className = "show";
             setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
         }

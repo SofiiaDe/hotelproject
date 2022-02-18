@@ -56,6 +56,6 @@ public class SubmitApplicationCommand implements ICommand {
 
         applicationService.create(newApplication);
 
-        return new RedirectCommandResult(Path.COMMAND_CLIENT_ACCOUNT + "&success1=1"); //successful submission ==>);
+        return new RedirectCommandResult(Path.COMMAND_CLIENT_ACCOUNT + "&successApplic"); //successful submission ==>);
     }
 }
