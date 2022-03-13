@@ -2,6 +2,7 @@ package com.epam.javacourse.hotel.db.interfaces;
 
 import com.epam.javacourse.hotel.exception.DBException;
 import com.epam.javacourse.hotel.model.Booking;
+import com.epam.javacourse.hotel.model.Invoice;
 import com.epam.javacourse.hotel.shared.models.BookingStatus;
 
 import java.util.List;
@@ -80,5 +81,6 @@ public interface IBookingDAO {
     String createGetAllBookingsSql(String baseQuery, int page, int pageSize, BookingStatus bookingStatus);
 
 
+    boolean updateBookingStatus(Booking booking) throws DBException;
 
 }

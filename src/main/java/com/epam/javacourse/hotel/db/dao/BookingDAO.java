@@ -6,6 +6,7 @@ import com.epam.javacourse.hotel.db.Helpers;
 import com.epam.javacourse.hotel.db.interfaces.IBookingDAO;
 import com.epam.javacourse.hotel.exception.DBException;
 import com.epam.javacourse.hotel.model.Booking;
+import com.epam.javacourse.hotel.model.Invoice;
 import com.epam.javacourse.hotel.shared.models.BookingStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -292,6 +293,31 @@ public class BookingDAO extends GenericDAO implements IBookingDAO {
         sql = Helpers.enrichWithPageSizeStatement(page, pageSize, sql);
 
         return sql;
+    }
+
+    @Override
+    public boolean updateBookingStatus(Booking booking) throws DBException {
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        try {
+            con = ConnectionPool.getInstance().getConnection();
+            con.setAutoCommit(false);
+            pstmt = con.prepareStatement(DBConstatns.SQL_UPDATE_BOOKING_STATUS);
+            pstmt.setBoolean(1, booking.isStatus());
+            pstmt.setInt(2, booking.getId());
+            pstmt.executeUpdate();
+            con.commit();
+            return true;
+        } catch (SQLException e) {
+            String errorMessage = "Can't update status of booking with id=" + booking.getId();
+            logger.error(errorMessage, e);
+            rollback(con);
+            throw new DBException(errorMessage, e);
+        } finally {
+            close(con);
+            close(pstmt);
+        }
     }
 
 }

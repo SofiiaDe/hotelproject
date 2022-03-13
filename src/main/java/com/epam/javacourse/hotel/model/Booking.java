@@ -12,8 +12,18 @@ public class Booking extends Entity{
     private LocalDate checkoutDate;
     private int roomId;
     private int applicationId;
+    private boolean status;
 
     public Booking() {
+    }
+
+    public Booking(int id, int userId, LocalDate checkinDate, LocalDate checkoutDate, int roomId, int applicationId) {
+        this.id = id;
+        this.userId = userId;
+        this.checkinDate = checkinDate;
+        this.checkoutDate = checkoutDate;
+        this.roomId = roomId;
+        this.applicationId = applicationId;
     }
 
     @Override
@@ -66,4 +76,11 @@ public class Booking extends Entity{
         this.checkoutDate = checkoutDate;
     }
 
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 }

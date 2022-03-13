@@ -63,8 +63,8 @@ public class DBConstatns {
 
     // BookingDAO
     public static final String SQL_CREATE_BOOKING = "INSERT INTO bookings " +
-            "(id, user_id, checkin_date, checkout_date, room_id, application_id)\n" +
-            "VALUES (DEFAULT, ?, ?, ?, ?, ?)";
+            "(id, user_id, checkin_date, checkout_date, room_id, application_id, status)" +
+            "VALUES (DEFAULT, ?, ?, ?, ?, ?, 1)";
     public static final String SQL_GET_BOOKINGS_BY_USER_ID = "SELECT * FROM bookings WHERE user_id = ?";
     public static final String SQL_GET_ALL_BOOKINGS = "SELECT * FROM bookings";
     public static final String SQL_GET_ALL_BOOKINGS_WITH_STATUS = "SELECT b.* FROM bookings b JOIN invoices i ON i.booking_id = b.id";
@@ -79,7 +79,7 @@ public class DBConstatns {
     public static final String SQL_GET_BOOKING_BY_ID = "SELECT * FROM bookings WHERE id = ?";
     public static final String SQL_DELETE_BOOKING_BY_ID = "DELETE FROM bookings WHERE ID = ?";
     public static final String SQL_GET_BOOKING_ROOMS_BY_DATE = "SELECT id, room_id FROM bookings WHERE checkin_date <= ? and checkout_date >= ?";
-
+    public static final String SQL_UPDATE_BOOKING_STATUS = "UPDATE invoices i SET i.status = ? WHERE i.id = ?";
 
     // ConfirmRequestDAO
     public static final String SQL_CREATE_CONFIRM_REQUEST = "INSERT INTO confirmation_requests " +

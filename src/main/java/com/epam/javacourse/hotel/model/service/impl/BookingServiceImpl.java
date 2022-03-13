@@ -145,7 +145,8 @@ public class BookingServiceImpl implements IBookingService {
                             booking.getCheckoutDate(),
                             room.getRoomTypeBySeats(),
                             room.getRoomClass(),
-                            false
+                            booking.isStatus()
+//                            false
                     ));
         }
         return result;
@@ -160,7 +161,9 @@ public class BookingServiceImpl implements IBookingService {
 
             List<Invoice> unpaidInvoices = invoiceService.getInvoicesByStatus("cancelled");
             for (Invoice invoice : unpaidInvoices) {
-                this.bookingDAO.deleteBookingById(invoice.getBookingId());
+                Booking booking = this.bookingDAO.findBookingById(invoice.getBookingId());
+                booking.setStatus(false);
+                this.bookingDAO.updateBookingStatus(booking);
             }
         } catch (DBException exception) {
             throw new AppException("Can't cancel unpaid bookings", exception);
