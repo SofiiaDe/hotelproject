@@ -1,9 +1,8 @@
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
-
 import static com.epam.javacourse.hotel.utils.Validator.validateEmail;
+import static com.epam.javacourse.hotel.utils.Validator.validatePassword;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -11,10 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 class RegistrationTest {
 
     @ParameterizedTest(name = "{index} \"{0}\" is not a valid email")
-    @NullAndEmptySource
     @ValueSource(strings = {
-            " ",
-            "",
             " fast.mary@hot.com",
             "ann.flex@gmail@com",
             "alice.example.com",
@@ -38,7 +34,6 @@ class RegistrationTest {
         assertEquals(expected, result);
     }
 
-
     @Test
     void validateEmailEmptyCase() {
         String result = validateEmail(null, 20);
@@ -46,7 +41,7 @@ class RegistrationTest {
         assertEquals(expected, result);
     }
 
-    @ParameterizedTest(name = "{index} \"{0}\" is not a valid email")
+    @ParameterizedTest(name = "{index} \"{0}\" is a valid email")
     @ValueSource(strings = {
             "tony@example.co.uk",
             "william_shakespeare1@epam.com",
@@ -69,4 +64,54 @@ class RegistrationTest {
     }
 
 
+    @ParameterizedTest(name = "{index} \"{0}\" is not a valid password")
+    @ValueSource(strings = {
+            " fast.mary",
+            "ann.flex@",
+            "alice.example.com",
+            "william...shakespeare",
+            "bob_$bob@4 ",
+            ".shakespeare123",
+            "hello",
+            "tanya@5",
+            "!2022@R",
+            "kate@co1",
+            "garry741",
+            "polina@",
+            "its_too_long_password_thus_invalid_9988777666555@"
+
+    })
+    void validatePasswordInvalidCases(String input) {
+        String result = validatePassword(input, 8, 20);
+        String expected =
+                "field \"password\"" +
+                        " must contain at least one digit, at least one lowercase and one uppercase Latin characters " +
+                        "as well as at least one special character like ! @ # & ( ) etc.\n " +
+                        "Password must contain a length of at least 8 characters and a maximum of 20 characters.";
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void validatePasswordEmptyCase() {
+        String result = validatePassword("", 8, 20);
+        String expected = "field \"password\" cannot be empty";
+        assertEquals(expected, result);
+    }
+
+    @ParameterizedTest(name = "{index} \"{0}\" is a valid password")
+    @ValueSource(strings = {
+            "tony@example.Co.uk5",
+            "Shakespeare1@32",
+            "_Karamel@21",
+            "william-@Gmail1.com",
+            "hello.Ann-2022@test",
+            "H@test234",
+            "Mary-2022",
+            "Aaaa111#",
+
+    })
+    void validatePasswordValidCases(String input) {
+        String result = validatePassword(input, 8, 20);
+        assertNull(result);
+    }
 }

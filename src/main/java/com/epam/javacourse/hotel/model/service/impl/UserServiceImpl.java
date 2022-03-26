@@ -26,7 +26,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void create(User user) throws AppException {
+    public void createUser(User user) throws AppException {
         try {
             this.userDao.createUser(user);
         } catch (DBException exception) {
@@ -52,5 +52,6 @@ public class UserServiceImpl implements IUserService {
         }
 
     }
+
 
 }

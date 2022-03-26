@@ -65,4 +65,40 @@ public class UserConfirmationRequestDetailed {
     public String getStatus() {
         return status;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setConfirmRequestDate(LocalDate confirmRequestDate) {
+        this.confirmRequestDate = confirmRequestDate;
+    }
+
+    public void setConfirmRequestDueDate(LocalDate confirmRequestDueDate) {
+        this.confirmRequestDueDate = confirmRequestDueDate;
+    }
+
+    public void setRoomTypeBySeats(String roomTypeBySeats) {
+        this.roomTypeBySeats = roomTypeBySeats;
+    }
+
+    public void setRoomClass(String roomClass) {
+        this.roomClass = roomClass;
+    }
+
+    public void setCheckinDate(LocalDate checkinDate) {
+        this.checkinDate = checkinDate;
+    }
+
+    public void setCheckoutDate(LocalDate checkoutDate) {
+        this.checkoutDate = checkoutDate;
+    }
+
+    public void setApplicationId(int applicationId) {
+        this.applicationId = applicationId;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

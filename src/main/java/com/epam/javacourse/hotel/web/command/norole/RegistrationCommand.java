@@ -88,7 +88,7 @@ public class RegistrationCommand implements ICommand {
         newUser.setCountry(country);
         newUser.setRole(role);
 
-        userService.create(newUser);
+        userService.createUser(newUser);
 
         session.setAttribute("newUser", newUser);
 

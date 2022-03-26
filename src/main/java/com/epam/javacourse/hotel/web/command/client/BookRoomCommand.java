@@ -12,8 +12,6 @@ import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.ICommand;
 import com.epam.javacourse.hotel.web.command.ICommandResult;
 import com.epam.javacourse.hotel.web.command.RedirectCommandResult;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -1,13 +1,14 @@
 package com.epam.javacourse.hotel.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Application extends Entity {
+public class Application extends Entity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1112223333L;
 
     private int id;
-    private Integer userId;
+    private int userId;
     private String roomTypeBySeats;
     private String roomClass;
     private LocalDate checkinDate;

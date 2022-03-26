@@ -3,7 +3,10 @@ package com.epam.javacourse.hotel.model.service.interfaces;
 import com.epam.javacourse.hotel.exception.AppException;
 import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.Room;
-import com.epam.javacourse.hotel.shared.models.*;
+import com.epam.javacourse.hotel.shared.models.RoomSeats;
+import com.epam.javacourse.hotel.shared.models.RoomStatus;
+import com.epam.javacourse.hotel.shared.models.SortBy;
+import com.epam.javacourse.hotel.shared.models.SortType;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -48,14 +51,6 @@ public interface IRoomService {
      * @return Room
      */
     Room chooseSuitableRoomForRequest(Application application, List<Room> freeRooms);
-
-    List<String> getRoomTypeList();
-
-    List<String> getRoomClassList();
-
-    List<RoomSeats> getRoomSeatsValues();
-
-    List<RoomClass> getRoomClassValues();
 
     void create(Room room) throws AppException;
 

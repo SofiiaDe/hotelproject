@@ -5,23 +5,24 @@ import com.epam.javacourse.hotel.web.Path;
 import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.CommandResult;
 import com.epam.javacourse.hotel.web.command.ICommandResult;
-import com.epam.javacourse.hotel.web.command.norole.HomePageCommand;
+import com.epam.javacourse.hotel.web.command.norole.RegisterPageCommand;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+
 @ExtendWith(MockitoExtension.class)
-class HomePageCommandTest {
+class RegisterPageCommandTest {
 
     @InjectMocks
-    private HomePageCommand homePageCommand;
+    private RegisterPageCommand registerPageCommand;
 
     @Mock
     private HttpServletRequest request;
@@ -30,9 +31,9 @@ class HomePageCommandTest {
     private HttpServletResponse response;
 
     @Test
-    void testReturnHomePage() throws AppException {
-        ICommandResult result = homePageCommand.execute(request, response);
+    void testReturnRegisterPage() throws AppException {
+        ICommandResult result = registerPageCommand.execute(request, response);
         assertInstanceOf(AddressCommandResult.class, result);
-        assertEquals(Path.PAGE_HOME, ((CommandResult)result).getAddress());
+        assertEquals(Path.PAGE_REGISTRATION, ((CommandResult) result).getAddress());
     }
 }

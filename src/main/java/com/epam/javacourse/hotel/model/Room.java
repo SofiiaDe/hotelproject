@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 public class Room extends Entity implements Serializable {
 
-    private static final long serialVersionUID = -1L;
+    private static final long serialVersionUID = 1112223338L;
 
     private int id;
     private BigDecimal price;

@@ -9,7 +9,7 @@ public interface IUserService {
 
     List<User> getAllUsers() throws AppException;
 
-    void create(User user) throws AppException;
+    void createUser(User user) throws AppException;
 
     User getUserByEmail(String email) throws AppException;
 

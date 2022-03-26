@@ -6,7 +6,6 @@ import com.epam.javacourse.hotel.db.Helpers;
 import com.epam.javacourse.hotel.db.interfaces.IBookingDAO;
 import com.epam.javacourse.hotel.exception.DBException;
 import com.epam.javacourse.hotel.model.Booking;
-import com.epam.javacourse.hotel.model.Invoice;
 import com.epam.javacourse.hotel.shared.models.BookingStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

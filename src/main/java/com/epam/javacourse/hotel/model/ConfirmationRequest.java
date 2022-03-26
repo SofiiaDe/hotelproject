@@ -1,20 +1,18 @@
 package com.epam.javacourse.hotel.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class ConfirmationRequest extends Entity{
+public class ConfirmationRequest extends Entity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1112223336L;
 
     private int id;
-    private User user;
     private int userId;
     private int applicationId;
     private int roomId;
     private LocalDate confirmRequestDate;
     private LocalDate confirmRequestDueDate;
-    private Application application;
-    private Room room;
     private String status;
 
     public int getUserId() {
@@ -66,30 +64,6 @@ public class ConfirmationRequest extends Entity{
     @Override
     public void setId(int id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Application getApplication() {
-        return application;
-    }
-
-    public void setApplication(Application application) {
-        this.application = application;
-    }
-
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
     }
 
     public String getStatus() {

@@ -43,7 +43,7 @@ public class ConfirmRequestServiceImpl implements IConfirmRequestService {
         try {
             return this.confirmRequestDAO.findConfirmRequestById(confirmRequestId);
         } catch (DBException exception) {
-            throw new AppException("Can't get confirmation request by id");
+            throw new AppException("Can't retrieve confirmation request by id");
         }
     }
 
@@ -52,7 +52,7 @@ public class ConfirmRequestServiceImpl implements IConfirmRequestService {
         try {
             return this.confirmRequestDAO.findConfirmRequestsByUserId(userId);
         } catch (DBException exception) {
-            throw new AppException("Can't retrieve clients confirmation requests", exception);
+            throw new AppException("Can't retrieve client's confirmation requests", exception);
         }
     }
 
@@ -68,7 +68,7 @@ public class ConfirmRequestServiceImpl implements IConfirmRequestService {
     @Override
     public void deleteConfirmRequestById(int id) throws AppException {
         try {
-            this.deleteConfirmRequestById(id);
+            this.confirmRequestDAO.deleteConfirmRequestById(id);
         } catch (DBException exception) {
             throw new AppException("Can't remove confirmation request by id", exception);
         }

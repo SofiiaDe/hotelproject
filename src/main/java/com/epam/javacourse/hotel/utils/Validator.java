@@ -60,16 +60,16 @@ public class Validator {
      */
     public static String validatePassword(String password, int minLength, int maxLength) {
 
-        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–\\[{}\\]:;',?\\*~$^+=<>]).{8,20}$";
+        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()-\\[{}\\]:;'.,?\\*~$^+=<>]).{8,20}$";
 
         Pattern pattern = Pattern.compile(passwordRegex);
         Matcher matcher = pattern.matcher(password);
 
         if (password.length() == 0) {
             return FIELD + PASSWORD + NOT_EMPTY;
-        } else if (password.length() > maxLength || password.length() < 8 || !matcher.find()) {
+        } else if (password.length() > maxLength || password.length() < minLength || !matcher.find()) {
             return FIELD + PASSWORD +
-                    " must contain at least one digit, at least one lowercase and one uppercase Latin characters " +
+                    "\" must contain at least one digit, at least one lowercase and one uppercase Latin characters " +
                     "as well as at least one special character like ! @ # & ( ) etc.\n " +
                     "Password must contain a length of at least 8 characters and a maximum of 20 characters.";
         }
