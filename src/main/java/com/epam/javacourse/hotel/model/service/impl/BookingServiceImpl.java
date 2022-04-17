@@ -105,7 +105,7 @@ public class BookingServiceImpl implements IBookingService {
         }
 
         for (Booking booking : allBookings) {
-            User bookingUser = users.stream().filter(u -> u.getId() == booking.getUserId()).findFirst().get();
+            User bookingUser = users.stream().filter(u -> u.getId() == booking.getUserId()).findFirst().orElseThrow();
             result.add(
                     new BookingDetailed(booking.getId(),
                             bookingUser.getFirstName() + ' ' + bookingUser.getLastName(),
@@ -113,7 +113,7 @@ public class BookingServiceImpl implements IBookingService {
                             booking.getCheckinDate(),
                             booking.getCheckoutDate(),
                             this.roomDAO.findRoomById(booking.getRoomId()).getRoomNumber(),
-                            invoices.stream().filter(i -> i.getBookingId() == booking.getId()).findFirst().get().getInvoiceStatus().equals("paid")
+                            invoices.stream().filter(i -> i.getBookingId() == booking.getId()).findFirst().orElseThrow().getInvoiceStatus().equals("paid")
                     ));
         }
         return result;
@@ -146,7 +146,6 @@ public class BookingServiceImpl implements IBookingService {
                             room.getRoomTypeBySeats(),
                             room.getRoomClass(),
                             booking.isStatus()
-//                            false
                     ));
         }
         return result;

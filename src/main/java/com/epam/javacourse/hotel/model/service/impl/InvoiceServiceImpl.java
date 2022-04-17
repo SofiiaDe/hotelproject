@@ -101,7 +101,7 @@ public class InvoiceServiceImpl implements IInvoiceService {
             ArrayList<InvoiceDetailed> result = new ArrayList<>();
 
             for (Invoice invoice : allInvoices) {
-                var bookingUser = data.stream().filter(u -> u.getId() == invoice.getUserId()).findFirst().get();
+                var bookingUser = data.stream().filter(u -> u.getId() == invoice.getUserId()).findFirst().orElseThrow();
                 result.add(
                         new InvoiceDetailed(invoice.getId(),
                                 bookingUser.getFirstName() + ' ' + bookingUser.getLastName(),
@@ -139,7 +139,7 @@ public class InvoiceServiceImpl implements IInvoiceService {
                 var booking = userBookings.stream()
                         .filter(b -> b.getId() == invoice.getBookingId())
                         .findFirst()
-                        .get();
+                        .orElseThrow();
                 var room = roomService.getRoomById(booking.getRoomId());
                 result.add(
                         new UserInvoiceDetailed(invoice.getId(),
@@ -186,8 +186,4 @@ public class InvoiceServiceImpl implements IInvoiceService {
             throw new AppException("Can't pay invoice", exception);
         }
     }
-
-
 }
-
-

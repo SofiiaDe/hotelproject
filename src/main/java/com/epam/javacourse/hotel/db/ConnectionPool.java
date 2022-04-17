@@ -50,7 +50,6 @@ public class ConnectionPool {
         return dbPool;
     }
 
-
     public Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }

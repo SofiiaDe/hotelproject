@@ -6,7 +6,6 @@ import com.epam.javacourse.hotel.web.command.AddressCommandResult;
 import com.epam.javacourse.hotel.web.command.CommandResult;
 import com.epam.javacourse.hotel.web.command.ICommandResult;
 import com.epam.javacourse.hotel.web.command.client.PaymentPageCommand;
-import com.epam.javacourse.hotel.web.command.norole.HomePageCommand;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

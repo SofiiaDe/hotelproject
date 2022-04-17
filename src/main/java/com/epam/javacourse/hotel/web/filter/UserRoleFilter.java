@@ -88,7 +88,7 @@ public class UserRoleFilter implements Filter {
             return false;
         }
 
-        return controlAccessMap.get(userRole).contains(commandName) || common.contains(commandName) ;
+        return controlAccessMap.get(userRole).contains(commandName) || common.contains(commandName);
     }
 
     @Override

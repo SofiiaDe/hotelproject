@@ -19,10 +19,10 @@
                 <a class="nav-link" href="controller?command=allUsersList"><fmt:message
                         key="manager.menu.button.users"/> <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="controller?command=allRooms"><fmt:message
-                        key="manager.menu.button.rooms"/></a>
-            </li>
+<%--            <li class="nav-item">--%>
+<%--                <a class="nav-link" href="controller?command=allRooms"><fmt:message--%>
+<%--                        key="manager.menu.button.rooms"/></a>--%>
+<%--            </li>--%>
         </ul>
 
         <div id="userName">${sessionScope.authorisedUser.firstName} ${sessionScope.authorisedUser.lastName}</div>

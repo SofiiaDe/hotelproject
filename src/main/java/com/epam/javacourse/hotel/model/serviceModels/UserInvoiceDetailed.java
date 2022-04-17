@@ -1,9 +1,12 @@
 package com.epam.javacourse.hotel.model.serviceModels;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class UserInvoiceDetailed {
+public class UserInvoiceDetailed implements Serializable {
+
+    private static final long serialVersionUID = 1112223347L;
 
     private int id;
     private LocalDate invoiceDate;

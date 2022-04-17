@@ -7,17 +7,12 @@ import com.epam.javacourse.hotel.exception.DBException;
 import com.epam.javacourse.hotel.model.Application;
 import com.epam.javacourse.hotel.model.User;
 import com.epam.javacourse.hotel.model.service.impl.ApplicationServiceImpl;
-import com.epam.javacourse.hotel.model.service.impl.BookingServiceImpl;
-import com.epam.javacourse.hotel.model.service.interfaces.IBookingService;
 import com.epam.javacourse.hotel.model.serviceModels.ApplicationDetailed;
 import com.epam.javacourse.hotel.model.serviceModels.UserApplicationDetailed;
-import com.epam.javacourse.hotel.utils.AppContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;

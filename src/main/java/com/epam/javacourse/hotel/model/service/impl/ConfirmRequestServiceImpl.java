@@ -96,7 +96,7 @@ public class ConfirmRequestServiceImpl implements IConfirmRequestService {
             ArrayList<ConfirmationRequestDetailed> result = new ArrayList<>();
 
             for (ConfirmationRequest confirmRequest : allConfirmRequests) {
-                var bookingUser = data.stream().filter(u -> u.getId() == confirmRequest.getUserId()).findFirst().get();
+                var bookingUser = data.stream().filter(u -> u.getId() == confirmRequest.getUserId()).findFirst().orElseThrow();
                 result.add(
                         new ConfirmationRequestDetailed(confirmRequest.getId(),
                                 bookingUser.getFirstName() + ' ' + bookingUser.getLastName(),
@@ -134,7 +134,7 @@ public class ConfirmRequestServiceImpl implements IConfirmRequestService {
                 var application = userApplications.stream()
                         .filter(a -> a.getId() == confirmRequest.getApplicationId())
                         .findFirst()
-                        .get();
+                        .orElseThrow();
                 result.add(
                         new UserConfirmationRequestDetailed(confirmRequest.getId(),
                                 confirmRequest.getConfirmRequestDate(),

@@ -52,20 +52,20 @@
 
         <div class="tab-content" id="myTabContent">
             <%-- Booking --%>
-            <div class="dropdown dropDownPadding">
-                <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                    <fmt:message key="status"/>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#" id="statusPaid"><fmt:message key="status.paid"/></a>
-                    <a class="dropdown-item" href="#" id="statusOngoing"><fmt:message key="status.ongoing"/></a>
-                    <a class="dropdown-item" href="#" id="statusFinished"><fmt:message key="status.finished"/></a>
-                    <a class="dropdown-item" href="#" id="statusNew"><fmt:message key="status.new"/></a>
-                    <a class="dropdown-item" href="#" id="statusCancelled"><fmt:message key="status.cancelled"/></a>
-                </div>
-            </div>
             <div class="tab-pane fade active show" id="booking" role="tabpanel" aria-labelledby="booking-tab">
+                <div class="dropdown dropDownPadding">
+                    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        <fmt:message key="status"/>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#" id="statusPaid"><fmt:message key="status.paid"/></a>
+                        <a class="dropdown-item" href="#" id="statusOngoing"><fmt:message key="status.ongoing"/></a>
+                        <a class="dropdown-item" href="#" id="statusFinished"><fmt:message key="status.finished"/></a>
+                        <a class="dropdown-item" href="#" id="statusNew"><fmt:message key="status.new"/></a>
+                        <a class="dropdown-item" href="#" id="statusCancelled"><fmt:message key="status.cancelled"/></a>
+                    </div>
+                </div>
                 <table class="table table-hover mt-2">
                     <thead>
                     <tr>
@@ -438,7 +438,7 @@
 
                     <br>
                     <br>
-                    <button type="submit" class="btn btn-info" >
+                    <button type="submit" class="btn btn-info">
                         <fmt:message key="manager.modal.button.save"/>
                     </button>
 

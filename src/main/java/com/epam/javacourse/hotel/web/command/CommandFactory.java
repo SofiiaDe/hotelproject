@@ -25,7 +25,6 @@ public class CommandFactory {
 
     /**
      * singleton pattern
-     * @return
      */
     public static CommandFactory commandFactory() {
         if (commandFactory == null) {

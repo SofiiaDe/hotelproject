@@ -50,8 +50,5 @@ public class UserServiceImpl implements IUserService {
         } catch (DBException exception) {
             throw new AppException("Can't retrieve user by id", exception);
         }
-
     }
-
-
 }

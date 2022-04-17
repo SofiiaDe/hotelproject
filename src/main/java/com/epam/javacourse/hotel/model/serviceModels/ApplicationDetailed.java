@@ -1,8 +1,12 @@
 package com.epam.javacourse.hotel.model.serviceModels;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class ApplicationDetailed {
+public class ApplicationDetailed implements Serializable {
+
+    private static final long serialVersionUID = 1112223340L;
+
     private final int id;
     private final String bookedByUser;
     private final String bookedByUserEmail;

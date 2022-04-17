@@ -6,19 +6,19 @@ public enum Role {
     CLIENT("client");
 
 
-    private final String role;
+    private final String roleName;
 
-    Role(String role) {
-        this.role = role;
+    Role(String roleName) {
+        this.roleName = roleName;
     }
 
-    public String getRole() {
-        return role;
+    public String getRoleName() {
+        return roleName;
     }
 
     public static Role getRoleByType(String type) {
         for (Role role : values()) {
-            if (role.getRole().equals(type)) {
+            if (role.getRoleName().equals(type)) {
                 return role;
             }
         }

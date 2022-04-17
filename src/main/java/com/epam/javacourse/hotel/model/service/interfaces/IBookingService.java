@@ -20,7 +20,6 @@ public interface IBookingService {
 
     /**
      * Get all bookings with info about user
-     * @param page
      * @param pageSize items per page
      * @return bookings with info about user
      * @throws AppException

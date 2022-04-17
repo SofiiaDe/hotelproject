@@ -285,7 +285,6 @@
                                     </c:when>
                                     <c:otherwise>
                                         <fmt:message key="client.book.noimage"/>
-                                        style="width:400px;height:300px;">
                                     </c:otherwise>
                                 </c:choose>
                             </c:if>

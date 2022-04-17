@@ -12,9 +12,11 @@ public class PropertiesReader {
 
     private static final Logger logger = LogManager.getLogger(PropertiesReader.class);
 
+    public static final String NOT_FOUND = " was not found.";
 
     private PropertiesReader() {
     }
+
     /**
      * Read props key
      * @param propertyFile property file container
@@ -27,7 +29,7 @@ public class PropertiesReader {
                 .getContextClassLoader()
                 .getResourceAsStream(propertyFile)) {
             if (inputStream == null) {
-                String errorMessage = "Can't read properties because file " + propertyFile + " was not found.";
+                String errorMessage = "Can't read properties because file " + propertyFile + NOT_FOUND;
                 logger.error(errorMessage);
                 throw new ReadPropertyException(errorMessage);
             }
@@ -35,13 +37,13 @@ public class PropertiesReader {
             prop.load(inputStream);
             String property =  prop.getProperty(propertyToRead);
             if (property == null) {
-                String errorMessage = "Can't read properties because property " + propertyToRead + " was not found.";
+                String errorMessage = "Can't read properties because property " + propertyToRead + NOT_FOUND;
                 logger.error(errorMessage);
                 throw new ReadPropertyException(errorMessage);
             }
             return property;
         } catch (IOException e) {
-            String errorMessage = "Can't read properties because property " + propertyToRead + " was not found.";
+            String errorMessage = "Can't read properties because property " + propertyToRead + NOT_FOUND;
             logger.error(errorMessage);
             throw new ReadPropertyException(errorMessage, e);
         }

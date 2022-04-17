@@ -29,16 +29,12 @@ public interface IRoomDAO {
      * @param include       true if "ids" param is list of ids which rooms are requested and
      *                      false if "ids" param is list of ids except which rooms are requested
      * @param onlyAvailable true if only available rooms are requested
-     * @return
      * @throws DBException
      */
     List<Room> findRoomsByIdsToIncludeOrExclude(List<Integer> ids, boolean include, boolean onlyAvailable) throws DBException;
 
     /**
      * Get available rooms by ids
-     *
-     * @param ids
-     * @return
      * @throws DBException
      */
     List<Room> findRoomsByIds(List<Integer> ids) throws DBException;
@@ -47,30 +43,21 @@ public interface IRoomDAO {
                          RoomStatus roomStatus, RoomSeats roomSeats) throws DBException;
 
     /**
-     *
-     * @param checkin
-     * @param checkout
-     * @param allRoomsList
-     * @param sql
+     * Executes SQL-query to find rooms for a defined period
      * @throws DBException
      */
     void executeGetRoomQuery(LocalDate checkin, LocalDate checkout, List<Room> allRoomsList, String sql) throws DBException;
 
     /**
      * Find all available rooms considering pagination
-     * @param checkin
-     * @param checkout
      * @param page result's page
      * @param pageSize as configured
-     * @return
      * @throws DBException
      */
     List<Room> findAvailableRooms(LocalDate checkin, LocalDate checkout, int page, int pageSize) throws DBException;
 
     /**
      * Sets to Room object parameters retrieved from DB as a resultSet. Then add this object to given list.
-     * @param allRoomsList
-     * @param rs
      * @throws SQLException
      */
     void fillRoomsFromDb(List<Room> allRoomsList, ResultSet rs) throws SQLException;

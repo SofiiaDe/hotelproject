@@ -18,6 +18,7 @@ public class BookingInvoiceDAO extends GenericDAO implements IBookingInvoiceDAO 
 
     private static final Logger logger = LogManager.getLogger(BookingInvoiceDAO.class);
 
+    // Create booking and invoice simultaneously when room is booked
     @Override
     public boolean createBookingAndInvoice(Booking booking, Invoice invoice) throws DBException {
 
@@ -32,14 +33,14 @@ public class BookingInvoiceDAO extends GenericDAO implements IBookingInvoiceDAO 
             con = ConnectionPool.getInstance().getConnection();
             con.setAutoCommit(false);
 
-            // lock selected room for update
+            // lock the selected room for update -->
             pstmtForUpdate = con.prepareStatement(DBConstatns.SQL_FOR_UPDATE);
             pstmtForUpdate.setInt(1, booking.getRoomId());
             pstmtForUpdate.executeQuery();
 
-            // check if room is still available -->
+            // check if the room is still available -->
 
-            //A default ResultSet object is not updatable and has a cursor that moves forward only.
+            // A default ResultSet object is not updatable and has a cursor that moves forward only.
             // Thus, you can iterate through it only once and only from the first row to the last row.
             // It is possible to produce ResultSet objects that are scrollable and/or updatable.
             pstmtAvailable = con.prepareStatement(DBConstatns.SQL_GET_AVAILABLE_ROOM, ResultSet.TYPE_SCROLL_INSENSITIVE,

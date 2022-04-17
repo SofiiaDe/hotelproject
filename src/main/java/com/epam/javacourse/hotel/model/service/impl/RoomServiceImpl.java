@@ -25,7 +25,7 @@ public class RoomServiceImpl implements IRoomService {
 
     public RoomServiceImpl(RoomDAO roomDAO) {
         this.roomDAO = roomDAO;
-        this.pageSize = 3; // can put this in config;
+        this.pageSize = 3;
     }
 
     @Override
@@ -110,14 +110,11 @@ public class RoomServiceImpl implements IRoomService {
 
     /**
      * validates if checkin date is not after checkout date or checkout date is equal to checkin date
-     * @param checkinDate
-     * @param checkoutDate
      * @throws AppException in case of at least one of dates is incorrect
      */
     private void ensureDatesAreValid(LocalDate checkinDate, LocalDate checkoutDate) throws AppException {
         if (checkinDate.isAfter(checkoutDate) || checkoutDate.isEqual(checkinDate)) {
             throw new AppException("Check-in and check-out dates are overlapping or equal");
-
         }
     }
 
@@ -139,9 +136,7 @@ public class RoomServiceImpl implements IRoomService {
                 } else {
                     suitableRoom = freeRoom;
                 }
-
             }
-
         } catch (Exception exception) {
             String errorMessage = "Can't select suitable room to make confirmation request for application with id=" + application.getId();
             logger.error(errorMessage, exception);

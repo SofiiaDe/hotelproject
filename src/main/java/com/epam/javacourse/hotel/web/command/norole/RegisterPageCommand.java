@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class RegisterPageCommand implements ICommand {
 
-    private static final long serialVersionUID = -1L;
-
     @Override
     public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
         return new AddressCommandResult(Path.PAGE_REGISTRATION);

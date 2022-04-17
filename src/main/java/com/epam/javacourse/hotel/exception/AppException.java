@@ -5,8 +5,6 @@ package com.epam.javacourse.hotel.exception;
  */
 public class AppException extends Exception{
 
-//    private static final long serialVersionUID =
-
     public AppException() {
         super();
     }

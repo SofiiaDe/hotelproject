@@ -1,12 +1,9 @@
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import static com.epam.javacourse.hotel.db.Helpers.enrichWithPageSizeStatement;
 import static com.epam.javacourse.hotel.web.command.helpers.Helpers.parsePage;

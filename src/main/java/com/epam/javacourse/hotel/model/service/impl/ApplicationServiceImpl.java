@@ -61,7 +61,11 @@ public class ApplicationServiceImpl implements IApplicationService {
             ArrayList<ApplicationDetailed> result = new ArrayList<>();
 
             for (Application application : allApplications) {
-                var user = data.stream().filter(u -> u.getId() == application.getUserId()).findFirst().get();
+                var user = data.stream()
+                        .filter(u -> u.getId() == application.getUserId())
+                        .findFirst()
+                        .orElseThrow();
+
                 result.add(
                         new ApplicationDetailed(application.getId(),
                                 user.getFirstName() + ' ' + user.getLastName(),
