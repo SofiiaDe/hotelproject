@@ -52,30 +52,31 @@ class UserServiceImplTest {
         Assertions.fail("Should have thrown AppException");
     }
 
-//    @Test
-//    void testCreate_whenDaoThrows_throwsException() throws DBException {
-//        when(userDAOMock.createUser(any(User.class))).thenThrow(new DBException());
-//        UserServiceImpl userService = new UserServiceImpl(userDAOMock);
-//
-//        Assertions.assertThrowsExactly(AppException.class, () -> userService.createUser(new User()));
-//    }
-//
-//    @Test
-//    void testCreate_whenDaoThrows_doesNotShowDbExceptionMessage() throws DBException {
-//        String messageNotToGet = "aaaaa";
-//        when(userDAOMock.createUser(any(User.class))).thenThrow(new DBException(messageNotToGet));
-//        UserServiceImpl userService = new UserServiceImpl(userDAOMock);
-//
-//        try {
-//            userService.createUser(new User());
-//        }catch(AppException ex){
-//            Assertions.assertEquals("Can't create user", ex.getMessage());
-//            Assertions.assertNotEquals(messageNotToGet, ex.getMessage());
-//            return;
-//        }
-//
-//        Assertions.fail("Should have thrown AppException");
-//    }
+    @Test
+    void testCreate_whenDaoThrows_throwsException() throws DBException {
+        doThrow(new DBException()).when(userDAOMock).createUser(any());
+        UserServiceImpl userService = new UserServiceImpl(userDAOMock);
+
+        Assertions.assertThrowsExactly(AppException.class, () -> userService.createUser(new User()));
+    }
+
+    @Test
+    void testCreate_whenDaoThrows_doesNotShowDbExceptionMessage() throws DBException {
+        String messageNotToGet = "aaaaa";
+        doThrow(new DBException(messageNotToGet)).when(userDAOMock).createUser(any(User.class));
+
+        UserServiceImpl userService = new UserServiceImpl(userDAOMock);
+
+        try {
+            userService.createUser(new User());
+        }catch(AppException ex){
+            Assertions.assertEquals("Can't create a user", ex.getMessage());
+            Assertions.assertNotEquals(messageNotToGet, ex.getMessage());
+            return;
+        }
+
+        Assertions.fail("Should have thrown AppException");
+    }
 
     @Test
     void testCreate_whenCalled_callsDAO() throws AppException {
@@ -123,33 +124,33 @@ class UserServiceImplTest {
 
     @Test
     void testGetUserById_whenCalled_DAOCalled() throws AppException {
-        int UserId = 112567890;
+        int userId = 112567890;
         UserServiceImpl userService = new UserServiceImpl(userDAOMock);
-        userService.getUserById(UserId);
+        userService.getUserById(userId);
 
-        verify(userDAOMock, times(1)).findUserById(UserId);
+        verify(userDAOMock, times(1)).findUserById(userId);
     }
 
     @Test
     void testGetUserById_whenDaoThrows_throwsException() throws AppException {
-        int UserId = 112567890;
+        int userId = 112567890;
 
-        when(userDAOMock.findUserById(UserId)).thenThrow(new DBException());
+        when(userDAOMock.findUserById(userId)).thenThrow(new DBException());
         UserServiceImpl userService = new UserServiceImpl(userDAOMock);
 
-        Assertions.assertThrowsExactly(AppException.class, () -> userService.getUserById(UserId));
+        Assertions.assertThrowsExactly(AppException.class, () -> userService.getUserById(userId));
     }
 
     @Test
     void testGetUserById_whenDaoThrows_doesNotShowDbExceptionMessage() throws DBException {
         String messageNotToGet = "aaaaa";
-        int UserId = 112567890;
+        int userId = 112567890;
 
-        when(userDAOMock.findUserById(UserId)).thenThrow(new DBException(messageNotToGet));
+        when(userDAOMock.findUserById(userId)).thenThrow(new DBException(messageNotToGet));
         UserServiceImpl userService = new UserServiceImpl(userDAOMock);
 
         try {
-            userService.getUserById(UserId);
+            userService.getUserById(userId);
         }catch(AppException ex){
             Assertions.assertEquals("Can't retrieve user by id", ex.getMessage());
             Assertions.assertNotEquals(messageNotToGet, ex.getMessage());
@@ -161,7 +162,7 @@ class UserServiceImplTest {
 
     @Test
     void testGetUserById_whenCalled_returnsCorrectUser() throws AppException {
-        int UserId = 112567890;
+        int userId = 112567890;
         User expectedUser = new User();
         expectedUser.setFirstName("UserFirstName");
         expectedUser.setLastName("UserLastName");
@@ -170,10 +171,10 @@ class UserServiceImplTest {
         expectedUser.setCountry("Ukraine");
         expectedUser.setRole("client");
 
-        when(userDAOMock.findUserById(UserId)).thenReturn(expectedUser);
+        when(userDAOMock.findUserById(userId)).thenReturn(expectedUser);
         UserServiceImpl userService = new UserServiceImpl(userDAOMock);
 
-        User result = userService.getUserById(UserId);
+        User result = userService.getUserById(userId);
 
         Assertions.assertEquals(result, expectedUser);
     }

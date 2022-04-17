@@ -17,7 +17,7 @@ public class ConnectionPool {
 
     private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
 
-    private static ConnectionPool dbPool;
+    private static volatile ConnectionPool dbPool;
     private DataSource dataSource;
 
     private ConnectionPool() {
@@ -31,16 +31,25 @@ public class ConnectionPool {
     }
 
     /**
-     * singleton
+     * An implementation of double-checked locking of Singleton.
+     * Intention is to minimize cost of synchronization and improve performance,
+     * by only locking critical section of code, the code which creates instance of Singleton class.
+     * By the way this is still broken, if we don't make _instance volatile, as another thread can * see a half initialized instance of Singleton.
+     *
      *
      * @return ConnectionPool object
      */
-    public static synchronized ConnectionPool getInstance() {
+    public static ConnectionPool getInstance() {
         if (dbPool == null) {
-            dbPool = new ConnectionPool();
+            synchronized (ConnectionPool.class) {
+                if (dbPool == null) {
+                    dbPool = new ConnectionPool();
+                }
+            }
         }
         return dbPool;
     }
+
 
     public Connection getConnection() throws SQLException {
         return dataSource.getConnection();

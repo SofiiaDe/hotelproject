@@ -79,14 +79,6 @@ public interface IRoomDAO {
 
     /**
      * Creates SQL-query to provide sorting along with pagination
-     * @param select
-     * @param roomStatus
-     * @param roomSeats
-     * @param page
-     * @param pageSize
-     * @param sortBy
-     * @param sortType
-     * @return
      */
     String createRoomsQuery(String select, RoomStatus roomStatus, RoomSeats roomSeats, int page, int pageSize, SortBy sortBy, SortType sortType);
 

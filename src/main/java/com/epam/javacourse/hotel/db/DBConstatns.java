@@ -110,7 +110,5 @@ public class DBConstatns {
     public static final String SQL_CREATE_INVOICE_WITH_BOOKING = "INSERT INTO invoices " +
             "(id, user_id, amount, booking_id, invoice_date, status) VALUES (DEFAULT, ?, ?, LAST_INSERT_ID(), ?, 'new')";
 
-    //FIELDS
-    public static final String F_USER_NAME = "name";
 
 }

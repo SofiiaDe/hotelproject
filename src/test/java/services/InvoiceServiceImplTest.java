@@ -105,8 +105,8 @@ class InvoiceServiceImplTest {
     @Test
     void testGetAllDetailedInvoices_returnsCorrectData() throws AppException {
         // Invoice dao
-        List<Invoice> InvoiceDb = getInvoices();
-        when(invoiceDAOMock.findAllInvoices()).thenReturn(InvoiceDb);
+        List<Invoice> invoiceDb = getInvoices();
+        when(invoiceDAOMock.findAllInvoices()).thenReturn(invoiceDb);
         
         // user dao
         User user1 = new User();
@@ -130,7 +130,7 @@ class InvoiceServiceImplTest {
 
         for (InvoiceDetailed invoiceDetails :
                 result) {
-            Invoice expectedInvoice = InvoiceDb.stream().filter(apl -> apl.getId() == invoiceDetails.getId()).findFirst().get();
+            Invoice expectedInvoice = invoiceDb.stream().filter(apl -> apl.getId() == invoiceDetails.getId()).findFirst().get();
             Assertions.assertEquals(invoiceDetails.getAmount(), expectedInvoice.getAmount());
             Assertions.assertEquals(invoiceDetails.getBookingId(), expectedInvoice.getBookingId());
             Assertions.assertEquals(invoiceDetails.getInvoiceDate(), expectedInvoice.getInvoiceDate());
@@ -398,7 +398,7 @@ class InvoiceServiceImplTest {
 
     private List<Invoice> getInvoices() {
         // Invoice dao
-        List<Invoice> InvoiceDb = new ArrayList<>();
+        List<Invoice> invoiceDb = new ArrayList<>();
         Invoice invoice = new Invoice();
         invoice.setId(111);
         invoice.setInvoiceDate(LocalDate.MIN);
@@ -414,9 +414,9 @@ class InvoiceServiceImplTest {
         invoice2.setUserId(2);
         invoice2.setInvoiceStatus("someStatus");
 
-        InvoiceDb.add(invoice);
-        InvoiceDb.add(invoice2);
+        invoiceDb.add(invoice);
+        invoiceDb.add(invoice2);
 
-        return InvoiceDb;
+        return invoiceDb;
     }
 }
