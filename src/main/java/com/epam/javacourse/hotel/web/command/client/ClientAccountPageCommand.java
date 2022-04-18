@@ -25,7 +25,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Controller command for User profile page.
+ * Command for Client profile page.
  */
 public class ClientAccountPageCommand implements ICommand {
 

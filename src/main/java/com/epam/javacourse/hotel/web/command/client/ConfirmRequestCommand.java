@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 
+/**
+ * Command for confirming request by client
+ */
 public class ConfirmRequestCommand implements ICommand {
     @Override
     public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws AppException {

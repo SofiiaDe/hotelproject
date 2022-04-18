@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * Command to get all users list
+ */
 public class GetAllUsersCommand implements ICommand {
 
     IUserService userService = AppContext.getInstance().getUserService();

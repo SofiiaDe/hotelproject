@@ -21,6 +21,9 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Command to provide user registration
+ */
 public class RegistrationCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(RegistrationCommand.class);

@@ -23,6 +23,9 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Command to create confirmation request
+ */
 public class MakeConfirmRequestCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(MakeConfirmRequestCommand.class);

@@ -19,7 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 
-
+/**
+ * Command for submitting application
+ */
 public class SubmitApplicationCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(SubmitApplicationCommand.class);

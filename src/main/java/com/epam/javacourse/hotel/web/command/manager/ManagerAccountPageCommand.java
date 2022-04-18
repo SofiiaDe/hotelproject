@@ -23,6 +23,9 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Command for Manager profile page.
+ */
 public class ManagerAccountPageCommand implements ICommand {
 
     IApplicationService applicationService = AppContext.getInstance().getApplicationService();

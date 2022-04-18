@@ -9,7 +9,9 @@ import com.epam.javacourse.hotel.web.command.ICommandResult;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+/**
+ * Command for register page
+ */
 public class RegisterPageCommand implements ICommand {
 
     @Override

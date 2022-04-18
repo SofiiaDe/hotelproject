@@ -1,5 +1,8 @@
 package com.epam.javacourse.hotel.db;
 
+/**
+ * Container for storing SQL-statements
+ */
 public class DBConstatns {
 
     private DBConstatns() {

@@ -11,6 +11,9 @@ import com.epam.javacourse.hotel.web.command.RedirectCommandResult;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Command for removing application
+ */
 public class RemoveApplicationCommand implements ICommand {
 
     @Override

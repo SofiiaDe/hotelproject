@@ -18,7 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 
-
+/**
+ * Command for room booking
+ */
 public class BookRoomCommand implements ICommand {
 
     IBookingInvoiceService bookingInvoiceService = AppContext.getInstance().getBookingInvoiceService();

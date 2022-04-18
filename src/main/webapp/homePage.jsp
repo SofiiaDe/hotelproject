@@ -48,7 +48,7 @@
         <div class="logo">
             <img src="pictures/logo-hotel.jpg" alt="logo">
         </div>
-        <li><a href="#rooms" class="navLink"><fmt:message key="home.menu.button.rooms"/></a></li>
+<%--        <li><a href="#rooms" class="navLink"><fmt:message key="home.menu.button.rooms"/></a></li>--%>
         <li><a href="/Hotel/controller?command=loginPage" class="navLink"><fmt:message key="home.menu.button.login"/></a></li>
         <li><a href="/Hotel/controller?command=registerPage" class="navLink"><fmt:message key="home.menu.button.register"/></a></li>
     </ul>

@@ -9,6 +9,9 @@ import com.epam.javacourse.hotel.web.command.ICommandResult;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Command for application form
+ */
 public class ApplicationPageCommand implements ICommand {
 
     @Override

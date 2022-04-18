@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Command to add new room
+ */
 public class AddRoomCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(AddRoomCommand.class);

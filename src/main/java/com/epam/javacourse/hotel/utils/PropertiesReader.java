@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * Helper class to read properties
+ */
 public class PropertiesReader {
 
     private static final Logger logger = LogManager.getLogger(PropertiesReader.class);

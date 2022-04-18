@@ -9,6 +9,9 @@ import com.epam.javacourse.hotel.web.command.ICommandResult;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Command for home page
+ */
 public class HomePageCommand implements ICommand {
     @Override
     public ICommandResult execute(HttpServletRequest request, HttpServletResponse response) throws AppException {

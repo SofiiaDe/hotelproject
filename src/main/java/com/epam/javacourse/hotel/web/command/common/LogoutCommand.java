@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Command to log out a user
+ */
 public class LogoutCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(LogoutCommand.class);

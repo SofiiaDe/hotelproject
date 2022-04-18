@@ -11,6 +11,9 @@ import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Helper to validate input data
+ */
 public class Validator {
 
     private static final Logger logger = LogManager.getLogger(Validator.class);
